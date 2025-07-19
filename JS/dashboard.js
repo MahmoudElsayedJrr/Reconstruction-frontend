@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!codeToDelete) return;
     const token = localStorage.getItem("loggedInUserToken");
     try {
-      const response = await fetch(`${API_URL}activity${codeToDelete}`, {
+      const response = await fetch(`${API_URL}activity/${codeToDelete}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
