@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("loggedInUserToken", employeeData.token);
       localStorage.setItem("loggedInUser", employeeData.name);
       localStorage.setItem("userRole", employeeData.role); 
+
+      
       
 
       window.location.href = "dashboard.html";

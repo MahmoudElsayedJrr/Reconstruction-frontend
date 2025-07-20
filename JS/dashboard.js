@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   if (!document.getElementById("projects-table-body")) {
     return;
   }
@@ -15,18 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let codeToDelete = null;
 
   function getProgressBarColor(percentage, status) {
-    if (status === "متأخر") return "#dc3545";
-    const red = { r: 220, g: 53, b: 69 };
-    const blue = { r: 13, g: 110, b: 253 };
-    const green = { r: 25, g: 135, b: 84 };
-    const interpolateColor = (c1, c2, f) =>
-      `rgb(${Math.round(c1.r + f * (c2.r - c1.r))}, ${Math.round(
-        c1.g + f * (c2.g - c1.g)
-      )}, ${Math.round(c1.b + f * (c2.b - c1.b))})`;
-    if (percentage >= 100) return `rgb(${green.r}, ${green.g}, ${green.b})`;
-    if (percentage >= 50)
-      return interpolateColor(blue, green, (percentage - 50) / 50);
-    return interpolateColor(red, blue, percentage / 50);
+    if (status === "متأخر") return "#dc3545"; // أحمر مهما كانت النسبة
+    if (percentage === 100) return "#198754"; // أخضر
+    return "#0d6efd"; // أزرق
   }
 
   function showToast(message, type = "success") {
@@ -169,10 +159,25 @@ document.addEventListener("DOMContentLoaded", () => {
                   project.fundingType || "غير محدد"
                 }</span></td>
                 <td>
-                    <div class="progress" role="progressbar" style="height: 20px; font-size: 0.8rem;">
-                        <div class="progress-bar fw-bold" style="width: ${percentage}%; background-color: ${barColor};">${percentage}%</div>
-                    </div>
-                </td>
+                  <div class="progress" role="progressbar" style="height: 20px; font-size: 0.6rem;">
+                    ${
+                      percentage > 0
+                        ? `
+                      <div class="progress-bar fw-bold"
+                          style="
+                            width: ${percentage}%;
+                            min-width: 16px;
+                            background-color: ${barColor};
+                            text-align: center;
+                            white-space: nowrap;
+                            overflow: hidden;">
+                        ${percentage}%
+                      </div>
+                    `
+                        : ""
+                    }
+                  </div>
+              </td>
                 <td>
                     <a href="project-details.html?code=${
                       project.activityCode

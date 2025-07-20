@@ -46,6 +46,11 @@ body {
   margin-top: auto;
 }
 
+body.no-sidebar .main-content {
+  margin-right: 0;
+  width: 100%;
+}
+
 /* Main Content Styles */
 .main-content {
   margin-right: 280px;
