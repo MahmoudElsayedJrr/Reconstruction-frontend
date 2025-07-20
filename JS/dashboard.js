@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // التحقق من أننا في الصفحة الصحيحة (لوحة التحكم)
+
   if (!document.getElementById("projects-table-body")) {
     return;
   }
@@ -7,10 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectsTableBody = document.getElementById("projects-table-body");
   const chart1Container = document.getElementById("chart1-container");
   const chart2Container = document.getElementById("chart2-container");
+  const chart3Container = document.getElementById("chart3-container");
   const deleteConfirmBtn = document.getElementById("confirmDeleteBtn");
   const toastContainer = document.querySelector(".toast-container");
   const filterButton = document.getElementById("filter-button");
-  /*   const API_URL = "http://localhost:4000/activity/"; */
+
   let codeToDelete = null;
 
   function getProgressBarColor(percentage, status) {
@@ -59,6 +60,23 @@ document.addEventListener("DOMContentLoaded", () => {
         labels: ["الشرقية", "دمياط", "السويس", "بورسعيد"],
         values: [8, 5, 6, 4],
       },
+      categories: {
+        labels: [
+          "طرق",
+          "كهرباء",
+          "مياه",
+          "صرف صحي",
+          "اسكان بدوي",
+          "اسكان اجتماعي",
+          "خدمات",
+          "تنمية متكاملة",
+          "حضانات",
+          "مجازر",
+          "تأهيل مباني حكومية",
+          "آخر",
+        ],
+        values: [3, 5, 2, 4, 1, 6, 2, 1, 1, 1, 2, 1], // بيانات وهمية مؤقتة
+      },
     };
     chart1Container.innerHTML = '<canvas id="projectStatusChart"></canvas>';
     const ctx1 = chart1Container.querySelector("canvas").getContext("2d");
@@ -92,6 +110,33 @@ document.addEventListener("DOMContentLoaded", () => {
         ],
       },
       options: { responsive: true, maintainAspectRatio: false },
+    });
+
+    chart3Container.innerHTML = '<canvas id="projectCategoryChart"></canvas>';
+    const ctx3 = chart3Container.querySelector("canvas").getContext("2d");
+
+    new Chart(ctx3, {
+      type: "bar",
+      data: {
+        labels: mockChartData.categories.labels,
+        datasets: [
+          {
+            label: "عدد المشاريع",
+            data: mockChartData.categories.values,
+            backgroundColor: "#20c997",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { precision: 0 },
+          },
+        },
+      },
     });
   }
 

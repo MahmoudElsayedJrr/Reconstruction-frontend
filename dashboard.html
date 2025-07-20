@@ -66,29 +66,48 @@
     </aside>
 
     <main class="main-content">
-      <h2 class="mb-4 fw-bold">لوحة التحكم</h2>
-      <div class="row g-4">
-        <div class="col-12 col-lg-6">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">حالة المشروعات</h5>
-              <div class="chart-container" id="chart1-container">
-                <span class="spinner-border text-primary"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-6">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">المشروعات حسب المحافظة</h5>
-              <div class="chart-container" id="chart2-container">
-                <span class="spinner-border text-primary"></span>
-              </div>
-            </div>
+<h2 class="mb-4 fw-bold">لوحة التحكم</h2>
+
+  <!-- الصف الأول: شارتين جنب بعض -->
+  <div class="row g-4">
+    <div class="col-12 col-lg-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">حالة المشروعات</h5>
+          <div class="chart-container" id="chart1-container">
+            <span class="spinner-border text-primary"></span>
           </div>
         </div>
       </div>
+    </div>
+    <div class="col-12 col-lg-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">المشروعات حسب المحافظة</h5>
+          <div class="chart-container" id="chart2-container">
+            <span class="spinner-border text-primary"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- فاصل بمسافة -->
+  <div class="my-4"></div>
+
+  <!-- الصف الثاني: شارت واحد بعرض كامل -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">المشروعات حسب الفئة</h5>
+          <div class="chart-container" id="chart3-container" style="height: 400px;">
+            <span class="spinner-border text-primary"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
       <div class="card mt-4 filter-card">
         <div class="card-header bg-white border-0 py-3">
