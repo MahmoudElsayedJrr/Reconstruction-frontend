@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       assignmentDate: document.getElementById("assignmentDate").value,
       completionDate: document.getElementById("completionDate").value,
       receptionDate: document.getElementById("receptionDate").value,
-      progress: progressValue,
+      progress: 0,
     };
 
     const token = localStorage.getItem("loggedInUserToken");
