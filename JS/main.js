@@ -1,6 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   const usernameDisplay = document.getElementById("username-display");
   const logoutButton = document.getElementById("logout-button");
+  const token = localStorage.getItem("loggedInUserToken");
+  const tokenExpiry = localStorage.getItem("tokenExpiry");
+
+  if (!token || !tokenExpiry || Date.now() > parseInt(tokenExpiry)) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("tokenExpiry");
+    localStorage.removeItem("loggedInUserRole");
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
+  }
 
   if (usernameDisplay && logoutButton) {
     const loggedInUser = localStorage.getItem("loggedInUser");

@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("loggedInUser", employeeData.name);
       localStorage.setItem("userRole", employeeData.role); 
 
+      localStorage.setItem("tokenExpiry", Date.now() + 3600000); // 1 hour expiry
       
       
 

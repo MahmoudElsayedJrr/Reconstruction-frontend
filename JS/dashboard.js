@@ -198,6 +198,27 @@ document.addEventListener("DOMContentLoaded", () => {
     projectsTableBody.innerHTML = `<tr><td colspan="4" class="text-center text-danger p-4">${message}</td></tr>`;
   }
 
+  const toggleBtn = document.getElementById("toggle-sidebar");
+  const sidebar = document.querySelector(".sidebar");
+
+  if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      document.body.classList.toggle("sidebar-open");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (
+        sidebar.classList.contains("open") &&
+        !sidebar.contains(e.target) &&
+        !toggleBtn.contains(e.target)
+      ) {
+        sidebar.classList.remove("open");
+        document.body.classList.remove("sidebar-open");
+      }
+    });
+  }
+
   async function fetchAndRenderProjects(filters = {}) {
     projectsTableBody.innerHTML = `<tr><td><p class="skeleton skeleton-text mb-0"></p></td><td><p class="skeleton skeleton-text mb-0"></p></td><td><div class="skeleton" style="height:10px; border-radius: 5px;"></div></td><td><p class="skeleton skeleton-text mb-0" style="width: 110px;"></p></td></tr>`;
 

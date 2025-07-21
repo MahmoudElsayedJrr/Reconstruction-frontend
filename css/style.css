@@ -26,7 +26,8 @@ body {
 }
 .sidebar .nav-link {
   color: #adb5bd;
-  padding: 0.8rem;
+  padding-top: 15px;
+  padding-bottom: 15px;
   border-radius: 0.5rem;
   display: flex;
   align-items: center;
@@ -44,6 +45,16 @@ body {
 }
 .sidebar .user-profile {
   margin-top: auto;
+}
+
+.sidebar .user-profile strong {
+  display: inline-block;
+  max-width: 150px; /* ممكن تعدلها حسب العرض */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: ltr;
+  text-align: right;
 }
 
 body.no-sidebar .main-content {
@@ -129,8 +140,39 @@ body.no-sidebar .main-content {
   .main-content {
     margin-right: 0;
   }
+
   .sidebar {
-    display: none;
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #343a40;
+    transition: right 0.3s ease;
+    z-index: 1050;
+  }
+
+  .sidebar.open {
+    right: 0;
+  }
+
+  body.sidebar-open {
+    overflow: hidden;
+  }
+
+  #toggle-sidebar {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+    background-color: #343a40;
+    border: none;
+    color: white;
+  }
+
+  #toggle-sidebar:focus {
+    outline: none;
+    box-shadow: none;
   }
 }
 
