@@ -5,6 +5,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveButton = document.getElementById("save-project-button");
   const toastContainer = document.querySelector(".toast-container");
 
+  function generateCode() {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const digits = "0123456789";
+    let code = "";
+
+    for (let i = 0; i < 4; i++) {
+      code += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+    for (let i = 0; i < 2; i++) {
+      code += digits.charAt(Math.floor(Math.random() * digits.length));
+    }
+
+    return code;
+  }
+
   function showToast(message, type = "success") {
     const toastId = "toast-" + Math.random().toString(36).substr(2, 9);
     const toastColor = type === "success" ? "bg-success" : "bg-danger";
@@ -29,8 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     saveButton.disabled = true;
     saveButton.innerHTML = `<span class="spinner-border spinner-border-sm"></span> جاري الحفظ...`;
 
+    const code = generateCode();
     const formData = {
-      activityCode: document.getElementById("activityCode").value,
+      activityCode: code,
       activityName: document.getElementById("activityName").value,
       executingCompany: document.getElementById("executingCompany").value,
       consultant: document.getElementById("consultant").value,
@@ -44,13 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
       assignmentDate: document.getElementById("assignmentDate").value,
       completionDate: document.getElementById("completionDate").value,
       receptionDate: document.getElementById("receptionDate").value,
-      progress: 0,
+      progress: progressValue,
     };
 
     const token = localStorage.getItem("loggedInUserToken");
 
     try {
-      const response = await fetch(`${API_URL}activity`, {
+      const response = await fetch(`${API_URL}activity/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       showToast("تمت إضافة المشروع بنجاح!", "success");
       addProjectForm.reset();
+      //fetchAndRenderProjects();
     } catch (error) {
       showToast(error.message, "danger");
     } finally {

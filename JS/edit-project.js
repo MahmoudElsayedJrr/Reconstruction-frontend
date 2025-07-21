@@ -73,6 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderForm(project) {
+    if (project.progress === 100) {
+      project.status = "مكتمل";
+    }
     formContainer.innerHTML = `
       <form id="editProjectForm">
         <div class="row g-3">
@@ -188,7 +191,16 @@ document.addEventListener("DOMContentLoaded", () => {
       allowedFields.forEach((fieldId) => {
         const input = document.getElementById(fieldId);
         if (input) {
-          formData.append(fieldId, input.value);
+          if (fieldId === "status" && progressInput) {
+            const progressValue = parseFloat(progressInput.value);
+            if (progressValue === 100) {
+              formData.append("status", "مكتمل");
+            } else {
+              formData.append("status", input.value);
+            }
+          } else {
+            formData.append(fieldId, input.value);
+          }
         }
       });
 
@@ -209,16 +221,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        const response = await fetch(
-          `${API_URL}activity/${activityCode}`,
-          {
-            method: "PUT",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-          }
-        );
+        const response = await fetch(`${API_URL}activity/${activityCode}`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
 
         const result = await response.json();
         if (!response.ok) throw new Error(result.data || "فشل تحديث المشروع");
@@ -242,12 +251,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     try {
-      const response = await fetch(
-        `${API_URL}activity/${activityCode}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await fetch(`${API_URL}activity/${activityCode}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const result = await response.json();
       if (!response.ok) throw new Error(result.data);
       pageTitle.textContent = `تعديل مشروع: ${result.data.activityName}`;

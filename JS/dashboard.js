@@ -14,15 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let codeToDelete = null;
 
   function getProgressBarColor(percentage, status) {
-    if (status === "متأخر") return "#dc3545"; // أحمر مهما كانت النسبة
-    if (percentage === 100) return "#198754"; // أخضر
-    return "#0d6efd"; // أزرق
+    if (status === "متأخر") return "#dc3545";
+    if (percentage === 100) return "#198754";
+    return "#0d6efd";
   }
 
   function showToast(message, type = "success") {
     if (!toastContainer) {
       console.error("Toast container not found!");
-      alert(message); // fallback to alert
+      alert(message);
       return;
     }
     const toastId = "toast-" + Math.random().toString(36).substr(2, 9);
@@ -43,40 +43,47 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.show();
   }
 
-  function renderCharts() {
-    const mockChartData = {
-      status: { labels: ["قيد التنفيذ", "مكتمل", "متأخر"], values: [15, 9, 4] },
+  function prepareChartData(projects) {
+    const statusCounts = {};
+    const governorateCounts = {};
+    const categoryCounts = {};
+
+    projects.forEach((project) => {
+      let currentStatus = project.progress >= 100 ? "مكتمل" : project.status;
+      statusCounts[currentStatus] = (statusCounts[currentStatus] || 0) + 1;
+      governorateCounts[project.governorate] =
+        (governorateCounts[project.governorate] || 0) + 1;
+      categoryCounts[project.projectCategory] =
+        (categoryCounts[project.projectCategory] || 0) + 1;
+    });
+
+    return {
+      status: {
+        labels: Object.keys(statusCounts),
+        values: Object.values(statusCounts),
+      },
       governorates: {
-        labels: ["الشرقية", "دمياط", "السويس", "بورسعيد"],
-        values: [8, 5, 6, 4],
+        labels: Object.keys(governorateCounts),
+        values: Object.values(governorateCounts),
       },
       categories: {
-        labels: [
-          "طرق",
-          "كهرباء",
-          "مياه",
-          "صرف صحي",
-          "اسكان بدوي",
-          "اسكان اجتماعي",
-          "خدمات",
-          "تنمية متكاملة",
-          "حضانات",
-          "مجازر",
-          "تأهيل مباني حكومية",
-          "آخر",
-        ],
-        values: [3, 5, 2, 4, 1, 6, 2, 1, 1, 1, 2, 1], // بيانات وهمية مؤقتة
+        labels: Object.keys(categoryCounts),
+        values: Object.values(categoryCounts),
       },
     };
+  }
+
+  function renderCharts(chartData) {
+    //console.log("📊 Rendering charts with data:", chartData);
     chart1Container.innerHTML = '<canvas id="projectStatusChart"></canvas>';
     const ctx1 = chart1Container.querySelector("canvas").getContext("2d");
     new Chart(ctx1, {
       type: "doughnut",
       data: {
-        labels: mockChartData.status.labels,
+        labels: chartData.status.labels,
         datasets: [
           {
-            data: mockChartData.status.values,
+            data: chartData.status.values,
             backgroundColor: ["#0d6efd", "#198754", "#dc3545"],
           },
         ],
@@ -90,11 +97,11 @@ document.addEventListener("DOMContentLoaded", () => {
     new Chart(ctx2, {
       type: "bar",
       data: {
-        labels: mockChartData.governorates.labels,
+        labels: chartData.governorates.labels,
         datasets: [
           {
             label: "عدد المشروعات",
-            data: mockChartData.governorates.values,
+            data: chartData.governorates.values,
             backgroundColor: "#0d6efd",
           },
         ],
@@ -104,15 +111,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chart3Container.innerHTML = '<canvas id="projectCategoryChart"></canvas>';
     const ctx3 = chart3Container.querySelector("canvas").getContext("2d");
-
     new Chart(ctx3, {
       type: "bar",
       data: {
-        labels: mockChartData.categories.labels,
+        labels: chartData.categories.labels,
         datasets: [
           {
             label: "عدد المشاريع",
-            data: mockChartData.categories.values,
+            data: chartData.categories.values,
             backgroundColor: "#20c997",
           },
         ],
@@ -143,7 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const percentage = project.progress || 0;
       const barColor = getProgressBarColor(percentage, project.status);
 
-      // ### بداية: تم تحديث هذا الجزء ###
       row.innerHTML = `
                 <td>
                     <span class="truncate-text" title="${
@@ -224,13 +229,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const token = localStorage.getItem("loggedInUserToken");
+
       const queryParams = new URLSearchParams(filters).toString();
       const fetchUrl = `${API_URL}activity?${queryParams}`;
 
       const response = await fetch(fetchUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
       const apiResponse = await response.json();
+      // console.log("📦 Response data:", apiResponse);
 
       if (!response.ok) {
         throw new Error(apiResponse.data || "فشل جلب البيانات");
@@ -242,11 +250,19 @@ document.addEventListener("DOMContentLoaded", () => {
         Array.isArray(apiResponse.data.activities)
       ) {
         renderTable(apiResponse.data.activities);
+        const chartData = prepareChartData(apiResponse.data.activities);
+        renderCharts(chartData);
       } else {
+        console.log("⚠️ لا توجد بيانات مشاريع");
         renderTable([]);
+        renderCharts({
+          status: { labels: [], values: [] },
+          governorates: { labels: [], values: [] },
+          categories: { labels: [], values: [] },
+        });
       }
     } catch (error) {
-      console.error("فشل تحميل البيانات:", error);
+      console.error("❌ فشل تحميل البيانات:", error);
       displayErrorInTable(error.message);
     }
   }
@@ -312,8 +328,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function initializePage() {
     chart1Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
     chart2Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
-    renderCharts();
+    chart3Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
     fetchAndRenderProjects();
+    renderCharts();
   }
 
   initializePage();
