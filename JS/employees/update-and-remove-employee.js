@@ -3,32 +3,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const toastContainer = document.querySelector(".toast-container");
 
   const searchBtn = document.getElementById("searchEmployeeBtn");
-  const searchInput = document.getElementById("searchNationalId");
+  const searchInput = document.getElementById("searchname");
   const form = document.getElementById("editEmployeeForm");
 
-  const deleteInput = document.getElementById("searchNationalIdDelete");
+  const deleteInput = document.getElementById("searchnameDelete");
   const deleteBtn = document.getElementById("searchEmployeeDeleteBtn");
   const deleteForm = document.getElementById("deleteEmployeeForm");
   const deleteCard = document.getElementById("deleteEmployeeCard");
   const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 
-  const idinput = document.getElementById("nationalId");
   const nameInput = document.getElementById("name");
   const emailInput = document.getElementById("email");
   const roleInput = document.getElementById("role");
 
-  let currentEmployeeId = null;
+  let currentEmployeeName = null;
 
   function showToast(message, type = "success") {
     const toastId = "toast-" + Math.random().toString(36).substr(2, 9);
     const toastColor = type === "success" ? "bg-success" : "bg-danger";
     const toastHTML = `
-            <div id="${toastId}" class="toast align-items-center text-white ${toastColor} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">${message}</div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-            </div>`;
+      <div id="${toastId}" class="toast align-items-center text-white ${toastColor} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">${message}</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>`;
     if (toastContainer) {
       toastContainer.insertAdjacentHTML("beforeend", toastHTML);
       const toastElement = document.getElementById(toastId);
@@ -39,16 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // عند الضغط على زر البحث
   searchBtn.addEventListener("click", async () => {
-    const nationalId = searchInput.value.trim();
-
-    if (nationalId.length !== 14 || !/^\d+$/.test(nationalId)) {
-      showToast("الرقم القومي غير صحيح", "danger");
-      return;
-    }
+    const name = searchInput.value.trim();
 
     try {
-      console.log("Fetching employee with National ID:", nationalId);
-      const res = await fetch(`${API_URL}employee/${nationalId}`, {
+      const res = await fetch(`${API_URL}employee/${name}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -61,14 +54,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const data = await res.json();
-      console.log("Received data:", data);
       const employee = data.data;
 
-      currentEmployeeId = employee.nationalId;
+      currentEmployeeName = employee.name;
 
-      idinput.value = employee.nationalId;
       nameInput.value = employee.name;
-      emailInput.value = employee.email;
+      emailInput.value = employee.email || "";
       roleInput.value = employee.role;
 
       document.getElementById("editEmployeeCard").classList.remove("d-none");
@@ -91,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const res = await fetch(
-        `${API_URL}employee/UpdateEmployee/${currentEmployeeId}`,
+        `${API_URL}employee/UpdateEmployee/${currentEmployeeName}`,
         {
           method: "PATCH",
           headers: {
@@ -118,11 +109,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   deleteInput.addEventListener("change", async () => {
-    const nationalId = deleteInput.value.trim();
-    if (!nationalId) return;
+    const name = deleteInput.value.trim();
+    if (!name) return;
 
     try {
-      const res = await fetch(`${API_URL}employee/${nationalId}`, {
+      const res = await fetch(`${API_URL}employee/${name}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -133,17 +124,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.status === "success") {
         const employee = data.data;
 
-        currentEmployeeId = employee.nationalId;
+        currentEmployeeName = employee.name;
 
         deleteForm.classList.remove("d-none");
         deleteForm.name.value = employee.name;
         deleteForm.email.value = employee.email || "";
         deleteForm.role.value = employee.role;
-        deleteForm.nationalId.value = employee.nationalId;
         deleteCard.classList.remove("d-none");
         deleteForm.classList.remove("d-none");
       } else {
-        showToast("لم يتم العثور على موظف بهذا الرقم القومي", "danger");
+        showToast("لم يتم العثور على موظف بهذا الاسم", "danger");
         deleteForm.classList.add("d-none");
       }
     } catch (err) {
@@ -152,11 +142,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ========== تأكيد الحذف ========== //
+  // تأكيد الحذف
   confirmDeleteBtn.addEventListener("click", async (e) => {
     e.preventDefault();
 
-    if (!currentEmployeeId) {
+    if (!currentEmployeeName) {
       showToast("لم يتم تحديد موظف للحذف", "danger");
       return;
     }
@@ -165,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const res = await fetch(
-        `${API_URL}employee/deleteEmployee/${currentEmployeeId}`,
+        `${API_URL}employee/deleteEmployee/${currentEmployeeName}`,
         {
           method: "DELETE",
           headers: {
@@ -180,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteCard.classList.add("d-none");
         deleteForm.classList.add("d-none");
         deleteInput.value = "";
-        currentEmployeeId = null;
+        currentEmployeeName = null;
       } else {
         const errorData = await res.json();
         showToast(errorData.message || "فشل الحذف", "danger");

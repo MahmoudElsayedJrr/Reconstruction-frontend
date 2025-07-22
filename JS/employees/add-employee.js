@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     const name = document.getElementById("name").value.trim();
-    const nationalId = document.getElementById("nationalId").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const confirmPassword = document
@@ -37,26 +36,25 @@ document.addEventListener("DOMContentLoaded", () => {
       .value.trim();
     const role = document.getElementById("role").value;
 
-    if (nationalId.length !== 14 || !/^\d+$/.test(nationalId)) {
-      showToast("يجب أن يكون الرقم القومي 14 رقمًا.", "danger");
-      return;
-    }
-
     if (password !== confirmPassword) {
       showToast("كلمتا المرور غير متطابقتين.", "danger");
       return;
     }
 
+    if (/\s/.test(name)) {
+      showToast("الاسم لا يجب أن يحتوي على مسافات.", "danger");
+      return;
+    }
+
     const payload = {
       name,
-      nationalId,
       email,
       password,
       role,
     };
 
     const token = localStorage.getItem("loggedInUserToken");
-    console.log("Token:", token);
+
     if (!token) {
       showToast("انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.", "danger");
       window.location.href = "login.html";
@@ -77,15 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast("تمت إضافة الموظف بنجاح!", "success");
         form.reset();
       } else {
-        const error = await res.json();
-        showToast(
-          `حدث خطأ: ${error.message || "يرجى المحاولة لاحقًا."}`,
-          "danger"
-        );
+        const errorData = await res.json();
+        console.log("❌ Error response from server:", errorData);
+        showToast(errorData.message || "حدث خطأ غير معروف", "danger");
+        return;
       }
     } catch (err) {
-      console.error(err);
-      showToast("فشل الاتصال بالسيرفر", "danger");
+      showToast("Unexpected Server Erorr", "danger");
     }
   });
 });

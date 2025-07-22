@@ -12,14 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
     loginButton.innerHTML = `<span class="spinner-border spinner-border-sm"></span> جاري الدخول...`;
     errorMessageDiv.classList.add("d-none");
 
-    const nationalId = document.getElementById("nationalId").value;
+    const name = document.getElementById("name").value;
     const password = document.getElementById("password").value;
 
     try {
       const response = await fetch(`${API_URL}auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nationalId, password }),
+        body: JSON.stringify({ name, password }),
       });
 
       const result = await response.json();
@@ -31,11 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       localStorage.setItem("loggedInUserToken", employeeData.token);
       localStorage.setItem("loggedInUser", employeeData.name);
-      localStorage.setItem("userRole", employeeData.role); 
+      localStorage.setItem("userRole", employeeData.role);
 
       localStorage.setItem("tokenExpiry", Date.now() + 3600000); // 1 hour expiry
-      
-      
 
       window.location.href = "dashboard.html";
     } catch (error) {

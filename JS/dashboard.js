@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getProgressBarColor(percentage, status) {
     if (status === "متأخر") return "#dc3545";
-    if (percentage === 100) return "#198754";
+    if (percentage === 100 || status === "مكتمل") return "#198754";
     return "#0d6efd";
   }
 
@@ -84,7 +84,18 @@ document.addEventListener("DOMContentLoaded", () => {
         datasets: [
           {
             data: chartData.status.values,
-            backgroundColor: ["#0d6efd", "#198754", "#dc3545"],
+            backgroundColor: chartData.status.labels.map((label) => {
+              switch (label) {
+                case "مكتمل":
+                  return "#198754";
+                case "متأخر":
+                  return "#dc3545";
+                case "قيد التنفيذ":
+                  return "#0d6efd";
+                default:
+                  return "#6c757d";
+              }
+            }),
           },
         ],
       },
@@ -119,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "عدد المشاريع",
             data: chartData.categories.values,
-            backgroundColor: "#20c997",
+            backgroundColor: "#0ed3daff",
           },
         ],
       },

@@ -36,6 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  const dateFields = [
+    "completionDate",
+    "assignmentDate",
+    "siteHandoverDate",
+    "assignmentOrderDate",
+    "financialDecisionDate",
+    "technicalDecisionDate",
+    "publishDate",
+  ];
+
   function renderProjectDetails(project) {
     projectNameHeader.textContent = `تفاصيل مشروع: ${project.activityName}`;
     const setText = (id, value, fallback = "N/A") => {
@@ -58,18 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
       "disbursedAmount",
       (project.disbursedAmount || 0).toLocaleString() + " جنيه"
     );
-    setText(
-      "assignmentDate",
-      project.assignmentDate
-        ? new Date(project.assignmentDate).toLocaleDateString("ar-EG")
-        : "N/A"
-    );
-    setText(
-      "completionDate",
-      project.completionDate
-        ? new Date(project.completionDate).toLocaleDateString("ar-EG")
-        : "N/A"
-    );
+
+    dateFields.forEach((field) => {
+      const value = project[field];
+      setText(
+        field,
+        value ? new Date(value).toLocaleDateString("ar-EG") : "N/A"
+      );
+    });
 
     const statusElement = document.getElementById("status");
     if (statusElement) {
@@ -150,8 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     mediaTabContent.appendChild(section);
   }
-
-  function renderPDFs(pdfFiles = []) {
+  function renderPDFs(pdfFiles = [], container = mediaTabContent) {
     const section = document.createElement("div");
     section.innerHTML = "<h6 class='mt-4'>ملفات PDF:</h6>";
 
@@ -169,22 +174,21 @@ document.addEventListener("DOMContentLoaded", () => {
         item.className =
           "list-group-item d-flex justify-content-between align-items-center";
         item.innerHTML = `
-            <span>${pdf.filename}</span>
-            <div>
-              <a href="${fullUrl}" target="_blank" class="btn btn-sm btn-outline-primary me-2">عرض / تحميل</a>
-              <button class="btn btn-sm btn-outline-danger delete-pdf-btn" data-path="${pdf.path}" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">حذف</button>
-            </div>
-          `;
+        <span>${pdf.filename}</span>
+        <div>
+          <a href="${fullUrl}" target="_blank" class="btn btn-sm btn-outline-primary me-2">عرض / تحميل</a>
+          <button class="btn btn-sm btn-outline-danger delete-pdf-btn" data-path="${pdf.path}" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">حذف</button>
+        </div>
+      `;
         list.appendChild(item);
       });
 
       section.appendChild(list);
     }
 
-    mediaTabContent.appendChild(section);
+    container.appendChild(section);
   }
 
-  // ✅ تم تعديل هذه الجزئية لتعمل سواءً على الزر أو الأيقونة اللي جواه
   document.addEventListener("click", (e) => {
     const pdfBtn = e.target.closest(".delete-pdf-btn");
     const imgBtn = e.target.closest(".delete-img-btn");
@@ -228,6 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("confirmDeleteModal")
         ).hide();
         initializePage();
+        window.location.reload();
       } catch (err) {
         showToast("فشل في الحذف: " + err.message, "danger");
       } finally {
@@ -252,6 +257,12 @@ document.addEventListener("DOMContentLoaded", () => {
       mediaTabContent.innerHTML = "";
       renderImages(result.data.images || []);
       renderPDFs(result.data.activityPdf || []);
+      const contractualTabContainer = document.getElementById(
+        "contractual-pdf-section"
+      );
+      if (contractualTabContainer) {
+        renderPDFs(result.data.activityPdf || [], contractualTabContainer);
+      }
     } catch (err) {
       displayError(err.message);
     }

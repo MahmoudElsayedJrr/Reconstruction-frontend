@@ -28,6 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
       "activityDescription",
       "activityPdf",
       "projectLocationLink",
+      "publishDate",
+      "technicalDecisionDate",
+      "financialDecisionDate",
+      "assignmentOrderDate",
+      "siteHandoverDate",
+      "contractualDocuments",
     ],
     manager: [
       "activityName",
@@ -43,6 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
       "activityDescription",
       "activityPdf",
       "projectLocationLink",
+      "publishDate",
+      "technicalDecisionDate",
+      "financialDecisionDate",
+      "assignmentOrderDate",
+      "siteHandoverDate",
+      "contractualDocuments",
     ],
     financial: ["estimatedValue", "contractualValue", "disbursedAmount"],
     employee: [],
@@ -77,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
       project.status = "مكتمل";
     }
     formContainer.innerHTML = `
-      <form id="editProjectForm">
+      <form id="editProjectForm" enctype="multipart/form-data" method="POST">
         <div class="row g-3">
           <h5 class="form-section-title">البيانات الأساسية</h5>
           <div class="col-md-6"><label for="activityName" class="form-label">اسم المشروع</label><input type="text" id="activityName" class="form-control" value="${
@@ -93,6 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="col-md-12"><label for="activityDescription" class="form-label">وصف المشروع</label><textarea id="activityDescription" class="form-control" rows="4" style="resize: vertical;">${
             project.activityDescription || ""
           }</textarea></div>
+<div class="col-md-12">
+  <label for="mediaFiles" class="form-label">رفع صور أو ملفات PDF للمشروع</label>
+  <input type="file" id="mediaFiles" name="mediaFiles" class="form-control" multiple accept="image/*,application/pdf">
+</div>
+
           <div class="col-md-12">
             <label for="projectLocationLink" class="form-label">رابط الموقع الجغرافي (Google Maps)</label>
             <input type="url" id="projectLocationLink" class="form-control" value="${
@@ -123,11 +140,61 @@ document.addEventListener("DOMContentLoaded", () => {
               : ""
           }"></div>
 
-          <div class="col-md-12">
-            <label for="mediaFiles" class="form-label">رفع صور أو ملف PDF</label>
-            <input type="file" id="mediaFiles" name="mediaFiles" class="form-control" multiple accept="image/*,application/pdf">
+          <h5 class="form-section-title">البيانات التعاقدية</h5>
+
+          <div class="col-md-6">
+            <label for="publishDate" class="form-label">تاريخ النشر</label>
+            <input type="date" id="publishDate" class="form-control" value="${
+              project.publishDate
+                ? new Date(project.publishDate).toISOString().split("T")[0]
+                : ""
+            }">
           </div>
 
+          <div class="col-md-6">
+            <label for="technicalDecisionDate" class="form-label">تاريخ البت الفني</label>
+            <input type="date" id="technicalDecisionDate" class="form-control" value="${
+              project.technicalDecisionDate
+                ? new Date(project.technicalDecisionDate)
+                    .toISOString()
+                    .split("T")[0]
+                : ""
+            }">
+          </div>
+
+          <div class="col-md-6">
+            <label for="financialDecisionDate" class="form-label">تاريخ البت المالي</label>
+            <input type="date" id="financialDecisionDate" class="form-control" value="${
+              project.financialDecisionDate
+                ? new Date(project.financialDecisionDate)
+                    .toISOString()
+                    .split("T")[0]
+                : ""
+            }">
+          </div>
+
+          <div class="col-md-6">
+            <label for="assignmentOrderDate" class="form-label">تاريخ أمر الإسناد</label>
+            <input type="date" id="assignmentOrderDate" class="form-control" value="${
+              project.assignmentOrderDate
+                ? new Date(project.assignmentOrderDate)
+                    .toISOString()
+                    .split("T")[0]
+                : ""
+            }">
+          </div>
+
+          <div class="col-md-6">
+            <label for="siteHandoverDate" class="form-label">تاريخ استلام الموقع</label>
+            <input type="date" id="siteHandoverDate" class="form-control" value="${
+              project.siteHandoverDate
+                ? new Date(project.siteHandoverDate).toISOString().split("T")[0]
+                : ""
+            }">
+          </div>
+
+
+         
           <div class="col-12 mt-4 text-center">
             <button type="submit" class="btn btn-primary px-4" id="save-changes-button">حفظ التعديلات</button>
           </div>
@@ -205,17 +272,30 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const mediaInput = document.getElementById("mediaFiles");
-      if (mediaInput && mediaInput.files.length > 0) {
-        for (let i = 0; i < mediaInput.files.length; i++) {
-          const file = mediaInput.files[i];
+/*       const contractualDocsInput = document.getElementById(
+        "contractualDocuments"
+      );
+
+      if (contractualDocsInput?.files.length > 0) {
+        for (const file of contractualDocsInput.files) {
           if (file.type === "application/pdf") {
-            if (userRole === "admin" || userRole === "manager") {
-              formData.append("activityPdf", file); // رفع PDF
-            } else {
-              showToast("ليس لديك صلاحية رفع ملف PDF", "danger");
-            }
+            formData.append("contractualDocuments", file);
           } else {
-            formData.append("images", file); // رفع صورة
+            showToast(
+              "يجب أن تكون المستندات التعاقدية بصيغة PDF فقط",
+              "danger"
+            );
+          }
+        }
+      } */
+      if (mediaInput?.files.length > 0) {
+        for (const file of mediaInput.files) {
+          if (file.type.startsWith("image/")) {
+            formData.append("images", file);
+          } else if (file.type === "application/pdf") {
+            formData.append("activityPdf", file);
+          } else {
+            showToast(`نوع الملف ${file.name} غير مدعوم`, "danger");
           }
         }
       }
@@ -230,6 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const result = await response.json();
+        console.log(result);
         if (!response.ok) throw new Error(result.data || "فشل تحديث المشروع");
 
         showToast("تم حفظ التعديلات بنجاح!", "success");

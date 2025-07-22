@@ -24,18 +24,22 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "login.html";
     }
 
+    const addEmployeeLink = document.getElementById("addEmployeeLink");
+
     if (role === "admin") {
-      const addEmployeeLink = document.getElementById("addEmployeeLink");
       if (addEmployeeLink) {
         addEmployeeLink.style.display = "block";
         updateAndRemoveEmployeeLink.style.display = "block";
       }
-    } else {
-      const addEmployeeLink = document.getElementById("addEmployeeLink");
+    } else if (role === "manager") {
       if (addEmployeeLink) {
         addEmployeeLink.style.display = "none";
         updateAndRemoveEmployeeLink.style.display = "none";
       }
+    } else {
+      addEmployeeLink.style.display = "none";
+      updateAndRemoveEmployeeLink.style.display = "none";
+      addactivityLink.style.display = "none";
 
       logoutButton.addEventListener("click", (e) => {
         e.preventDefault();
