@@ -2,7 +2,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const projectNameHeader = document.getElementById("project-name-header");
   if (!projectNameHeader) return;
-
+  const contractualTabContainer = document.getElementById(
+    "contractual-pdf-section"
+  );
   const mainContent = document.querySelector(".main-content");
   const mediaTabContent = document.getElementById("media-tab");
   const token = localStorage.getItem("loggedInUserToken");
@@ -118,36 +120,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function renderImages(imagePaths = []) {
+  function renderImages(imageUrls = []) {
     if (!mediaTabContent) return;
+
     const section = document.createElement("div");
     section.innerHTML = "<h6 class='mt-4'>صور المشروع:</h6>";
 
-    if (imagePaths.length === 0) {
+    if (imageUrls.length === 0) {
       section.innerHTML += "<p class='text-muted text-center'>لا توجد صور</p>";
     } else {
       const row = document.createElement("div");
       row.className = "row g-3";
 
-      imagePaths.forEach((imgPath) => {
-        const fullImageUrl = `${API_BASE_URL}${imgPath.replace(/\\/g, "/")}`;
+      imageUrls.forEach((imgUrl) => {
         const col = document.createElement("div");
         col.className = "col-md-4";
         col.innerHTML = `
-    <div class="position-relative">
-      <a href="${fullImageUrl}" target="_blank">
-  <img src="${fullImageUrl}" 
-       class="img-fluid rounded shadow-sm zoom-hover" 
-       style="height:200px; object-fit:cover; width: 100%;" />
-</a>
-      <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 delete-img-btn" 
-              data-path="${imgPath}" 
-              data-bs-toggle="modal" 
-              data-bs-target="#confirmDeleteModal">
-        <i class="fas fa-trash"></i>
-      </button>
-    </div>
-  `;
+        <div class="position-relative">
+          <a href="${imgUrl}" target="_blank">
+            <img src="${imgUrl}" 
+                 class="img-fluid rounded shadow-sm zoom-hover" 
+                 style="height:200px; object-fit:cover; width: 100%;" />
+          </a>
+          <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 delete-img-btn" 
+                  data-path="${imgUrl}" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#confirmDeleteModal">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      `;
         row.appendChild(col);
       });
 
@@ -156,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     mediaTabContent.appendChild(section);
   }
+
   function renderPDFs(pdfFiles = [], container = mediaTabContent) {
     const section = document.createElement("div");
     section.innerHTML = "<h6 class='mt-4'>ملفات PDF:</h6>";
@@ -168,7 +171,10 @@ document.addEventListener("DOMContentLoaded", () => {
       list.className = "list-group";
 
       pdfFiles.forEach((pdf) => {
-        const fullUrl = `${API_BASE_URL}${pdf.path.replace(/\\/g, "/")}`;
+        const fullUrl = pdf.path;
+        const bucketName = fullUrl.includes("activitycontractualdocuments")
+          ? "activitycontractualdocuments"
+          : "activitypdfs"; // تقدر تطورها أكتر حسب المسار
 
         const item = document.createElement("li");
         item.className =
@@ -177,7 +183,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <span>${pdf.filename}</span>
         <div>
           <a href="${fullUrl}" target="_blank" class="btn btn-sm btn-outline-primary me-2">عرض / تحميل</a>
-          <button class="btn btn-sm btn-outline-danger delete-pdf-btn" data-path="${pdf.path}" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">حذف</button>
+          <button 
+            class="btn btn-sm btn-outline-danger delete-pdf-btn" 
+            data-path="${fullUrl}" 
+            data-bucket="${bucketName}" 
+            data-bs-toggle="modal" 
+            data-bs-target="#confirmDeleteModal">
+            حذف
+          </button>
         </div>
       `;
         list.appendChild(item);
@@ -194,9 +207,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const imgBtn = e.target.closest(".delete-img-btn");
 
     if (pdfBtn) {
-      mediaToDelete = { type: "pdf", path: pdfBtn.dataset.path };
+      mediaToDelete = {
+        type: "pdf",
+        path: pdfBtn.dataset.path,
+        bucket: pdfBtn.dataset.bucket || "",
+      };
     } else if (imgBtn) {
-      mediaToDelete = { type: "image", path: imgBtn.dataset.path };
+      mediaToDelete = {
+        type: "image",
+        path: imgBtn.dataset.path,
+        bucket: "activityimages", // ← ثابت للصور
+      };
     }
   });
 
@@ -205,14 +226,23 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", async () => {
       if (!activityCode || !mediaToDelete.path) return;
 
-      const url = `${API_BASE_URL}activity/${
-        mediaToDelete.type === "pdf" ? "delete-pdf" : "delete-image"
-      }`;
-
-      const body = JSON.stringify({
+      let url = `${API_BASE_URL}activity/`;
+      let body = {
         activityCode,
-        [`${mediaToDelete.type}Path`]: mediaToDelete.path,
-      });
+      };
+
+      if (mediaToDelete.type === "pdf") {
+        if (!mediaToDelete.bucket) {
+          showToast("اسم الباكيت غير موجود لحذف ملف PDF", "danger");
+          return;
+        }
+
+        url += `delete-pdf/${encodeURIComponent(mediaToDelete.bucket)}`;
+        body.pdfPath = mediaToDelete.path;
+      } else {
+        url += `delete-image`;
+        body.imagePath = mediaToDelete.path;
+      }
 
       try {
         const response = await fetch(url, {
@@ -221,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body,
+          body: JSON.stringify(body),
         });
 
         const result = await response.json();
@@ -232,11 +262,10 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("confirmDeleteModal")
         ).hide();
         initializePage();
-        window.location.reload();
       } catch (err) {
         showToast("فشل في الحذف: " + err.message, "danger");
       } finally {
-        mediaToDelete = { type: null, path: null };
+        mediaToDelete = { type: null, path: null, bucket: null };
       }
     });
 
@@ -256,12 +285,13 @@ document.addEventListener("DOMContentLoaded", () => {
       renderProjectDetails(result.data);
       mediaTabContent.innerHTML = "";
       renderImages(result.data.images || []);
-      renderPDFs(result.data.activityPdf || []);
-      const contractualTabContainer = document.getElementById(
-        "contractual-pdf-section"
-      );
+      renderPDFs(result.data.activitypdfs || []);
       if (contractualTabContainer) {
-        renderPDFs(result.data.activityPdf || [], contractualTabContainer);
+        contractualTabContainer.innerHTML = "";
+        renderPDFs(
+          result.data.contractualDocuments || [],
+          contractualTabContainer
+        );
       }
     } catch (err) {
       displayError(err.message);

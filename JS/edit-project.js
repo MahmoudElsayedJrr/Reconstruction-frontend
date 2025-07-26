@@ -105,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="col-md-12"><label for="activityDescription" class="form-label">وصف المشروع</label><textarea id="activityDescription" class="form-control" rows="4" style="resize: vertical;">${
             project.activityDescription || ""
           }</textarea></div>
+
 <div class="col-md-12">
   <label for="mediaFiles" class="form-label">رفع صور أو ملفات PDF للمشروع</label>
   <input type="file" id="mediaFiles" name="mediaFiles" class="form-control" multiple accept="image/*,application/pdf">
@@ -193,6 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }">
           </div>
 
+          <div class="col-md-12">
+            <label for="contractualDocuments" class="form-label">رفع ملف PDF</label>
+            <input type="file" id="contractualDocuments" name="contractualDocuments" class="form-control" multiple accept="application/pdf">
+          </div>
+
+
 
          
           <div class="col-12 mt-4 text-center">
@@ -270,30 +277,33 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       });
-
+      //let bucketName;
       const mediaInput = document.getElementById("mediaFiles");
-/*       const contractualDocsInput = document.getElementById(
+      const contractualDocsInput = document.getElementById(
         "contractualDocuments"
       );
 
-      if (contractualDocsInput?.files.length > 0) {
-        for (const file of contractualDocsInput.files) {
-          if (file.type === "application/pdf") {
-            formData.append("contractualDocuments", file);
-          } else {
-            showToast(
-              "يجب أن تكون المستندات التعاقدية بصيغة PDF فقط",
-              "danger"
-            );
+        if (contractualDocsInput?.files.length > 0) {
+          for (const file of contractualDocsInput.files) {
+            if (file.type === "application/pdf") {
+              formData.append("contractualDocuments", file);
+            } else {
+              showToast(
+                "يجب أن تكون المستندات التعاقدية بصيغة PDF فقط",
+                "danger"
+              );
+            }
           }
         }
-      } */
+
       if (mediaInput?.files.length > 0) {
         for (const file of mediaInput.files) {
           if (file.type.startsWith("image/")) {
             formData.append("images", file);
           } else if (file.type === "application/pdf") {
-            formData.append("activityPdf", file);
+            formData.append("activitypdfs", file);
+            // formData.append("bucketName", "activityPdf");
+            //  bucketName = "activityPdf";
           } else {
             showToast(`نوع الملف ${file.name} غير مدعوم`, "danger");
           }
@@ -301,6 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
+        const activityCode = getProjectCodeFromUrl();
         const response = await fetch(`${API_URL}activity/${activityCode}`, {
           method: "PUT",
           headers: {
@@ -314,6 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!response.ok) throw new Error(result.data || "فشل تحديث المشروع");
 
         showToast("تم حفظ التعديلات بنجاح!", "success");
+
         setTimeout(() => {
           window.location.href = "dashboard.html";
         }, 2000);
