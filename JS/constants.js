@@ -1,3 +1,3 @@
-const API_URL = "https://work-backend-production.up.railway.app/";
+const API_URL = "https://reconstructionsinai.netlify.app/";
 
 //  "http://localhost:3000/"
