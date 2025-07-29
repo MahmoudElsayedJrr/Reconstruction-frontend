@@ -87,9 +87,12 @@ document.addEventListener("DOMContentLoaded", () => {
         project.roaddetails.petroleumCompany || "غير متوفر"
       );
       setText("notes", project.roaddetails.notes || "لا توجد ملاحظات");
-      setText("bitumenQuantity", project.roaddetails.bitumenQuantity || "0");
-      setText("rc", project.roaddetails.rc || "0");
-      setText("mc", project.roaddetails.mc || "0");
+      setText(
+        "bitumenQuantity",
+        (project.roaddetails.bitumenQuantity || "0").toLocaleString() + " طن"
+      );
+      setText("rc", (project.roaddetails.rc || "0").toLocaleString() + " طن");
+      setText("mc", (project.roaddetails.mc || "0").toLocaleString() + " طن");
 
       setText(
         "remainingQuantitiesTons",
