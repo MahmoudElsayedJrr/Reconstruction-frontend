@@ -89,9 +89,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "مكتمل":
                   return "#198754";
                 case "متأخر":
+                  return "#d15d26ff";
+                case "متوقف":
                   return "#dc3545";
                 case "قيد التنفيذ":
                   return "#0d6efd";
+                case "مسحوب":
+                  return "#ffc107";
                 default:
                   return "#6c757d";
               }

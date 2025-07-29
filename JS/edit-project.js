@@ -34,6 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
       "assignmentOrderDate",
       "siteHandoverDate",
       "contractualDocuments",
+      "petroleumCompany",
+      "bitumenQuantity",
+      "mc",
+      "rc",
+      "remainingQuantitiesTons",
+      "notes",
     ],
     manager: [
       "activityName",
@@ -101,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="col-md-6"><label for="consultant" class="form-label">الاستشاري</label><input type="text" id="consultant" class="form-control" value="${
             project.consultant || ""
           }"></div>
-          <div class="col-md-6"><label for="status" class="form-label">حالة المشروع</label><select id="status" class="form-select"><option value="قيد التنفيذ">قيد التنفيذ</option><option value="مكتمل">مكتمل</option><option value="متأخر">متأخر</option></select></div>
+          <div class="col-md-6"><label for="status" class="form-label">حالة المشروع</label><select id="status" class="form-select"><option value="قيد التنفيذ">قيد التنفيذ</option><option value="مكتمل">مكتمل</option><option value="متأخر">متأخر</option><option value="مسحوب">مسحوب</option> <option value="متوقف">متوقف</option></select></div>
           <div class="col-md-12"><label for="activityDescription" class="form-label">وصف المشروع</label><textarea id="activityDescription" class="form-control" rows="4" style="resize: vertical;">${
             project.activityDescription || ""
           }</textarea></div>
@@ -140,6 +146,56 @@ document.addEventListener("DOMContentLoaded", () => {
               ? new Date(project.receptionDate).toISOString().split("T")[0]
               : ""
           }"></div>
+
+          ${
+            project.projectCategory === "طرق"
+              ? `
+  <h5 class="form-section-title">بيانات الطرق</h5>
+
+  <div class="col-md-6">
+    <label for="petroleumCompany" class="form-label">شركة البترول</label>
+    <input type="text" id="petroleumCompany" class="form-control" value="${
+      project.roaddetails?.petroleumCompany || ""
+    }">
+  </div>
+
+  <div class="col-md-6">
+    <label for="bitumenQuantity" class="form-label">كمية بيتومين 60/70</label>
+    <input type="number" step="any" id="bitumenQuantity" class="form-control" value="${
+      project.roaddetails?.bitumenQuantity || 0
+    }">
+  </div>
+
+  <div class="col-md-4">
+    <label for="mc" class="form-label">MC</label>
+    <input type="number" step="any" id="mc" class="form-control" value="${
+      project.roaddetails?.mc || 0
+    }">
+  </div>
+
+  <div class="col-md-4">
+    <label for="rc" class="form-label">RC</label>
+    <input type="number" step="any" id="rc" class="form-control" value="${
+      project.roaddetails?.rc || 0
+    }">
+  </div>
+
+  <div class="col-md-4">
+    <label for="remainingQuantitiesTons" class="form-label">الكميات المتبقية بالطن</label>
+    <input type="number" step="any" id="remainingQuantitiesTons" class="form-control" value="${
+      project.roaddetails?.remainingQuantitiesTons || 0
+    }">
+  </div>
+
+  <div class="col-md-12">
+    <label for="notes" class="form-label">ملاحظات</label>
+    <textarea id="notes"  class="form-control" rows="3" style="resize: vertical;">${
+      project.roaddetails?.notes || ""
+    }</textarea>
+  </div>
+`
+              : ""
+          }
 
           <h5 class="form-section-title">البيانات التعاقدية</h5>
 
@@ -263,6 +319,32 @@ document.addEventListener("DOMContentLoaded", () => {
       const formData = new FormData();
 
       allowedFields.forEach((fieldId) => {
+        if (document.getElementById("petroleumCompany")) {
+          formData.append(
+            "roaddetails[petroleumCompany]",
+            document.getElementById("petroleumCompany").value
+          );
+          formData.append(
+            "roaddetails[bitumenQuantity]",
+            document.getElementById("bitumenQuantity").value
+          );
+          formData.append(
+            "roaddetails[mc]",
+            document.getElementById("mc").value
+          );
+          formData.append(
+            "roaddetails[rc]",
+            document.getElementById("rc").value
+          );
+          formData.append(
+            "roaddetails[remainingQuantitiesTons]",
+            document.getElementById("remainingQuantitiesTons").value
+          );
+          formData.append(
+            "roaddetails[notes]",
+            document.getElementById("notes").value
+          );
+        }
         const input = document.getElementById(fieldId);
         if (input) {
           if (fieldId === "status" && progressInput) {
@@ -283,18 +365,18 @@ document.addEventListener("DOMContentLoaded", () => {
         "contractualDocuments"
       );
 
-        if (contractualDocsInput?.files.length > 0) {
-          for (const file of contractualDocsInput.files) {
-            if (file.type === "application/pdf") {
-              formData.append("contractualDocuments", file);
-            } else {
-              showToast(
-                "يجب أن تكون المستندات التعاقدية بصيغة PDF فقط",
-                "danger"
-              );
-            }
+      if (contractualDocsInput?.files.length > 0) {
+        for (const file of contractualDocsInput.files) {
+          if (file.type === "application/pdf") {
+            formData.append("contractualDocuments", file);
+          } else {
+            showToast(
+              "يجب أن تكون المستندات التعاقدية بصيغة PDF فقط",
+              "danger"
+            );
           }
         }
+      }
 
       if (mediaInput?.files.length > 0) {
         for (const file of mediaInput.files) {

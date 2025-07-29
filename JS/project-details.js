@@ -50,6 +50,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderProjectDetails(project) {
     projectNameHeader.textContent = `تفاصيل مشروع: ${project.activityName}`;
+    const roadTabNav = document.getElementById("road-tab-nav");
+    const isRoadProject = project.projectCategory === "طرق";
+    if (isRoadProject) {
+      roadTabNav.style.display = "block";
+    } else {
+      roadTabNav.style.display = "none";
+    }
     const setText = (id, value, fallback = "N/A") => {
       const el = document.getElementById(id);
       if (el) el.textContent = value || fallback;
@@ -70,7 +77,25 @@ document.addEventListener("DOMContentLoaded", () => {
       "disbursedAmount",
       (project.disbursedAmount || 0).toLocaleString() + " جنيه"
     );
+    setText(
+      "executivePosition",
+      project.executivePosition || "لا يوجد موقف تنفيذي"
+    );
+    if (isRoadProject) {
+      setText(
+        "petroleumCompany",
+        project.roaddetails.petroleumCompany || "غير متوفر"
+      );
+      setText("notes", project.roaddetails.notes || "لا توجد ملاحظات");
+      setText("bitumenQuantity", project.roaddetails.bitumenQuantity || "0");
+      setText("rc", project.roaddetails.rc || "0");
+      setText("mc", project.roaddetails.mc || "0");
 
+      setText(
+        "remainingQuantitiesTons",
+        (project.remainingQuantitiesTons || 0).toLocaleString() + " طن"
+      );
+    }
     dateFields.forEach((field) => {
       const value = project[field];
       setText(
@@ -86,12 +111,19 @@ document.addEventListener("DOMContentLoaded", () => {
       switch (projectStatus) {
         case "قيد التنفيذ":
           statusColorClass = "bg-primary";
-          break;
         case "مكتمل":
           statusColorClass = "bg-success";
           break;
+        case "مسحوب":
+          statusColorClass = "bg-warning";
         case "متأخر":
           statusColorClass = "bg-danger";
+          break;
+        case "متوقف":
+          statusColorClass = "bg-danger";
+          break;
+        default:
+          statusColorClass = "bg-secondary";
           break;
       }
       statusElement.innerHTML = `<span class="badge ${statusColorClass} p-2">${projectStatus}</span>`;
@@ -118,6 +150,19 @@ document.addEventListener("DOMContentLoaded", () => {
         noLocationMsg.style.display = "block";
       }
     }
+
+    /*     if(isRoadProject) {
+      const roadDetailsSection = document.getElementById("road-details-section");
+      if (roadDetailsSection) {
+        roadDetailsSection.style.display = "block";
+        const roadDetails = project.roaddetails || {};
+        document.getElementById("mc").value = roadDetails.mc || 0;
+        document.getElementById("rc").value = roadDetails.rc || 0;  
+        document.getElementById("remainingQuantitiesTons").value =
+          roadDetails.remainingQuantitiesTons || 0;
+        document.getElementById("bitumenQuantity").value =
+          roadDetails.bitumenQuantity || 0;
+        document.getElementById("notes").value = roadDetails.notes || "";}} */
   }
 
   function renderImages(imageUrls = []) {

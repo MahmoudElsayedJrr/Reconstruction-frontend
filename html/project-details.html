@@ -59,7 +59,18 @@
                 data-bs-target="#timeline-tab"
                 type="button"
               >
-                الجدول الزمني
+                الموقف التنفيذي
+              </button>
+            </li>
+
+            <li class="nav-item" role="presentation" id="road-tab-nav">
+              <button
+                class="nav-link"
+                data-bs-toggle="tab"
+                data-bs-target="#road-tab"
+                type="button"
+              >
+                بيانات الطرق (حصه البيتومين)
               </button>
             </li>
 
@@ -70,7 +81,7 @@
                 data-bs-target="#contractual-tab"
                 type="button"
               >
-                اليبانات التعاقديه
+                البيانات التعاقديه
               </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -143,7 +154,7 @@
               </ul>
             </div>
             <div class="tab-pane fade" id="timeline-tab" role="tabpanel">
-              <h5 class="card-title mb-3">الجدول الزمني</h5>
+              <h5 class="card-title mb-3">الموقف التنفيذي</h5>
               <ul class="list-group list-group-flush details-list">
                 <li class="list-group-item d-flex justify-content-between py-2">
                   <strong>تاريخ الاسناد:</strong>
@@ -155,6 +166,38 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between py-2">
                   <strong>الحالة:</strong> <span id="status"></span>
+                </li>
+                <li class="list-group-item text-center py-3">
+                  <strong class="d-block mb-2">الموقف التنفيذي :</strong>
+                  <p id="executivePosition" class="mb-0 text-muted"></p>
+                </li>
+              </ul>
+            </div>
+
+            <div class="tab-pane fade" id="road-tab" role="tabpanel">
+              <h5 class="card-title mb-3">بيانات الطرق</h5>
+              <ul class="list-group list-group-flush details-list">
+                <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong>شركه البترول:</strong>
+                  <span id="petroleumCompany"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong> كميه بيتومين 60/70:</strong>
+                  <span id="bitumenQuantity"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong> MC:</strong> <span id="mc"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong> RC:</strong> <span id="rc"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong> الكميات المتبقيه بالطن:</strong>
+                  <span id="remainingQuantitiesTons"></span>
+                </li>
+                <li class="list-group-item text-center py-3">
+                  <strong class="d-block mb-2">ملاحظات :</strong>
+                  <p id="notes" class="mb-0 text-muted"></p>
                 </li>
               </ul>
             </div>

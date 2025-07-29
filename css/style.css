@@ -206,3 +206,7 @@ body.no-sidebar .main-content {
   flex-direction: column;
   justify-content: center;
 }
+
+#road-tab-nav {
+  display: none;
+}
