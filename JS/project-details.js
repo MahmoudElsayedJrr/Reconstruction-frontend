@@ -317,6 +317,31 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+  function populateDecisions(decisions = []) {
+    const tableBody = document.getElementById("decisionTableBody");
+    tableBody.innerHTML = ""; // تنظيف الجدول
+
+    if (!decisions.length) {
+      tableBody.innerHTML =
+        '<tr><td colspan="5" class="text-muted">لا توجد بنود مضافة.</td></tr>';
+      return;
+    }
+
+    decisions.forEach((item) => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+      <td>${item.decisionName || "-"}</td>
+      <td>${item.decisionType || "-"}</td>
+      <td>${item.decisionQuantity ?? "-"}</td>
+      <td>${item.decisionPrice ?? "-"}</td>
+      <td>${item.decisionTotal ?? "-"}</td>
+    `;
+
+      tableBody.appendChild(row);
+    });
+  }
+
   async function initializePage() {
     if (!activityCode) {
       displayError("لم يتم تحديد كود المشروع.");
@@ -334,6 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mediaTabContent.innerHTML = "";
       renderImages(result.data.images || []);
       renderPDFs(result.data.activitypdfs || []);
+      populateDecisions(result.data.decision || []);
       if (contractualTabContainer) {
         contractualTabContainer.innerHTML = "";
         renderPDFs(

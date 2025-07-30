@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "عدد المشروعات",
             data: chartData.governorates.values,
-            backgroundColor: "#0d6efd",
+            backgroundColor: "#3966aaff",
           },
         ],
       },
@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "عدد المشاريع",
             data: chartData.categories.values,
-            backgroundColor: "#0ed3daff",
+            backgroundColor: "#afb2dbff",
           },
         ],
       },

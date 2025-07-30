@@ -40,6 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
       "rc",
       "remainingQuantitiesTons",
       "notes",
+      "decisionName",
+      "decisionType",
+      "decisionPrice",
+      "decisionQuantity",
     ],
     manager: [
       "activityName",
@@ -193,6 +197,58 @@ document.addEventListener("DOMContentLoaded", () => {
       project.roaddetails?.notes || ""
     }</textarea>
   </div>
+
+  
+  <div class="col-12 mt-3">
+  <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
+    إضافة بند
+  </button>
+</div>
+
+<!-- المودال -->
+<div class="modal fade" id="addDecisionModal" tabindex="-1" aria-labelledby="addDecisionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addDecisionModalLabel">إضافة بند</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+          <label for="decisionName" class="form-label">المنطوق</label>
+          <input type="text" class="form-control" id="decisionName">
+        </div>
+
+        <div class="mb-3">
+          <label for="decisionType" class="form-label">الفئة</label>
+            <select class="form-select" id="decisionType">
+            <option value="تعاقدي">تعاقدي</option>
+            <option value="مستجد">مستجد</option>
+            <option value="متجاوز">متجاوز</option>
+          </select>
+          
+        </div>
+
+        <div class="mb-3">
+          <label for="decisionQuantity" class="form-label">الكمية</label>
+          <input type="number" class="form-control" id="decisionQuantity" step="any" min="0">
+        </div>
+
+        <div class="mb-3">
+          <label for="decisionPrice" class="form-label">السعر</label>
+          <input type="number" class="form-control" id="decisionPrice" step="any" min="0">
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        <button type="button" class="btn btn-success" id="saveDecisionBtn">حفظ</button>
+      </div>
+    </div>
+  </div>
+</div>
 `
               : ""
           }
@@ -255,59 +311,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <input type="file" id="contractualDocuments" name="contractualDocuments" class="form-control" multiple accept="application/pdf">
           </div>
 
-          <div class="col-12 mt-3">
-  <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addItemModal">
-    إضافة بند
-  </button>
-</div>
-
-<!-- المودال -->
-<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addItemModalLabel">إضافة بند</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-
-        <div class="mb-3">
-          <label for="decisionName" class="form-label">المنطوق</label>
-          <select class="form-select" id="decisionName">
-            <option value="تعاقدي">تعاقدي</option>
-            <option value="مستجد">مستجد</option>
-            <option value="متجاوز">متجاوز</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="decisionType" class="form-label">الفئة</label>
-          <input type="text" class="form-control" id="decisionType">
-        </div>
-
-        <div class="mb-3">
-          <label for="decisionQuantity" class="form-label">الكمية</label>
-          <input type="number" class="form-control" id="decisionQuantity" step="any" min="0">
-        </div>
-
-        <div class="mb-3">
-          <label for="decisionPrice" class="form-label">السعر</label>
-          <input type="number" class="form-control" id="decisionPrice" step="any" min="0">
-        </div>
-
-        <div class="mb-3">
-          <label for="decisionTotal" class="form-label">الإجمالي</label>
-          <input type="text" class="form-control" id="decisionTotal" disabled>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-        <button type="button" class="btn btn-success" id="saveItemBtn">حفظ</button>
-      </div>
-    </div>
-  </div>
-</div>
        
 
 
@@ -318,6 +321,11 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </form>
     `;
+
+    document.getElementById("saveDecisionBtn").addEventListener("click", () => {
+      const activityCode = getProjectCodeFromUrl();
+      submitDecisionItem(API_URL, activityCode);
+    });
 
     document.getElementById("status").value = project.status || "قيد التنفيذ";
 
