@@ -1,32 +1,19 @@
 const token = localStorage.getItem("loggedInUserToken");
 
-async function submitDecisionItem(BaseUrl, activityCode) {
-  // Input validation
+async function addDecision(BaseUrl, activityCode, showToast) {
   const name = document.getElementById("decisionName").value.trim();
   const category = document.getElementById("decisionType").value.trim();
   const quantity = document.getElementById("decisionQuantity").value;
   const price = document.getElementById("decisionPrice").value;
+  const unit = document.getElementById("decisionUnit").value.trim();
 
-  // Validate required fields
-  if (!name || !category || !quantity || !price) {
-    alert("جميع الحقول مطلوبة");
+  if (!name || !category || !quantity || !price || !unit) {
+    showToast("برجاء ملء جميع الحقول", "warning");
     return;
   }
 
-  // Validate numeric values
   const parsedQuantity = parseFloat(quantity);
   const parsedPrice = parseFloat(price);
-
-  if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
-    alert("الرجاء إدخال كمية صحيحة");
-    return;
-  }
-
-  if (isNaN(parsedPrice) || parsedPrice <= 0) {
-    alert("الرجاء إدخال سعر صحيح");
-    return;
-  }
-
   const total = parsedQuantity * parsedPrice;
 
   const requestBody = {
@@ -34,6 +21,7 @@ async function submitDecisionItem(BaseUrl, activityCode) {
       {
         decisionName: name,
         decisionType: category,
+        decisionUnit: unit,
         decisionQuantity: parsedQuantity,
         decisionPrice: parsedPrice,
         decisionTotal: total,
@@ -43,7 +31,7 @@ async function submitDecisionItem(BaseUrl, activityCode) {
 
   try {
     const response = await fetch(
-      `${BaseUrl}activity/add-decision/${activityCode}`,
+      `${BaseUrl}activity/decision/${activityCode}`,
       {
         method: "PUT",
         headers: {
@@ -57,16 +45,16 @@ async function submitDecisionItem(BaseUrl, activityCode) {
     const data = await response.json();
     console.log("Response data:", data);
     if (response.ok) {
-      alert("تم إضافة البند بنجاح ✅");
+      showToast("تم إضافة البند بنجاح", "success");
       clearAndCloseModal();
     } else {
       const errorMessage =
         data.message || data.error || "برجاء المحاولة مرة أخرى";
-      alert("حدث خطأ: " + errorMessage);
+      showToast(errorMessage, "danger");
     }
   } catch (err) {
     console.error("Error details:", err);
-    alert("فشل الاتصال بالسيرفر");
+    showToast("حدث خطأ أثناء إضافة البند.", "danger");
   }
 }
 
@@ -75,7 +63,7 @@ function clearAndCloseModal() {
     document.getElementById("addDecisionModal")
   );
   modal.hide();
-
+  //window.location.href = "dashboard.html";
   // Clear the form
   document.getElementById("decisionName").value = "";
   document.getElementById("decisionType").value = "";
@@ -83,4 +71,34 @@ function clearAndCloseModal() {
   document.getElementById("decisionPrice").value = "";
 }
 
-// ربط الزرار بالدالة
+async function deleteDecision(BaseUrl, activityCode, decisionId, showToast) {
+  const confirmModal = bootstrap.Modal.getOrCreateInstance(
+    document.getElementById("confirmDeleteModal")
+  );
+  confirmModal.show();
+
+  const confirmBtn = document.getElementById("confirmDeleteMediaBtn");
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch(
+        `${BaseUrl}activity/decision/${activityCode}/${decisionId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("فشل في حذف البند");
+      }
+      confirmModal.hide();
+      showToast("تم حذف البند بنجاح");
+      window.location.reload();
+    } catch (err) {
+      showToast(err.message, "danger");
+    }
+    confirmBtn.removeEventListener("click", handleConfirm);
+  };
+  confirmBtn.addEventListener("click", handleConfirm, { once: true });
+}

@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     admin: "ادمن",
     manager: "انشاء وتخطيط",
     financial: "مالي",
+    projectManager: "مشروعات",
     employee: "موظف",
   };
 

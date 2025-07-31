@@ -46,6 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "financialDecisionDate",
     "technicalDecisionDate",
     "publishDate",
+    "extensionDate",
+    "suspensionDate",
+    "resumptionDate",
   ];
 
   function renderProjectDetails(project) {
@@ -331,13 +334,156 @@ document.addEventListener("DOMContentLoaded", () => {
       const row = document.createElement("tr");
 
       row.innerHTML = `
-      <td>${item.decisionName || "-"}</td>
+      <td class="wrap-column text-start">${item.decisionName || "-"}</td>
       <td>${item.decisionType || "-"}</td>
+      <td>${item.decisionUnit || "-"}</td>
       <td>${item.decisionQuantity ?? "-"}</td>
       <td>${item.decisionPrice ?? "-"}</td>
       <td>${item.decisionTotal ?? "-"}</td>
+     <td>
+
+        <a href="#" class="action-btn me-2 edit-decision" data-id="${
+          item._id
+        }" title="تعديل">
+          <i class="fas fa-edit text-primary"></i>
+        </a>
+        <a href="#" class="action-btn delete-decision" data-id="${
+          item._id
+        }" title="حذف">
+          <i class="fas fa-trash-alt text-danger"></i>
+        </a>
+
+     </td>
     `;
 
+      row
+        .querySelector(".edit-decision")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+          const decisionId = e.currentTarget.dataset.id;
+
+          if (!document.getElementById("editDecisionModal")) {
+            const modalHTML = `
+          <div class="modal fade" id="editDecisionModal" tabindex="-1">
+            <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">تعديل البند</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form id="editDecisionForm">
+            <div class="mb-3">
+              <label class="form-label">اسم البند</label>
+              <input type="text" class="form-control" id="editDecisionName" required>
+            </div>
+            <div class="mb-3">
+              <label for="decisionType" class="form-label">نوع البند</label>
+                <select class="form-select" id="editDecisionType">
+                <option value="تعاقدي">تعاقدي</option>
+                <option value="مستجد">مستجد</option>
+                <option value="متجاوز">متجاوز</option>
+              </select>
+              
+            </div>
+            <div class="mb-3">
+              <label class="form-label">الوحدة</label>
+              <input type="text" class="form-control" id="editDecisionUnit" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">الكمية</label>
+              <input type="number" class="form-control" id="editDecisionQuantity" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">السعر</label>
+              <input type="number" class="form-control" id="editDecisionPrice" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">الإجمالي</label>
+              <input type="number" class="form-control" id="editDecisionTotal"  disabled>
+            </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+              <button type="button" class="btn btn-primary" id="saveDecisionBtn">حفظ التغييرات</button>
+            </div>
+          </div>
+            </div>
+          </div>`;
+            document.body.insertAdjacentHTML("beforeend", modalHTML);
+          }
+
+          document.getElementById("editDecisionName").value =
+            row.cells[0].textContent;
+          document.getElementById("editDecisionType").value =
+            row.cells[1].textContent;
+          document.getElementById("editDecisionUnit").value =
+            row.cells[2].textContent;
+          document.getElementById("editDecisionQuantity").value =
+            row.cells[3].textContent;
+          document.getElementById("editDecisionPrice").value =
+            row.cells[4].textContent;
+          document.getElementById("editDecisionTotal").value =
+            row.cells[5].textContent;
+
+          const modal = new bootstrap.Modal(
+            document.getElementById("editDecisionModal")
+          );
+          modal.show();
+
+          document.getElementById("saveDecisionBtn").onclick = async () => {
+            try {
+              const response = await fetch(
+                `${API_BASE_URL}activity/decision/${activityCode}/${decisionId}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    decisionName:
+                      document.getElementById("editDecisionName").value,
+                    decisionType:
+                      document.getElementById("editDecisionType").value,
+                    decisionUnit:
+                      document.getElementById("editDecisionUnit").value,
+                    decisionQuantity: parseFloat(
+                      document.getElementById("editDecisionQuantity").value
+                    ),
+                    decisionPrice: parseFloat(
+                      document.getElementById("editDecisionPrice").value
+                    ),
+                    decisionTotal: parseFloat(
+                      document.getElementById("editDecisionTotal").value
+                    ),
+                  }),
+                }
+              );
+
+              if (!response.ok) throw new Error("فشل في تعديل البند");
+              modal.hide();
+              showToast("تم تعديل البند بنجاح");
+              initializePage();
+            } catch (err) {
+              showToast(err.message, "danger");
+            }
+          };
+        });
+
+      row
+        .querySelector(".delete-decision")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+          const decisionId = e.currentTarget.dataset.id;
+          await deleteDecision(
+            API_BASE_URL,
+            activityCode,
+            decisionId,
+            showToast
+          );
+        });
       tableBody.appendChild(row);
     });
   }

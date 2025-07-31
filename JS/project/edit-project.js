@@ -44,6 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
       "decisionType",
       "decisionPrice",
       "decisionQuantity",
+      "decisionUnit",
+      "extensionDate",
+      "suspensionDate",
+      "resumptionDate",
     ],
     manager: [
       "activityName",
@@ -65,6 +69,22 @@ document.addEventListener("DOMContentLoaded", () => {
       "assignmentOrderDate",
       "siteHandoverDate",
       "contractualDocuments",
+    ],
+    projectManager: [
+      "petroleumCompany",
+      "bitumenQuantity",
+      "mc",
+      "rc",
+      "remainingQuantitiesTons",
+      "notes",
+      "decisionName",
+      "decisionType",
+      "decisionPrice",
+      "decisionQuantity",
+      "decisionUnit",
+      "extensionDate",
+      "suspensionDate",
+      "resumptionDate",
     ],
     financial: ["estimatedValue", "contractualValue", "disbursedAmount"],
     employee: [],
@@ -116,10 +136,10 @@ document.addEventListener("DOMContentLoaded", () => {
             project.activityDescription || ""
           }</textarea></div>
 
-<div class="col-md-12">
-  <label for="mediaFiles" class="form-label">رفع صور أو ملفات PDF للمشروع</label>
-  <input type="file" id="mediaFiles" name="mediaFiles" class="form-control" multiple accept="image/*,application/pdf">
-</div>
+          <div class="col-md-12">
+            <label for="mediaFiles" class="form-label">رفع صور أو ملفات PDF للمشروع</label>
+            <input type="file" id="mediaFiles" name="mediaFiles" class="form-control" multiple accept="image/*,application/pdf">
+          </div>
 
           <div class="col-md-12">
             <label for="projectLocationLink" class="form-label">رابط الموقع الجغرافي (Google Maps)</label>
@@ -154,66 +174,75 @@ document.addEventListener("DOMContentLoaded", () => {
           ${
             project.projectCategory === "طرق"
               ? `
-  <h5 class="form-section-title">بيانات الطرق</h5>
+                    <h5 class="form-section-title">بيانات الطرق</h5>
 
-  <div class="col-md-6">
-    <label for="petroleumCompany" class="form-label">شركة البترول</label>
-    <input type="text" id="petroleumCompany" class="form-control" value="${
-      project.roaddetails?.petroleumCompany || ""
-    }">
-  </div>
+                    <div class="col-md-6">
+                      <label for="petroleumCompany" class="form-label">شركة البترول</label>
+                      <input type="text" id="petroleumCompany" class="form-control" value="${
+                        project.roaddetails?.petroleumCompany || ""
+                      }">
+                    </div>
 
-  <div class="col-md-6">
-    <label for="bitumenQuantity" class="form-label">كمية بيتومين 60/70</label>
-    <input type="number" step="any" id="bitumenQuantity" class="form-control" value="${
-      project.roaddetails?.bitumenQuantity || 0
-    }">
-  </div>
+                    <div class="col-md-6">
+                      <label for="bitumenQuantity" class="form-label">كمية بيتومين 60/70</label>
+                      <input type="number" step="any" id="bitumenQuantity" class="form-control" value="${
+                        project.roaddetails?.bitumenQuantity || 0
+                      }">
+                    </div>
 
-  <div class="col-md-4">
-    <label for="mc" class="form-label">MC</label>
-    <input type="number" step="any" id="mc" class="form-control" value="${
-      project.roaddetails?.mc || 0
-    }">
-  </div>
+                    <div class="col-md-4">
+                      <label for="mc" class="form-label">MC</label>
+                      <input type="number" step="any" id="mc" class="form-control" value="${
+                        project.roaddetails?.mc || 0
+                      }">
+                    </div>
 
-  <div class="col-md-4">
-    <label for="rc" class="form-label">RC</label>
-    <input type="number" step="any" id="rc" class="form-control" value="${
-      project.roaddetails?.rc || 0
-    }">
-  </div>
+                    <div class="col-md-4">
+                      <label for="rc" class="form-label">RC</label>
+                      <input type="number" step="any" id="rc" class="form-control" value="${
+                        project.roaddetails?.rc || 0
+                      }">
+                    </div>
 
-  <div class="col-md-4">
-    <label for="remainingQuantitiesTons" class="form-label">الكميات المتبقية بالطن</label>
-    <input type="number" step="any" id="remainingQuantitiesTons" class="form-control" value="${
-      project.roaddetails?.remainingQuantitiesTons || 0
-    }">
-  </div>
+                    <div class="col-md-4">
+                      <label for="remainingQuantitiesTons" class="form-label">الكميات المتبقية بالطن</label>
+                      <input type="number" step="any" id="remainingQuantitiesTons" class="form-control" value="${
+                        project.roaddetails?.remainingQuantitiesTons || 0
+                      }">
+                    </div>
 
-  <div class="col-md-12">
-    <label for="notes" class="form-label">ملاحظات</label>
-    <textarea id="notes"  class="form-control" rows="3" style="resize: vertical;">${
-      project.roaddetails?.notes || ""
-    }</textarea>
-  </div>
+                    <div class="col-md-12">
+                      <label for="notes" class="form-label">ملاحظات</label>
+                      <textarea id="notes"  class="form-control" rows="3" style="resize: vertical;">${
+                        project.roaddetails?.notes || ""
+                      }</textarea>
+                    </div>
 
-  
-  <div class="col-12 mt-3">
-  <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
-    إضافة بند
-  </button>
-</div>
+                    
+                  
+                  `
+              : ""
+          }
+        <h5 class="form-section-title"> بيانات المشروعات</h5>
+          <div class="col-12 mt-3">
 
-<!-- المودال -->
-<div class="modal fade" id="addDecisionModal" tabindex="-1" aria-labelledby="addDecisionModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addDecisionModalLabel">إضافة بند</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
+        
+
+
+          <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
+            إضافة بند
+          </button>
+        </div>
+
+        <!-- المودال -->
+        <div class="modal fade" id="addDecisionModal" tabindex="-1" aria-labelledby="addDecisionModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addDecisionModalLabel">إضافة بند</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
 
         <div class="mb-3">
           <label for="decisionName" class="form-label">المنطوق</label>
@@ -221,13 +250,18 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="mb-3">
-          <label for="decisionType" class="form-label">الفئة</label>
+          <label for="decisionType" class="form-label">نوع البند</label>
             <select class="form-select" id="decisionType">
             <option value="تعاقدي">تعاقدي</option>
             <option value="مستجد">مستجد</option>
             <option value="متجاوز">متجاوز</option>
           </select>
           
+        </div>
+
+        <div class="mb-3">
+          <label for="decisionQuantity" class="form-label">الفئه</label>
+          <input type="text" class="form-control" id="decisionUnit" >
         </div>
 
         <div class="mb-3">
@@ -249,9 +283,6 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   </div>
 </div>
-`
-              : ""
-          }
 
           <h5 class="form-section-title">البيانات التعاقدية</h5>
 
@@ -322,11 +353,13 @@ document.addEventListener("DOMContentLoaded", () => {
       </form>
     `;
 
-    document.getElementById("saveDecisionBtn").addEventListener("click", () => {
-      const activityCode = getProjectCodeFromUrl();
-      submitDecisionItem(API_URL, activityCode);
-    });
-
+    const saveDecisionBtn = document.getElementById("saveDecisionBtn");
+    if (saveDecisionBtn) {
+      saveDecisionBtn.addEventListener("click", () => {
+        const activityCode = getProjectCodeFromUrl();
+        addDecision(API_URL, activityCode, showToast);
+      });
+    }
     document.getElementById("status").value = project.status || "قيد التنفيذ";
 
     const allInputs = formContainer.querySelectorAll("input, select, textarea");

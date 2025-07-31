@@ -16,6 +16,12 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+
     <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body class="no-sidebar">
@@ -200,11 +206,13 @@
                     >
                       <thead class="table-light">
                         <tr>
-                          <th>المنطوق</th>
-                          <th>الفئة</th>
+                          <th class="wrap-column">المنطوق</th>
+                          <th>نوع البند</th>
+                          <th>الفئه</th>
                           <th>الكمية</th>
                           <th>السعر</th>
                           <th>الإجمالي</th>
+                          <th>الاجراءات</th>
                         </tr>
                       </thead>
                       <tbody id="decisionTableBody">
@@ -390,5 +398,6 @@
     <script src="../JS/main.js"></script>
     <script src="../JS/project-details.js"></script>
     <script src="../JS/constants.js"></script>
+    <script src="../JS/project/decision.js"></script>
   </body>
 </html>
