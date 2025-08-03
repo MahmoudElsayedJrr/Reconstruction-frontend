@@ -194,10 +194,43 @@
             <div class="tab-pane fade" id="decision-tab" role="tabpanel">
               <h5 class="card-title mb-3">بيانات المشروعات</h5>
               <ul class="list-group list-group-flush details-list">
+                <!-- <li class="list-group-item py-2">
+                  <strong class="mb-2 d-block">مد المدة:</strong>
+                  <div class="row text-center">
+                    <div class="col">
+                      <div
+                        role="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#extensionsModal"
+                        class="badge bg-info bg-opacity-25 text-info-emphasis w-100"
+                        style="cursor: pointer"
+                      >
+                        عدد مد المدد
+                        <div id="extensionNumber" class="fw-bold fs-6 mt-1">
+                          0
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div
+                        class="badge bg-warning bg-opacity-25 text-warning-emphasis w-100"
+                      >
+                        آخر تاريخ لمد المدة
+                        <div id="lastExtensionDate" class="fw-bold fs-6 mt-1">
+                          N/A
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li> 
                 <li class="list-group-item d-flex justify-content-between py-2">
-                  <strong>مد مده :</strong>
-                  <!--   <span id="petroleumCompany"></span> -->
+                  <strong> تاريخ محضر التوقف :</strong>
+                  <span id="suspensionDate"></span>
                 </li>
+                <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong> تاريخ الاستئناف :</strong>
+                  <span id="resumptionDate"></span>
+                </li> -->
                 <div class="mt-4">
                   <h5 class="mb-3">البنود</h5>
                   <div class="table-responsive">
@@ -314,6 +347,43 @@
         </div>
       </div>
     </main>
+
+    <div
+      class="modal fade"
+      id="extensionsModal"
+      tabindex="-1"
+      aria-labelledby="extensionsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="extensionsModalLabel">
+              تفاصيل مد المدة
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="إغلاق"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered text-center">
+              <thead class="table-light">
+                <tr>
+                  <th>من تاريخ</th>
+                  <th>إلى تاريخ</th>
+                </tr>
+              </thead>
+              <tbody id="extensionsTableBody">
+                <!-- يتم ملؤه بالـ JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div
       class="modal fade"

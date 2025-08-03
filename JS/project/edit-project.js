@@ -223,18 +223,47 @@ document.addEventListener("DOMContentLoaded", () => {
                   `
               : ""
           }
+
+
         <h5 class="form-section-title"> بيانات المشروعات</h5>
-          <div class="col-12 mt-3">
 
-        
+         <!-- <div class="col-md-6">
+            <label for="extensionDate" class="form-label">مد مدة</label>
+           <input type="date" id="extensionDate" class="form-control" value="${
+             project.extension?.length
+               ? new Date(
+                   project.extension[project.extension.length - 1].extensionDate
+                 )
+                   .toISOString()
+                   .split("T")[0]
+               : ""
+           }">
+          </div>
 
+          <div class="col-md-6">
+            <label for="suspensionDate" class="form-label">تاريخ محضر التوقف</label>
+            <input type="date" id="suspensionDate" class="form-control" value="${
+              project.suspensionDate
+                ? new Date(project.suspensionDate).toISOString().split("T")[0]
+                : ""
+            }">
+          </div>
 
-          <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
-            إضافة بند
+          <div class="col-md-6">
+            <label for="resumptionDate" class="form-label">تاريخ الاستئناف</label>
+            <input type="date" id="resumptionDate" class="form-control" value="${
+              project.resumptionDate
+                ? new Date(project.resumptionDate).toISOString().split("T")[0]
+                : ""
+            }"> 
+          </div> -->
+
+        <div class="text-center my-3">
+          <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
+            + إضافة بند
           </button>
         </div>
 
-        <!-- المودال -->
         <div class="modal fade" id="addDecisionModal" tabindex="-1" aria-labelledby="addDecisionModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -285,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 
           <h5 class="form-section-title">البيانات التعاقدية</h5>
-
+          <div class="row">
           <div class="col-md-6">
             <label for="publishDate" class="form-label">تاريخ النشر</label>
             <input type="date" id="publishDate" class="form-control" value="${
@@ -336,7 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : ""
             }">
           </div>
-
+        </div>  
           <div class="col-md-12">
             <label for="contractualDocuments" class="form-label">رفع ملف PDF</label>
             <input type="file" id="contractualDocuments" name="contractualDocuments" class="form-control" multiple accept="application/pdf">

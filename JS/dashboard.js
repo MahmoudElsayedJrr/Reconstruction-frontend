@@ -165,6 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const barColor = getProgressBarColor(percentage, project.status);
 
       row.innerHTML = `
+                <td><span class="badge bg-info bg-opacity-25 text-info-emphasis">${
+                  project.activityCode || "غير محدد"
+                }</span></td>
                 <td>
                     <span class="truncate-text" title="${
                       project.activityName || "مشروع بدون اسم"
@@ -172,10 +175,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         ${project.activityName || "مشروع بدون اسم"}
                     </span>
                 </td>
-                <td><span class="badge bg-light text-dark fw-normal">${
+                <td><span class="badge bg-light text-dark">${
                   project.projectCategory || "غير محدد"
                 }</span></td>
-                <td><span class="badge bg-info bg-opacity-25 text-info-emphasis">${
+                <td><span class="badge bg-light text-dark">${
                   project.fundingType || "غير محدد"
                 }</span></td>
                 <td>

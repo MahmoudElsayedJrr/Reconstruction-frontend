@@ -64,6 +64,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const el = document.getElementById(id);
       if (el) el.textContent = value || fallback;
     };
+    const extensions = project.extension || [];
+    const lastExtension =
+      extensions.length > 0 ? extensions[extensions.length - 1] : null;
+
+    setText("extensionNumber", (extensions.length - 1).toString());
+    setText(
+      "lastExtensionDate",
+      lastExtension?.extensionDate
+        ? new Date(lastExtension.extensionDate).toLocaleDateString("ar-EG")
+        : "N/A"
+    );
     setText("activityCode", project.activityCode);
     setText("executingCompany", project.executingCompany);
     setText("governorate", project.governorate);
@@ -101,6 +112,13 @@ document.addEventListener("DOMContentLoaded", () => {
         "remainingQuantitiesTons",
         (project.remainingQuantitiesTons || 0).toLocaleString() + " طن"
       );
+
+      /*   setText(
+        "lastExtensionDate",
+        project.extension?.extensionDate
+          ? project.extension?.extensionDate.toLocaleDateString("ar-EG")
+          : "N/A"
+      ); */
     }
     dateFields.forEach((field) => {
       const value = project[field];
@@ -156,20 +174,42 @@ document.addEventListener("DOMContentLoaded", () => {
         noLocationMsg.style.display = "block";
       }
     }
-
-    /*     if(isRoadProject) {
-      const roadDetailsSection = document.getElementById("road-details-section");
-      if (roadDetailsSection) {
-        roadDetailsSection.style.display = "block";
-        const roadDetails = project.roaddetails || {};
-        document.getElementById("mc").value = roadDetails.mc || 0;
-        document.getElementById("rc").value = roadDetails.rc || 0;  
-        document.getElementById("remainingQuantitiesTons").value =
-          roadDetails.remainingQuantitiesTons || 0;
-        document.getElementById("bitumenQuantity").value =
-          roadDetails.bitumenQuantity || 0;
-        document.getElementById("notes").value = roadDetails.notes || "";}} */
   }
+
+  /* function setExtensionTable(extensions = []) {
+    const tbody = document.getElementById("extensionsTableBody");
+    tbody.innerHTML = "";
+
+    for (let i = 0; i < extensions.length - 1; i++) {
+      const fromDate = new Date(extensions[i].extensionDate).toLocaleDateString(
+        "ar-EG"
+      );
+      const toDate = new Date(
+        extensions[i + 1].extensionDate
+      ).toLocaleDateString("ar-EG");
+
+      const row = `
+      <tr>
+        <td>${fromDate}</td>
+        <td>${toDate}</td>
+      </tr>
+    `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    }
+
+    if (extensions.length === 1) {
+      const onlyDate = new Date(extensions[0].extensionDate).toLocaleDateString(
+        "ar-EG"
+      );
+      const row = `
+      <tr>
+        <td>${onlyDate}</td>
+        <td>—</td>
+      </tr>
+    `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    }
+  } */
 
   function renderImages(imageUrls = []) {
     if (!mediaTabContent) return;
@@ -322,7 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function populateDecisions(decisions = []) {
     const tableBody = document.getElementById("decisionTableBody");
-    tableBody.innerHTML = ""; // تنظيف الجدول
+    tableBody.innerHTML = "";
 
     if (!decisions.length) {
       tableBody.innerHTML =
@@ -399,8 +439,8 @@ document.addEventListener("DOMContentLoaded", () => {
               <input type="number" class="form-control" id="editDecisionPrice" required>
             </div>
             <div class="mb-3">
-              <label class="form-label">الإجمالي</label>
-              <input type="number" class="form-control" id="editDecisionTotal"  disabled>
+              <label class="form-label" hidden>الإجمالي</label>
+              <input type="number" class="form-control" id="editDecisionTotal"  disabled hidden>
             </div>
               </form>
             </div>
@@ -506,6 +546,8 @@ document.addEventListener("DOMContentLoaded", () => {
       renderImages(result.data.images || []);
       renderPDFs(result.data.activitypdfs || []);
       populateDecisions(result.data.decision || []);
+      // setExtensionTable(result.data.extension || []);
+
       if (contractualTabContainer) {
         contractualTabContainer.innerHTML = "";
         renderPDFs(
