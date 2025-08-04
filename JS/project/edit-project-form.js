@@ -175,6 +175,7 @@ export function renderForm(
             <textarea 
               class="form-control" 
               id="decisionName" 
+              name="decisionName"
               required 
               rows="1"
               style="min-height: 200px; resize: vertical; overflow-y: auto;"
@@ -183,7 +184,7 @@ export function renderForm(
 
         <div class="mb-3">
           <label for="decisionType" class="form-label">نوع البند</label>
-            <select class="form-select" id="decisionType">
+            <select class="form-select" id="decisionType" name="decisionType">
             <option value="تعاقدي">تعاقدي</option>
             <option value="مستجد">مستجد</option>
             <option value="متجاوز">متجاوز</option>
@@ -192,18 +193,18 @@ export function renderForm(
         </div>
 
         <div class="mb-3">
-          <label for="decisionQuantity" class="form-label">الوحده</label>
-          <input type="text" class="form-control" id="decisionUnit" >
+          <label for="decisionUnit" class="form-label">الوحده</label>
+          <input type="text" class="form-control" id="decisionUnit"  name="decisionUnit">
         </div>
 
         <div class="mb-3">
           <label for="decisionQuantity" class="form-label">الكمية</label>
-          <input type="number" class="form-control" id="decisionQuantity" step="any" min="0">
+          <input type="number" class="form-control" id="decisionQuantity" name="decisionQuantity" step="any" min="0">
         </div>
 
         <div class="mb-3">
           <label for="decisionPrice" class="form-label">الفئه</label>
-          <input type="number" class="form-control" id="decisionPrice" step="any" min="0">
+          <input type="number" class="form-control" id="decisionPrice" name="decisionPrice" step="any" min="0">
         </div>
 
 
