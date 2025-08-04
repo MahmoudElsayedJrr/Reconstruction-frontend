@@ -1,4 +1,3 @@
-// project-details.js (المعدل بالكامل لدعم حذف الصور و PDF)
 document.addEventListener("DOMContentLoaded", () => {
   const projectNameHeader = document.getElementById("project-name-header");
   if (!projectNameHeader) return;
@@ -28,6 +27,38 @@ document.addEventListener("DOMContentLoaded", () => {
     const toastElement = document.getElementById(toastId);
     const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
     toast.show();
+  }
+
+  function deleteDecision(BaseUrl, activityCode, decisionId, showToast) {
+    const confirmModal = bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("confirmDeleteModal")
+    );
+    confirmModal.show();
+
+    const confirmBtn = document.getElementById("confirmDeleteMediaBtn");
+    const handleConfirm = async () => {
+      try {
+        const response = await fetch(
+          `${BaseUrl}activity/decision/${activityCode}/${decisionId}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("فشل في حذف البند");
+        }
+        confirmModal.hide();
+        showToast("تم حذف البند بنجاح");
+        window.location.reload();
+      } catch (err) {
+        showToast(err.message, "danger");
+      }
+      confirmBtn.removeEventListener("click", handleConfirm);
+    };
+    confirmBtn.addEventListener("click", handleConfirm, { once: true });
   }
 
   function displayError(message) {
