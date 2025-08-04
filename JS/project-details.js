@@ -1,4 +1,3 @@
-// project-details.js (المعدل بالكامل لدعم حذف الصور و PDF)
 document.addEventListener("DOMContentLoaded", () => {
   const projectNameHeader = document.getElementById("project-name-header");
   if (!projectNameHeader) return;
@@ -113,12 +112,12 @@ document.addEventListener("DOMContentLoaded", () => {
         (project.remainingQuantitiesTons || 0).toLocaleString() + " طن"
       );
 
-      /*   setText(
+      setText(
         "lastExtensionDate",
         project.extension?.extensionDate
           ? project.extension?.extensionDate.toLocaleDateString("ar-EG")
           : "N/A"
-      ); */
+      );
     }
     dateFields.forEach((field) => {
       const value = project[field];
@@ -176,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* function setExtensionTable(extensions = []) {
+  function setExtensionTable(extensions = []) {
     const tbody = document.getElementById("extensionsTableBody");
     tbody.innerHTML = "";
 
@@ -209,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
       tbody.insertAdjacentHTML("beforeend", row);
     }
-  } */
+  }
 
   function renderImages(imageUrls = []) {
     if (!mediaTabContent) return;
@@ -546,7 +545,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderImages(result.data.images || []);
       renderPDFs(result.data.activitypdfs || []);
       populateDecisions(result.data.decision || []);
-      // setExtensionTable(result.data.extension || []);
+      setExtensionTable(result.data.extension || []);
 
       if (contractualTabContainer) {
         contractualTabContainer.innerHTML = "";

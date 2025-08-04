@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <h5 class="form-section-title"> بيانات المشروعات</h5>
 
-         <!-- <div class="col-md-6">
+          <div class="col-md-6">
             <label for="extensionDate" class="form-label">مد مدة</label>
            <input type="date" id="extensionDate" class="form-control" value="${
              project.extension?.length
@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ? new Date(project.resumptionDate).toISOString().split("T")[0]
                 : ""
             }"> 
-          </div> -->
+          </div> 
 
         <div class="text-center my-3">
           <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="modal-body">
 
         <div class="mb-3">
-          <label for="decisionName" class="form-label">المنطوق</label>
+          <label for="decisionName" class="form-label">اسم البند</label>
           <input type="text" class="form-control" id="decisionName">
         </div>
 
@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="mb-3">
-          <label for="decisionQuantity" class="form-label">الفئه</label>
+          <label for="decisionQuantity" class="form-label">الوحده</label>
           <input type="text" class="form-control" id="decisionUnit" >
         </div>
 
