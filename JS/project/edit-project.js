@@ -274,8 +274,14 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="modal-body">
 
         <div class="mb-3">
-          <label for="decisionName" class="form-label">المنطوق</label>
-          <input type="text" class="form-control" id="decisionName">
+          <label for="decisionName" class="form-label">اسم البند</label>
+            <textarea 
+              class="form-control" 
+              id="decisionName" 
+              required 
+              rows="1"
+              style="min-height: 200px; resize: vertical; overflow-y: auto;"
+            ></textarea>
         </div>
 
         <div class="mb-3">
@@ -289,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="mb-3">
-          <label for="decisionQuantity" class="form-label">الفئه</label>
+          <label for="decisionQuantity" class="form-label">الوحده</label>
           <input type="text" class="form-control" id="decisionUnit" >
         </div>
 
@@ -299,7 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="mb-3">
-          <label for="decisionPrice" class="form-label">السعر</label>
+          <label for="decisionPrice" class="form-label">الفئه</label>
           <input type="number" class="form-control" id="decisionPrice" step="any" min="0">
         </div>
 

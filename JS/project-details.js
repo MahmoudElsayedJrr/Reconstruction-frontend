@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* function setExtensionTable(extensions = []) {
+  function setExtensionTable(extensions = []) {
     const tbody = document.getElementById("extensionsTableBody");
     tbody.innerHTML = "";
 
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
       tbody.insertAdjacentHTML("beforeend", row);
     }
-  } */
+  }
 
   function renderImages(imageUrls = []) {
     if (!mediaTabContent) return;
@@ -415,7 +415,13 @@ document.addEventListener("DOMContentLoaded", () => {
               <form id="editDecisionForm">
             <div class="mb-3">
               <label class="form-label">اسم البند</label>
-              <input type="text" class="form-control" id="editDecisionName" required>
+              <textarea 
+                class="form-control" 
+                id="editDecisionName" 
+                required 
+                rows="4"
+                style="min-height: 200px; resize: vertical; overflow-y: auto;"
+              ></textarea>
             </div>
             <div class="mb-3">
               <label for="decisionType" class="form-label">نوع البند</label>
@@ -435,7 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <input type="number" class="form-control" id="editDecisionQuantity" required>
             </div>
             <div class="mb-3">
-              <label class="form-label">السعر</label>
+              <label class="form-label">الفئه</label>
               <input type="number" class="form-control" id="editDecisionPrice" required>
             </div>
             <div class="mb-3">
@@ -546,7 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderImages(result.data.images || []);
       renderPDFs(result.data.activitypdfs || []);
       populateDecisions(result.data.decision || []);
-      // setExtensionTable(result.data.extension || []);
+      setExtensionTable(result.data.extension || []);
 
       if (contractualTabContainer) {
         contractualTabContainer.innerHTML = "";
