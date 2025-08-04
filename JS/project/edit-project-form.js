@@ -126,15 +126,7 @@ export function renderForm(
 
           <div class="col-md-6">
             <label for="extensionDate" class="form-label">مد مدة</label>
-           <input type="date" id="extensionDate" class="form-control" value="${
-             project.extension?.length
-               ? new Date(
-                   project.extension[project.extension.length - 1].extensionDate
-                 )
-                   .toISOString()
-                   .split("T")[0]
-               : ""
-           }">
+           <input type="date" id="extensionDate" class="form-control" value="">
           </div>
 
           <div class="col-md-6">
@@ -175,8 +167,7 @@ export function renderForm(
             <textarea 
               class="form-control" 
               id="decisionName" 
-              name="decisionName"
-              required 
+              name="decisionName"           
               rows="1"
               style="min-height: 200px; resize: vertical; overflow-y: auto;"
             ></textarea>
@@ -287,6 +278,7 @@ export function renderForm(
     `;
 
   const saveDecisionBtn = document.getElementById("saveDecisionBtn");
+
   if (saveDecisionBtn) {
     saveDecisionBtn.addEventListener("click", () => {
       const activityCode = getProjectCodeFromUrl();

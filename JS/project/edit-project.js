@@ -424,6 +424,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function attachSubmitListener(activityCode) {
     const editForm = document.getElementById("editProjectForm");
+    const initialValues = {};
+
+    allowedFields.forEach((fieldId) => {
+      const input = document.getElementById(fieldId);
+      if (input) {
+        initialValues[fieldId] = input.value;
+      }
+    });
+
     editForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const saveButton = document.getElementById("save-changes-button");
@@ -572,7 +581,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast,
         attachSubmitListener
       );
-      attachSubmitListener(activityCode);
+      //attachSubmitListener(activityCode);
     } catch (error) {
       formContainer.innerHTML = `<div class="alert alert-danger">فشل في جلب بيانات المشروع: ${error.message}</div>`;
     }
