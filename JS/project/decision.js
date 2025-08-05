@@ -1,6 +1,6 @@
 const token = localStorage.getItem("loggedInUserToken");
 
-async function addDecision(BaseUrl, activityCode, showToast) {
+export async function addDecision(BaseUrl, activityCode, showToast) {
   const name = document.getElementById("decisionName").value.trim();
   const category = document.getElementById("decisionType").value.trim();
   const quantity = document.getElementById("decisionQuantity").value;
@@ -71,34 +71,4 @@ function clearAndCloseModal() {
   document.getElementById("decisionPrice").value = "";
 }
 
-async function deleteDecision(BaseUrl, activityCode, decisionId, showToast) {
-  const confirmModal = bootstrap.Modal.getOrCreateInstance(
-    document.getElementById("confirmDeleteModal")
-  );
-  confirmModal.show();
 
-  const confirmBtn = document.getElementById("confirmDeleteMediaBtn");
-  const handleConfirm = async () => {
-    try {
-      const response = await fetch(
-        `${BaseUrl}activity/decision/${activityCode}/${decisionId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("فشل في حذف البند");
-      }
-      confirmModal.hide();
-      showToast("تم حذف البند بنجاح");
-      window.location.reload();
-    } catch (err) {
-      showToast(err.message, "danger");
-    }
-    confirmBtn.removeEventListener("click", handleConfirm);
-  };
-  confirmBtn.addEventListener("click", handleConfirm, { once: true });
-}

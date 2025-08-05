@@ -29,6 +29,38 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.show();
   }
 
+  function deleteDecision(BaseUrl, activityCode, decisionId, showToast) {
+    const confirmModal = bootstrap.Modal.getOrCreateInstance(
+      document.getElementById("confirmDeleteModal")
+    );
+    confirmModal.show();
+
+    const confirmBtn = document.getElementById("confirmDeleteMediaBtn");
+    const handleConfirm = async () => {
+      try {
+        const response = await fetch(
+          `${BaseUrl}activity/decision/${activityCode}/${decisionId}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("فشل في حذف البند");
+        }
+        confirmModal.hide();
+        showToast("تم حذف البند بنجاح");
+        window.location.reload();
+      } catch (err) {
+        showToast(err.message, "danger");
+      }
+      confirmBtn.removeEventListener("click", handleConfirm);
+    };
+    confirmBtn.addEventListener("click", handleConfirm, { once: true });
+  }
+
   function displayError(message) {
     projectNameHeader.textContent = "حدث خطأ";
     const cardBody = document.querySelector(".card-body");
@@ -414,7 +446,13 @@ document.addEventListener("DOMContentLoaded", () => {
               <form id="editDecisionForm">
             <div class="mb-3">
               <label class="form-label">اسم البند</label>
-              <input type="text" class="form-control" id="editDecisionName" required>
+              <textarea 
+                class="form-control" 
+                id="editDecisionName" 
+                required 
+                rows="4"
+                style="min-height: 200px; resize: vertical; overflow-y: auto;"
+              ></textarea>
             </div>
             <div class="mb-3">
               <label for="decisionType" class="form-label">نوع البند</label>
@@ -434,7 +472,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <input type="number" class="form-control" id="editDecisionQuantity" required>
             </div>
             <div class="mb-3">
-              <label class="form-label">السعر</label>
+              <label class="form-label">الفئه</label>
               <input type="number" class="form-control" id="editDecisionPrice" required>
             </div>
             <div class="mb-3">

@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("loggedInUserToken");
   const tokenExpiry = localStorage.getItem("tokenExpiry");
 
+
   if (!token || !tokenExpiry || Date.now() > parseInt(tokenExpiry)) {
     localStorage.removeItem("token");
     localStorage.removeItem("tokenExpiry");

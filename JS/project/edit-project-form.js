@@ -1,126 +1,21 @@
-import { renderForm } from "./edit-project-form.js";
+import { addDecision } from "./decision.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const pageTitle = document.getElementById("page-title");
-  if (!pageTitle) return;
+function getProjectCodeFromUrl() {
+  return new URLSearchParams(window.location.search).get("code");
+}
 
-  const formContainer = document.getElementById("form-container");
-  const userRole = localStorage.getItem("userRole");
-  const token = localStorage.getItem("loggedInUserToken");
-
-  const permissions = {
-    admin: [
-      "activityCode",
-      "activityName",
-      "executingCompany",
-      "consultant",
-      "governorate",
-      "fundingType",
-      "projectCategory",
-      "estimatedValue",
-      "contractualValue",
-      "disbursedAmount",
-      "assignmentDate",
-      "completionDate",
-      "receptionDate",
-      "executionStatus",
-      "progress",
-      "status",
-      "images",
-      "activityDescription",
-      "activityPdf",
-      "projectLocationLink",
-      "publishDate",
-      "technicalDecisionDate",
-      "financialDecisionDate",
-      "assignmentOrderDate",
-      "siteHandoverDate",
-      "contractualDocuments",
-      "petroleumCompany",
-      "bitumenQuantity",
-      "mc",
-      "rc",
-      "remainingQuantitiesTons",
-      "notes",
-      "decisionName",
-      "decisionType",
-      "decisionPrice",
-      "decisionQuantity",
-      "decisionUnit",
-      "extensionDate",
-      "suspensionDate",
-      "resumptionDate",
-    ],
-    manager: [
-      "activityName",
-      "executingCompany",
-      "consultant",
-      "assignmentDate",
-      "completionDate",
-      "receptionDate",
-      "executionStatus",
-      "progress",
-      "status",
-      "images",
-      "activityDescription",
-      "activityPdf",
-      "projectLocationLink",
-      "publishDate",
-      "technicalDecisionDate",
-      "financialDecisionDate",
-      "assignmentOrderDate",
-      "siteHandoverDate",
-      "contractualDocuments",
-    ],
-    projectManager: [
-      "petroleumCompany",
-      "bitumenQuantity",
-      "mc",
-      "rc",
-      "remainingQuantitiesTons",
-      "notes",
-      "decisionName",
-      "decisionType",
-      "decisionPrice",
-      "decisionQuantity",
-      "decisionUnit",
-      "extensionDate",
-      "suspensionDate",
-      "resumptionDate",
-    ],
-    financial: ["estimatedValue", "contractualValue", "disbursedAmount"],
-    employee: [],
-  };
-  const allowedFields = permissions[userRole] || [];
-
-  function getProjectCodeFromUrl() {
-    return new URLSearchParams(window.location.search).get("code");
+export function renderForm(
+  project,
+  formContainer,
+  allowedFields,
+  userRole,
+  showToast,
+  attachSubmitListener
+) {
+  if (project.progress === 100) {
+    project.status = "مكتمل";
   }
-
-  function showToast(message, type = "success") {
-    const toastContainer = document.querySelector(".toast-container");
-    const toastId = "toast-" + Math.random().toString(36).substr(2, 9);
-    const toastColor = type === "success" ? "bg-success" : "bg-danger";
-    const toastHTML = `
-      <div id="${toastId}" class="toast align-items-center text-white ${toastColor} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="d-flex">
-              <div class="toast-body">${message}</div>
-              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-      </div>`;
-    if (toastContainer) {
-      toastContainer.insertAdjacentHTML("beforeend", toastHTML);
-      const toastElement = document.getElementById(toastId);
-      const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
-      toast.show();
-    }
-  }
-
-  /*   function renderForm(project) {
-    if (project.progress === 100) {
-      project.status = "مكتمل";
-    }
-    formContainer.innerHTML = `
+  formContainer.innerHTML = `
       <form id="editProjectForm" enctype="multipart/form-data" method="POST">
         <div class="row g-3">
           <h5 class="form-section-title">البيانات الأساسية</h5>
@@ -231,15 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           <div class="col-md-6">
             <label for="extensionDate" class="form-label">مد مدة</label>
-           <input type="date" id="extensionDate" class="form-control" value="${
-             project.extension?.length
-               ? new Date(
-                   project.extension[project.extension.length - 1].extensionDate
-                 )
-                   .toISOString()
-                   .split("T")[0]
-               : ""
-           }">
+           <input type="date" id="extensionDate" class="form-control" value="">
           </div>
 
           <div class="col-md-6">
@@ -276,13 +163,19 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="modal-body">
 
         <div class="mb-3">
-          <label for="decisionName" class="form-label">المنطوق</label>
-          <input type="text" class="form-control" id="decisionName">
+          <label for="decisionName" class="form-label">اسم البند</label>
+            <textarea 
+              class="form-control" 
+              id="decisionName" 
+              name="decisionName"           
+              rows="1"
+              style="min-height: 200px; resize: vertical; overflow-y: auto;"
+            ></textarea>
         </div>
 
         <div class="mb-3">
           <label for="decisionType" class="form-label">نوع البند</label>
-            <select class="form-select" id="decisionType">
+            <select class="form-select" id="decisionType" name="decisionType">
             <option value="تعاقدي">تعاقدي</option>
             <option value="مستجد">مستجد</option>
             <option value="متجاوز">متجاوز</option>
@@ -291,18 +184,18 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="mb-3">
-          <label for="decisionQuantity" class="form-label">الوحده</label>
-          <input type="text" class="form-control" id="decisionUnit" >
+          <label for="decisionUnit" class="form-label">الوحده</label>
+          <input type="text" class="form-control" id="decisionUnit"  name="decisionUnit">
         </div>
 
         <div class="mb-3">
           <label for="decisionQuantity" class="form-label">الكمية</label>
-          <input type="number" class="form-control" id="decisionQuantity" step="any" min="0">
+          <input type="number" class="form-control" id="decisionQuantity" name="decisionQuantity" step="any" min="0">
         </div>
 
         <div class="mb-3">
           <label for="decisionPrice" class="form-label">الفئه</label>
-          <input type="number" class="form-control" id="decisionPrice" step="any" min="0">
+          <input type="number" class="form-control" id="decisionPrice" name="decisionPrice" step="any" min="0">
         </div>
 
 
@@ -384,202 +277,36 @@ document.addEventListener("DOMContentLoaded", () => {
       </form>
     `;
 
-    const saveDecisionBtn = document.getElementById("saveDecisionBtn");
-    if (saveDecisionBtn) {
-      saveDecisionBtn.addEventListener("click", () => {
-        const activityCode = getProjectCodeFromUrl();
-        addDecision(API_URL, activityCode, showToast);
-      });
-    }
-    document.getElementById("status").value = project.status || "قيد التنفيذ";
+  const saveDecisionBtn = document.getElementById("saveDecisionBtn");
 
-    const allInputs = formContainer.querySelectorAll("input, select, textarea");
-    allInputs.forEach((input) => {
-      if (
-        input.id &&
-        !allowedFields.includes(input.id) &&
-        input.type !== "file"
-      ) {
-        input.disabled = true;
-      }
-    });
-
-    if (userRole === "financial") {
-      const mediaInputWrapper = document
-        .getElementById("mediaFiles")
-        ?.closest(".col-md-12");
-      if (mediaInputWrapper) {
-        mediaInputWrapper.remove();
-      }
-    }
-
-    attachSubmitListener(project.activityCode);
-  } */
-
-  function attachSubmitListener(activityCode) {
-    const editForm = document.getElementById("editProjectForm");
-    const initialValues = {};
-
-    allowedFields.forEach((fieldId) => {
-      const input = document.getElementById(fieldId);
-      if (input) {
-        initialValues[fieldId] = input.value;
-      }
-    });
-
-    editForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const saveButton = document.getElementById("save-changes-button");
-      saveButton.disabled = true;
-      saveButton.innerHTML = "جاري الحفظ...";
-
-      const progressInput = document.getElementById("progress");
-      const statusInput = document.getElementById("status");
-
-      if (progressInput) {
-        const progressValue = parseFloat(progressInput.value);
-
-        if (isNaN(progressValue) || progressValue < 0 || progressValue > 100) {
-          showToast("يجب أن تكون نسبة الإنجاز بين 0 و 100", "danger");
-          saveButton.disabled = false;
-          saveButton.innerHTML = "حفظ التعديلات";
-          return;
-        }
-
-        if (progressValue === 100 && statusInput) {
-          statusInput.value = "مكتمل";
-        }
-      }
-
-      const formData = new FormData();
-
-      allowedFields.forEach((fieldId) => {
-        if (document.getElementById("petroleumCompany")) {
-          formData.append(
-            "roaddetails[petroleumCompany]",
-            document.getElementById("petroleumCompany").value
-          );
-          formData.append(
-            "roaddetails[bitumenQuantity]",
-            document.getElementById("bitumenQuantity").value
-          );
-          formData.append(
-            "roaddetails[mc]",
-            document.getElementById("mc").value
-          );
-          formData.append(
-            "roaddetails[rc]",
-            document.getElementById("rc").value
-          );
-          formData.append(
-            "roaddetails[remainingQuantitiesTons]",
-            document.getElementById("remainingQuantitiesTons").value
-          );
-          formData.append(
-            "roaddetails[notes]",
-            document.getElementById("notes").value
-          );
-        }
-        const input = document.getElementById(fieldId);
-        if (input) {
-          if (fieldId === "status" && progressInput) {
-            const progressValue = parseFloat(progressInput.value);
-            if (progressValue === 100) {
-              formData.append("status", "مكتمل");
-            } else {
-              formData.append("status", input.value);
-            }
-          } else {
-            formData.append(fieldId, input.value);
-          }
-        }
-      });
-      //let bucketName;
-      const mediaInput = document.getElementById("mediaFiles");
-      const contractualDocsInput = document.getElementById(
-        "contractualDocuments"
-      );
-
-      if (contractualDocsInput?.files.length > 0) {
-        for (const file of contractualDocsInput.files) {
-          if (file.type === "application/pdf") {
-            formData.append("contractualDocuments", file);
-          } else {
-            showToast(
-              "يجب أن تكون المستندات التعاقدية بصيغة PDF فقط",
-              "danger"
-            );
-          }
-        }
-      }
-
-      if (mediaInput?.files.length > 0) {
-        for (const file of mediaInput.files) {
-          if (file.type.startsWith("image/")) {
-            formData.append("images", file);
-          } else if (file.type === "application/pdf") {
-            formData.append("activitypdfs", file);
-            // formData.append("bucketName", "activityPdf");
-            //  bucketName = "activityPdf";
-          } else {
-            showToast(`نوع الملف ${file.name} غير مدعوم`, "danger");
-          }
-        }
-      }
-
-      try {
-        const activityCode = getProjectCodeFromUrl();
-        const response = await fetch(`${API_URL}activity/${activityCode}`, {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-
-        const result = await response.json();
-        console.log(result);
-        if (!response.ok) throw new Error(result.data || "فشل تحديث المشروع");
-
-        showToast("تم حفظ التعديلات بنجاح!", "success");
-
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 2000);
-      } catch (error) {
-        showToast(`خطأ: ${error.message}`, "danger");
-        saveButton.disabled = false;
-        saveButton.innerHTML = "حفظ التعديلات";
-      }
+  if (saveDecisionBtn) {
+    saveDecisionBtn.addEventListener("click", () => {
+      const activityCode = getProjectCodeFromUrl();
+      addDecision(API_URL, activityCode, showToast);
     });
   }
+  document.getElementById("status").value = project.status || "قيد التنفيذ";
 
-  async function initializePage() {
-    const activityCodee = getProjectCodeFromUrl();
-    if (!activityCodee) {
-      formContainer.innerHTML = `<div class="alert alert-danger">كود المشروع غير موجود.</div>`;
-      return;
+  const allInputs = formContainer.querySelectorAll("input, select, textarea");
+  allInputs.forEach((input) => {
+    if (
+      input.id &&
+      !allowedFields.includes(input.id) &&
+      input.type !== "file"
+    ) {
+      input.disabled = true;
     }
-    try {
-      const response = await fetch(`${API_URL}activity/${activityCodee}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.data);
-      pageTitle.textContent = `تعديل مشروع: ${result.data.activityName}`;
-      const activityCode = renderForm(
-        result.data,
-        formContainer,
-        allowedFields,
-        userRole,
-        showToast,
-        attachSubmitListener
-      );
-      //attachSubmitListener(activityCode);
-    } catch (error) {
-      formContainer.innerHTML = `<div class="alert alert-danger">فشل في جلب بيانات المشروع: ${error.message}</div>`;
+  });
+
+  if (userRole === "financial") {
+    const mediaInputWrapper = document
+      .getElementById("mediaFiles")
+      ?.closest(".col-md-12");
+    if (mediaInputWrapper) {
+      mediaInputWrapper.remove();
     }
   }
 
-  initializePage();
-});
+  attachSubmitListener(project.activityCode);
+  return project.activityCode;
+}
