@@ -231,7 +231,7 @@
                       <div
                         role="button"
                         data-bs-toggle="modal"
-                        data-bs-target="#contractModal"
+                        data-bs-target="#contractsModal"
                         class="badge bg-info bg-opacity-25 text-info-emphasis w-100"
                         style="cursor: pointer"
                       >
@@ -397,6 +397,43 @@
                 </tr>
               </thead>
               <tbody id="extensionsTableBody">
+                <!-- يتم ملؤه بالـ JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="contractsModal"
+      tabindex="-1"
+      aria-labelledby="contractsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="contractsModalLabel">
+              تفاصيل تعديل العقد
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="إغلاق"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered text-center">
+              <thead class="table-light">
+                <tr>
+                  <th>رقم تعديل العقد</th>
+                  <th>التفاصيل</th>
+                </tr>
+              </thead>
+              <tbody id="contractsTableBody">
                 <!-- يتم ملؤه بالـ JavaScript -->
               </tbody>
             </table>

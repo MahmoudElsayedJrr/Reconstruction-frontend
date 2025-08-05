@@ -1,3 +1,4 @@
+import { addContract } from "./contract.js";
 import { addDecision } from "./decision.js";
 
 function getProjectCodeFromUrl() {
@@ -148,12 +149,12 @@ export function renderForm(
           </div> 
 
         <div class="text-center my-3">
-          <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#contractModal">
+          <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#addContractModal">
             + إضافة تعديل عقد
           </button>
         </div>  
 
-        <div class="modal fade" id="contractModal" tabindex="-1" aria-labelledby="contractModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -164,12 +165,12 @@ export function renderForm(
 		
         <div class="md-3">
             <label for="contractDate" class="form-label"> تاريخ تعديل العقد</label>
-           <input type="date" id="contractDate" class="form-control" value="">
+           <input type="date" id="contractDate" name="contractDate" class="form-control" >
           </div>
 
 
         <div class="mb-3">
-          <label for="contractPrice" class="form-label">السعر</label>
+          <label for="contractPrice" class="form-label">القيمه</label>
           <input type="number" class="form-control" id="contractPrice" name="contractPrice" step="any" min="0">
         </div>
 
@@ -314,11 +315,19 @@ export function renderForm(
     `;
 
   const saveDecisionBtn = document.getElementById("saveDecisionBtn");
+  const saveContractBtn = document.getElementById("saveContractBtn");
 
   if (saveDecisionBtn) {
     saveDecisionBtn.addEventListener("click", () => {
       const activityCode = getProjectCodeFromUrl();
       addDecision(API_URL, activityCode, showToast);
+    });
+  }
+
+  if (saveContractBtn) {
+    saveContractBtn.addEventListener("click", () => {
+      const activityCode = getProjectCodeFromUrl();
+      addContract(API_URL, activityCode, showToast);
     });
   }
   document.getElementById("status").value = project.status || "قيد التنفيذ";
