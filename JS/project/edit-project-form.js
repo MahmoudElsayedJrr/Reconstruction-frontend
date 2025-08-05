@@ -148,6 +148,42 @@ export function renderForm(
           </div> 
 
         <div class="text-center my-3">
+          <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#contractModal">
+            + إضافة تعديل عقد
+          </button>
+        </div>  
+
+        <div class="modal fade" id="contractModal" tabindex="-1" aria-labelledby="contractModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="contractModalLabel">إضافة تعديل عقد</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+		
+        <div class="md-3">
+            <label for="contractDate" class="form-label"> تاريخ تعديل العقد</label>
+           <input type="date" id="contractDate" class="form-control" value="">
+          </div>
+
+
+        <div class="mb-3">
+          <label for="contractPrice" class="form-label">السعر</label>
+          <input type="number" class="form-control" id="contractPrice" name="contractPrice" step="any" min="0">
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        <button type="button" class="btn btn-success" id="saveContractBtn">اضافه تعديل عقد</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        <div class="text-center my-3">
           <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
             + إضافة بند
           </button>

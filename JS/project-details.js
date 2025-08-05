@@ -95,6 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const el = document.getElementById(id);
       if (el) el.textContent = value || fallback;
     };
+
+    const contracts = project.contracts || [];
+    const lastContract = contracts.length > 0 ? contracts[contracts.length - 1] : null;
+    setText("contractNumber", (contracts.length).toString());
     const extensions = project.extension || [];
     const lastExtension =
       extensions.length > 0 ? extensions[extensions.length - 1] : null;
@@ -241,6 +245,64 @@ document.addEventListener("DOMContentLoaded", () => {
       tbody.insertAdjacentHTML("beforeend", row);
     }
   }
+
+/*   function setContractTable(contracts = []) {
+    const tbody = document.getElementById("contractsTableBody");
+    tbody.innerHTML = "";
+
+    for (let i = 0; i < contracts.length - 1; i++) {
+      const fromDate = new Date(contracts[i].contractDate).toLocaleDateString(
+        "ar-EG"
+      );
+      const fromPrice = (contracts[i].contractPrice || 0).toLocaleString() + " جنيه";
+      const toDate = new Date(
+        extensions[i + 1].contractDate
+      ).toLocaleDateString("ar-EG");
+      const toPrice = (contracts[i + 1].contractPrice || 0).toLocaleString() + " جنيه";
+       const row = `
+      <tr>
+        <td>
+          <div class="text-center">
+            <div>${fromDate}</div>
+            <div class="text-primary mt-2">${fromPrice}</div>
+          </div>
+        </td>
+        <td>
+          <div class="text-center">
+            <div>${toDate}</div>
+            <div class="text-primary mt-2">${toPrice}</div>
+          </div>
+        </td>
+      </tr>
+    `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    }
+
+    if (contracts.length === 1) {
+      const onlyDate = new Date(contracts[0].contractDate).toLocaleDateString(
+        "ar-EG"
+      );
+      const onlyPrice = (contracts[0].contractPrice || 0).toLocaleString() + " جنيه";
+      
+      const row = `
+      <tr>
+        <td>
+          <div class="text-center">
+            <div>${onlyDate}</div>
+            <div class="text-primary mt-2">${onlyPrice}</div>
+          </div>
+        </td>
+        <td>
+          <div class="text-center">
+            <div>—</div>
+            <div class="text-primary mt-2">—</div>
+          </div>
+        </td>
+      </tr>
+    `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    }
+  } */
 
   function renderImages(imageUrls = []) {
     if (!mediaTabContent) return;
