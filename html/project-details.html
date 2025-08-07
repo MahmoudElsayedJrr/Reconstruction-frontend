@@ -243,6 +243,24 @@
                     </div>
                   </div>
                 </li>
+
+                <li class="list-group-item py-2">
+                  <strong class="mb-2 d-block"> المستخلصات :</strong>
+                  <div class="row text-center">
+                    <div class="col">
+                      <div
+                        role="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#extractsModal"
+                        class="badge bg-info bg-opacity-25 text-info-emphasis w-100"
+                        style="cursor: pointer"
+                      >
+                        عدد المستخلصات
+                        <div id="extractValue" class="fw-bold fs-6 mt-1">0</div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
                 <li class="list-group-item d-flex justify-content-between py-2">
                   <strong> تاريخ محضر التوقف :</strong>
                   <span id="suspensionDate"></span>
@@ -434,6 +452,43 @@
                 </tr>
               </thead>
               <tbody id="contractsTableBody">
+                <!-- يتم ملؤه بالـ JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="extractsModal"
+      tabindex="-1"
+      aria-labelledby="extractsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="extractsModalLabel">
+              تفاصيل تعديل العقد
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="إغلاق"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered text-center">
+              <thead class="table-light">
+                <tr>
+                  <th>رقم تعديل العقد</th>
+                  <th>التفاصيل</th>
+                </tr>
+              </thead>
+              <tbody id="extractsTableBody">
                 <!-- يتم ملؤه بالـ JavaScript -->
               </tbody>
             </table>

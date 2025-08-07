@@ -52,6 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
       "resumptionDate",
       "contractDate",
       "contractPrice",
+      "extractDate",
+      "extractValue",
+      "extractPDFs",
     ],
     manager: [
       "activityName",
@@ -120,7 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function attachSubmitListener(activityCode) {
     const editForm = document.getElementById("editProjectForm");
-    const initialValues = {};
 
     editForm.addEventListener("submit", async (e) => {
       e.preventDefault();

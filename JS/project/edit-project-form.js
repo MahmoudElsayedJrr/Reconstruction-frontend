@@ -1,5 +1,6 @@
 import { addContract } from "./contract.js";
 import { addDecision } from "./decision.js";
+import { addExtract } from "./extract.js";
 
 function getProjectCodeFromUrl() {
   return new URLSearchParams(window.location.search).get("code");
@@ -147,6 +148,50 @@ export function renderForm(
                 : ""
             }"> 
           </div> 
+
+        <div class="text-center my-3">
+          <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#addExtractModal">
+            + إضافة مستخلص
+          </button>
+        </div>    
+
+        <div class="modal fade" id="addExtractModal" tabindex="-1" aria-labelledby="addExtractModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="addExtractModalLabel">إضافة مستخلص</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+              <div class="mb-3">
+                <label for="extractDate" class="form-label">تاريخ المستخلص</label>
+                <input type="date" id="extractDate" name="extractDate" class="form-control">
+              </div>
+
+              <div class="mb-3">
+                <label for="extractValue" class="form-label">قيمة المستخلص</label>
+                <input type="number" class="form-control" id="extractValue" name="extractValue" step="any" min="0">
+              </div>
+
+              <div class="mb-3">
+                <label for="extractPDFs" class="form-label">ملفات PDF</label>
+                <input type="file" class="form-control" id="extractPDFs" name="extractPDFs" accept=".pdf" multiple>
+                <div class="form-text">يمكنك رفع ملف أو أكثر بصيغة PDF.</div>
+              </div>
+
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+              <button type="button" class="btn btn-success" id="saveExtractBtn">إضافة مستخلص</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
 
         <div class="text-center my-3">
           <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#addContractModal">
@@ -316,6 +361,14 @@ export function renderForm(
 
   const saveDecisionBtn = document.getElementById("saveDecisionBtn");
   const saveContractBtn = document.getElementById("saveContractBtn");
+  const saveExtractBtn = document.getElementById("saveExtractBtn");
+
+  if (saveExtractBtn) {
+    saveExtractBtn.addEventListener("click", () => {
+      const activityCode = getProjectCodeFromUrl();
+      addExtract(API_URL, activityCode, showToast);
+    });
+  }
 
   if (saveDecisionBtn) {
     saveDecisionBtn.addEventListener("click", () => {

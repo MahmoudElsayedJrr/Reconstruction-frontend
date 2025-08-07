@@ -97,7 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const contracts = project.contract || [];
+    const extracts = project.extract || [];
 
+    setText("extractValue", extracts.length.toString());
     setText("contractNumber", contracts.length.toString());
     const extensions = project.extension || [];
     const lastExtension =
@@ -244,6 +246,51 @@ document.addEventListener("DOMContentLoaded", () => {
       </tr>
     `;
       tbody.insertAdjacentHTML("beforeend", row);
+    }
+  }
+
+  function setExtractTable(extracts = []) {
+    const tbody = document.getElementById("extractsTableBody");
+    tbody.innerHTML = "";
+
+    if (extracts.length === 1) {
+      const onlyDate = new Date(extracts[0].extractDate).toLocaleDateString(
+        "ar-EG"
+      );
+      const onlyPrice =
+        (extracts[0].extractValue || 0).toLocaleString() + " جنيه";
+      const row = `
+      <tr>
+      <td class="text-center">جاري ${1}</td>
+      <td>
+        <div class="text-center">
+          <div>${onlyDate}</div>
+          <div class="text-primary mt-2">${onlyPrice}</div>
+        </div>
+      </td>
+    </tr>
+    `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    } else {
+      for (let i = 0; i < extracts.length; i++) {
+        const fromDate = new Date(extracts[i].extractDate).toLocaleDateString(
+          "ar-EG"
+        );
+        const fromPrice =
+          (extracts[i].extractValue || 0).toLocaleString() + " جنيه";
+        const row = `
+    <tr>
+      <td class="text-center">جاري ${i + 1}</td>
+      <td>
+        <div class="text-center">
+          <div>${fromDate}</div>
+          <div class="text-primary mt-2">${fromPrice}</div>
+        </div>
+      </td>
+    </tr>
+  `;
+        tbody.insertAdjacentHTML("beforeend", row);
+      }
     }
   }
 
@@ -635,6 +682,7 @@ document.addEventListener("DOMContentLoaded", () => {
       populateDecisions(result.data.decision || []);
       setExtensionTable(result.data.extension || []);
       setContractTable(result.data.contract || []);
+      setExtractTable(result.data.extract || []);
 
       if (contractualTabContainer) {
         contractualTabContainer.innerHTML = "";
