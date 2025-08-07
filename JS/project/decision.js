@@ -7,6 +7,16 @@ export async function addDecision(BaseUrl, activityCode, showToast) {
   const price = document.getElementById("decisionPrice").value;
   const unit = document.getElementById("decisionUnit").value.trim();
 
+  const saveBtn = document.getElementById("saveDecisionBtn");
+  const originalBtnText = saveBtn.innerHTML;
+  saveBtn.disabled = true;
+  saveBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> جاري اضافه البند...`;
+
+  function resetButton() {
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = originalBtnText;
+  }
+
   if (!name || !category || !quantity || !price || !unit) {
     showToast("برجاء ملء جميع الحقول", "warning");
     return;
@@ -55,6 +65,8 @@ export async function addDecision(BaseUrl, activityCode, showToast) {
   } catch (err) {
     console.error("Error details:", err);
     showToast("حدث خطأ أثناء إضافة البند.", "danger");
+  } finally {
+    resetButton();
   }
 }
 
@@ -70,5 +82,3 @@ function clearAndCloseModal() {
   document.getElementById("decisionQuantity").value = "";
   document.getElementById("decisionPrice").value = "";
 }
-
-

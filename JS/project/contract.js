@@ -4,6 +4,16 @@ export async function addContract(BaseUrl, activityCode, showToast) {
   const price = document.getElementById("contractPrice").value;
   const date = document.getElementById("contractDate").value;
 
+  const saveBtn = document.getElementById("saveContractBtn");
+  const originalBtnText = saveBtn.innerHTML;
+  saveBtn.disabled = true;
+  saveBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> جاري اضافه تعديل العقد...`;
+
+  function resetButton() {
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = originalBtnText;
+  }
+
   if (!price || !date) {
     showToast("برجاء ملء جميع الحقول", "warning");
     return;
@@ -15,7 +25,6 @@ export async function addContract(BaseUrl, activityCode, showToast) {
     return;
   }
 
-  // تنسيق التاريخ بشكل ISO
   const formattedDate = selectedDate.toISOString().split("T")[0];
   const parsedPrice = parseFloat(price);
 
@@ -56,6 +65,8 @@ export async function addContract(BaseUrl, activityCode, showToast) {
   } catch (err) {
     console.error("Error details:", err);
     showToast("حدث خطأ أثناء  تعديل العقد.", "danger");
+  } finally {
+    resetButton();
   }
 }
 

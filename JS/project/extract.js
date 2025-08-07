@@ -5,6 +5,16 @@ export async function addExtract(BaseUrl, activityCode, showToast) {
   const extractValue = document.getElementById("extractValue").value;
   const extractFiles = document.getElementById("extractPDFs").files;
 
+  const saveBtn = document.getElementById("saveExtractBtn");
+  const originalBtnText = saveBtn.innerHTML;
+  saveBtn.disabled = true;
+  saveBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> جاري الإضافة...`;
+
+  function resetButton() {
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = originalBtnText;
+  }
+
   if (!extractDate || !extractValue) {
     showToast("برجاء ملء جميع الحقول", "warning");
     return;
@@ -53,6 +63,8 @@ export async function addExtract(BaseUrl, activityCode, showToast) {
   } catch (err) {
     console.error("Error adding extract:", err);
     showToast("حدث خطأ أثناء إضافة المستخلص.", "danger");
+  } finally {
+    resetButton();
   }
 }
 
