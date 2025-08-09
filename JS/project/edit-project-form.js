@@ -149,146 +149,21 @@ export function renderForm(
             }"> 
           </div> 
 
-        <div class="text-center my-3">
-          <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#addExtractModal">
+        <div class="d-flex justify-content-center gap-3 my-3 flex-wrap">
+          <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addExtractModal">
             + إضافة مستخلص
           </button>
-        </div>    
 
-        <div class="modal fade" id="addExtractModal" tabindex="-1" aria-labelledby="addExtractModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-
-            <div class="modal-header">
-              <h5 class="modal-title" id="addExtractModalLabel">إضافة مستخلص</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-
-              <div class="mb-3">
-                <label for="extractDate" class="form-label">تاريخ المستخلص</label>
-                <input type="date" id="extractDate" name="extractDate" class="form-control">
-              </div>
-
-              <div class="mb-3">
-                <label for="extractValue" class="form-label">قيمة المستخلص</label>
-                <input type="number" class="form-control" id="extractValue" name="extractValue" step="any" min="0">
-              </div>
-
-              <div class="mb-3">
-                <label for="extractPDFs" class="form-label">ملفات PDF</label>
-                <input type="file" class="form-control" id="extractPDFs" name="extractPDFs" accept=".pdf" multiple>
-                <div class="form-text">يمكنك رفع ملف أو أكثر بصيغة PDF.</div>
-              </div>
-
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-              <button type="button" class="btn btn-success" id="saveExtractBtn">إضافة مستخلص</button>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-        <div class="text-center my-3">
-          <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#addContractModal">
-            + إضافة تعديل عقد
+          <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addContractModal">
+            + تعديل عقد
           </button>
-        </div>  
 
-        <div class="modal fade" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="contractModalLabel">إضافة تعديل عقد</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div class="modal-body">
-		
-        <div class="md-3">
-            <label for="contractDate" class="form-label"> تاريخ تعديل العقد</label>
-           <input type="date" id="contractDate" name="contractDate" class="form-control" >
-          </div>
-
-
-        <div class="mb-3">
-          <label for="contractPrice" class="form-label">القيمه</label>
-          <input type="number" class="form-control" id="contractPrice" name="contractPrice" step="any" min="0">
-        </div>
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-        <button type="button" class="btn btn-success" id="saveContractBtn">اضافه تعديل عقد</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-        <div class="text-center my-3">
-          <button type="button" class="btn btn-sm btn-success px-3" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
+          <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
             + إضافة بند
           </button>
         </div>
 
-        <div class="modal fade" id="addDecisionModal" tabindex="-1" aria-labelledby="addDecisionModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="addDecisionModalLabel">إضافة بند</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div class="modal-body">
-
-        <div class="mb-3">
-          <label for="decisionName" class="form-label">اسم البند</label>
-            <textarea 
-              class="form-control" 
-              id="decisionName" 
-              name="decisionName"           
-              rows="1"
-              style="min-height: 200px; resize: vertical; overflow-y: auto;"
-            ></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label for="decisionType" class="form-label">نوع البند</label>
-            <select class="form-select" id="decisionType" name="decisionType">
-            <option value="تعاقدي">تعاقدي</option>
-            <option value="مستجد">مستجد</option>
-            <option value="متجاوز">متجاوز</option>
-          </select>
-          
-        </div>
-
-        <div class="mb-3">
-          <label for="decisionUnit" class="form-label">الوحده</label>
-          <input type="text" class="form-control" id="decisionUnit"  name="decisionUnit">
-        </div>
-
-        <div class="mb-3">
-          <label for="decisionQuantity" class="form-label">الكمية</label>
-          <input type="number" class="form-control" id="decisionQuantity" name="decisionQuantity" step="any" min="0">
-        </div>
-
-        <div class="mb-3">
-          <label for="decisionPrice" class="form-label">الفئه</label>
-          <input type="number" class="form-control" id="decisionPrice" name="decisionPrice" step="any" min="0">
-        </div>
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-        <button type="button" class="btn btn-success" id="saveDecisionBtn">حفظ</button>
-      </div>
-    </div>
-  </div>
-</div>
+        
 
           <h5 class="form-section-title">البيانات التعاقدية</h5>
           <div class="row">
@@ -357,6 +232,137 @@ export function renderForm(
           </div>
         </div>
       </form>
+
+
+       <div class="modal fade" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="contractModalLabel">إضافة تعديل عقد</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+		
+        <div class="md-3">
+            <label for="contractDate" class="form-label"> تاريخ تعديل العقد</label>
+           <input type="date" id="contractDate" name="contractDate" class="form-control" >
+          </div>
+
+
+        <div class="mb-3">
+          <label for="contractPrice" class="form-label">القيمه</label>
+          <input type="number" class="form-control" id="contractPrice" name="contractPrice" step="any" min="0">
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        <button type="button" class="btn btn-success" id="saveContractBtn">اضافه تعديل عقد</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="modal fade" id="addDecisionModal" tabindex="-1" aria-labelledby="addDecisionModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="addDecisionModalLabel">إضافة بند</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+
+            <div class="mb-3">
+              <label for="decisionName" class="form-label">اسم البند</label>
+                <textarea 
+                  class="form-control" 
+                  id="decisionName" 
+                  name="decisionName"           
+                  rows="1"
+                  style="min-height: 200px; resize: vertical; overflow-y: auto;"
+                ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="decisionType" class="form-label">نوع البند</label>
+                <select class="form-select" id="decisionType" name="decisionType">
+                <option value="تعاقدي">تعاقدي</option>
+                <option value="مستجد">مستجد</option>
+                <option value="متجاوز">متجاوز</option>
+              </select>
+              
+            </div>
+
+            <div class="mb-3">
+              <label for="decisionUnit" class="form-label">الوحده</label>
+              <input type="text" class="form-control" id="decisionUnit"  name="decisionUnit">
+            </div>
+
+            <div class="mb-3">
+              <label for="decisionQuantity" class="form-label">الكمية</label>
+              <input type="number" class="form-control" id="decisionQuantity" name="decisionQuantity" step="any" min="0">
+            </div>
+
+            <div class="mb-3">
+              <label for="decisionPrice" class="form-label">الفئه</label>
+              <input type="number" class="form-control" id="decisionPrice" name="decisionPrice" step="any" min="0">
+            </div>
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+            <button type="button" class="btn btn-success" id="saveDecisionBtn">حفظ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+        <div class="modal fade" id="addExtractModal" tabindex="-1" aria-labelledby="addExtractModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="addExtractModalLabel">إضافة مستخلص</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+              <div class="mb-3">
+                <label for="extractDate" class="form-label">تاريخ المستخلص</label>
+                <input type="date" id="extractDate" name="extractDate" class="form-control">
+              </div>
+
+              <div class="mb-3">
+                <label for="extractValue" class="form-label">قيمة المستخلص</label>
+                <input type="number" class="form-control" id="extractValue" name="extractValue" step="any" min="0">
+              </div>
+
+              <div class="mb-3">
+                <label for="extractPDFs" class="form-label">ملفات PDF</label>
+                <input type="file" class="form-control" id="extractPDFs" name="extractPDFs" accept=".pdf" multiple>
+                <div class="form-text">يمكنك رفع ملف أو أكثر بصيغة PDF.</div>
+              </div>
+
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+              <button type="button" class="btn btn-success" id="saveExtractBtn">إضافة مستخلص</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
     `;
 
   const saveDecisionBtn = document.getElementById("saveDecisionBtn");

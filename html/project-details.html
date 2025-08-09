@@ -447,8 +447,8 @@
             <table class="table table-bordered text-center">
               <thead class="table-light">
                 <tr>
-                  <th>رقم تعديل العقد</th>
-                  <th>التفاصيل</th>
+                  <th class="text-nowrap">رقم تعديل العقد</th>
+                  <th class="w-100">التفاصيل</th>
                 </tr>
               </thead>
               <tbody id="contractsTableBody">
@@ -471,7 +471,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="extractsModalLabel">
-              تفاصيل تعديل العقد
+              تفاصيل المستخلصات
             </h5>
             <button
               type="button"
@@ -484,8 +484,8 @@
             <table class="table table-bordered text-center">
               <thead class="table-light">
                 <tr>
-                  <th>رقم تعديل العقد</th>
-                  <th>التفاصيل</th>
+                  <th class="text-nowrap">رقم المستخلص</th>
+                  <th class="w-100">التفاصيل</th>
                 </tr>
               </thead>
               <tbody id="extractsTableBody">
@@ -573,6 +573,38 @@
         </div>
       </div>
     </div>
+
+    <!-- عرض ال pdfs  -->
+    <!--     <div
+      class="modal fade"
+      id="pdfModal"
+      tabindex="-1"
+      aria-labelledby="pdfModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="pdfModalLabel">عرض المستخلص (PDF)</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="إغلاق"
+            ></button>
+          </div>
+          <div class="modal-body" style="height: 80vh">
+            <iframe
+              id="pdfViewer"
+              src=""
+              width="100%"
+              height="100%"
+              frameborder="0"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div> -->
 
     <div class="toast-container position-fixed top-0 start-0 p-3"></div>
 

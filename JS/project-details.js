@@ -12,6 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let mediaToDelete = { type: null, path: null };
 
+  window.openPDFModal = function (pdfUrl) {
+    const pdfViewer = document.getElementById("pdfViewer");
+    pdfViewer.src = pdfUrl;
+
+    const pdfModal = new bootstrap.Modal(document.getElementById("pdfModal"));
+    pdfModal.show();
+  };
+
   function showToast(message, type = "success") {
     const toastContainer = document.querySelector(".toast-container");
     const toastId = "toast-" + Math.random().toString(36).substr(2, 9);
@@ -249,9 +257,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function setExtractTable(extracts = []) {
+  function setExtractTable(extracts = [], disbursedAmount) {
     const tbody = document.getElementById("extractsTableBody");
     tbody.innerHTML = "";
+
+    const createPDFLink = (pdfArray) => {
+      const pdfUrl =
+        Array.isArray(pdfArray) && pdfArray.length > 0
+          ? pdfArray[0].path
+          : null;
+
+      return pdfUrl
+        ? `<div class="mt-2">
+        <button class="btn btn-sm btn-outline-primary" onclick="window.open('${pdfUrl}', '_blank')">
+          عرض المستخلص
+        </button>
+      </div>`
+        : "";
+    };
 
     if (extracts.length === 1) {
       const onlyDate = new Date(extracts[0].extractDate).toLocaleDateString(
@@ -259,16 +282,22 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       const onlyPrice =
         (extracts[0].extractValue || 0).toLocaleString() + " جنيه";
+      const pdfLink = createPDFLink(extracts[0].extractPDFs);
+
       const row = `
       <tr>
-      <td class="text-center">جاري ${1}</td>
-      <td>
-        <div class="text-center">
-          <div>${onlyDate}</div>
-          <div class="text-primary mt-2">${onlyPrice}</div>
-        </div>
-      </td>
-    </tr>
+        <td class="text-center">جاري 1</td>
+        <td>
+          <div class="text-center">
+            <div>تم اضافة مستخلص بتاريخ ${onlyDate}</div>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+              <span class="me-2">قيمة المستخلص:</span>
+              <span class="text-primary">${onlyPrice}</span>
+            </div>
+            ${pdfLink}
+          </div>
+        </td>
+      </tr>
     `;
       tbody.insertAdjacentHTML("beforeend", row);
     } else {
@@ -278,20 +307,35 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         const fromPrice =
           (extracts[i].extractValue || 0).toLocaleString() + " جنيه";
+        const pdfLink = createPDFLink(extracts[i].extractPDFs);
+
         const row = `
-    <tr>
-      <td class="text-center">جاري ${i + 1}</td>
-      <td>
-        <div class="text-center">
-          <div>${fromDate}</div>
-          <div class="text-primary mt-2">${fromPrice}</div>
-        </div>
-      </td>
-    </tr>
-  `;
+        <tr>
+          <td class="text-center">جاري ${i + 1}</td>
+          <td>
+            <div class="text-center">
+              <div>تم اضافة مستخلص بتاريخ ${fromDate}</div>
+              <div class="d-flex justify-content-center align-items-center mt-2">
+                <span class="me-2">قيمة المستخلص:</span>
+                <span class="text-primary">${fromPrice}</span>
+              </div>
+              ${pdfLink}
+            </div>
+          </td>
+        </tr>
+      `;
         tbody.insertAdjacentHTML("beforeend", row);
       }
     }
+
+    const formattedTotal = (disbursedAmount || 0).toLocaleString() + " جنيه";
+    const totalRow = `
+    <tr class="table-light fw-bold">
+      <td class="text-center">الإجمالي</td>
+      <td class="text-center text-success">إجمالي المنصرف: ${formattedTotal}</td>
+    </tr>
+  `;
+    tbody.insertAdjacentHTML("beforeend", totalRow);
   }
 
   function setContractTable(contracts = []) {
@@ -306,11 +350,14 @@ document.addEventListener("DOMContentLoaded", () => {
         (contracts[0].contractPrice || 0).toLocaleString() + " جنيه";
       const row = `
       <tr>
-      <td class="text-center">جاري ${1}</td>
+      <td class="text-center">رقم  ${1}</td>
       <td>
         <div class="text-center">
-          <div>${onlyDate}</div>
-          <div class="text-primary mt-2">${onlyPrice}</div>
+          <div> تم عمل تعديل عقد بتاريخ ${onlyDate}</div>
+          <div class="d-flex justify-content-center align-items-center mt-2">
+            <span class="me-2">قيمة تعديل العقد:</span>
+            <span class="text-primary">${onlyPrice}</span>
+          </div>
         </div>
       </td>
     </tr>
@@ -325,11 +372,14 @@ document.addEventListener("DOMContentLoaded", () => {
           (contracts[i].contractPrice || 0).toLocaleString() + " جنيه";
         const row = `
     <tr>
-      <td class="text-center">جاري ${i + 1}</td>
+      <td class="text-center">رقم  ${i + 1}</td>
       <td>
         <div class="text-center">
-          <div>${fromDate}</div>
-          <div class="text-primary mt-2">${fromPrice}</div>
+          <div> تم عمل تعديل عقد بتاريخ  : ${fromDate}</div>
+          <div class="d-flex justify-content-center align-items-center mt-2">
+            <span class="me-2">قيمة تعديل العقد:</span>
+            <span class="text-primary">${fromPrice}</span>
+          </div>
         </div>
       </td>
     </tr>
@@ -682,7 +732,7 @@ document.addEventListener("DOMContentLoaded", () => {
       populateDecisions(result.data.decision || []);
       setExtensionTable(result.data.extension || []);
       setContractTable(result.data.contract || []);
-      setExtractTable(result.data.extract || []);
+      setExtractTable(result.data.extract || [], result.data.disbursedAmount);
 
       if (contractualTabContainer) {
         contractualTabContainer.innerHTML = "";

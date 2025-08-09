@@ -218,3 +218,15 @@ body.no-sidebar .main-content {
   overflow-wrap: break-word;
   font-size: 18px;
 }
+
+.custom-btn {
+  color: #198754; /* أخضر Bootstrap */
+  background-color: transparent;
+  border: 1px solid #198754;
+  transition: all 0.3s ease;
+}
+
+.custom-btn:hover {
+  color: white;
+  background-color: #198754;
+}
