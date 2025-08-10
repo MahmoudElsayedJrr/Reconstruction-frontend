@@ -113,7 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const lastExtension =
       extensions.length > 0 ? extensions[extensions.length - 1] : null;
 
-    setText("extensionNumber", (extensions.length - 1).toString());
+    setText(
+      "extensionNumber",
+      extensions.length === 0 ? 0 : (extensions.length - 1).toString()
+    );
     setText("contractNumber", contracts.length.toString());
     setText(
       "lastExtensionDate",

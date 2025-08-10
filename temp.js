@@ -20,87 +20,22 @@ export function renderForm(
   formContainer.innerHTML = `
       <form id="editProjectForm" enctype="multipart/form-data" method="POST">
         <div class="row g-3">
-         <h5 class="form-section-title">البيانات الأساسية</h5>
-        <div class="col-md-6">
-          <label for="activityName" class="form-label">اسم المشروع</label>
-          <input type="text" id="activityName" class="form-control" value="${
+          <h5 class="form-section-title">(التخطيط والمتابعه) البيانات الأساسية</h5>
+          <div class="col-md-6"><label for="activityName" class="form-label">اسم المشروع</label><input type="text" id="activityName" class="form-control" value="${
             project.activityName || ""
-          }">
-        </div>
-        <div class="col-md-6">
-          <label for="executingCompany" class="form-label">الشركة المنفذة</label>
-          <input type="text" id="executingCompany" class="form-control" value="${
+          }"></div>
+          <div class="col-md-6"><label for="executingCompany" class="form-label">الشركة المنفذة</label><input type="text" id="executingCompany" class="form-control" value="${
             project.executingCompany || ""
-          }">
-        </div>
-        <div class="col-md-6">
-          <label for="consultant" class="form-label">الاستشاري</label>
-          <input type="text" id="consultant" class="form-control" value="${
+          }"></div>
+          <div class="col-md-6"><label for="consultant" class="form-label">الاستشاري</label><input type="text" id="consultant" class="form-control" value="${
             project.consultant || ""
-          }">
-        </div>
-
-        <div class="col-md-12">
-          <label for="activityDescription" class="form-label">وصف المشروع</label>
-          <textarea id="activityDescription" class="form-control" rows="4" style="resize: vertical;">${
+          }"></div>
+          <div class="col-md-6"><label for="status" class="form-label">حالة المشروع</label><select id="status" class="form-select"><option value="قيد التنفيذ">قيد التنفيذ</option><option value="مكتمل">مكتمل</option><option value="متأخر">متأخر</option><option value="مسحوب">مسحوب</option> <option value="متوقف">متوقف</option></select></div>
+          <div class="col-md-12"><label for="activityDescription" class="form-label">وصف المشروع</label><textarea id="activityDescription" class="form-control" rows="4" style="resize: vertical;">${
             project.activityDescription || ""
-          }</textarea>
-        </div>
-        <div class="col-md-4">
-          <label for="estimatedValue" class="form-label">القيمة التقديرية</label>
-          <input type="number" id="estimatedValue" class="form-control" value="${
-            project.estimatedValue || 0
-          }">
-        </div>
-        <div class="col-md-4">
-          <label for="contractualValue" class="form-label">القيمة التعاقدية</label>
-          <input type="number" id="contractualValue" class="form-control" value="${
-            project.contractualValue || 0
-          }">
-        </div>
-        <div class="col-md-4">
-          <label for="completionDate" class="form-label">تاريخ النهو</label>
-          <input type="date" id="completionDate" class="form-control" value="${
-            project.completionDate
-              ? new Date(project.completionDate).toISOString().split("T")[0]
-              : ""
-          }">
-        </div>
-        <div class="col-md-4">
-          <label for="receptionDate" class="form-label">تاريخ الاستلام</label>
-          <input type="date" id="receptionDate" class="form-control" value="${
-            project.receptionDate
-              ? new Date(project.receptionDate).toISOString().split("T")[0]
-              : ""
-          }">
-        </div>
-      
-        <h5 class="form-section-title">البيانات التنفيذيه</h5>
+          }</textarea></div>
 
-          <div class="col-md-6">
-            <label for="status" class="form-label">حالة المشروع</label>
-            <select id="status" class="form-select">
-              <option value="قيد التنفيذ">قيد التنفيذ</option>
-              <option value="مكتمل">مكتمل</option>
-              <option value="متأخر">متأخر</option>
-              <option value="مسحوب">مسحوب</option>
-              <option value="متوقف">متوقف</option>
-            </select>
-          </div>
 
-            <div class="col-md-4">
-            <label for="progress" class="form-label">نسبة الإنجاز</label>
-            <input type="number" id="progress" class="form-control" value="${
-              project.progress || 0
-            }">
-          </div>
-
-          <div class="col-md-12">
-            <label for="executivePosition" class="form-label"> الموقف التنفيذي</label>
-            <textarea id="executivePosition" class="form-control" rows="4" style="resize: vertical;">${
-              project.executivePosition || ""
-            }</textarea>
-          </div>
 
           <div class="col-md-12">
             <label for="projectLocationLink" class="form-label">رابط الموقع الجغرافي (Google Maps)</label>
@@ -108,28 +43,40 @@ export function renderForm(
               project.projectLocationLink || ""
             }" placeholder="https://maps.google.com/?q=30.1,31.2">
           </div>
+          <h5 class="form-section-title">البيانات المالية والزمنية</h5>
+          <div class="col-md-4"><label for="estimatedValue" class="form-label">القيمة التقديرية</label><input type="number" id="estimatedValue" class="form-control" value="${
+            project.estimatedValue || 0
+          }"></div>
+          <div class="col-md-4"><label for="contractualValue" class="form-label">القيمة التعاقدية</label><input type="number" id="contractualValue" class="form-control" value="${
+            project.contractualValue || 0
+          }"></div>
+          <div class="col-md-4"><label for="progress" class="form-label">نسبة الإنجاز</label><input type="number" id="progress" class="form-control" value="${
+            project.progress || 0
+          }"></div>
+          <div class="col-md-4"><label for="completionDate" class="form-label">تاريخ النهو</label><input type="date" id="completionDate" class="form-control" value="${
+            project.completionDate
+              ? new Date(project.completionDate).toISOString().split("T")[0]
+              : ""
+          }"></div>
+          <div class="col-md-4"><label for="receptionDate" class="form-label">تاريخ الاستلام</label><input type="date" id="receptionDate" class="form-control" value="${
+            project.receptionDate
+              ? new Date(project.receptionDate).toISOString().split("T")[0]
+              : ""
+          }"></div>
+          <h5 class="form-section-title"> بيانات الماليه</h5>
+            <div class="col-md-4"><label for="disbursedAmount" class="form-label">المنصرف</label><input type="number" id="disbursedAmount" class="form-control" value="${
+              project.disbursedAmount || 0
+            }"></div> 
 
-          <div class="col-md-12">
-            <label for="mediaFiles" class="form-label">رفع صور أو ملفات PDF للمشروع</label>
-            <input type="file" id="mediaFiles" name="mediaFiles" class="form-control" multiple accept="image/*,application/pdf">
-          </div>
+            
+            <div class="d-flex justify-content-center gap-3 my-3 flex-wrap">
+            <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addExtractModal">
+                + إضافة مستخلص
+            </button>
 
 
-        <h5 class="form-section-title">البيانات المالية</h5>
-        <div class="col-md-4">
-          <label for="disbursedAmount" class="form-label">المنصرف</label>
-          <input type="number" id="disbursedAmount" class="form-control" value="${
-            project.disbursedAmount || 0
-          }">
-        </div>
-        <div class="d-flex justify-content-start gap-3 my-3 flex-wrap">
-          <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addExtractModal">
-            + إضافة مستخلص
-          </button>
-        </div>
+          <h5 class="form-section-title"> بيانات المشروعات</h5>
 
-
-        <h5 class="form-section-title"> بيانات المشروعات</h5>
           ${
             project.projectCategory === "طرق"
               ? `
@@ -176,13 +123,16 @@ export function renderForm(
                         project.roaddetails?.notes || ""
                       }</textarea>
                     </div>
-          
+
+                    
+                  
                   `
               : ""
           }
 
 
         
+
           <div class="col-md-6">
             <label for="extensionDate" class="form-label">مد مدة</label>
            <input type="date" id="extensionDate" class="form-control" value="">
@@ -203,21 +153,17 @@ export function renderForm(
               project.resumptionDate
                 ? new Date(project.resumptionDate).toISOString().split("T")[0]
                 : ""
-            }">   
+            }"> 
           </div> 
 
-          <div class="row g-2 my-3">
-            <div class="col-6">
-              <button type="button" class="btn custom-btn w-100 px-3" data-bs-toggle="modal" data-bs-target="#addContractModal">
-                + تعديل عقد
-              </button>
-            </div>
-            <div class="col-6">
-              <button type="button" class="btn custom-btn w-100 px-3" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
-                + إضافة بند
-              </button>
-            </div>
-          </div>
+          <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addContractModal">
+            + تعديل عقد
+          </button>
+
+          <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
+            + إضافة بند
+          </button>
+        </div>
 
         
 
@@ -298,7 +244,7 @@ export function renderForm(
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
               <div class="modal-body">
-		
+        
         <div class="md-3">
             <label for="contractDate" class="form-label"> تاريخ تعديل العقد</label>
            <input type="date" id="contractDate" name="contractDate" class="form-control" >

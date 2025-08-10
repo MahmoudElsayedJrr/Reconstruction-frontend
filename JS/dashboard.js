@@ -243,7 +243,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function fetchAndRenderProjects(filters = {}) {
-    projectsTableBody.innerHTML = `<tr><td><p class="skeleton skeleton-text mb-0"></p></td><td><p class="skeleton skeleton-text mb-0"></p></td><td><div class="skeleton" style="height:10px; border-radius: 5px;"></div></td><td><p class="skeleton skeleton-text mb-0" style="width: 110px;"></p></td></tr>`;
+    projectsTableBody.innerHTML = `<tr>
+    <td><p class="skeleton skeleton-text mb-0"></p></td>
+    <td><p class="skeleton skeleton-text mb-0"></p></td>
+    <td><div class="skeleton" style="height:10px; border-radius: 5px;"></div></td>
+    <td><p class="skeleton skeleton-text mb-0" style="width: 110px;"></p></td></tr>`;
+
+    chart1Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
+    chart2Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
+    chart3Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
 
     try {
       const token = localStorage.getItem("loggedInUserToken");
@@ -344,11 +352,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function initializePage() {
-    chart1Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
+    /*     chart1Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
     chart2Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
-    chart3Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
+    chart3Container.innerHTML = `<span class="spinner-border text-primary"></span>`; */
     fetchAndRenderProjects();
-    renderCharts();
+    //renderCharts();
   }
 
   initializePage();

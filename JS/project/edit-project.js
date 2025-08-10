@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "extractDate",
       "extractValue",
       "extractPDFs",
+      "executivePosition",
     ],
     manager: [
       "activityName",
