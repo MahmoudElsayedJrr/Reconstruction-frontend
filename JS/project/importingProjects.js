@@ -96,6 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
           assignmentDate: parseDate(row["تاريخ الاسناد"]),
           completionDate: parseDate(row["تاريخ النهو"]),
 
+          contractualValue: parseFloat(row["القيمه التعاقديه"]),
+          estimatedValue: parseFloat(row["القيمه التقديريه"]),
+
           fundingType,
           status: "قيد التنفيذ",
           governorate,

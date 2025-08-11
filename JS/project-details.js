@@ -547,7 +547,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!decisions.length) {
       tableBody.innerHTML =
-        '<tr><td colspan="5" class="text-muted">لا توجد بنود مضافة.</td></tr>';
+        '<tr><td colspan="7" class="text-muted">لا توجد بنود مضافة.</td></tr>';
       return;
     }
 

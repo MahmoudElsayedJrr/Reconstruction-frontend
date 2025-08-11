@@ -8,95 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const userRole = localStorage.getItem("userRole");
   const token = localStorage.getItem("loggedInUserToken");
 
-  const permissions = {
-    admin: [
-      "activityCode",
-      "activityName",
-      "executingCompany",
-      "consultant",
-      "governorate",
-      "fundingType",
-      "projectCategory",
-      "estimatedValue",
-      "contractualValue",
-      "disbursedAmount",
-      "assignmentDate",
-      "completionDate",
-      "receptionDate",
-      "executionStatus",
-      "progress",
-      "status",
-      "images",
-      "activityDescription",
-      "activityPdf",
-      "projectLocationLink",
-      "publishDate",
-      "technicalDecisionDate",
-      "financialDecisionDate",
-      "assignmentOrderDate",
-      "siteHandoverDate",
-      "contractualDocuments",
-      "petroleumCompany",
-      "bitumenQuantity",
-      "mc",
-      "rc",
-      "remainingQuantitiesTons",
-      "notes",
-      "decisionName",
-      "decisionType",
-      "decisionPrice",
-      "decisionQuantity",
-      "decisionUnit",
-      "extensionDate",
-      "suspensionDate",
-      "resumptionDate",
-      "contractDate",
-      "contractPrice",
-      "extractDate",
-      "extractValue",
-      "extractPDFs",
-      "executivePosition",
-    ],
-    manager: [
-      "activityName",
-      "executingCompany",
-      "consultant",
-      "assignmentDate",
-      "completionDate",
-      "receptionDate",
-      "executionStatus",
-      "progress",
-      "status",
-      "images",
-      "activityDescription",
-      "activityPdf",
-      "projectLocationLink",
-      "publishDate",
-      "technicalDecisionDate",
-      "financialDecisionDate",
-      "assignmentOrderDate",
-      "siteHandoverDate",
-      "contractualDocuments",
-    ],
-    projectManager: [
-      "petroleumCompany",
-      "bitumenQuantity",
-      "mc",
-      "rc",
-      "remainingQuantitiesTons",
-      "notes",
-      "decisionName",
-      "decisionType",
-      "decisionPrice",
-      "decisionQuantity",
-      "decisionUnit",
-      "extensionDate",
-      "suspensionDate",
-      "resumptionDate",
-    ],
-    financial: ["estimatedValue", "contractualValue", "disbursedAmount"],
-    employee: [],
-  };
+
   const allowedFields = permissions[userRole] || [];
 
   function getProjectCodeFromUrl() {
@@ -129,10 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const saveButton = document.getElementById("save-changes-button");
       saveButton.disabled = true;
-      saveButton.innerHTML = "جاري الحفظ...";
+      saveButton.innerHTML = `<span class="spinner-border text-primary">جاري الحفظ ...</span>`;
 
       const progressInput = document.getElementById("progress");
-      const statusInput = document.getElementById("status");
+      const statusInput = document.getElementById("status") ;
 
       if (progressInput) {
         const progressValue = parseFloat(progressInput.value);

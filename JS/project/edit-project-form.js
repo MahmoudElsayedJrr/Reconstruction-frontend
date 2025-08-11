@@ -14,68 +14,157 @@ export function renderForm(
   showToast,
   attachSubmitListener
 ) {
-  if (project.progress === 100) {
-    project.status = "مكتمل";
-  }
   formContainer.innerHTML = `
       <form id="editProjectForm" enctype="multipart/form-data" method="POST">
         <div class="row g-3">
-         <h5 class="form-section-title">البيانات الأساسية</h5>
-        <div class="col-md-6">
-          <label for="activityName" class="form-label">اسم المشروع</label>
-          <input type="text" id="activityName" class="form-control" value="${
-            project.activityName || ""
-          }">
-        </div>
-        <div class="col-md-6">
-          <label for="executingCompany" class="form-label">الشركة المنفذة</label>
-          <input type="text" id="executingCompany" class="form-control" value="${
-            project.executingCompany || ""
-          }">
-        </div>
-        <div class="col-md-6">
-          <label for="consultant" class="form-label">الاستشاري</label>
-          <input type="text" id="consultant" class="form-control" value="${
-            project.consultant || ""
-          }">
-        </div>
+        <!-- البيانات الاساسيه --> 
+            ${
+              userRole === "admin" || userRole === "manager"
+                ? ` <h5 class="form-section-title">البيانات الأساسية</h5>
+            <div class="col-md-6">
+              <label for="activityName" class="form-label">اسم المشروع</label>
+              <input type="text" id="activityName" class="form-control" value="${
+                project.activityName || ""
+              }">
+            </div>
+            <div class="col-md-6">
+              <label for="executingCompany" class="form-label">الشركة المنفذة</label>
+              <input type="text" id="executingCompany" class="form-control" value="${
+                project.executingCompany || ""
+              }">
+            </div>
 
-        <div class="col-md-12">
-          <label for="activityDescription" class="form-label">وصف المشروع</label>
-          <textarea id="activityDescription" class="form-control" rows="4" style="resize: vertical;">${
-            project.activityDescription || ""
-          }</textarea>
-        </div>
-        <div class="col-md-4">
-          <label for="estimatedValue" class="form-label">القيمة التقديرية</label>
-          <input type="number" id="estimatedValue" class="form-control" value="${
-            project.estimatedValue || 0
-          }">
-        </div>
-        <div class="col-md-4">
-          <label for="contractualValue" class="form-label">القيمة التعاقدية</label>
-          <input type="number" id="contractualValue" class="form-control" value="${
-            project.contractualValue || 0
-          }">
-        </div>
-        <div class="col-md-4">
-          <label for="completionDate" class="form-label">تاريخ النهو</label>
-          <input type="date" id="completionDate" class="form-control" value="${
-            project.completionDate
-              ? new Date(project.completionDate).toISOString().split("T")[0]
-              : ""
-          }">
-        </div>
-        <div class="col-md-4">
-          <label for="receptionDate" class="form-label">تاريخ الاستلام</label>
-          <input type="date" id="receptionDate" class="form-control" value="${
-            project.receptionDate
-              ? new Date(project.receptionDate).toISOString().split("T")[0]
-              : ""
-          }">
-        </div>
+            <div class="col-md-6">
+              <label for="fundingType" class="form-label">نوع التمويل</label>
+              <select id="fundingType" class="form-select">
+                <option value="خطة استثمارية" ${
+                  project.fundingType === "خطة استثمارية" ? "selected" : ""
+                }>خطة استثمارية</option>
+                <option value="تمويل الغير" ${
+                  project.fundingType === "تمويل الغير" ? "selected" : ""
+                }>تمويل الغير</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label for="governorate" class="form-label">المحافظة</label>
+              <select id="governorate" class="form-select">
+                <option value="شمال سيناء" ${
+                  project.governorate === "شمال سيناء" ? "selected" : ""
+                }>شمال سيناء</option>
+                <option value="جنوب سيناء" ${
+                  project.governorate === "جنوب سيناء" ? "selected" : ""
+                }>جنوب سيناء</option>
+                <option value="بورسعيد" ${
+                  project.governorate === "بورسعيد" ? "selected" : ""
+                }>بورسعيد</option>
+                <option value="الاسماعيلية" ${
+                  project.governorate === "الاسماعيلية" ? "selected" : ""
+                }>الاسماعيلية</option>
+                <option value="السويس" ${
+                  project.governorate === "السويس" ? "selected" : ""
+                }>السويس</option>
+                <option value="الشرقية" ${
+                  project.governorate === "الشرقية" ? "selected" : ""
+                }>الشرقية</option>
+                <option value="دمياط" ${
+                  project.governorate === "دمياط" ? "selected" : ""
+                }>دمياط</option>
+              </select>
+            </div>
+
+
+            <div class="col-md-6">
+              <label for="projectCategory" class="form-label">فئة المشروع</label>
+              <select id="projectCategory" class="form-select">
+                <option value="طرق" ${
+                  project.projectCategory === "طرق" ? "selected" : ""
+                }>طرق</option>
+                <option value="كهرباء" ${
+                  project.projectCategory === "كهرباء" ? "selected" : ""
+                }>كهرباء</option>
+                <option value="مياه" ${
+                  project.projectCategory === "مياه" ? "selected" : ""
+                }>مياه</option>
+                <option value="صرف صحي" ${
+                  project.projectCategory === "صرف صحي" ? "selected" : ""
+                }>صرف صحي</option>
+                <option value="اسكان بدوي" ${
+                  project.projectCategory === "اسكان بدوي" ? "selected" : ""
+                }>اسكان بدوي</option>
+                <option value="اسكان اجتماعي" ${
+                  project.projectCategory === "اسكان اجتماعي" ? "selected" : ""
+                }>اسكان اجتماعي</option>
+                <option value="خدمات" ${
+                  project.projectCategory === "خدمات" ? "selected" : ""
+                }>خدمات</option>
+                <option value="تنمية متكاملة" ${
+                  project.projectCategory === "تنمية متكاملة" ? "selected" : ""
+                }>تنمية متكاملة</option>
+                <option value="حضانات" ${
+                  project.projectCategory === "حضانات" ? "selected" : ""
+                }>حضانات</option>
+                <option value="مجازر" ${
+                  project.projectCategory === "مجازر" ? "selected" : ""
+                }>مجازر</option>
+                <option value="تأهيل مباني حكومية" ${
+                  project.projectCategory === "تأهيل مباني حكومية"
+                    ? "selected"
+                    : ""
+                }>تأهيل مباني حكومية</option>
+                <option value="اخر" ${
+                  project.projectCategory === "اخر" ? "selected" : ""
+                }>اخر</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label for="consultant" class="form-label">الاستشاري</label>
+              <input type="text" id="consultant" class="form-control" value="${
+                project.consultant || ""
+              }">
+            </div>
+
+            <div class="col-md-12">
+              <label for="activityDescription" class="form-label">وصف المشروع</label>
+              <textarea id="activityDescription" class="form-control" rows="4" style="resize: vertical;">${
+                project.activityDescription || ""
+              }</textarea>
+            </div>
+            <div class="col-md-4">
+              <label for="estimatedValue" class="form-label">القيمة التقديرية</label>
+              <input type="number" id="estimatedValue" class="form-control" value="${
+                project.estimatedValue || 0
+              }">
+            </div>
+            <div class="col-md-4">
+              <label for="contractualValue" class="form-label">القيمة التعاقدية</label>
+              <input type="number" id="contractualValue" class="form-control" value="${
+                project.contractualValue || 0
+              }">
+            </div>
+            <div class="col-md-4">
+              <label for="completionDate" class="form-label">تاريخ النهو</label>
+              <input type="date" id="completionDate" class="form-control" value="${
+                project.completionDate
+                  ? new Date(project.completionDate).toISOString().split("T")[0]
+                  : ""
+              }">
+            </div>
+            <div class="col-md-4">
+              <label for="receptionDate" class="form-label">تاريخ الاستلام</label>
+              <input type="date" id="receptionDate" class="form-control" value="${
+                project.receptionDate
+                  ? new Date(project.receptionDate).toISOString().split("T")[0]
+                  : ""
+              }">
+            </div> `
+                : ""
+            }
       
-        <h5 class="form-section-title">البيانات التنفيذيه</h5>
+        	  ${
+              userRole === "admin" || userRole === "executive"
+                ? ` <h5 class="form-section-title">البيانات التنفيذيه</h5>
 
           <div class="col-md-6">
             <label for="status" class="form-label">حالة المشروع</label>
@@ -112,116 +201,139 @@ export function renderForm(
           <div class="col-md-12">
             <label for="mediaFiles" class="form-label">رفع صور أو ملفات PDF للمشروع</label>
             <input type="file" id="mediaFiles" name="mediaFiles" class="form-control" multiple accept="image/*,application/pdf">
-          </div>
+          </div>`
+                : ""
+            }
 
 
-        <h5 class="form-section-title">البيانات المالية</h5>
-        <div class="col-md-4">
-          <label for="disbursedAmount" class="form-label">المنصرف</label>
-          <input type="number" id="disbursedAmount" class="form-control" value="${
-            project.disbursedAmount || 0
-          }">
-        </div>
-        <div class="d-flex justify-content-start gap-3 my-3 flex-wrap">
-          <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addExtractModal">
-            + إضافة مستخلص
-          </button>
-        </div>
+
+          <!-- البيانات الماليه --> 
+              ${
+                userRole === "financial" || userRole === "admin"
+                  ? `
+            <h5 class="form-section-title">البيانات المالية</h5>
+            <div class="col-md-4">
+              <label for="disbursedAmount" class="form-label">المنصرف</label>
+              <input type="number" id="disbursedAmount" class="form-control" value="${
+                project.disbursedAmount || 0
+              }">
+            </div>
+
+            <div class="d-flex justify-content-start gap-3 my-3 flex-wrap">
+              <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addExtractModal">
+                + إضافة مستخلص
+              </button>
+            </div>`
+                  : ""
+              }
+
+          <!-- البيانات المشروعات --> 
+
+              ${
+                userRole === "admin" || userRole === "projectManager"
+                  ? ` 
+                    ${
+                      project.projectCategory === "طرق"
+                        ? `
+                              <h5 class="form-section-title">بيانات الطرق</h5>
+
+                              <div class="col-md-6">
+                                <label for="petroleumCompany" class="form-label">شركة البترول</label>
+                                <input type="text" id="petroleumCompany" class="form-control" value="${
+                                  project.roaddetails?.petroleumCompany || ""
+                                }">
+                              </div>
+
+                              <div class="col-md-6">
+                                <label for="bitumenQuantity" class="form-label">كمية بيتومين 60/70</label>
+                                <input type="number" step="any" id="bitumenQuantity" class="form-control" value="${
+                                  project.roaddetails?.bitumenQuantity || 0
+                                }">
+                              </div>
+
+                              <div class="col-md-4">
+                                <label for="mc" class="form-label">MC</label>
+                                <input type="number" step="any" id="mc" class="form-control" value="${
+                                  project.roaddetails?.mc || 0
+                                }">
+                              </div>
+
+                              <div class="col-md-4">
+                                <label for="rc" class="form-label">RC</label>
+                                <input type="number" step="any" id="rc" class="form-control" value="${
+                                  project.roaddetails?.rc || 0
+                                }">
+                              </div>
+
+                              <div class="col-md-4">
+                                <label for="remainingQuantitiesTons" class="form-label">الكميات المتبقية بالطن</label>
+                                <input type="number" step="any" id="remainingQuantitiesTons" class="form-control" value="${
+                                  project.roaddetails
+                                    ?.remainingQuantitiesTons || 0
+                                }">
+                              </div>
+
+                              <div class="col-md-12">
+                                <label for="notes" class="form-label">ملاحظات</label>
+                                <textarea id="notes"  class="form-control" rows="3" style="resize: vertical;">${
+                                  project.roaddetails?.notes || ""
+                                }</textarea>
+                              </div>
+                    
+                            `
+                        : ""
+                    }
+
+                  <h5 class="form-section-title"> بيانات المشروعات</h5>
+        
+                  <div class="col-md-6">
+                    <label for="extensionDate" class="form-label">مد مدة</label>
+                  <input type="date" id="extensionDate" class="form-control" value="">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="suspensionDate" class="form-label">تاريخ محضر التوقف</label>
+                    <input type="date" id="suspensionDate" class="form-control" value="${
+                      project.suspensionDate
+                        ? new Date(project.suspensionDate)
+                            .toISOString()
+                            .split("T")[0]
+                        : ""
+                    }">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="resumptionDate" class="form-label">تاريخ الاستئناف</label>
+                    <input type="date" id="resumptionDate" class="form-control" value="${
+                      project.resumptionDate
+                        ? new Date(project.resumptionDate)
+                            .toISOString()
+                            .split("T")[0]
+                        : ""
+                    }">   
+                  </div> 
+
+                  <div class="row g-2 my-3">
+                    <div class="col-6">
+                      <button type="button" class="btn custom-btn w-100 px-3" data-bs-toggle="modal" data-bs-target="#addContractModal">
+                        + تعديل عقد
+                      </button>
+                    </div>
+                    <div class="col-6">
+                      <button type="button" class="btn custom-btn w-100 px-3" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
+                        + إضافة بند
+                      </button>
+                    </div>
+                  </div>
+                        `
+                  : ""
+              }
 
 
-        <h5 class="form-section-title"> بيانات المشروعات</h5>
+          <!-- البيانات التعاقديه -->     
           ${
-            project.projectCategory === "طرق"
-              ? `
-                    <h5 class="form-section-title">بيانات الطرق</h5>
-
-                    <div class="col-md-6">
-                      <label for="petroleumCompany" class="form-label">شركة البترول</label>
-                      <input type="text" id="petroleumCompany" class="form-control" value="${
-                        project.roaddetails?.petroleumCompany || ""
-                      }">
-                    </div>
-
-                    <div class="col-md-6">
-                      <label for="bitumenQuantity" class="form-label">كمية بيتومين 60/70</label>
-                      <input type="number" step="any" id="bitumenQuantity" class="form-control" value="${
-                        project.roaddetails?.bitumenQuantity || 0
-                      }">
-                    </div>
-
-                    <div class="col-md-4">
-                      <label for="mc" class="form-label">MC</label>
-                      <input type="number" step="any" id="mc" class="form-control" value="${
-                        project.roaddetails?.mc || 0
-                      }">
-                    </div>
-
-                    <div class="col-md-4">
-                      <label for="rc" class="form-label">RC</label>
-                      <input type="number" step="any" id="rc" class="form-control" value="${
-                        project.roaddetails?.rc || 0
-                      }">
-                    </div>
-
-                    <div class="col-md-4">
-                      <label for="remainingQuantitiesTons" class="form-label">الكميات المتبقية بالطن</label>
-                      <input type="number" step="any" id="remainingQuantitiesTons" class="form-control" value="${
-                        project.roaddetails?.remainingQuantitiesTons || 0
-                      }">
-                    </div>
-
-                    <div class="col-md-12">
-                      <label for="notes" class="form-label">ملاحظات</label>
-                      <textarea id="notes"  class="form-control" rows="3" style="resize: vertical;">${
-                        project.roaddetails?.notes || ""
-                      }</textarea>
-                    </div>
-          
-                  `
-              : ""
-          }
-
-
-        
-          <div class="col-md-6">
-            <label for="extensionDate" class="form-label">مد مدة</label>
-           <input type="date" id="extensionDate" class="form-control" value="">
-          </div>
-
-          <div class="col-md-6">
-            <label for="suspensionDate" class="form-label">تاريخ محضر التوقف</label>
-            <input type="date" id="suspensionDate" class="form-control" value="${
-              project.suspensionDate
-                ? new Date(project.suspensionDate).toISOString().split("T")[0]
-                : ""
-            }">
-          </div>
-
-          <div class="col-md-6">
-            <label for="resumptionDate" class="form-label">تاريخ الاستئناف</label>
-            <input type="date" id="resumptionDate" class="form-control" value="${
-              project.resumptionDate
-                ? new Date(project.resumptionDate).toISOString().split("T")[0]
-                : ""
-            }">   
-          </div> 
-
-          <div class="row g-2 my-3">
-            <div class="col-6">
-              <button type="button" class="btn custom-btn w-100 px-3" data-bs-toggle="modal" data-bs-target="#addContractModal">
-                + تعديل عقد
-              </button>
-            </div>
-            <div class="col-6">
-              <button type="button" class="btn custom-btn w-100 px-3" data-bs-toggle="modal" data-bs-target="#addDecisionModal">
-                + إضافة بند
-              </button>
-            </div>
-          </div>
-
-        
-
-          <h5 class="form-section-title">البيانات التعاقدية</h5>
+            userRole === "admin" || userRole === "contractual"
+              ? `          <h5 class="form-section-title">البيانات التعاقدية</h5>
           <div class="row">
           <div class="col-md-6">
             <label for="publishDate" class="form-label">تاريخ النشر</label>
@@ -277,7 +389,10 @@ export function renderForm(
           <div class="col-md-12">
             <label for="contractualDocuments" class="form-label">رفع ملف PDF</label>
             <input type="file" id="contractualDocuments" name="contractualDocuments" class="form-control" multiple accept="application/pdf">
-          </div>
+          </div>`
+              : ""
+          }
+        
 
        
 
@@ -445,7 +560,10 @@ export function renderForm(
       addContract(API_URL, activityCode, showToast);
     });
   }
-  document.getElementById("status").value = project.status || "قيد التنفيذ";
+  const statusElement = document.getElementById("status");
+  if (statusElement) {
+    statusElement.value = project.status || "قيد التنفيذ";
+  }
 
   const allInputs = formContainer.querySelectorAll("input, select, textarea");
   allInputs.forEach((input) => {

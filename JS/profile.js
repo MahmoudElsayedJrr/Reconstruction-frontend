@@ -13,8 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const roleTranslations = {
     admin: "ادمن",
-    manager: "انشاء وتخطيط",
-    financial: "مالي",
+    manager: "تخطيط ومتابعة",
+    executive: "تنفيذية",
+    contractual: "تعاقدية",
+    financial: "مالية",
     projectManager: "مشروعات",
     employee: "موظف",
   };
