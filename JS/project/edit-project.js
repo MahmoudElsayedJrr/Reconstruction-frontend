@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const userRole = localStorage.getItem("userRole");
   const token = localStorage.getItem("loggedInUserToken");
 
-
   const allowedFields = permissions[userRole] || [];
 
   function getProjectCodeFromUrl() {
@@ -41,10 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const saveButton = document.getElementById("save-changes-button");
       saveButton.disabled = true;
-      saveButton.innerHTML = `<span class="spinner-border text-primary">جاري الحفظ ...</span>`;
+      saveButton.innerHTML = `<span class="d-flex align-items-center gap-2">
+              <span class="spinner-border spinner-border-sm text-primary" role="status" aria-hidden="true"></span>
+              جاري الحفظ ...
+            </span>`;
 
       const progressInput = document.getElementById("progress");
-      const statusInput = document.getElementById("status") ;
+      const statusInput = document.getElementById("status");
 
       if (progressInput) {
         const progressValue = parseFloat(progressInput.value);
