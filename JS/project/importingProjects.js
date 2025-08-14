@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "شمال سيناء",
     "جنوب سيناء",
     "بورسعيد",
-    "الاسماعيلية",
+    "الإسماعيلية",
     "السويس",
     "الشرقية",
     "دمياط",
@@ -17,14 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
     "كهرباء",
     "مياه",
     "صرف صحي",
-    "اسكان بدوي",
-    "اسكان اجتماعي",
+    "منازل بدوية",
+    "إسكان اجتماعي",
     "خدمات",
     "تنمية متكاملة",
     "حضانات",
     "مجازر",
-    "تأهيل مباني حكومية",
-    "آخر",
+    "مباني حكومية",
+    "اخر",
   ];
   const VALID_FUNDING_TYPES = ["خطة استثمارية", "تمويل الغير"];
 
@@ -73,28 +73,28 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!name) continue;
 
         let governorate = (row["المحافظة"] || "").trim();
-        if (!VALID_GOVERNORATES.includes(governorate)) {
+        /*  if (!VALID_GOVERNORATES.includes(governorate)) {
           governorate =
             VALID_GOVERNORATES[
               Math.floor(Math.random() * VALID_GOVERNORATES.length)
             ];
-        }
+        } */
 
-        let category = (row["الفئة"] || "").trim();
-        if (!VALID_CATEGORIES.includes(category)) {
+        let category = (row["فئة المشروع"] || "").trim();
+        /*  if (!VALID_CATEGORIES.includes(category)) {
           category =
             VALID_CATEGORIES[
               Math.floor(Math.random() * VALID_CATEGORIES.length)
             ];
-        }
+        } */
 
         let fundingType = (row["نوع التمويل"] || "").trim();
-        if (!VALID_FUNDING_TYPES.includes(fundingType)) {
+        /*         if (!VALID_FUNDING_TYPES.includes(fundingType)) {
           fundingType =
             VALID_FUNDING_TYPES[
               Math.floor(Math.random() * VALID_FUNDING_TYPES.length)
             ];
-        }
+        } */
 
         const body = {
           activityCode: generateCode(),
@@ -124,14 +124,17 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(body),
           });
           const data = await res.json();
-          console.log("الرد من السيرفر:", data);
+          //console.log("الرد من السيرفر:", data);
           if (res.status === 201) {
             successCount++;
+            console.log(" تم اضافه المشروع بنجاح :");
           } else {
             failCount++;
+            console.log("  خطأ ف اضافه المشروع :", data);
           }
         } catch {
           failCount++;
+          console.log("  خطأ ف السيرفر  :", data);
         }
       }
 
