@@ -58,9 +58,9 @@ export function renderForm(
                 <option value="بورسعيد" ${
                   project.governorate === "بورسعيد" ? "selected" : ""
                 }>بورسعيد</option>
-                <option value="الاسماعيلية" ${
-                  project.governorate === "الاسماعيلية" ? "selected" : ""
-                }>الاسماعيلية</option>
+                <option value="الإسماعيلية" ${
+                  project.governorate === "الإسماعيلية" ? "selected" : ""
+                }>الإسماعيلية</option>
                 <option value="السويس" ${
                   project.governorate === "السويس" ? "selected" : ""
                 }>السويس</option>
@@ -80,24 +80,31 @@ export function renderForm(
                 <option value="طرق" ${
                   project.projectCategory === "طرق" ? "selected" : ""
                 }>طرق</option>
+
                 <option value="كهرباء" ${
                   project.projectCategory === "كهرباء" ? "selected" : ""
                 }>كهرباء</option>
+
                 <option value="مياه" ${
                   project.projectCategory === "مياه" ? "selected" : ""
                 }>مياه</option>
+
                 <option value="صرف صحي" ${
                   project.projectCategory === "صرف صحي" ? "selected" : ""
                 }>صرف صحي</option>
-                <option value="اسكان بدوي" ${
-                  project.projectCategory === "اسكان بدوي" ? "selected" : ""
-                }>اسكان بدوي</option>
-                <option value="اسكان اجتماعي" ${
-                  project.projectCategory === "اسكان اجتماعي" ? "selected" : ""
-                }>اسكان اجتماعي</option>
+
+                <option value="منازل بدوية" ${
+                  project.projectCategory === "منازل بدوية" ? "selected" : ""
+                }>منازل بدوية</option>
+
+                <option value="إسكان اجتماعي" ${
+                  project.projectCategory === "إسكان اجتماعي" ? "selected" : ""
+                }>إسكان اجتماعي</option>
+
                 <option value="خدمات" ${
                   project.projectCategory === "خدمات" ? "selected" : ""
                 }>خدمات</option>
+
                 <option value="تنمية متكاملة" ${
                   project.projectCategory === "تنمية متكاملة" ? "selected" : ""
                 }>تنمية متكاملة</option>
@@ -107,11 +114,9 @@ export function renderForm(
                 <option value="مجازر" ${
                   project.projectCategory === "مجازر" ? "selected" : ""
                 }>مجازر</option>
-                <option value="تأهيل مباني حكومية" ${
-                  project.projectCategory === "تأهيل مباني حكومية"
-                    ? "selected"
-                    : ""
-                }>تأهيل مباني حكومية</option>
+                <option value="مباني حكومية" ${
+                  project.projectCategory === "مباني حكومية" ? "selected" : ""
+                }>مباني حكومية</option>
                 <option value="اخر" ${
                   project.projectCategory === "اخر" ? "selected" : ""
                 }>اخر</option>
