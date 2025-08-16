@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       showToast("تمت إضافة المشروع بنجاح!", "success");
       addProjectForm.reset();
-      //fetchAndRenderProjects();
+      window.location.href = "dashboard.html";
     } catch (error) {
       showToast(error.message, "danger");
     } finally {

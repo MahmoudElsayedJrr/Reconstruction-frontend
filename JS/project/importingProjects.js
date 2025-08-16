@@ -49,6 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const originalHTML = uploadBtn.innerHTML;
+    uploadBtn.innerHTML = `
+    <span class="d-flex align-items-center justify-content-center gap-2">
+      <span class="spinner-border spinner-border-sm text-white" role="status"></span>
+      جاري الرفع ...
+    </span>
+  `;
+    uploadBtn.disabled = true;
+
     const reader = new FileReader();
     reader.onload = async (e) => {
       const data = new Uint8Array(e.target.result);
@@ -119,12 +128,17 @@ document.addEventListener("DOMContentLoaded", () => {
           if (res.status === 201) {
             successCount++;
           } else {
+            console.log(`Failed on ${res.json}`);
             failCount++;
           }
-        } catch {
+        } catch (error) {
+          console.log(error.message);
           failCount++;
         }
       }
+
+      uploadBtn.innerHTML = originalHTML;
+      uploadBtn.disabled = false;
 
       resultDiv.innerHTML = `
         <div class="alert alert-info">
