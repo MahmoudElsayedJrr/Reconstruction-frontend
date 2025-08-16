@@ -16,39 +16,28 @@ const permissions = {
     "contractualValue",
     "completionDate",
     "receptionDate",
-
-    // التنفيذية
     "status",
     "progress",
     "executivePosition",
     "projectLocationLink",
     "mediaFiles",
-
-    // المالية
     "disbursedAmount",
-
-    // المشروعات
+    "roaddetails",
     "petroleumCompany",
     "bitumenQuantity",
     "mc",
     "rc",
     "remainingQuantitiesTons",
     "notes",
-
-    // التعاقدية
     "publishDate",
     "technicalDecisionDate",
     "financialDecisionDate",
     "assignmentOrderDate",
     "siteHandoverDate",
     "contractualDocuments",
-
-    // تواريخ إضافية
     "extensionDate",
     "suspensionDate",
     "resumptionDate",
-
-    // المودالات
     "decisionName",
     "decisionType",
     "decisionUnit",
@@ -77,7 +66,6 @@ const permissions = {
   ],
 
   executive: [
-    // التنفيذية فقط
     "status",
     "progress",
     "executivePosition",
@@ -88,6 +76,7 @@ const permissions = {
   financial: ["disbursedAmount", "extractDate", "extractValue", "extractPDFs"],
 
   projectManager: [
+    "roaddetails",
     "petroleumCompany",
     "bitumenQuantity",
     "mc",
@@ -107,7 +96,6 @@ const permissions = {
   ],
 
   contractual: [
-    // التعاقدية فقط
     "publishDate",
     "technicalDecisionDate",
     "financialDecisionDate",
