@@ -142,20 +142,19 @@
                   <span id="executingCompany"></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong> نوع التمويل :</strong>
+                  <span id="fundingType"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong> فئه المشروع :</strong>
+                  <span id="projectCategory"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between py-2">
                   <strong>المحافظة:</strong> <span id="governorate"></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between py-2">
                   <strong>الاستشاري:</strong> <span id="consultant"></span>
                 </li>
-                <li class="list-group-item text-center py-3">
-                  <strong class="d-block mb-2">وصف المشروع:</strong>
-                  <p id="activityDescription" class="mb-0 text-muted"></p>
-                </li>
-              </ul>
-            </div>
-            <div class="tab-pane fade" id="financial-tab" role="tabpanel">
-              <h5 class="card-title mb-3">البيانات المالية</h5>
-              <ul class="list-group list-group-flush details-list">
                 <li class="list-group-item d-flex justify-content-between py-2">
                   <strong>القيمة التقديرية:</strong>
                   <span id="estimatedValue"></span>
@@ -165,15 +164,6 @@
                   <span id="contractualValue"></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between py-2">
-                  <strong>المنصرف حتى تاريخه:</strong>
-                  <span id="disbursedAmount"></span>
-                </li>
-              </ul>
-            </div>
-            <div class="tab-pane fade" id="timeline-tab" role="tabpanel">
-              <h5 class="card-title mb-3">الموقف التنفيذي</h5>
-              <ul class="list-group list-group-flush details-list">
-                <li class="list-group-item d-flex justify-content-between py-2">
                   <strong>تاريخ الاسناد:</strong>
                   <span id="assignmentDate"></span>
                 </li>
@@ -181,8 +171,47 @@
                   <strong>تاريخ النهو المقرر:</strong>
                   <span id="completionDate"></span>
                 </li>
+                <li class="list-group-item text-center py-3">
+                  <strong class="d-block mb-2">وصف المشروع:</strong>
+                  <p id="activityDescription" class="mb-0 text-muted"></p>
+                </li>
+              </ul>
+            </div>
+
+            <div class="tab-pane fade" id="financial-tab" role="tabpanel">
+              <h5 class="card-title mb-3">البيانات المالية</h5>
+              <ul class="list-group list-group-flush details-list">
+                <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong>المنصرف حتى تاريخه:</strong>
+                  <span id="disbursedAmount"></span>
+                </li>
+                <li class="list-group-item py-2">
+                  <strong class="mb-2 d-block"> المستخلصات :</strong>
+                  <div class="row text-center">
+                    <div class="col">
+                      <div
+                        role="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#extractsModal"
+                        class="badge bg-info bg-opacity-25 text-info-emphasis w-100"
+                        style="cursor: pointer"
+                      >
+                        عدد المستخلصات
+                        <div id="extractValue" class="fw-bold fs-6 mt-1">0</div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="tab-pane fade" id="timeline-tab" role="tabpanel">
+              <h5 class="card-title mb-3">الموقف التنفيذي</h5>
+              <ul class="list-group list-group-flush details-list">
                 <li class="list-group-item d-flex justify-content-between py-2">
                   <strong>الحالة:</strong> <span id="status"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between py-2">
+                  <strong>نسبه الانجاز:</strong> <span id="progress"></span>
                 </li>
                 <li class="list-group-item text-center py-3">
                   <strong class="d-block mb-2">الموقف التنفيذي :</strong>
@@ -244,23 +273,6 @@
                   </div>
                 </li>
 
-                <li class="list-group-item py-2">
-                  <strong class="mb-2 d-block"> المستخلصات :</strong>
-                  <div class="row text-center">
-                    <div class="col">
-                      <div
-                        role="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#extractsModal"
-                        class="badge bg-info bg-opacity-25 text-info-emphasis w-100"
-                        style="cursor: pointer"
-                      >
-                        عدد المستخلصات
-                        <div id="extractValue" class="fw-bold fs-6 mt-1">0</div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
                 <li class="list-group-item d-flex justify-content-between py-2">
                   <strong> تاريخ محضر التوقف :</strong>
                   <span id="suspensionDate"></span>

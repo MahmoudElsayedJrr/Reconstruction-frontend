@@ -5,7 +5,6 @@ const API_URL = "https://work-backend-production.up.railway.app/";
 
 const permissions = {
   admin: [
-    // البيانات الأساسية - التخطيط والمتابعة
     "activityName",
     "executingCompany",
     "fundingType",

@@ -128,6 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
     setText("executingCompany", project.executingCompany);
     setText("governorate", project.governorate);
     setText("consultant", project.consultant);
+    setText("fundingType", project.fundingType);
+    setText("projectCategory", project.projectCategory);
+    setText("progress", ` % ${project.progress} `);
     setText(
       "estimatedValue",
       (project.estimatedValue || 0).toLocaleString() + " جنيه"
