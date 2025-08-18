@@ -143,18 +143,7 @@
         </div>
         <div class="card-body">
           <div class="row g-3 align-items-end">
-            <div class="col-md-4 col-lg-2">
-              <label for="projectNameFilter" class="form-label"
-                >اسم المشروع</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="projectNameFilter"
-                placeholder="بحث بالاسم..."
-              />
-            </div>
-            <div class="col-lg-2 col-md-6">
+            <div class="col-lg-3 col-md-6">
               <label for="activityCodeFilter" class="form-label"
                 >كود النشاط</label
               >
@@ -163,6 +152,18 @@
                 class="form-control"
                 id="activityCodeFilter"
                 placeholder="بحث بالكود..."
+              />
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <label for="projectNameFilter" class="form-label"
+                >اسم المشروع</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="projectNameFilter"
+                placeholder="بحث بالاسم..."
               />
             </div>
             <div class="col-md-4 col-lg-2">
@@ -178,6 +179,27 @@
                 <option>دمياط</option>
               </select>
             </div>
+
+            <div class="col-md-4 col-lg-2">
+              <label for="projectCategoryFilter" class="form-label"
+                >فئه المشروع</label
+              >
+              <select id="projectCategoryFilter" class="form-select">
+                <option selected>الكل</option>
+                <option>طرق</option>
+                <option>كهرباء</option>
+                <option>مياه</option>
+                <option>صرف صحي</option>
+                <option>منازل بدوية</option>
+                <option>إسكان اجتماعي</option>
+                <option>خدمات</option>
+                <option>تنمية متكاملة</option>
+                <option>حضانات</option>
+                <option>مجازر</option>
+                <option>مباني حكومية</option>
+                <option>اخر</option>
+              </select>
+            </div>
             <div class="col-lg-2 col-md-6">
               <label for="fundingTypeFilter" class="form-label"
                 >نوع التمويل</label
@@ -186,6 +208,31 @@
                 <option>خطة استثمارية</option>
                 <option>تمويل الغير</option>
               </select>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <label for="progressFilter" class="form-label"
+                >نسبة التنفيذ</label
+              >
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="progressMin"
+                  placeholder="من"
+                  min="0"
+                  max="100"
+                />
+                <span class="fw-bold">-</span>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="progressMax"
+                  placeholder="إلى"
+                  min="0"
+                  max="100"
+                />
+              </div>
             </div>
 
             <div class="col-md-4 col-lg-2">

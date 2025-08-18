@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getProgressBarColor(percentage, status) {
     if (status === "متأخر") return "#dc3545";
+    if (status === "متوقف") return "#d15d26ff";
+    if (status === "مسحوب") return "#ffc107";
     if (percentage === 100 || status === "مكتمل") return "#198754";
     return "#0d6efd";
   }
@@ -305,6 +307,9 @@ document.addEventListener("DOMContentLoaded", () => {
       activityCode: document.getElementById("activityCodeFilter").value,
       status: document.getElementById("statusFilter").value,
       fundingType: document.getElementById("fundingTypeFilter").value,
+      projectCategory: document.getElementById("projectCategoryFilter").value,
+      progressMin: document.getElementById("progressMin").value || 0,
+      progressMax: document.getElementById("progressMax").value || 100,
     };
 
     Object.keys(filters).forEach((key) => {
@@ -352,11 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function initializePage() {
-    /*     chart1Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
-    chart2Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
-    chart3Container.innerHTML = `<span class="spinner-border text-primary"></span>`; */
     fetchAndRenderProjects();
-    //renderCharts();
   }
 
   initializePage();
