@@ -275,7 +275,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       return pdfUrl
         ? `<div class="mt-2">
-        <button class="btn btn-sm btn-outline-primary" onclick="window.open('${pdfUrl}', '_blank')">
+        <button class="btn btn-sm btn-outline-primary" 
+        onclick="window.open('http://localhost:3000${pdfUrl}', '_blank')">
           عرض المستخلص
         </button>
       </div>`
@@ -400,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const section = document.createElement("div");
     section.innerHTML = "<h6 class='mt-4'>صور المشروع:</h6>";
-
+    console.log(imageUrls);
     if (imageUrls.length === 0) {
       section.innerHTML += "<p class='text-muted text-center'>لا توجد صور</p>";
     } else {
@@ -412,8 +413,8 @@ document.addEventListener("DOMContentLoaded", () => {
         col.className = "col-md-4";
         col.innerHTML = `
         <div class="position-relative">
-          <a href="${imgUrl}" target="_blank">
-            <img src="${imgUrl}" 
+          <a href="http://localhost:3000${imgUrl}" target="_blank">
+            <img src="http://localhost:3000${imgUrl}" 
                  class="img-fluid rounded shadow-sm zoom-hover" 
                  style="height:200px; object-fit:cover; width: 100%;" />
           </a>
@@ -447,8 +448,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       pdfFiles.forEach((pdf) => {
         const fullUrl = pdf.path;
-        const bucketName = fullUrl.includes("activitycontractualdocuments")
-          ? "activitycontractualdocuments"
+        const bucketName = fullUrl.includes("contractualdocuments")
+          ? "contractualdocuments"
           : "activitypdfs"; // تقدر تطورها أكتر حسب المسار
 
         const item = document.createElement("li");
@@ -457,7 +458,7 @@ document.addEventListener("DOMContentLoaded", () => {
         item.innerHTML = `
         <span>${pdf.filename}</span>
         <div>
-          <a href="${fullUrl}" target="_blank" class="btn btn-sm btn-outline-primary me-2">عرض / تحميل</a>
+          <a href="http://localhost:3000${fullUrl}" target="_blank" class="btn btn-sm btn-outline-primary me-2">عرض / تحميل</a>
           <button 
             class="btn btn-sm btn-outline-danger delete-pdf-btn" 
             data-path="${fullUrl}" 
