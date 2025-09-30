@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const chart1Container = document.getElementById("chart1-container");
   const chart2Container = document.getElementById("chart2-container");
   const chart3Container = document.getElementById("chart3-container");
+  const chart4Container = document.getElementById("chart4-container");
   const deleteConfirmBtn = document.getElementById("confirmDeleteBtn");
   const toastContainer = document.querySelector(".toast-container");
   const filterButton = document.getElementById("filter-button");
@@ -45,18 +46,52 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.show();
   }
 
+  async function fetchTotalDisbursed() {
+    const totalElement = document.getElementById("totalDisbursedValue");
+    try {
+      const token = localStorage.getItem("loggedInUserToken");
+      const response = await fetch(`${API_URL}activity/total-disbursed`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const apiResponse = await response.json();
+      if (!response.ok)
+        throw new Error(apiResponse.message || "فشل جلب البيانات");
+
+      const total = apiResponse.data.totalDisbursed || 0;
+
+      // تنسيق الرقم (يفصل الآلاف ويحط "ج.م")
+      totalElement.textContent = total.toLocaleString("ar-EG") + " ج.م";
+    } catch (error) {
+      console.error("❌ فشل تحميل إجمالي المنصرف:", error);
+      totalElement.textContent = "خطأ";
+    }
+  }
+
   function prepareChartData(projects) {
     const statusCounts = {};
     const governorateCounts = {};
     const categoryCounts = {};
+    const disbursedByCategory = {}; // جديد
 
     projects.forEach((project) => {
       let currentStatus = project.progress >= 100 ? "مكتمل" : project.status;
+
+      // الحالة
       statusCounts[currentStatus] = (statusCounts[currentStatus] || 0) + 1;
+
+      // المحافظات
       governorateCounts[project.governorate] =
         (governorateCounts[project.governorate] || 0) + 1;
+
+      // الفئات (عدد المشاريع)
       categoryCounts[project.projectCategory] =
         (categoryCounts[project.projectCategory] || 0) + 1;
+
+      // المنصرف حسب الفئة
+      const category = project.projectCategory || "غير محدد";
+      disbursedByCategory[category] =
+        (disbursedByCategory[category] || 0) + (project.disbursedAmount || 0);
     });
 
     return {
@@ -71,6 +106,11 @@ document.addEventListener("DOMContentLoaded", () => {
       categories: {
         labels: Object.keys(categoryCounts),
         values: Object.values(categoryCounts),
+      },
+      disbursedByCategory: {
+        // لازم ترجعها عشان الشارت يشتغل
+        labels: Object.keys(disbursedByCategory),
+        values: Object.values(disbursedByCategory),
       },
     };
   }
@@ -147,6 +187,36 @@ document.addEventListener("DOMContentLoaded", () => {
           y: {
             beginAtZero: true,
             ticks: { precision: 0 },
+          },
+        },
+      },
+    });
+
+    // ✅ الشارت الخامس: المنصرف حسب الفئة
+    chart4Container.innerHTML =
+      '<canvas id="disbursedByCategoryChart"></canvas>';
+    const ctx5 = chart4Container.querySelector("canvas").getContext("2d");
+    new Chart(ctx5, {
+      type: "bar",
+      data: {
+        labels: chartData.disbursedByCategory.labels,
+        datasets: [
+          {
+            label: "المنصرف (ج.م)",
+            data: chartData.disbursedByCategory.values,
+            backgroundColor: "#0dcaf0",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (val) => val.toLocaleString() + " ج.م",
+            },
           },
         },
       },
@@ -254,6 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chart1Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
     chart2Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
     chart3Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
+    chart4Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
 
     try {
       const token = localStorage.getItem("loggedInUserToken");
@@ -287,6 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
           status: { labels: [], values: [] },
           governorates: { labels: [], values: [] },
           categories: { labels: [], values: [] },
+          disbursedByCategory: { labels: [], values: [] },
         });
       }
     } catch (error) {
@@ -358,6 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initializePage() {
     fetchAndRenderProjects();
+    fetchTotalDisbursed();
   }
 
   initializePage();

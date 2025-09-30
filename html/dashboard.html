@@ -90,6 +90,11 @@
     <main class="main-content">
       <h2 class="mb-4 fw-bold">لوحة التحكم</h2>
 
+      <div id="totalDisbursedCard" class="card text-center shadow-sm mb-4 p-3">
+        <h5 class="card-title">إجمالي المنصرف في كل المشاريع</h5>
+        <h3 id="totalDisbursedValue" class="text-success fw-bold">0</h3>
+      </div>
+
       <!-- الصف الأول: شارتين جنب بعض -->
       <div class="row g-4">
         <div class="col-12 col-lg-6">
@@ -126,6 +131,25 @@
               <div
                 class="chart-container"
                 id="chart3-container"
+                style="height: 400px"
+              >
+                <span class="spinner-border text-primary"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-4"></div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">المنصرف حسب الفئه</h5>
+              <div
+                class="chart-container"
+                id="chart4-container"
                 style="height: 400px"
               >
                 <span class="spinner-border text-primary"></span>
@@ -233,6 +257,17 @@
                   max="100"
                 />
               </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+              <label for="fiscalYear" class="form-label"> السنه الماليه </label
+              ><select id="fiscalYearFilter" class="form-select">
+                <option selected>الكل</option>
+                <option>2025/2026</option>
+                <option>2026/2027</option>
+                <option>2027/2028</option>
+                <option>2028/2029</option>
+              </select>
             </div>
 
             <div class="col-md-4 col-lg-2">
