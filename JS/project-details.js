@@ -125,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         : "N/A"
     );
     setText("activityCode", project.activityCode);
+    setText("fiscalYear", project.fiscalYear);
     setText("executingCompany", project.executingCompany);
     setText("governorate", project.governorate);
     setText("consultant", project.consultant);
