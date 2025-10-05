@@ -17,6 +17,18 @@ document.addEventListener("DOMContentLoaded", () => {
     return code;
   }
 
+  function getCurrentFiscalYear() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+
+    if (month >= 7) {
+      return `${year}/${year + 1}`;
+    } else {
+      return `${year - 1}/${year}`;
+    }
+  }
+
   function showToast(message, type = "success") {
     const toastId = "toast-" + Math.random().toString(36).substr(2, 9);
     const toastColor = type === "success" ? "bg-success" : "bg-danger";
@@ -51,6 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
       status: "قيد التنفيذ",
       fundingType: document.getElementById("fundingType").value,
       projectCategory: document.getElementById("projectCategory").value,
+      fiscalYear:
+        document.getElementById("fiscalYear").value || getCurrentFiscalYear(),
       estimatedValue: document.getElementById("estimatedValue")?.value || 0,
       contractualValue: document.getElementById("contractualValue")?.value || 0,
       disbursedAmount: document.getElementById("disbursedAmount")?.value || 0,
@@ -61,6 +75,24 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const token = localStorage.getItem("loggedInUserToken");
+
+    const fiscalYearInput = document.getElementById("fiscalYear").value.trim();
+    let fiscalYear = fiscalYearInput;
+
+    if (fiscalYear === "") {
+      fiscalYear = getCurrentFiscalYear(); // لو فاضي نحسب السنة الحالية
+    } else {
+      const fiscalYearRegex = /^\d{4}\/\d{4}$/;
+      if (!fiscalYearRegex.test(fiscalYear)) {
+        showToast(
+          "صيغة السنة المالية غير صحيحة. يجب أن تكون مثل: 2024/2025",
+          "danger"
+        );
+        saveButton.disabled = false;
+        saveButton.innerHTML = "حفظ المشروع";
+        return; // وقف الحفظ
+      }
+    }
 
     try {
       const response = await fetch(`${API_URL}activity/`, {
@@ -81,7 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       showToast("تمت إضافة المشروع بنجاح!", "success");
       addProjectForm.reset();
-      window.location.href = "dashboard.html";
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 1500);
     } catch (error) {
       showToast(error.message, "danger");
     } finally {

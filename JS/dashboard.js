@@ -379,6 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
       activityCode: document.getElementById("activityCodeFilter").value,
       status: document.getElementById("statusFilter").value,
       fundingType: document.getElementById("fundingTypeFilter").value,
+      fiscalYear: document.getElementById("fiscalYearFilter").value,
       projectCategory: document.getElementById("projectCategoryFilter").value,
       progressMin: document.getElementById("progressMin").value || 0,
       progressMax: document.getElementById("progressMax").value || 100,

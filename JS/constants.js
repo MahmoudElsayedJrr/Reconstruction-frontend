@@ -48,6 +48,7 @@ const permissions = {
     "extractDate",
     "extractValue",
     "extractPDFs",
+    "fiscalYear",
   ],
 
   manager: [
@@ -63,6 +64,7 @@ const permissions = {
     "contractualValue",
     "completionDate",
     "receptionDate",
+    "fiscalYear",
   ],
 
   executive: [
