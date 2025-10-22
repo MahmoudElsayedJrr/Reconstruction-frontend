@@ -136,6 +136,15 @@ export function renderForm(
                 project.activityDescription || ""
               }</textarea>
             </div>
+
+           <div class="col-md-4">
+              <label for="fiscalYear" class="form-label">السنه الماليه</label>
+              <input type="text" id="fiscalYear" class="form-control" value="${
+                project.fiscalYear || ""
+              }">
+            </div>
+
+
             <div class="col-md-4">
               <label for="estimatedValue" class="form-label">القيمة التقديرية</label>
               <input type="number" id="estimatedValue" class="form-control" value="${
