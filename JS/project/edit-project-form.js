@@ -137,6 +137,65 @@ export function renderForm(
               }</textarea>
             </div>
             <div class="col-md-4">
+              <label for="fiscalYear" class="form-label">السنة المالية</label>
+              <select id="fiscalYear" class="form-select">
+              <option value="" ${
+                !project.fiscalYear ? "selected" : ""
+              }> </option>
+                <option value="" ${
+                  project.fiscalYear === "2024/2025" ? "selected" : ""
+                }>2024/2025</option>
+                <option value="" ${
+                  project.fiscalYear === "2025/2026" ? "selected" : ""
+                }>2025/2026</option>
+                <option value="2026/2027" ${
+                  project.fiscalYear === "2026/2027" ? "selected" : ""
+                }>2026/2027</option>
+                <option value="2027/2028" ${
+                  project.fiscalYear === "2027/2028" ? "selected" : ""
+                }>2027/2028</option>
+                <option value="2028/2029" ${
+                  project.fiscalYear === "2028/2029" ? "selected" : ""
+                }>2028/2029</option>
+                <option value="2029/2030" ${
+                  project.fiscalYear === "2029/2030" ? "selected" : ""
+                }>2029/2030</option>
+                <option value="2030/2031" ${
+                  project.fiscalYear === "2030/2031" ? "selected" : ""
+                }>2030/2031</option>
+                <option value="2031/2032" ${
+                  project.fiscalYear === "2031/2032" ? "selected" : ""
+                }>2031/2032</option>
+                <option value="2032/2033" ${
+                  project.fiscalYear === "2032/2033" ? "selected" : ""
+                }>2032/2033</option>
+                <option value="2033/2034" ${
+                  project.fiscalYear === "2033/2034" ? "selected" : ""
+                }>2033/2034</option>
+                <option value="2034/2035" ${
+                  project.fiscalYear === "2034/2035" ? "selected" : ""
+                }>2034/2035</option>
+                <option value="2035/2036" ${
+                  project.fiscalYear === "2035/2036" ? "selected" : ""
+                }>2035/2036</option>
+                <option value="2036/2037" ${
+                  project.fiscalYear === "2036/2037" ? "selected" : ""
+                }>2036/2037</option>
+                <option value="2037/2038" ${
+                  project.fiscalYear === "2037/2038" ? "selected" : ""
+                }>2037/2038</option>
+                <option value="2038/2039" ${
+                  project.fiscalYear === "2038/2039" ? "selected" : ""
+                }>2038/2039</option>
+                <option value="2039/2040" ${
+                  project.fiscalYear === "2039/2040" ? "selected" : ""
+                }>2039/2040</option>
+                <option value="2040/2041" ${
+                  project.fiscalYear === "2040/2041" ? "selected" : ""
+                }>2040/2041</option>
+              </select>
+            </div>
+            <div class="col-md-4">
               <label for="estimatedValue" class="form-label">القيمة التقديرية</label>
               <input type="number" id="estimatedValue" class="form-control" value="${
                 project.estimatedValue || 0
