@@ -137,12 +137,6 @@ export function renderForm(
               }</textarea>
             </div>
 
-           <div class="col-md-4">
-              <label for="fiscalYear" class="form-label">السنه الماليه</label>
-              <input type="text" id="fiscalYear" class="form-control" value="${
-                project.fiscalYear || ""
-              }">
-            </div>
 
 
             <div class="col-md-4">
