@@ -168,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chart3Container.innerHTML = '<canvas id="projectCategoryChart"></canvas>';
     const ctx3 = chart3Container.querySelector("canvas").getContext("2d");
+
     new Chart(ctx3, {
       type: "bar",
       data: {
@@ -183,16 +184,35 @@ document.addEventListener("DOMContentLoaded", () => {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true },
+          datalabels: {
+            display: false, // ✅ إخفاء الأرقام من فوق الأعمدة
+          },
+        },
         scales: {
+          x: {
+            ticks: {
+              callback: function (value, index) {
+                // ✅ إضافة الرقم بجانب اسم الفئة
+                const label = chartData.categories.labels[index];
+                const count = chartData.categories.values[index];
+                return `${label} (${count})`;
+              },
+              font: {
+                size: 11,
+              },
+            },
+          },
           y: {
             beginAtZero: true,
             ticks: { precision: 0 },
           },
         },
       },
+      plugins: [ChartDataLabels],
     });
 
-    // ✅ الشارت الخامس: المنصرف حسب الفئة
     chart4Container.innerHTML =
       '<canvas id="disbursedByCategoryChart"></canvas>';
     const ctx5 = chart4Container.querySelector("canvas").getContext("2d");

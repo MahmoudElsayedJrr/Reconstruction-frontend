@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const usernameDisplay = document.getElementById("username-display");
+  const userRoleDisplay = document.getElementById("userRole");
   const logoutButton = document.getElementById("logout-button");
   const token = localStorage.getItem("loggedInUserToken");
   const tokenExpiry = localStorage.getItem("tokenExpiry");
-
 
   if (!token || !tokenExpiry || Date.now() > parseInt(tokenExpiry)) {
     localStorage.removeItem("token");
@@ -15,11 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (usernameDisplay && logoutButton) {
     const loggedInUser = localStorage.getItem("loggedInUser");
-    const role = localStorage.getItem("userRole");
+    const role = localStorage.getItem("loggedInUserRole");
     const token = localStorage.getItem("loggedInUserToken");
+
+    const roleNames = {
+      admin: "أدمن",
+      manager: "تخطيط ومتابعة",
+      executive: "تنفيذية",
+      financial: "مالي",
+      projectManager: "مشروعات",
+      contractual: "تعاقدية",
+      employee: "موظف",
+    };
 
     if (loggedInUser && token) {
       usernameDisplay.textContent = loggedInUser;
+      if (userRoleDisplay && role) {
+        userRoleDisplay.textContent = roleNames[role] || role;
+      }
     } else {
       alert("الرجاء تسجيل الدخول أولاً.");
       window.location.href = "login.html";
@@ -46,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         localStorage.removeItem("loggedInUser");
         localStorage.removeItem("loggedInUserToken");
+        localStorage.removeItem("loggedInUserRole");
         window.location.href = "login.html";
       });
     }
