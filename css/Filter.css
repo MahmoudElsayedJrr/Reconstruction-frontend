@@ -8,7 +8,7 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   border: none;
-  padding-bottom: 20px;
+
   margin-bottom: 40px;
 }
 .stats-table {
@@ -48,9 +48,9 @@ body {
 }
 
 .stats-table .total-row td {
-  padding: 14px 8px;
   border-top: 3px solid #0d6efd !important; /* الخط الأزرق */
   font-size: 15px;
+  padding: 14px 8px;
 }
 
 .stats-table .total-row:hover {
