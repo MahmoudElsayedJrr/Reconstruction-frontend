@@ -1,0 +1,247 @@
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>نظام فلترة وعرض المشاريع</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.rtl.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/Filter.css" />
+  </head>
+  <body>
+    <div class="container-fluid py-4">
+      <!-- Filter Card -->
+      <div class="card mt-4 filter-card">
+        <div class="card-header bg-white border-0 py-3">
+          <h4 class="mb-0 text-right text-secondry fw-bold">
+            <i class="fas fa-search me-2"></i>
+            البحث في المشروعات
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 align-items-end">
+            <div class="col-lg-3 col-md-6">
+              <label for="activityCodeFilter" class="form-label"
+                >كود المشروع</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="activityCodeFilter"
+                placeholder="بحث بالكود..."
+              />
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <label for="projectNameFilter" class="form-label"
+                >اسم المشروع</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="projectNameFilter"
+                placeholder="بحث بالاسم..."
+              />
+            </div>
+
+            <div class="col-md-4 col-lg-2">
+              <label for="governorateFilter" class="form-label">المحافظة</label>
+              <select id="governorateFilter" class="form-select">
+                <option selected>الكل</option>
+                <option>شمال سيناء</option>
+                <option>جنوب سيناء</option>
+                <option>بورسعيد</option>
+                <option>الإسماعيلية</option>
+                <option>السويس</option>
+                <option>الشرقية</option>
+                <option>دمياط</option>
+              </select>
+            </div>
+
+            <div class="col-md-4 col-lg-2">
+              <label for="projectCategoryFilter" class="form-label"
+                >فئة المشروع</label
+              >
+              <select id="projectCategoryFilter" class="form-select">
+                <option selected>الكل</option>
+                <option>طرق</option>
+                <option>كهرباء</option>
+                <option>مياه</option>
+                <option>صرف صحي</option>
+                <option>منازل بدوية</option>
+                <option>إسكان اجتماعي</option>
+                <option>خدمات</option>
+                <option>تنمية متكاملة</option>
+                <option>حضانات</option>
+                <option>مجازر</option>
+                <option>مباني حكومية</option>
+                <option>اخر</option>
+              </select>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+              <label for="fundingTypeFilter" class="form-label"
+                >نوع التمويل</label
+              >
+              <select id="fundingTypeFilter" class="form-select">
+                <option selected>الكل</option>
+                <option>خطة استثمارية</option>
+                <option>تمويل الغير</option>
+              </select>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <label for="progressFilter" class="form-label"
+                >نسبة التنفيذ</label
+              >
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="progressMin"
+                  placeholder="من"
+                  min="0"
+                  max="100"
+                />
+                <span class="fw-bold">-</span>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="progressMax"
+                  placeholder="إلى"
+                  min="0"
+                  max="100"
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+              <label for="fiscalYearFilter" class="form-label"
+                >السنة المالية</label
+              >
+              <select id="fiscalYearFilter" class="form-select">
+                <option selected>الكل</option>
+                <option>2024/2025</option>
+                <option>2025/2026</option>
+                <option>2026/2027</option>
+                <option>2027/2028</option>
+              </select>
+            </div>
+
+            <div class="col-md-4 col-lg-2">
+              <label for="statusFilter" class="form-label">حالة المشروع</label>
+              <select id="statusFilter" class="form-select">
+                <option selected>الكل</option>
+                <option>قيد التنفيذ</option>
+                <option>مكتمل</option>
+                <option>متأخر</option>
+                <option>مسحوب</option>
+                <option>متوقف</option>
+              </select>
+            </div>
+
+            <div class="col-md-4 col-lg-1">
+              <label class="form-label invisible">فلتر</label>
+              <button
+                class="btn btn-primary w-100 filter-btn"
+                id="filterButton"
+              >
+                <i class="fas fa-filter"></i>
+              </button>
+            </div>
+
+            <div class="col-md-4 col-lg-1 d-grid">
+              <button
+                class="btn btn-secondary w-100 filter-btn"
+                id="resetButton"
+              >
+                <i class="fas fa-redo"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loading-overlay" id="loadingOverlay"></div>
+      <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="loading-text">جاري التحميل...</div>
+      </div>
+
+      <!-- Statistics Table -->
+      <div class="card mt-4 filter-card" id="statsCard" style="display: none">
+        <div class="card-header bg-white border-0 py-3">
+          <h4 class="mb-0 text-right text-secondry fw-bold">
+            <i class="fas fa-chart-bar me-2"></i>
+            جدول الإحصائيات
+          </h4>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table
+              class="table table-bordered mb-0 stats-table"
+              id="statsTable"
+            >
+              <thead>
+                <tr>
+                  <th class="text-center align-middle">م</th>
+                  <th class="text-center align-middle">الجهة / المحافظة</th>
+                  <th class="text-center align-middle">إجمالي عدد الأنشطة</th>
+                  <th class="text-center align-middle">عدد أنشطة تم تسليمها</th>
+                  <th class="text-center align-middle">
+                    عدد أنشطة تم سحب أعمال
+                  </th>
+                  <th class="text-center align-middle">
+                    عدد الأنشطة الجاري تنفيذها
+                  </th>
+                  <th class="text-center align-middle">عدد الأنشطة الموقوفة</th>
+                </tr>
+              </thead>
+              <tbody id="statsBody">
+                <!-- Will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects List -->
+      <div
+        class="card mt-4 filter-card"
+        id="projectsCard"
+        style="display: none"
+      >
+        <div
+          class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center"
+        >
+          <h4 class="mb-0 text-secondry fw-bold">
+            <i class="fas fa-list me-2"></i>
+            المشروعات <span class="badge bg-primary" id="projectsCount">0</span>
+          </h4>
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            id="closeProjectsBtn"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div id="projectsList" class="row g-3">
+            <!-- Will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  <script src="../JS/project/filter.js"></script>
+  <script src="../JS/constants.js"></script>
+  <script src="../JS/main.js"></script>
+</html>

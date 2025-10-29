@@ -119,10 +119,16 @@ document.addEventListener("DOMContentLoaded", () => {
     //console.log("📊 Rendering charts with data:", chartData);
     chart1Container.innerHTML = '<canvas id="projectStatusChart"></canvas>';
     const ctx1 = chart1Container.querySelector("canvas").getContext("2d");
+
+    // ✅ إضافة الأرقام للـ labels
+    const labelsWithCounts = chartData.status.labels.map((label, index) => {
+      return `${label} (${chartData.status.values[index]})`;
+    });
+
     new Chart(ctx1, {
       type: "doughnut",
       data: {
-        labels: chartData.status.labels,
+        labels: labelsWithCounts, // ✅ استخدام الـ labels الجديدة
         datasets: [
           {
             data: chartData.status.values,
@@ -145,12 +151,22 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         ],
       },
-      options: { responsive: true, maintainAspectRatio: false },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: "right", // أو 'bottom' حسب التصميم
+          },
+        },
+      },
     });
 
     chart2Container.innerHTML =
       '<canvas id="projectsByGovernorateChart"></canvas>';
     const ctx2 = chart2Container.querySelector("canvas").getContext("2d");
+
     new Chart(ctx2, {
       type: "bar",
       data: {
@@ -163,7 +179,36 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         ],
       },
-      options: { responsive: true, maintainAspectRatio: false },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true },
+          datalabels: {
+            display: false, // ❌ إخفاء الأرقام فوق الأعمدة
+          },
+        },
+        scales: {
+          x: {
+            ticks: {
+              callback: function (value, index) {
+                const label = chartData.governorates.labels[index];
+                const count = chartData.governorates.values[index];
+                return `${label} (${count.toLocaleString()})`; // ✅ يفضل تسيب دي
+              },
+              font: { size: 11 },
+            },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0,
+              callback: (val) => val.toLocaleString(),
+            },
+          },
+        },
+      },
+      plugins: [ChartDataLabels],
     });
 
     chart3Container.innerHTML = '<canvas id="projectCategoryChart"></canvas>';
@@ -213,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
       plugins: [ChartDataLabels],
     });
 
-    chart4Container.innerHTML =
+    /* chart4Container.innerHTML =
       '<canvas id="disbursedByCategoryChart"></canvas>';
     const ctx5 = chart4Container.querySelector("canvas").getContext("2d");
     new Chart(ctx5, {
@@ -240,6 +285,55 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         },
       },
+    }); */
+
+    chart4Container.innerHTML =
+      '<canvas id="disbursedByCategoryChart"></canvas>';
+    const ctx5 = chart4Container.querySelector("canvas").getContext("2d");
+    new Chart(ctx5, {
+      type: "bar",
+      data: {
+        labels: chartData.disbursedByCategory.labels,
+        datasets: [
+          {
+            label: "المنصرف (ج.م)",
+            data: chartData.disbursedByCategory.values,
+            backgroundColor: "#0dcaf0",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true },
+          datalabels: {
+            display: false, // ✅ إخفاء الأرقام فوق الأعمدة
+          },
+        },
+        scales: {
+          x: {
+            ticks: {
+              callback: function (value, index) {
+                // ✅ عرض الاسم + القيمة بجانب بعض في المحور X
+                const label = chartData.disbursedByCategory.labels[index];
+                const amount = chartData.disbursedByCategory.values[index];
+                return `${label} (${amount.toLocaleString()} ج.م)`;
+              },
+              font: {
+                size: 11,
+              },
+            },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (val) => val.toLocaleString() + " ج.م",
+            },
+          },
+        },
+      },
+      plugins: [ChartDataLabels],
     });
   }
 
