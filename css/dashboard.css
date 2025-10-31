@@ -1,30 +1,1138 @@
+:root {
+  --primary-color: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #818cf8;
+  --secondary-color: #ec4899;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --dark-color: #1e293b;
+  --light-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --sidebar-bg: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --border-radius: 12px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==================== الإعدادات العامة ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Cairo", sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==================== الشريط الجانبي ==================== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 280px;
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem 0;
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
+  transition: var(--transition);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.logo {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius);
+  margin: 0 1rem 2rem;
+  backdrop-filter: blur(10px);
+}
+
+.logo i {
+  display: block;
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
+  background: linear-gradient(
+    135deg,
+    var(--primary-light),
+    var(--secondary-color)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 1rem 1.5rem;
+  margin: 0.3rem 1rem;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: var(--primary-color);
+  transform: scaleY(0);
+  transition: var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: translateX(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.nav-link:hover::before,
+.nav-link.active::before {
+  transform: scaleY(1);
+}
+
+.nav-link .icon {
+  font-size: 1.2rem;
+  width: 30px;
+  text-align: center;
+}
+
+/* ==================== المحتوى الرئيسي ==================== */
+.main-content {
+  margin-right: 280px;
+  padding: 2rem;
+  min-height: 100vh;
+  transition: var(--transition);
+}
+
+.main-content h2 {
+  color: var(--dark-color);
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.main-content h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  border-radius: 10px;
+}
+
+/* ==================== الكروت ==================== */
+.card {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  background: var(--card-bg);
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 2px solid #e9ecef !important;
+  padding: 1.5rem !important;
+}
+
+.card-title {
+  color: var(--dark-color);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* ==================== كارت إجمالي المنصرف ==================== */
+#totalDisbursedCard {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
+  color: white;
+  border-radius: var(--border-radius);
+  position: relative;
+  overflow: hidden;
+}
+
+#totalDisbursedCard::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#totalDisbursedCard .card-title {
+  color: white;
+  font-size: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+#totalDisbursedValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white !important;
+  position: relative;
+  z-index: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== كارت الفلتر ==================== */
+.filter-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.filter-card .form-label {
+  color: var(--dark-color);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.filter-card .form-control,
+.filter-card .form-select {
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  transition: var(--transition);
+  font-size: 0.95rem;
+}
+
+.filter-card .form-control:focus,
+.filter-card .form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+#filter-button {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+}
+
+#filter-button:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(
+    135deg,
+    var(--primary-dark),
+    var(--primary-color)
+  );
+}
+
+/* ==================== الجدول المحسّن ==================== */
+.table-responsive {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  background: white;
+}
+
+.table {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95rem;
+}
+
+.table thead {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
+}
+
+.table thead th {
+  color: white !important;
+  background: transparent !important;
+  font-weight: 600;
+  text-align: center;
+  padding: 1.3rem 1rem;
+  border: none;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  vertical-align: middle;
+  position: relative;
+}
+
+.table thead th i {
+  color: white !important;
+  opacity: 0.9;
+}
+
+.table thead th:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.table tbody tr {
+  background: white;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.table tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.table tbody tr:hover {
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+  transform: scale(1.005);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.table tbody td {
+  padding: 1.1rem 1rem;
+  vertical-align: middle;
+  text-align: center;
+  color: #475569;
+  font-weight: 500;
+  border: none;
+  white-space: nowrap;
+}
+
+/* ==================== أكواد المشروع ==================== */
+.table tbody td:first-child {
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+}
+
+/* ==================== اسم المشروع ==================== */
+.table tbody td:nth-child(2) {
+  text-align: right;
+  font-weight: 600;
+  color: #1e293b;
+  max-width: 300px;
+  white-space: normal;
+  line-height: 1.5;
+}
+
+/* ==================== Badges للفئات ==================== */
+.category-badge,
+.funding-badge,
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.category-badge:hover,
+.funding-badge:hover,
+.status-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ألوان الفئات */
+.category-roads {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+.category-electricity {
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  color: white;
+}
+.category-water {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  color: white;
+}
+.category-sewage {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+}
+.category-housing {
+  background: linear-gradient(135deg, #ec4899, #db2777);
+  color: white;
+}
+.category-services {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+.category-default {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+}
+
+/* ألوان التمويل */
+.funding-investment {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+.funding-external {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+}
+
+/* ألوان الحالة */
+.status-ongoing {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+.status-completed {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+.status-delayed {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+.status-stopped {
+  background: linear-gradient(135deg, #64748b, #475569);
+  color: white;
+}
+.status-withdrawn {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+/* ==================== Progress Bar محسّن ==================== */
+.progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.progress {
+  flex: 1;
+  height: 12px;
+  border-radius: 20px;
+  background: #e9ecef;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 150px;
+}
+
+.progress-bar {
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.progress-bar.bg-warning {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.progress-bar.bg-danger {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.progress-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.progress-percentage {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #1e293b;
+  min-width: 45px;
+}
+
+.table a,
+.table button,
+.table .action-btn,
+.action-buttons a,
+.action-buttons button {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  text-underline-offset: 0 !important;
+}
+
+.table a:hover,
+.table a:focus,
+.table a:active,
+.table button:hover,
+.table button:focus,
+.table button:active,
+.action-btn:hover,
+.action-btn:focus,
+.action-btn:active {
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+/* إزالة أي underline من Font Awesome */
+.action-btn .fa,
+.action-btn .fas,
+.action-btn .far,
+.action-btn .fab {
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+/* ==================== أزرار الإجراءات المحسّنة ==================== */
+.action-buttons {
+  display: flex;
+  gap: 1rem; 
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.action-btn {
+  width: 38px;
+  height: 38px;
+  margin: 0 0.3rem; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  text-decoration: none !important;
+}
+
+.action-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+}
+
+.action-btn:hover::before {
+  width: 100px;
+  height: 100px;
+}
+
+.action-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+.action-btn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.action-btn i {
+  position: relative;
+  z-index: 1;
+}
+
+/* أزرار العرض */
+.btn-view {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+}
+
+.btn-view:hover {
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+}
+
+/* أزرار التعديل */
+.btn-edit {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.btn-edit:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
+}
+
+/* أزرار الحذف */
+.btn-delete {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.btn-delete:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+}
+
+/* ==================== Tooltip للأزرار ==================== */
+.action-btn {
+  position: relative;
+}
+
+.action-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-5px);
+  background: #1e293b;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.action-btn:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==================== Empty State ==================== */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: #cbd5e1;
+  margin-bottom: 1rem;
+}
+
+.empty-state h5 {
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: #94a3b8;
+}
+
+/* ==================== Loading State ==================== */
+.table-loading {
+  text-align: center;
+  padding: 3rem;
+}
+
+.table-loading .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: var(--primary-color);
+}
+
+/* ==================== Responsive للجدول ==================== */
+@media (max-width: 992px) {
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 0.9rem 0.6rem;
+  }
+
+  .action-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 0.85rem;
+  }
+
+  .action-buttons {
+    gap: 0.4rem;
+  }
+
+  .category-badge,
+  .funding-badge,
+  .status-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .progress {
+    max-width: 100px;
+    height: 10px;
+  }
+
+  .progress-percentage {
+    font-size: 0.8rem;
+    min-width: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table thead th,
+  .table tbody td {
+    padding: 0.8rem 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .table tbody td:nth-child(2) {
+    max-width: 200px;
+    font-size: 0.85rem;
+  }
+
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .action-buttons {
+    gap: 0.3rem;
+  }
+
+  .category-badge,
+  .funding-badge,
+  .status-badge {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.75rem;
+  }
+
+  .progress-wrapper {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .progress {
+    max-width: 100%;
+  }
+}
+
+/* ==================== Animations ==================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table tbody tr {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.table tbody tr:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.table tbody tr:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.table tbody tr:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.table tbody tr:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.table tbody tr:nth-child(5) {
+  animation-delay: 0.25s;
+}
+/* ==================== الـ Chart Containers ==================== */
 .chart-container {
-    position: relative;
-    height: 350px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
 
+#chart3-container,
+#chart4-container {
+  height: 400px !important;
+}
+
+/* ==================== الـ Skeleton Loading ==================== */
 .skeleton {
-    animation: skeleton-glow 1.5s linear infinite alternate;
-    background-color: #e9ecef;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
 }
 
-@keyframes skeleton-glow {
-    from {
-        opacity: 0.6;
-    }
-
-    to {
-        opacity: 1;
-    }
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .skeleton-text {
-    width: 100%;
-    height: 1rem;
-    margin-bottom: 0.5rem;
-    border-radius: 0.25rem;
+  height: 16px;
+  width: 100%;
+}
+
+/* ==================== الـ Modal ==================== */
+.modal-content {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 1.5rem;
+}
+
+.modal-title {
+  color: var(--dark-color);
+  font-weight: 600;
+}
+
+.modal-body {
+  padding: 2rem 1.5rem;
+  font-size: 1.05rem;
+  color: #475569;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  background: #f8f9fa;
+}
+
+/* ==================== الـ Dropdown ==================== */
+.dropdown-menu {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  padding: 0.5rem;
+  animation: fadeInDown 0.3s;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-item {
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateX(-5px);
+}
+
+/* ==================== User Profile ==================== */
+.user-profile {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1rem;
+}
+
+.user-profile .dropdown-toggle {
+  padding: 0.8rem;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.user-profile .dropdown-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== Toggle Sidebar Button ==================== */
+#toggle-sidebar {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1050;
+  border-radius: 8px;
+  background: var(--primary-color);
+  border: none;
+  box-shadow: var(--shadow-md);
+}
+
+#toggle-sidebar:hover {
+  background: var(--primary-dark);
+  transform: scale(1.05);
+}
+
+/* ==================== Responsive Design ==================== */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(100%);
+    width: 280px;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-right: 0;
+    padding: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .filter-card .col-md-4,
+  .filter-card .col-lg-3,
+  .filter-card .col-lg-2 {
+    margin-bottom: 1rem;
+  }
+
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 0.8rem 0.5rem;
+  }
+
+  #totalDisbursedValue {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo {
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
+
+  .logo i {
+    font-size: 2rem;
+  }
+
+  .main-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .btn-sm {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ==================== Animations ==================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ==================== Scrollbar التخصيص ==================== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    var(--primary-dark),
+    var(--primary-color)
+  );
+}
+
+/* ==================== تحسينات إضافية ==================== */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3rem;
+}
+
+.text-secondry {
+  color: var(--dark-color) !important;
+}
+
+.badge {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* ==================== Export Button ==================== */
+#export-excel-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: none;
+  box-shadow: var(--shadow-md);
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+#export-excel-btn:hover {
+  background: linear-gradient(135deg, #059669, #10b981);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ==================== Charts Styling ==================== */
+canvas {
+  max-height: 100%;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }

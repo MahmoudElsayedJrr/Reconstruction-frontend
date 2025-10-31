@@ -16,7 +16,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
   </head>
   <body>
     <button class="btn btn-outline-light d-md-none m-2" id="toggle-sidebar">
@@ -313,8 +313,11 @@
 
       <div class="card mt-4">
         <div class="card-header bg-white border-0 py-3">
-          <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0 text-centre text-secondry fw-bold">
+          <div
+            class="d-flex justify-content-between align-items-center flex-wrap gap-3"
+          >
+            <h5 class="mb-0 text-secondry fw-bold">
+              <i class="fas fa-list-ul me-2"></i>
               قائمة المشروعات
             </h5>
             <button id="export-excel-btn" class="btn btn-success">
@@ -322,52 +325,25 @@
             </button>
           </div>
         </div>
-        <div class="card-body">
+        <div class="card-body p-0">
           <div class="table-responsive">
-            <table class="table table-hover align-middle">
+            <table class="table table-hover align-middle mb-0">
               <thead>
                 <tr>
-                  <th>كود المشروع</th>
-                  <th>اسم المشروع</th>
-                  <th>الفئة</th>
-                  <th>نوع التمويل</th>
-                  <th>نسبة الإنجاز</th>
-                  <th>إجراءات</th>
+                  <th><i class="fas fa-hashtag me-1"></i> كود المشروع</th>
+                  <th>
+                    <i class="fas fa-project-diagram me-1"></i> اسم المشروع
+                  </th>
+                  <th><i class="fas fa-tag me-1"></i> الفئة</th>
+                  <th>
+                    <i class="fas fa-money-bill-wave me-1"></i> نوع التمويل
+                  </th>
+                  <th><i class="fas fa-chart-line me-1"></i> نسبة الإنجاز</th>
+                  <th><i class="fas fa-cogs me-1"></i> إجراءات</th>
                 </tr>
               </thead>
               <tbody id="projects-table-body">
-                <tr>
-                  <td><p class="skeleton skeleton-text mb-0"></p></td>
-                  <td><p class="skeleton skeleton-text mb-0"></p></td>
-                  <td>
-                    <div
-                      class="skeleton"
-                      style="height: 10px; border-radius: 5px"
-                    ></div>
-                  </td>
-                  <td>
-                    <p
-                      class="skeleton skeleton-text mb-0"
-                      style="width: 110px"
-                    ></p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><p class="skeleton skeleton-text mb-0"></p></td>
-                  <td><p class="skeleton skeleton-text mb-0"></p></td>
-                  <td>
-                    <div
-                      class="skeleton"
-                      style="height: 10px; border-radius: 5px"
-                    ></div>
-                  </td>
-                  <td>
-                    <p
-                      class="skeleton skeleton-text mb-0"
-                      style="width: 110px"
-                    ></p>
-                  </td>
-                </tr>
+                <!-- سيتم ملؤها ديناميكياً -->
               </tbody>
             </table>
           </div>

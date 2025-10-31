@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:3000/";
+const API_URL = "http://192.168.0.38:3000/";
 
-//  "https://work-backend-production.up.railway.app/"
 // http://localhost:3000/
+// http://192.168.0.38:3000/
 
 const permissions = {
   admin: [
