@@ -4,11 +4,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const contractualTabContainer = document.getElementById(
     "contractual-pdf-section"
   );
+  const urlParams = new URLSearchParams(window.location.search);
   const mainContent = document.querySelector(".main-content");
   const mediaTabContent = document.getElementById("media-tab");
   const token = localStorage.getItem("loggedInUserToken");
+  const fromPage = urlParams.get("from");
   const activityCode = new URLSearchParams(window.location.search).get("code");
   const API_BASE_URL = API_URL;
+
+  const backButton = document.querySelector(
+    '.btn-outline-primary[href*="dashboard.html"]'
+  );
+  if (backButton) {
+    if (fromPage === "filter") {
+      backButton.href = "../html/reportsPage.html";
+      backButton.innerHTML =
+        '<i class="fas fa-arrow-right ms-0"></i> العودة للإحصائيات';
+    } else {
+      backButton.href = "../html/dashboard.html";
+      backButton.innerHTML =
+        '<i class="fas fa-arrow-right ms-0"></i> العودة للوحة التحكم';
+    }
+  }
 
   let mediaToDelete = { type: null, path: null };
 

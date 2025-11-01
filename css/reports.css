@@ -1,0 +1,443 @@
+/* الألوان الأساسية */
+:root {
+  --primary-blue: #0d6efd;
+  --dark-blue: #0a58ca;
+  --light-blue: #cfe2ff;
+  --text-dark: #1a253c;
+  --text-muted: #6c757d;
+  --bg-light: #f8f9fa;
+  --border-color: #dee2e6;
+  --success-green: #198754;
+  --danger-red: #dc3545;
+  --warning-orange: #ffc107;
+}
+
+/* تنسيق الصفحة العامة */
+body {
+  background-color: #f5f7fa;
+  font-family: "Cairo", sans-serif;
+}
+
+.container-fluid {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* تنسيق البطاقات */
+.filter-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  background: linear-gradient(170deg, #07429b, var(--primary-blue)) !important;
+  border: none !important;
+  padding: 1rem 1.5rem !important;
+}
+
+.card-header h4 {
+  color: white !important;
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* تنسيق الفلاتر */
+.form-label {
+  color: var(--text-dark);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* تنسيق الأزرار */
+.filter-btn {
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #07429b, var(--primary-blue));
+  border: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.3);
+}
+
+.btn-outline-secondary {
+  border-color: var(--border-color);
+  color: var(--text-muted);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--bg-light);
+  border-color: var(--text-muted);
+  color: var(--text-dark);
+}
+
+/* تنسيق Loading */
+.loading-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
+.loading-overlay.active {
+  display: block;
+}
+
+.loading-spinner {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 9999;
+}
+
+.loading-spinner.active {
+  display: block;
+}
+
+.loading-text {
+  color: white;
+  margin-top: 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* تنسيق جدول الإحصائيات */
+.stats-table {
+  margin: 0;
+}
+
+.stats-table thead {
+  background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+  color: white;
+}
+
+.stats-table thead th {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem;
+  font-weight: 600;
+  white-space: normal;
+  word-wrap: break-word;
+  vertical-align: middle;
+}
+
+.stats-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.stats-table tbody tr:hover {
+  background-color: var(--light-blue);
+  transform: scale(1.01);
+}
+
+.stats-table tbody td {
+  border: 1px solid var(--border-color);
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.stats-table .clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stats-table .clickable:hover {
+  background-color: rgba(13, 110, 253, 0.1) !important;
+  font-weight: 600;
+}
+
+.stats-table .total-row {
+  background-color: var(--bg-light) !important;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.stats-table .bg-success {
+  background-color: rgba(25, 135, 84, 0.1) !important;
+}
+
+.stats-table .bg-danger {
+  background-color: rgba(220, 53, 69, 0.1) !important;
+}
+
+.stats-table .bg-primary {
+  background-color: rgba(13, 110, 253, 0.1) !important;
+}
+
+.stats-table .bg-warning {
+  background-color: rgba(255, 193, 7, 0.1) !important;
+}
+
+/* تنسيق بطاقات المشروعات */
+.project-card {
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  background: white;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-blue);
+}
+
+.project-card h5 {
+  color: var(--primary-blue);
+  font-size: 1.1rem;
+}
+
+.project-card .badge {
+  font-size: 0.85rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.badge-status {
+  border-radius: 6px;
+}
+
+.project-card small {
+  font-size: 0.85rem;
+}
+
+.project-card .text-muted {
+  color: var(--text-muted) !important;
+}
+
+.project-card .fw-bold {
+  color: var(--text-dark);
+}
+
+/* تنسيق Progress Bar */
+.progress {
+  background-color: #e9ecef;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: var(--primary-blue);
+  transition: width 0.6s ease;
+}
+
+/* تنسيق Badge */
+.badge {
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+.badge.bg-primary {
+  background-color: var(--primary-blue) !important;
+}
+
+.badge.bg-success {
+  background-color: var(--success-green) !important;
+}
+
+.badge.bg-danger {
+  background-color: var(--danger-red) !important;
+}
+
+.badge.bg-warning {
+  background-color: var(--warning-orange) !important;
+  color: #000 !important;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+/* تنسيق responsive */
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 1rem;
+  }
+
+  .card-header h4 {
+    font-size: 1rem;
+  }
+
+  .form-label {
+    font-size: 0.85rem;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .stats-table {
+    font-size: 0.85rem;
+  }
+
+  .stats-table thead th,
+  .stats-table tbody td {
+    padding: 0.5rem;
+  }
+
+  .project-card {
+    padding: 1rem !important;
+  }
+
+  .project-card h5 {
+    font-size: 1rem;
+  }
+}
+
+/* إضافة في ملف Filter.css */
+
+/* ✅ تنسيق Header الصفحة */
+.container-fluid > .d-flex:first-child h2 {
+  color: var(--text-dark);
+  font-size: 1.75rem;
+}
+
+.container-fluid > .d-flex:first-child .btn-outline-primary {
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+  padding: 0.6rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.container-fluid > .d-flex:first-child .btn-outline-primary:hover {
+  background-color: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+/* ✅ زر الإغلاق في بطاقة المشروعات */
+#closeProjectsBtn {
+  background-color: white;
+  border-color: white;
+  color: #6c757d;
+  transition: all 0.3s ease;
+}
+
+#closeProjectsBtn:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+  transform: scale(1.1);
+}
+
+#closeProjectsBtn i {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .container-fluid > .d-flex:first-child h2 {
+    font-size: 1.35rem;
+    margin-bottom: 1rem !important;
+  }
+
+  .container-fluid > .d-flex:first-child {
+    gap: 1rem;
+  }
+}
+
+/* تنسيق أيقونات Font Awesome */
+.fas,
+.fa {
+  transition: all 0.3s ease;
+}
+
+.btn:hover .fas,
+.btn:hover .fa {
+  transform: scale(1.1);
+}
+
+/* تنسيق خاص للأعمدة */
+.col-lg-1,
+.col-lg-2,
+.col-lg-3,
+.col-md-4,
+.col-md-6 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* .container-fluid > .d-flex:first-child h2 {
+  color: var(--primary-blue);
+  font-size: 1.75rem;
+}
+
+.container-fluid > .d-flex:first-child .btn-outline-primary {
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+  padding: 0.6rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.container-fluid > .d-flex:first-child .btn-outline-primary:hover {
+  background-color: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+@media (max-width: 768px) {
+  .container-fluid > .d-flex:first-child h2 {
+    font-size: 1.35rem;
+    margin-bottom: 1rem !important;
+  }
+
+  .container-fluid > .d-flex:first-child {
+    gap: 1rem;
+  }
+}
+ */

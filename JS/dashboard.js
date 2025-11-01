@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "عدد المشاريع",
             data: chartData.categories.values,
-            backgroundColor: "#afb2dbff",
+            backgroundColor: "#6668ceff",
           },
         ],
       },
@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "المنصرف (ج.م)",
             data: chartData.disbursedByCategory.values,
-            backgroundColor: "#0dcaf0",
+            backgroundColor: "#1e293b",
           },
         ],
       },

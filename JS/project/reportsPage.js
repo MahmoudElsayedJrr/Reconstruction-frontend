@@ -82,9 +82,17 @@ async function loadStatistics() {
   try {
     const queryParams = buildQueryParams();
     console.log("Fetching statistics with params:", queryParams);
+    const token = localStorage.getItem("loggedInUserToken");
 
     const response = await fetch(
-      `${API_URL}activity/statistics?${queryParams}`
+      `${API_URL}activity/statistics?${queryParams}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`, // 🔑
+          "Content-Type": "application/json",
+        },
+      }
     );
 
     if (!response.ok) {
@@ -220,8 +228,18 @@ async function loadProjects() {
     }
 
     const queryParams = buildQueryParams(additionalFilters);
-    const response = await fetch(`${API_URL}/activities?${queryParams}`);
+    const token = localStorage.getItem("loggedInUserToken");
+    console.log("🔍 Query Params:", queryParams);
+    const response = await fetch(`${API_URL}activity?${queryParams}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("📡 Response Status:", response.status);
     const data = await response.json();
+    console.log("📦 Response Data:", data);
 
     if (data.status === "success") {
       renderProjects(data.data.activities);
@@ -238,6 +256,8 @@ async function loadProjects() {
 }
 
 // Render Projects
+// ✅ استبدل function renderProjects في ملف filter.js
+
 function renderProjects(activities) {
   const projectsList = document.getElementById("projectsList");
   const projectsCard = document.getElementById("projectsCard");
@@ -248,7 +268,8 @@ function renderProjects(activities) {
 
   if (activities.length === 0) {
     projectsList.innerHTML =
-      '<div class="col-12 text-center">لا توجد مشروعات</div>';
+      '<div class="col-12 text-center text-muted py-4">لا توجد مشروعات</div>';
+    return;
   }
 
   activities.forEach((activity) => {
@@ -262,66 +283,59 @@ function renderProjects(activities) {
 
     const col = document.createElement("div");
     col.className = "col-12";
+    // ✅ إضافة parameter من=فلتر في الـ URL
     col.innerHTML = `
-                    <div class="project-card p-3 bg-white">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                                <h5 class="fw-bold text-primary mb-1">${
-                                  activity.activityName || "غير محدد"
-                                }</h5>
-                                <small class="text-muted">كود المشروع: ${
-                                  activity.activityCode || "غير محدد"
-                                }</small>
-                            </div>
-                            <span class="badge bg-${
-                              statusColors[activity.status] || "secondary"
-                            } badge-status">${
-      activity.status || "غير محدد"
-    }</span>
-                        </div>
-                        
-                        <div class="row g-2 mb-3">
-                            <div class="col-md-3">
-                                <small class="text-muted d-block">المحافظة</small>
-                                <span class="fw-bold">${
-                                  activity.governorate || "غير محدد"
-                                }</span>
-                            </div>
-                            <div class="col-md-3">
-                                <small class="text-muted d-block">الفئة</small>
-                                <span class="fw-bold">${
-                                  activity.projectCategory || "غير محدد"
-                                }</span>
-                            </div>
-                            <div class="col-md-3">
-                                <small class="text-muted d-block">نوع التمويل</small>
-                                <span class="fw-bold">${
-                                  activity.fundingType || "غير محدد"
-                                }</span>
-                            </div>
-                            <div class="col-md-3">
-                                <small class="text-muted d-block">السنة المالية</small>
-                                <span class="fw-bold">${
-                                  activity.fiscalYear || "غير محدد"
-                                }</span>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <small class="text-muted">نسبة التنفيذ</small>
-                                <small class="fw-bold">${
-                                  activity.progress || 0
-                                }%</small>
-                            </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: ${
-                                  activity.progress || 0
-                                }%"></div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+      <div class="project-card p-3 bg-white" style="cursor: pointer;" onclick="window.location.href='project-details.html?code=${
+        activity.activityCode
+      }&from=filter'">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div>
+            <h5 class="fw-bold text-primary mb-1">${
+              activity.activityName || "غير محدد"
+            }</h5>
+            <small class="text-muted">كود المشروع: ${
+              activity.activityCode || "غير محدد"
+            }</small>
+          </div>
+          <span class="badge bg-${
+            statusColors[activity.status] || "secondary"
+          } badge-status">${activity.status || "غير محدد"}</span>
+        </div>
+        
+        <div class="row g-2 mb-3">
+          <div class="col-md-3">
+            <small class="text-muted d-block">المحافظة</small>
+            <span class="fw-bold">${activity.governorate || "غير محدد"}</span>
+          </div>
+          <div class="col-md-3">
+            <small class="text-muted d-block">الفئة</small>
+            <span class="fw-bold">${
+              activity.projectCategory || "غير محدد"
+            }</span>
+          </div>
+          <div class="col-md-3">
+            <small class="text-muted d-block">نوع التمويل</small>
+            <span class="fw-bold">${activity.fundingType || "غير محدد"}</span>
+          </div>
+          <div class="col-md-3">
+            <small class="text-muted d-block">السنة المالية</small>
+            <span class="fw-bold">${activity.fiscalYear || "غير محدد"}</span>
+          </div>
+        </div>
+        
+        <div class="mb-0">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <small class="text-muted">نسبة التنفيذ</small>
+            <small class="fw-bold">${activity.progress || 0}%</small>
+          </div>
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar bg-primary" role="progressbar" style="width: ${
+              activity.progress || 0
+            }%"></div>
+          </div>
+        </div>
+      </div>
+    `;
     projectsList.appendChild(col);
   });
 
