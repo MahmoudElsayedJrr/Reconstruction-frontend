@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!pageTitle) return;
 
   const formContainer = document.getElementById("form-container");
-  const userRole = localStorage.getItem("userRole");
+  const userRole = localStorage.getItem("loggedInUserRole");
   const token = localStorage.getItem("loggedInUserToken");
 
   const allowedFields = permissions[userRole] || [];
