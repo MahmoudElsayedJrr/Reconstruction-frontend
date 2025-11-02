@@ -164,11 +164,17 @@
 
       <!-- Statistics Table -->
       <div class="card mt-4 filter-card" id="statsCard" style="display: none">
-        <div class="card-header bg-white border-0 py-3">
+        <div
+          class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center flex-wrap"
+        >
           <h4 class="mb-0 text-right text-secondry fw-bold">
             <i class="fas fa-chart-bar me-2"></i>
             جدول الإحصائيات
           </h4>
+          <button class="btn print-stats-btn" id="printStatsBtn">
+            <i class="fas fa-print me-2"></i>
+            طباعة الجدول
+          </button>
         </div>
         <div class="card-body p-0">
           <div class="table-responsive">

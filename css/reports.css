@@ -336,7 +336,28 @@ body {
   }
 }
 
-/* إضافة في ملف Filter.css */
+.print-stats-btn {
+  background: linear-gradient(135deg, #22883a, #25c448);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
+}
+
+.print-stats-btn:hover {
+  background: linear-gradient(135deg, #218838 0%, #1aa179 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+  color: white;
+}
+
+.print-stats-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+}
 
 /* ✅ تنسيق Header الصفحة */
 .container-fluid > .d-flex:first-child h2 {

@@ -1,12 +1,12 @@
 let currentFilters = {};
 let selectedStatFilter = null;
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadStatistics();
-});
+document.addEventListener("DOMContentLoaded", () => {});
 document.getElementById("filterButton").addEventListener("click", applyFilters);
 document.getElementById("resetButton").addEventListener("click", resetFilters);
-
+document
+  .getElementById("printStatsBtn")
+  .addEventListener("click", printStatistics);
 document.getElementById("closeProjectsBtn").addEventListener("click", () => {
   document.getElementById("projectsCard").style.display = "none";
   selectedStatFilter = null;
@@ -44,8 +44,6 @@ function buildQueryParams(additionalFilters = {}) {
 
 function applyFilters() {
   currentFilters = {
-    code: document.getElementById("activityCodeFilter").value.trim(),
-    name: document.getElementById("projectNameFilter").value.trim(),
     governorate: document.getElementById("governorateFilter").value,
     category: document.getElementById("projectCategoryFilter").value,
     funding: document.getElementById("fundingTypeFilter").value,
@@ -61,8 +59,6 @@ function applyFilters() {
 }
 
 function resetFilters() {
-  document.getElementById("activityCodeFilter").value = "";
-  document.getElementById("projectNameFilter").value = "";
   document.getElementById("governorateFilter").selectedIndex = 0;
   document.getElementById("projectCategoryFilter").selectedIndex = 0;
   document.getElementById("fundingTypeFilter").selectedIndex = 0;
@@ -255,9 +251,6 @@ async function loadProjects() {
   }
 }
 
-// Render Projects
-// ✅ استبدل function renderProjects في ملف filter.js
-
 function renderProjects(activities) {
   const projectsList = document.getElementById("projectsList");
   const projectsCard = document.getElementById("projectsCard");
@@ -283,7 +276,7 @@ function renderProjects(activities) {
 
     const col = document.createElement("div");
     col.className = "col-12";
-    // ✅ إضافة parameter من=فلتر في الـ URL
+
     col.innerHTML = `
       <div class="project-card p-3 bg-white" style="cursor: pointer;" onclick="window.location.href='project-details.html?code=${
         activity.activityCode
@@ -341,4 +334,121 @@ function renderProjects(activities) {
 
   projectsCard.style.display = "block";
   projectsCard.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function printStatistics() {
+  const statsCard = document.getElementById("statsCard");
+
+  if (
+    statsCard.style.display === "none" ||
+    !document.getElementById("statsBody").innerHTML.trim()
+  ) {
+    alert("⚠️ لا توجد بيانات للطباعة. قم بتطبيق الفلتر أولاً!");
+    return;
+  }
+
+  const printWindow = window.open("", "_blank");
+
+  const printContent = `
+    <!DOCTYPE html>
+    <html dir="rtl" lang="ar">
+    <head>
+      <meta charset="UTF-8">
+      <title>طباعة إحصائيات المشروعات</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <style>
+        @media print {
+          body { 
+            padding: 40px;
+            font-family: 'Arial', sans-serif;
+          }
+          .no-print { display: none !important; }
+          table { 
+            width: 100%;
+            border-collapse: collapse;
+          }
+          th, td {
+            border: 1px solid #000 !important;
+            padding: 8px !important;
+          }
+          .total-row {
+            background-color: #e9ecef !important;
+            font-weight: bold;
+          }
+          @page {
+            margin: 1cm;
+          }
+        }
+        body {
+          font-family: 'Arial', sans-serif;
+        }
+        .header {
+          text-align: center;
+          margin-bottom: 30px;
+          border-bottom: 2px solid #333;
+          padding-bottom: 15px;
+        }
+        table {
+          width: 100%;
+          margin-top: 20px;
+        }
+        th {
+          background-color: #0d6efd;
+          color: white;
+          font-weight: bold;
+        }
+        .total-row {
+          background-color: #e9ecef;
+          font-weight: bold;
+        }
+        .footer {
+          margin-top: 30px;
+          text-align: center;
+          font-size: 12px;
+          color: #666;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <h2>📊 تقرير إحصائيات المشروعات</h2>
+        <p>تاريخ الطباعة: ${new Date().toLocaleDateString("ar-EG", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "long",
+        })}</p>
+      </div>
+      
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">المحافظة</th>
+            <th class="text-center">إجمالي المشروعات</th>
+            <th class="text-center">مكتمل</th>
+            <th class="text-center">مسحوب</th>
+            <th class="text-center">قيد التنفيذ</th>
+            <th class="text-center">متوقف</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${document.getElementById("statsBody").innerHTML}
+        </tbody>
+      </table>
+      
+      
+      <script>
+        window.onload = function() {
+          window.print();
+          // إغلاق النافذة بعد الطباعة (اختياري)
+          // window.onafterprint = function() { window.close(); }
+        }
+      </script>
+    </body>
+    </html>
+  `;
+
+  printWindow.document.write(printContent);
+  printWindow.document.close();
 }

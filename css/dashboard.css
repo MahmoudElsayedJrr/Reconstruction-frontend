@@ -27,7 +27,7 @@
 
 body {
   font-family: "Cairo", sans-serif;
-  background: linear-gradient(135deg, f8fafc 0%, f8fafc 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #f8fafc 100%);
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -309,9 +309,12 @@ body {
 /* ==================== الجدول المحسّن ==================== */
 .table-responsive {
   border-radius: 16px;
-  overflow: hidden;
+  overflow-x: auto !important;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   background: white;
+  position: relative;
 }
 
 .table {
@@ -742,115 +745,6 @@ body {
   color: var(--primary-color);
 }
 
-/* ==================== Responsive للجدول ==================== */
-@media (max-width: 992px) {
-  .table {
-    font-size: 0.85rem;
-  }
-
-  .table thead th,
-  .table tbody td {
-    padding: 0.9rem 0.6rem;
-  }
-
-  .action-btn {
-    width: 35px;
-    height: 35px;
-    font-size: 0.85rem;
-  }
-
-  .action-buttons {
-    gap: 0.4rem;
-  }
-
-  .category-badge,
-  .funding-badge,
-  .status-badge {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
-  }
-
-  .progress {
-    max-width: 100px;
-    height: 10px;
-  }
-
-  .progress-percentage {
-    font-size: 0.8rem;
-    min-width: 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .table thead th,
-  .table tbody td {
-    padding: 0.8rem 0.4rem;
-    font-size: 0.8rem;
-  }
-
-  .table tbody td:nth-child(2) {
-    max-width: 200px;
-    font-size: 0.85rem;
-  }
-
-  .action-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 0.8rem;
-  }
-
-  .action-buttons {
-    gap: 0.3rem;
-  }
-
-  .category-badge,
-  .funding-badge,
-  .status-badge {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.75rem;
-  }
-
-  .progress-wrapper {
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
-  .progress {
-    max-width: 100%;
-  }
-}
-
-/* ==================== Animations ==================== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.table tbody tr {
-  animation: fadeInUp 0.4s ease-out;
-}
-
-.table tbody tr:nth-child(1) {
-  animation-delay: 0.05s;
-}
-.table tbody tr:nth-child(2) {
-  animation-delay: 0.1s;
-}
-.table tbody tr:nth-child(3) {
-  animation-delay: 0.15s;
-}
-.table tbody tr:nth-child(4) {
-  animation-delay: 0.2s;
-}
-.table tbody tr:nth-child(5) {
-  animation-delay: 0.25s;
-}
 /* ==================== الـ Chart Containers ==================== */
 .chart-container {
   position: relative;
@@ -984,11 +878,121 @@ body {
   transform: scale(1.05);
 }
 
+/* ==================== Sidebar Overlay ==================== */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+/* ==================== Scroll Indicator ==================== */
+.scroll-indicator {
+  display: none;
+  padding: 0.5rem;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  animation: pulseIndicator 2s infinite;
+  border: 1px solid #dee2e6;
+}
+
+.scroll-indicator i {
+  color: var(--primary-color);
+  animation: moveArrows 1.5s infinite;
+}
+
+@keyframes moveArrows {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes pulseIndicator {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ==================== Scrollbar للجدول ==================== */
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+  border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
+}
+
+/* ==================== Responsive للجدول ==================== */
+@media (max-width: 992px) {
+  .table {
+    font-size: 0.85rem;
+    min-width: 900px;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 0.9rem 0.6rem;
+  }
+
+  .action-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 0.85rem;
+  }
+
+  .action-buttons {
+    gap: 0.4rem;
+    min-width: 140px;
+  }
+
+  .category-badge,
+  .funding-badge,
+  .status-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .progress {
+    max-width: 100px;
+    height: 10px;
+  }
+
+  .progress-percentage {
+    font-size: 0.8rem;
+    min-width: 40px;
+  }
+}
+
 /* ==================== Responsive Design ==================== */
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(100%);
     width: 280px;
+    transition: transform 0.3s ease;
   }
 
   .sidebar.active {
@@ -997,7 +1001,7 @@ body {
 
   .main-content {
     margin-right: 0;
-    padding: 1rem;
+    padding: 4.5rem 1rem 1rem 1rem;
   }
 
   .card-body {
@@ -1012,15 +1016,85 @@ body {
 
   .table {
     font-size: 0.85rem;
+    min-width: 1000px;
+  }
+
+  .table-responsive {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    border-radius: 0;
+    width: calc(100% + 2rem);
+  }
+
+  .scroll-indicator {
+    display: block;
   }
 
   .table thead th,
   .table tbody td {
-    padding: 0.8rem 0.5rem;
+    padding: 0.8rem 0.4rem;
+  }
+
+  .table tbody td:nth-child(2) {
+    max-width: 200px;
+    font-size: 0.85rem;
+  }
+
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+    margin: 0 0.2rem;
+  }
+
+  .action-buttons {
+    gap: 0.3rem;
+    min-width: 130px;
+  }
+
+  .category-badge,
+  .funding-badge,
+  .status-badge {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.75rem;
+  }
+
+  .progress-wrapper {
+    gap: 0.5rem;
+  }
+
+  .progress {
+    max-width: 80px;
+    height: 10px;
+  }
+
+  .progress-percentage {
+    font-size: 0.75rem;
+    min-width: 35px;
   }
 
   #totalDisbursedValue {
     font-size: 2rem;
+  }
+
+  #toggle-sidebar {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1050;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .filter-card .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .filter-card .col-md-4,
+  .filter-card .col-lg-3,
+  .filter-card .col-lg-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }
 
@@ -1042,9 +1116,64 @@ body {
     padding: 0.3rem 0.6rem;
     font-size: 0.8rem;
   }
+
+  .table {
+    min-width: 950px;
+    font-size: 0.75rem;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 0.7rem 0.3rem;
+  }
+
+  .action-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.75rem;
+  }
+
+  .action-buttons {
+    min-width: 120px;
+  }
+
+  #totalDisbursedValue {
+    font-size: 1.8rem;
+  }
 }
 
 /* ==================== Animations ==================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table tbody tr {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.table tbody tr:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.table tbody tr:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.table tbody tr:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.table tbody tr:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.table tbody tr:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
