@@ -64,28 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!name) continue;
 
         let governorate = (row["المحافظة"] || "").trim();
-        /*  if (!VALID_GOVERNORATES.includes(governorate)) {
-          governorate =
-            VALID_GOVERNORATES[
-              Math.floor(Math.random() * VALID_GOVERNORATES.length)
-            ];
-        } */
-
         let category = (row["فئة المشروع"] || "").trim();
-        /*  if (!VALID_CATEGORIES.includes(category)) {
-          category =
-            VALID_CATEGORIES[
-              Math.floor(Math.random() * VALID_CATEGORIES.length)
-            ];
-        } */
-
         let fundingType = (row["نوع التمويل"] || "").trim();
-        /*         if (!VALID_FUNDING_TYPES.includes(fundingType)) {
-          fundingType =
-            VALID_FUNDING_TYPES[
-              Math.floor(Math.random() * VALID_FUNDING_TYPES.length)
-            ];
-        } */
+
 
         const body = {
           activityCode: generateCode(),
@@ -115,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(body),
           });
           const data = await res.json();
-          //console.log("الرد من السيرفر:", data);
           if (res.status === 201) {
             successCount++;
             console.log(" تم اضافه المشروع بنجاح :");
@@ -134,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
       resultDiv.innerHTML = `
         <div class="alert alert-info">
           تم رفع الملف.<br/>
-          ✅ ناجحة: ${successCount} | ❌ فاشلة: ${failCount}
+          ✅ ناجحة: ${successCount} |  فاشلة: ${failCount}
         </div>
       `;
     };

@@ -131,8 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
             formData.append("images", file);
           } else if (file.type === "application/pdf") {
             formData.append("activitypdfs", file);
-            // formData.append("bucketName", "activityPdf");
-            //  bucketName = "activityPdf";
           } else {
             showToast(`نوع الملف ${file.name} غير مدعوم`, "danger");
           }
@@ -187,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast,
         attachSubmitListener
       );
-      //attachSubmitListener(activityCode);
+      
     } catch (error) {
       formContainer.innerHTML = `<div class="alert alert-danger">فشل في جلب بيانات المشروع: ${error.message}</div>`;
     }

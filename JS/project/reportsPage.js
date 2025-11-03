@@ -85,7 +85,7 @@ async function loadStatistics() {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`, // 🔑
+          Authorization: `Bearer ${token}`, 
           "Content-Type": "application/json",
         },
       }
@@ -114,7 +114,7 @@ async function loadStatistics() {
     console.error("Error loading statistics:", error);
     alert("حدث خطأ في الاتصال بالسيرفر: " + error.message);
 
-    // Show error in table
+   
     const tbody = document.getElementById("statsBody");
     tbody.innerHTML = `
             <tr class="default-row">
@@ -124,14 +124,14 @@ async function loadStatistics() {
                 </td>
             </tr>
         `;
-    // إظهار الجدول حتى لو في error
+
     document.getElementById("statsCard").style.display = "block";
   } finally {
     hideLoading();
   }
 }
 
-// Render Statistics Table
+
 function renderStatsTable(stats) {
   const tbody = document.getElementById("statsBody");
   tbody.innerHTML = "";
@@ -199,19 +199,19 @@ function renderStatsTable(stats) {
   }
 }
 
-// Handle Row Click
+
 function handleRowClick(governorate) {
   selectedStatFilter = { governorate: governorate, status: null };
   loadProjects();
 }
 
-// Handle Cell Click
+
 function handleCellClick(governorate, status) {
   selectedStatFilter = { governorate: governorate, status: status };
   loadProjects();
 }
 
-// Load Projects from API
+
 async function loadProjects() {
   showLoading();
   try {
@@ -343,7 +343,7 @@ function printStatistics() {
     statsCard.style.display === "none" ||
     !document.getElementById("statsBody").innerHTML.trim()
   ) {
-    alert("⚠️ لا توجد بيانات للطباعة. قم بتطبيق الفلتر أولاً!");
+    alert(" لا توجد بيانات للطباعة. قم بتطبيق الفلتر أولاً!");
     return;
   }
 

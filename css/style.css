@@ -1,4 +1,4 @@
-/* General Body and Font Styles */
+
 body {
   font-family: "Cairo", sans-serif;
   background-color: #f4f7f6;
@@ -6,7 +6,7 @@ body {
   padding-right: 50px;
 }
 
-/* Sidebar Styles */
+
 .sidebar {
   width: 280px;
   background-color: #1a253c;
@@ -53,7 +53,7 @@ body {
 
 .sidebar .user-profile strong {
   display: inline-block;
-  max-width: 150px; /* ممكن تعدلها حسب العرض */
+  max-width: 150px; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -66,20 +66,20 @@ body.no-sidebar .main-content {
   width: 100%;
 }
 
-/* Main Content Styles */
+
 .main-content {
   margin-right: 280px;
   padding: 2rem;
 }
 
-/* Card Styles */
+
 .card {
   border: none;
   border-radius: 0.75rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
 }
 
-/* Action Buttons in Table */
+
 .action-btn {
   background: none;
   border: none;
@@ -91,7 +91,7 @@ body.no-sidebar .main-content {
   background-color: #e9ecef;
 }
 
-/* Chart and Skeleton Styles (for dashboard) */
+
 .chart-container {
   position: relative;
   height: 350px;
@@ -119,12 +119,12 @@ body.no-sidebar .main-content {
   border-radius: 0.25rem;
 }
 
-/* Filter Card Styles */
+
 .filter-card .form-label {
   font-size: 0.875rem;
 }
 
-/* Form Section Title (for add-project) */
+
 .form-section-title {
   font-weight: 600;
   color: #0d6efd;
@@ -134,12 +134,12 @@ body.no-sidebar .main-content {
   margin-bottom: 1.5rem;
 }
 
-/* Toast Container (for notifications) */
+
 .toast-container {
   z-index: 1100;
 }
 
-/* Responsive Styles */
+
 @media (max-width: 768px) {
   .main-content {
     margin-right: 0;
@@ -222,7 +222,7 @@ body.no-sidebar .main-content {
 }
 
 .custom-btn {
-  color: #198754; /* أخضر Bootstrap */
+  color: #198754;
   background-color: transparent;
   border: 1px solid #198754;
   transition: all 0.3s ease;

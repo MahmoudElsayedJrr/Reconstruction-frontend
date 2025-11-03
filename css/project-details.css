@@ -21,7 +21,7 @@ body {
   margin: 0 auto;
 }
 
-/* تنسيق العنوان والزر العودة */
+
 .main-content h2 {
   color: var(--text-dark);
   font-size: 1.75rem;
@@ -41,7 +41,7 @@ body {
   box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
 }
 
-/* تنسيق البطاقة الرئيسية */
+
 .card {
   border: none;
   border-radius: 12px;
@@ -54,7 +54,7 @@ body {
   border-bottom: 2px solid var(--light-blue) !important;
 }
 
-/* تنسيق التبويبات */
+
 .nav-tabs {
   border-bottom: none;
   gap: 0.5rem;
@@ -81,7 +81,7 @@ body {
   border-bottom: 3px solid var(--primary-blue);
 }
 
-/* تنسيق محتوى التبويبات */
+
 .tab-content {
   background: white;
   border-radius: 0 0 12px 12px;
@@ -95,7 +95,7 @@ body {
   padding-right: 1rem;
 }
 
-/* تنسيق القوائم */
+
 .details-list {
   background: transparent;
 }
@@ -128,7 +128,7 @@ body {
   color: var(--text-muted);
 }
 
-/* تنسيق الشارات (Badges) */
+
 .badge {
   padding: 1rem;
   border-radius: 8px;
@@ -152,7 +152,7 @@ body {
   color: #ffc107 !important;
 }
 
-/* تنسيق الجداول */
+
 .table {
   border-radius: 8px;
   overflow: hidden;
@@ -196,7 +196,7 @@ body {
   max-width: 55%;
   width: 45%;
 }
-/* تنسيق خاص لحالة التنفيذ (status badges) */
+
 .badge.bg-success,
 .badge.bg-danger,
 .badge.bg-primary,
@@ -204,13 +204,13 @@ body {
   color: white !important;
 }
 
-/* إذا كانت حالة التنفيذ في span أو أي عنصر آخر */
+
 #status .badge,
 .status-badge {
   color: white !important;
 }
 
-/* تنسيق المودال */
+
 .modal-content {
   border-radius: 12px;
   border: none;
@@ -232,7 +232,7 @@ body {
   filter: brightness(0) invert(1);
 }
 
-/* تنسيق الأزرار */
+
 .btn {
   border-radius: 8px;
   padding: 0.5rem 1.5rem;
@@ -260,17 +260,17 @@ body {
   box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
 }
 
-/* تنسيق السبينر */
+
 .spinner-border-sm {
   color: var(--primary-blue);
 }
 
-/* تنسيق الوسائط */
+
 .img-fluid {
   border-radius: 8px;
 }
 
-/* تنسيق responsive */
+
 @media (max-width: 768px) {
   .main-content {
     padding: 1rem;
@@ -291,18 +291,17 @@ body {
   }
 }
 
-/* تنسيق خاص بالنصوص الطويلة */
+
 .text-muted {
   line-height: 1.8;
   color: var(--text-muted) !important;
 }
 
-/* تأثيرات إضافية */
+
 .wrap-column {
   min-width: 200px;
 }
 
-/* تنسيق رابط الموقع الجغرافي */
 .btn-outline-primary.btn-lg {
   padding: 1rem 2rem;
   font-size: 1.1rem;
@@ -312,12 +311,10 @@ body {
   color: var(--primary-blue);
 }
 
-/* تحسين مظهر الرسائل */
 .text-danger {
   font-weight: 500;
 }
 
-/* تنسيق الأيقونات */
 .fas,
 .fa {
   transition: all 0.3s ease;
@@ -334,6 +331,6 @@ img {
 }
 
 img:hover {
-  transform: scale(1.2); /* تكبير بنسبة 20% */
+  transform: scale(1.2); 
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }

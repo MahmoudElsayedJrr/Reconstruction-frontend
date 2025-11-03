@@ -75,8 +75,7 @@ function clearAndCloseModal() {
     document.getElementById("addContractModal")
   );
   modal.hide();
-  //window.location.href = "dashboard.html";
-  // Clear the form
+
   document.getElementById("contractDate").value = "";
   document.getElementById("contractPrice").value = "";
 }

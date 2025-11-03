@@ -97,7 +97,7 @@ body.no-sidebar {
   padding: 2rem;
 }
 
-/* خط فاصل بعد كل كارد */
+
 .card::after {
   content: "";
   display: block;
@@ -112,7 +112,6 @@ body.no-sidebar {
   display: none;
 }
 
-/* ==================== قسم رفع الملف ==================== */
 .input-group {
   border-radius: 5px;
   overflow: hidden;
@@ -140,17 +139,14 @@ body.no-sidebar {
   background: #157347;
 }
 
-/* نتائج الرفع */
 #resultDiv {
   margin-top: 1rem;
 }
 
-/* ==================== الفورم ==================== */
 #addProjectForm {
   padding-top: 1rem;
 }
 
-/* خط فاصل بين الأقسام */
 .form-section-title {
   color: var(--dark-color);
   font-weight: bold;
@@ -169,7 +165,6 @@ body.no-sidebar {
   border-top: none;
 }
 
-/* Labels */
 .form-label {
   color: var(--dark-color);
   font-weight: 600;
@@ -177,7 +172,6 @@ body.no-sidebar {
   font-size: 0.95rem;
 }
 
-/* علامة الحقول المطلوبة */
 .form-label:has(+ input[required])::after,
 .form-label:has(+ select[required])::after {
   content: "*";
@@ -186,7 +180,6 @@ body.no-sidebar {
   font-weight: bold;
 }
 
-/* Inputs & Selects */
 .form-control,
 .form-select {
   border: 1px solid #ced4da;
@@ -210,7 +203,6 @@ body.no-sidebar {
   border-color: var(--primary-light);
 }
 
-/* Select Styling */
 .form-select {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%230d6efd' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -222,7 +214,6 @@ body.no-sidebar {
   color: #6c757d;
 }
 
-/* ==================== أزرار الفورم ==================== */
 .btn-secondary {
   background: var(--secondary-color);
   border: none;
@@ -250,19 +241,16 @@ body.no-sidebar {
   background: var(--primary-dark);
 }
 
-/* خط فاصل قبل الأزرار */
 .col-12.mt-4.text-center {
   margin-top: 3rem !important;
   padding-top: 2rem;
   border-top: 2px solid #dee2e6;
 }
 
-/* ==================== Grid Layout ==================== */
 .row.g-3 {
   row-gap: 1.2rem !important;
 }
 
-/* ==================== Validation States ==================== */
 .form-control.is-invalid,
 .form-select.is-invalid {
   border-color: var(--danger-color);
@@ -280,7 +268,6 @@ body.no-sidebar {
   margin-top: 0.5rem;
 }
 
-/* ==================== File Input ==================== */
 input[type="file"]::file-selector-button {
   background: var(--primary-color);
   color: white;
@@ -293,7 +280,6 @@ input[type="file"]::file-selector-button {
   transition: all 0.3s ease;
 }
 
-/* ==================== Date Input ==================== */
 input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   margin-right: 0.5rem;
@@ -304,13 +290,11 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
 }
 
-/* ==================== Number Input ==================== */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
 }
 
-/* ==================== Loading State ==================== */
 .btn-primary.loading,
 .btn-success.loading {
   position: relative;
@@ -340,7 +324,6 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 }
 
-/* ==================== Responsive ==================== */
 @media (max-width: 768px) {
   .no-sidebar .main-content {
     padding: 1rem;
@@ -395,9 +378,8 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 }
 
-/* ==================== تحسينات إضافية ==================== */
 
-/* Alerts */
+
 .alert {
   border-radius: 5px;
   border: 1px solid transparent;
@@ -417,7 +399,7 @@ input[type="number"]::-webkit-outer-spin-button {
   color: #842029;
 }
 
-/* Tables */
+
 .table {
   border: 1px solid #dee2e6;
   border-radius: 5px;
@@ -437,14 +419,12 @@ input[type="number"]::-webkit-outer-spin-button {
   border-bottom: none;
 }
 
-/* Badge */
 .badge {
   padding: 0.35rem 0.65rem;
   font-weight: 600;
   border-radius: 4px;
 }
 
-/* Progress Bar */
 .progress {
   height: 1.5rem;
   border-radius: 5px;
@@ -456,13 +436,11 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 5px;
 }
 
-/* Tooltips */
 [data-toggle="tooltip"] {
   cursor: help;
   border-bottom: 1px dotted var(--primary-color);
 }
 
-/* Disabled State */
 .form-control:disabled,
 .form-select:disabled {
   background-color: #e9ecef;
@@ -470,7 +448,6 @@ input[type="number"]::-webkit-outer-spin-button {
   cursor: not-allowed;
 }
 
-/* Checkbox & Radio */
 .form-check-input:checked {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
@@ -481,20 +458,17 @@ input[type="number"]::-webkit-outer-spin-button {
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 }
 
-/* Textarea */
 textarea.form-control {
   min-height: 100px;
   resize: vertical;
 }
 
-/* Small Text */
 .form-text {
   color: #6c757d;
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
 
-/* ==================== Print Styles ==================== */
 @media print {
   .btn,
   .card-header,

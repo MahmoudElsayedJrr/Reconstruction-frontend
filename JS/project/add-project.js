@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let fiscalYear = fiscalYearInput;
 
     if (fiscalYear === "") {
-      fiscalYear = getCurrentFiscalYear(); // لو فاضي نحسب السنة الحالية
+      fiscalYear = getCurrentFiscalYear(); 
     } else {
       const fiscalYearRegex = /^\d{4}\/\d{4}$/;
       if (!fiscalYearRegex.test(fiscalYear)) {
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         saveButton.disabled = false;
         saveButton.innerHTML = "حفظ المشروع";
-        return; // وقف الحفظ
+        return; 
       }
     }
 

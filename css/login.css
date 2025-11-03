@@ -117,7 +117,7 @@ body {
   opacity: 0.95;
 }
 
-/* تحسين الفورم */
+
 .form-floating > .form-control {
   border-radius: 8px;
   border: 1px solid #dee2e6;
@@ -141,7 +141,7 @@ body {
   transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
 
-/* زر إظهار/إخفاء كلمة المرور */
+
 #togglePassword {
   border: none;
   background: transparent;
@@ -160,7 +160,7 @@ body {
   border-radius: 4px;
 }
 
-/* Checkbox و Links */
+
 .form-check-input {
   width: 1.2em;
   height: 1.2em;
@@ -177,7 +177,7 @@ body {
   user-select: none;
 }
 
-/* زر تسجيل الدخول */
+
 #login-button {
   padding: 0.875rem;
   font-weight: 600;
@@ -203,7 +203,7 @@ body {
   transform: none;
 }
 
-/* رسالة الخطأ */
+
 #error-message {
   border-radius: 8px;
   padding: 0.875rem;
@@ -224,7 +224,6 @@ body {
   }
 }
 
-/* Responsive للشاشات الصغيرة */
 @media (max-width: 992px) {
   .login-branding-section {
     display: none !important;
@@ -251,7 +250,6 @@ body {
   }
 }
 
-/* للشاشات الكبيرة جداً */
 @media (min-width: 1400px) {
   .login-logo {
     width: 280px;
@@ -263,7 +261,6 @@ body {
   }
 }
 
-/* تحسين Accessibility */
 .form-control:focus,
 .form-check-input:focus,
 .btn:focus {
@@ -281,14 +278,12 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Loading Spinner */
 .spinner-border-sm {
   width: 1rem;
   height: 1rem;
   border-width: 0.15em;
 }
 
-/* إخفاء النص أثناء التحميل */
 #login-button .button-text {
   transition: opacity 0.3s ease;
 }

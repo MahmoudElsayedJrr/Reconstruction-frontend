@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // عند الضغط على زر البحث
+
   searchBtn.addEventListener("click", async () => {
     const name = searchInput.value.trim();
 
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // عند تعديل البيانات والضغط على حفظ
+  
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 

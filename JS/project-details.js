@@ -468,7 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const fullUrl = pdf.path;
         const bucketName = fullUrl.includes("contractualdocuments")
           ? "contractualdocuments"
-          : "activitypdfs"; // تقدر تطورها أكتر حسب المسار
+          : "activitypdfs"; 
 
         const item = document.createElement("li");
         item.className =
@@ -510,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mediaToDelete = {
         type: "image",
         path: imgBtn.dataset.path,
-        bucket: "activityimages", // ← ثابت للصور
+        bucket: "activityimages", 
       };
     }
   });
