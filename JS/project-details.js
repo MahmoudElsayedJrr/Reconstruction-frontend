@@ -466,9 +466,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       pdfFiles.forEach((pdf) => {
         const fullUrl = pdf.path;
-        const bucketName = fullUrl.includes("contractualdocuments")
-          ? "contractualdocuments"
-          : "activitypdfs"; 
+        const bucketName = fullUrl.includes("contractualDocuments")
+          ? "contractualDocuments"
+          : "activitypdfs";
 
         const item = document.createElement("li");
         item.className =
@@ -510,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mediaToDelete = {
         type: "image",
         path: imgBtn.dataset.path,
-        bucket: "activityimages", 
+        bucket: "activityimages",
       };
     }
   });
