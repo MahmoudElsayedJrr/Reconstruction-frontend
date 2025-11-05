@@ -14,7 +14,7 @@ export function renderForm(
   showToast,
   attachSubmitListener
 ) {
-  // طباعة الرول للتأكد
+ 
   console.log("🔑 User Role:", userRole);
   console.log("📋 Allowed Fields:", allowedFields);
 
@@ -299,7 +299,7 @@ export function renderForm(
   }
 
   if (userRole === "admin" || userRole === "projectManager") {
-    // بيانات الطرق (لو الفئة طرق)
+  
     if (project.projectCategory === "طرق") {
       formHTML += `
         <h5 class="form-section-title">بيانات الطرق</h5>

@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         form.reset();
       } else {
         const errorData = await res.json();
-        console.log("❌ Error response from server:", errorData);
+        console.log(" Error response from server:", errorData);
         showToast(errorData.message || "حدث خطأ غير معروف", "danger");
         return;
       }

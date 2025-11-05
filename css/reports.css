@@ -71,7 +71,7 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
 }
 
-/* تنسيق الأزرار */
+
 .filter-btn {
   border-radius: 8px;
   padding: 0.6rem 1rem;
@@ -111,7 +111,7 @@ body {
   color: var(--text-dark);
 }
 
-/* تنسيق Loading */
+
 .loading-overlay {
   display: none;
   position: fixed;
@@ -148,7 +148,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* تنسيق جدول الإحصائيات */
+
 .stats-table {
   margin: 0;
 }
@@ -214,7 +214,7 @@ body {
   background-color: rgba(255, 193, 7, 0.1) !important;
 }
 
-/* تنسيق بطاقات المشروعات */
+
 .project-card {
   transition: all 0.3s ease;
   border: 1px solid var(--border-color);
@@ -255,7 +255,7 @@ body {
   color: var(--text-dark);
 }
 
-/* تنسيق Progress Bar */
+
 .progress {
   background-color: #e9ecef;
   border-radius: 6px;
@@ -267,7 +267,6 @@ body {
   transition: width 0.6s ease;
 }
 
-/* تنسيق Badge */
 .badge {
   font-weight: 500;
   border-radius: 6px;
@@ -294,7 +293,7 @@ body {
   background-color: #6c757d !important;
 }
 
-/* تنسيق responsive */
+
 @media (max-width: 768px) {
   .container-fluid {
     padding: 1rem;
@@ -359,7 +358,7 @@ body {
   box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
 }
 
-/* ✅ تنسيق Header الصفحة */
+
 .container-fluid > .d-flex:first-child h2 {
   color: var(--text-dark);
   font-size: 1.75rem;
@@ -380,7 +379,7 @@ body {
   box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
 }
 
-/* ✅ زر الإغلاق في بطاقة المشروعات */
+
 #closeProjectsBtn {
   background-color: white;
   border-color: white;
@@ -410,7 +409,7 @@ body {
   }
 }
 
-/* تنسيق أيقونات Font Awesome */
+
 .fas,
 .fa {
   transition: all 0.3s ease;
@@ -421,7 +420,7 @@ body {
   transform: scale(1.1);
 }
 
-/* تنسيق خاص للأعمدة */
+
 .col-lg-1,
 .col-lg-2,
 .col-lg-3,
@@ -431,34 +430,4 @@ body {
   padding-right: 0.5rem;
 }
 
-/* .container-fluid > .d-flex:first-child h2 {
-  color: var(--primary-blue);
-  font-size: 1.75rem;
-}
 
-.container-fluid > .d-flex:first-child .btn-outline-primary {
-  border-color: var(--primary-blue);
-  color: var(--primary-blue);
-  padding: 0.6rem 1.5rem;
-  transition: all 0.3s ease;
-}
-
-.container-fluid > .d-flex:first-child .btn-outline-primary:hover {
-  background-color: var(--primary-blue);
-  border-color: var(--primary-blue);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
-}
-
-@media (max-width: 768px) {
-  .container-fluid > .d-flex:first-child h2 {
-    font-size: 1.35rem;
-    margin-bottom: 1rem !important;
-  }
-
-  .container-fluid > .d-flex:first-child {
-    gap: 1rem;
-  }
-}
- */

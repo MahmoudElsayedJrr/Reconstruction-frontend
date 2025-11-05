@@ -52,7 +52,6 @@ const permissions = {
   ],
 
   manager: [
-    // التخطيط والمتابعة فقط
     "activityName",
     "executingCompany",
     "governorate",

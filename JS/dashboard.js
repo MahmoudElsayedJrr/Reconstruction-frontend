@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const total = apiResponse.data.totalDisbursed || 0;
 
-      // تنسيق الرقم (يفصل الآلاف ويحط "ج.م")
+ 
       totalElement.textContent = total.toLocaleString("ar-EG") + " ج.م";
     } catch (error) {
       console.error("❌ فشل تحميل إجمالي المنصرف:", error);
@@ -72,23 +72,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusCounts = {};
     const governorateCounts = {};
     const categoryCounts = {};
-    const disbursedByCategory = {}; // جديد
+    const disbursedByCategory = {}; 
 
     projects.forEach((project) => {
       let currentStatus = project.progress >= 100 ? "مكتمل" : project.status;
 
-      // الحالة
       statusCounts[currentStatus] = (statusCounts[currentStatus] || 0) + 1;
 
-      // المحافظات
+     
       governorateCounts[project.governorate] =
         (governorateCounts[project.governorate] || 0) + 1;
 
-      // الفئات (عدد المشاريع)
+      
       categoryCounts[project.projectCategory] =
         (categoryCounts[project.projectCategory] || 0) + 1;
 
-      // المنصرف حسب الفئة
+     
       const category = project.projectCategory || "غير محدد";
       disbursedByCategory[category] =
         (disbursedByCategory[category] || 0) + (project.disbursedAmount || 0);
@@ -108,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         values: Object.values(categoryCounts),
       },
       disbursedByCategory: {
-        // لازم ترجعها عشان الشارت يشتغل
+       
         labels: Object.keys(disbursedByCategory),
         values: Object.values(disbursedByCategory),
       },
@@ -116,11 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderCharts(chartData) {
-    //console.log("📊 Rendering charts with data:", chartData);
     chart1Container.innerHTML = '<canvas id="projectStatusChart"></canvas>';
     const ctx1 = chart1Container.querySelector("canvas").getContext("2d");
 
-    // ✅ إضافة الأرقام للـ labels
+
     const labelsWithCounts = chartData.status.labels.map((label, index) => {
       return `${label} (${chartData.status.values[index]})`;
     });
@@ -128,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     new Chart(ctx1, {
       type: "doughnut",
       data: {
-        labels: labelsWithCounts, // ✅ استخدام الـ labels الجديدة
+        labels: labelsWithCounts,
         datasets: [
           {
             data: chartData.status.values,
@@ -157,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         plugins: {
           legend: {
             display: true,
-            position: "right", // أو 'bottom' حسب التصميم
+            position: "right", 
           },
         },
       },
@@ -185,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
         plugins: {
           legend: { display: true },
           datalabels: {
-            display: false, // ❌ إخفاء الأرقام فوق الأعمدة
+            display: false, 
           },
         },
         scales: {
@@ -194,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.governorates.labels[index];
                 const count = chartData.governorates.values[index];
-                return `${label} (${count.toLocaleString()})`; // ✅ يفضل تسيب دي
+                return `${label} (${count.toLocaleString()})`; 
               },
               font: { size: 11 },
             },
@@ -232,14 +230,13 @@ document.addEventListener("DOMContentLoaded", () => {
         plugins: {
           legend: { display: true },
           datalabels: {
-            display: false, // ✅ إخفاء الأرقام من فوق الأعمدة
+            display: false, 
           },
         },
         scales: {
           x: {
             ticks: {
               callback: function (value, index) {
-                // ✅ إضافة الرقم بجانب اسم الفئة
                 const label = chartData.categories.labels[index];
                 const count = chartData.categories.values[index];
                 return `${label} (${count})`;
@@ -308,14 +305,13 @@ document.addEventListener("DOMContentLoaded", () => {
         plugins: {
           legend: { display: true },
           datalabels: {
-            display: false, // ✅ إخفاء الأرقام فوق الأعمدة
+            display: false, 
           },
         },
         scales: {
           x: {
             ticks: {
               callback: function (value, index) {
-                // ✅ عرض الاسم + القيمة بجانب بعض في المحور X
                 const label = chartData.disbursedByCategory.labels[index];
                 const amount = chartData.disbursedByCategory.values[index];
                 return `${label} (${amount.toLocaleString()} ج.م)`;
@@ -472,7 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const apiResponse = await response.json();
-      // console.log("📦 Response data:", apiResponse);
+
 
       if (!response.ok) {
         throw new Error(apiResponse.data || "فشل جلب البيانات");
@@ -487,7 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const chartData = prepareChartData(apiResponse.data.activities);
         renderCharts(chartData);
       } else {
-        console.log("⚠️ لا توجد بيانات مشاريع");
+        console.log("لا توجد بيانات مشاريع");
         renderTable([]);
         renderCharts({
           status: { labels: [], values: [] },
@@ -497,7 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     } catch (error) {
-      console.error("❌ فشل تحميل البيانات:", error);
+      console.error(" فشل تحميل البيانات:", error);
       displayErrorInTable(error.message);
     }
   }
