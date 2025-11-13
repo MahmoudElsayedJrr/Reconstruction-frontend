@@ -67,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let category = (row["فئة المشروع"] || "").trim();
         let fundingType = (row["نوع التمويل"] || "").trim();
 
-
         const body = {
           activityCode: generateCode(),
           activityName: name,
@@ -79,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           contractualValue: parseFloat(row["القيمه التعاقديه"]),
           estimatedValue: parseFloat(row["القيمه التقديريه"]),
-
+          progress: parseFloat(row["نسبة التنفيذ"]) || 0,
           fundingType,
           status: "قيد التنفيذ",
           governorate,

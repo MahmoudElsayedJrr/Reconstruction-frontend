@@ -468,11 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const fullUrl = pdf.path;
         const bucketName = fullUrl.includes("contractualDocuments")
           ? "contractualDocuments"
-<<<<<<< HEAD
-          : "activitypdfs"; // تقدر تطورها أكتر حسب المسار
-=======
           : "activitypdfs";
->>>>>>> 4cf5049c4d1d8ad3a3443ee888661eed4aba9fac
 
         const item = document.createElement("li");
         item.className =
