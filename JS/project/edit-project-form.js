@@ -253,6 +253,9 @@ export function renderForm(
           <option value="متوقف" ${
             project.status === "متوقف" ? "selected" : ""
           }>متوقف</option>
+          <option value="تحت الطرح" ${
+            project.status === "تحت الطرح" ? "selected" : ""
+          }>تحت الطرح</option>
         </select>
       </div>
 
