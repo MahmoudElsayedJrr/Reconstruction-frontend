@@ -14,7 +14,6 @@ export function renderForm(
   showToast,
   attachSubmitListener
 ) {
- 
   console.log("🔑 User Role:", userRole);
   console.log("📋 Allowed Fields:", allowedFields);
 
@@ -111,9 +110,15 @@ export function renderForm(
           <option value="مجازر" ${
             project.projectCategory === "مجازر" ? "selected" : ""
           }>مجازر</option>
-          <option value="مباني حكومية" ${
-            project.projectCategory === "مباني حكومية" ? "selected" : ""
-          }>مباني حكومية</option>
+         
+          <option value="" ${
+            ("تأهيل مباني حكومية",
+            project.projectCategory === "تأهيل مباني حكومية" ? "selected" : "")
+          }>تأهيل مباني حكومية</option>
+
+          <option value="تجمعات تنموية" ${
+            project.projectCategory === "تجمعات تنموية" ? "selected" : ""
+          }>تجمعات تنموية</option>
           <option value="اخر" ${
             project.projectCategory === "اخر" ? "selected" : ""
           }>اخر</option>
@@ -248,6 +253,9 @@ export function renderForm(
           <option value="متوقف" ${
             project.status === "متوقف" ? "selected" : ""
           }>متوقف</option>
+          <option value="تحت الطرح" ${
+            project.status === "تحت الطرح" ? "selected" : ""
+          }>تحت الطرح</option>
         </select>
       </div>
 
@@ -299,7 +307,6 @@ export function renderForm(
   }
 
   if (userRole === "admin" || userRole === "projectManager") {
-  
     if (project.projectCategory === "طرق") {
       formHTML += `
         <h5 class="form-section-title">بيانات الطرق</h5>

@@ -431,8 +431,8 @@ document.addEventListener("DOMContentLoaded", () => {
         col.className = "col-md-4";
         col.innerHTML = `
         <div class="position-relative">
-          <a href="http://localhost:3000${imgUrl}" target="_blank">
-            <img src="http://localhost:3000${imgUrl}" 
+          <a href="http://localhost:4000${imgUrl}" target="_blank">
+            <img src="http://localhost:4000${imgUrl}" 
                  class="img-fluid rounded shadow-sm zoom-hover" 
                  style="height:200px; object-fit:cover; width: 100%;" />
           </a>
@@ -476,7 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
         item.innerHTML = `
         <span>${pdf.filename}</span>
         <div>
-          <a href="http://localhost:3000${fullUrl}" target="_blank" class="btn btn-sm btn-outline-primary me-2">عرض / تحميل</a>
+          <a href="http://localhost:4000${fullUrl}" target="_blank" class="btn btn-sm btn-outline-primary me-2">عرض / تحميل</a>
           <button 
             class="btn btn-sm btn-outline-danger delete-pdf-btn" 
             data-path="${fullUrl}" 
