@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function setExtensionTable(extensions = []) {
+ function setExtensionTable(extensions = []) {
     const tbody = document.getElementById("extensionsTableBody");
     tbody.innerHTML = "";
 
@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return pdfUrl
         ? `<div class="mt-2">
         <button class="btn btn-sm btn-outline-primary" 
-        onclick="window.open('http://localhost:3000${pdfUrl}', '_blank')">
+        onclick="window.open('http://81.10.47.76:4000${pdfUrl}', '_blank')">
           عرض المستخلص
         </button>
       </div>`
@@ -362,6 +362,155 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
     tbody.insertAdjacentHTML("beforeend", totalRow);
   }
+  function setExtensionTable(extensions = []) {
+    const tbody = document.getElementById("extensionsTableBody");
+    tbody.innerHTML = "";
+
+    for (let i = 0; i < extensions.length - 1; i++) {
+      const fromDate = new Date(extensions[i].extensionDate).toLocaleDateString(
+        "ar-EG"
+      );
+      const toDate = new Date(
+        extensions[i + 1].extensionDate
+      ).toLocaleDateString("ar-EG");
+
+      const row = `
+      <tr>
+        <td>${fromDate}</td>
+        <td>${toDate}</td>
+      </tr>
+    `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    }
+
+    if (extensions.length === 1) {
+      const onlyDate = new Date(extensions[0].extensionDate).toLocaleDateString(
+        "ar-EG"
+      );
+      const row = `
+      <tr>
+        <td>${onlyDate}</td>
+        <td>—</td>
+      </tr>
+    `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    }
+  }
+
+  function setExtractTable(extracts = []) {
+    const tbody = document.getElementById("extractsTableBody");
+    tbody.innerHTML = "";
+
+    const createPDFLink = (pdfArray) => {
+      const pdfUrl =
+        Array.isArray(pdfArray) && pdfArray.length > 0
+          ? pdfArray[0].path
+          : null;
+
+      return pdfUrl
+        ? `<div class="mt-2">
+        <button class="btn btn-sm btn-outline-primary" 
+        onclick="window.open('http://localhost:3000${pdfUrl}', '_blank')">
+          عرض المستخلص
+        </button>
+      </div>`
+        : "";
+    };
+
+    const createActionsButtons = (extractId, index) => {
+      return `
+        <div class="d-flex justify-content-center gap-2">
+          <button class="btn btn-sm btn-warning" 
+                  onclick="editExtract('${extractId}', ${index})" 
+                  title="تعديل">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" 
+                  onclick="deleteExtract('${extractId}', ${index})" 
+                  title="حذف">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      `;
+    };
+
+    if (extracts.length === 1) {
+      const onlyDate = new Date(extracts[0].extractDate).toLocaleDateString(
+        "ar-EG"
+      );
+      const onlyPrice =
+        (extracts[0].extractValue || 0).toLocaleString() + " جنيه";
+      const pdfLink = createPDFLink(extracts[0].extractPDFs);
+      const actions = createActionsButtons(
+        extracts[0].id || extracts[0]._id,
+        0
+      );
+
+      const row = `
+      <tr>
+        <td class="text-center">جاري 1</td>
+        <td>
+          <div class="text-center">
+            <div>تم اضافة مستخلص بتاريخ ${onlyDate}</div>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+              <span class="me-2">قيمة المستخلص:</span>
+              <span class="text-primary">${onlyPrice}</span>
+            </div>
+            ${pdfLink}
+          </div>
+        </td>
+        <td class="text-center align-middle">${actions}</td>
+      </tr>
+    `;
+      tbody.insertAdjacentHTML("beforeend", row);
+    } else {
+      for (let i = 0; i < extracts.length; i++) {
+        const fromDate = new Date(extracts[i].extractDate).toLocaleDateString(
+          "ar-EG"
+        );
+        const fromPrice =
+          (extracts[i].extractValue || 0).toLocaleString() + " جنيه";
+        const pdfLink = createPDFLink(extracts[i].extractPDFs);
+        const actions = createActionsButtons(
+          extracts[i].id || extracts[i]._id,
+          i
+        );
+
+        const row = `
+        <tr>
+          <td class="text-center">جاري ${i + 1}</td>
+          <td>
+            <div class="text-center">
+              <div>تم اضافة مستخلص بتاريخ ${fromDate}</div>
+              <div class="d-flex justify-content-center align-items-center mt-2">
+                <span class="me-2">قيمة المستخلص:</span>
+                <span class="text-primary">${fromPrice}</span>
+              </div>
+              ${pdfLink}
+            </div>
+          </td>
+          <td class="text-center align-middle">${actions}</td>
+        </tr>
+      `;
+        tbody.insertAdjacentHTML("beforeend", row);
+      }
+    }
+
+    // حساب الإجمالي الصحيح من المستخلصات الموجودة
+    const calculatedTotal = extracts.reduce((sum, extract) => {
+      return sum + (extract.extractValue || 0);
+    }, 0);
+
+    const formattedTotal = calculatedTotal.toLocaleString() + " جنيه";
+    const totalRow = `
+    <tr class="table-light fw-bold">
+      <td class="text-center">الإجمالي</td>
+      <td class="text-center text-success">إجمالي المنصرف: ${formattedTotal}</td>
+      <td></td>
+    </tr>
+  `;
+    tbody.insertAdjacentHTML("beforeend", totalRow);
+  }
 
   function setContractTable(contracts = []) {
     const tbody = document.getElementById("contractsTableBody");
@@ -385,6 +534,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       </td>
+      <td class="text-center align-middle">${actions}</td>
     </tr>
     `;
       tbody.insertAdjacentHTML("beforeend", row);
@@ -407,6 +557,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       </td>
+      <td class="text-center align-middle">${actions}</td>
     </tr>
   `;
         tbody.insertAdjacentHTML("beforeend", row);
@@ -431,8 +582,8 @@ document.addEventListener("DOMContentLoaded", () => {
         col.className = "col-md-4";
         col.innerHTML = `
         <div class="position-relative">
-          <a href="http://localhost:4000${imgUrl}" target="_blank">
-            <img src="http://localhost:4000${imgUrl}" 
+          <a href="http://81.10.47.76:4000/${imgUrl}" target="_blank">
+            <img src="http://81.10.47.76:4000${imgUrl}" 
                  class="img-fluid rounded shadow-sm zoom-hover" 
                  style="height:200px; object-fit:cover; width: 100%;" />
           </a>

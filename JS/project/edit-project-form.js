@@ -111,10 +111,11 @@ export function renderForm(
             project.projectCategory === "مجازر" ? "selected" : ""
           }>مجازر</option>
          
-          <option value="" ${
-            ("تأهيل مباني حكومية",
-            project.projectCategory === "تأهيل مباني حكومية" ? "selected" : "")
+          <option value="تأهيل مباني حكومية" ${
+            project.projectCategory === "تأهيل مباني حكومية" ? "selected" : ""
           }>تأهيل مباني حكومية</option>
+         
+
 
           <option value="تجمعات تنموية" ${
             project.projectCategory === "تجمعات تنموية" ? "selected" : ""
@@ -256,6 +257,12 @@ export function renderForm(
           <option value="تحت الطرح" ${
             project.status === "تحت الطرح" ? "selected" : ""
           }>تحت الطرح</option>
+          <option value="تسليم ابتدائي" ${
+            project.status === "تسليم ابتدائي" ? "selected" : ""
+          }>تسليم ابتدائي</option>
+          <option value="تسليم نهائي" ${
+            project.status === "تسليم نهائي" ? "selected" : ""
+          }>تسليم نهائي</option>
         </select>
       </div>
 
@@ -291,7 +298,7 @@ export function renderForm(
     formHTML += `
       <h5 class="form-section-title">البيانات المالية</h5>
       
-      <div class="col-md-4">
+          <div class="col-md-4">
         <label for="disbursedAmount" class="form-label">المنصرف</label>
         <input type="number" id="disbursedAmount" class="form-control" value="${
           project.disbursedAmount || 0
