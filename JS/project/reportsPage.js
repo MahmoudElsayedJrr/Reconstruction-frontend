@@ -85,7 +85,7 @@ async function loadStatistics() {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
@@ -114,7 +114,6 @@ async function loadStatistics() {
     console.error("Error loading statistics:", error);
     alert("حدث خطأ في الاتصال بالسيرفر: " + error.message);
 
-   
     const tbody = document.getElementById("statsBody");
     tbody.innerHTML = `
             <tr class="default-row">
@@ -130,7 +129,6 @@ async function loadStatistics() {
     hideLoading();
   }
 }
-
 
 function renderStatsTable(stats) {
   const tbody = document.getElementById("statsBody");
@@ -148,6 +146,8 @@ function renderStatsTable(stats) {
     withdrawn: 0,
     inProgress: 0,
     suspended: 0,
+    initialDelivery: 0,
+    finalDelivery: 0,
   };
 
   stats.forEach((stat, index) => {
@@ -158,6 +158,8 @@ function renderStatsTable(stats) {
     totals.withdrawn += stat.withdrawn;
     totals.inProgress += stat.inProgress;
     totals.suspended += stat.suspended;
+    totals.initialDelivery += stat.initialDelivery;
+    totals.finalDelivery += stat.finalDelivery;
 
     row.innerHTML = `
     <td class="text-center align-middle">${index + 1}</td>
@@ -179,6 +181,12 @@ function renderStatsTable(stats) {
     <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
       stat.governorate
     }', 'متوقف')">${stat.suspended || 0}</td>
+    <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
+      stat.initialDelivery
+    }', 'تسليم ابتدائي')">${stat.initialDelivery || 0}</td>
+    <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
+      stat.initialDelivery
+    }', 'تسليم نهائي')">${stat.initialDelivery || 0}</td>
 `;
     tbody.appendChild(row);
   });
@@ -194,23 +202,23 @@ function renderStatsTable(stats) {
                     <td class="text-center">${totals.withdrawn}</td>
                     <td class="text-center">${totals.inProgress}</td>
                     <td class="text-center">${totals.suspended}</td>
+                    <td class="text-center">${totals.initialDelivery}</td>
+                    <td class="text-center">${totals.finalDelivery}</td>
+                    
                 `;
     tbody.appendChild(totalRow);
   }
 }
-
 
 function handleRowClick(governorate) {
   selectedStatFilter = { governorate: governorate, status: null };
   loadProjects();
 }
 
-
 function handleCellClick(governorate, status) {
   selectedStatFilter = { governorate: governorate, status: status };
   loadProjects();
 }
-
 
 async function loadProjects() {
   showLoading();
@@ -430,6 +438,8 @@ function printStatistics() {
             <th class="text-center">مسحوب</th>
             <th class="text-center">قيد التنفيذ</th>
             <th class="text-center">متوقف</th>
+            <th class="text-center">تسليم ابتدائي</th>
+            <th class="text-center">تسليم نهائي</th>
           </tr>
         </thead>
         <tbody>
