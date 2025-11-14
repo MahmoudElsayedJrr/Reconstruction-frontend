@@ -60,9 +60,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const total = apiResponse.data.totalDisbursed || 0;
 
+      totalElement.textContent = total.toLocaleString("ar-EG") + " مليون ج.م";
+    } catch (error) {
+      console.error(" فشل تحميل إجمالي المنصرف", error);
+      totalElement.textContent = "خطأ";
+    }
+  }
+
+  async function fetchTotalContractual() {
+    const totalElement = document.getElementById("totalContractualValue");
+    try {
+      const token = localStorage.getItem("loggedInUserToken");
+      const response = await fetch(
+        `${API_URL}activity/total-contractualValue`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const apiResponse = await response.json();
+      if (!response.ok)
+        throw new Error(apiResponse.message || "فشل جلب البيانات");
+
+      const total = apiResponse.data.totalDisbursed || 0;
+
       totalElement.textContent = total.toLocaleString("ar-EG") + " ج.م";
     } catch (error) {
-      console.error("❌ فشل تحميل إجمالي المنصرف:", error);
+      console.error(" فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
     }
   }
@@ -296,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
         labels: chartData.disbursedByCategory.labels,
         datasets: [
           {
-            label: "المنصرف (ج.م)",
+            label: "المنصرف (مليون ج.م)",
             data: chartData.disbursedByCategory.values,
             backgroundColor: "#1e293b",
           },
@@ -327,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
           y: {
             beginAtZero: true,
             ticks: {
-              callback: (val) => val.toLocaleString() + " ج.م",
+              callback: (val) => val.toLocaleString() + " مليون ج.م",
             },
           },
         },
@@ -558,9 +582,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function initializePage() {
-    console.log(API_URL);
-    fetchAndRenderProjects();
+    //console.log(API_URL);
     fetchTotalDisbursed();
+    fetchTotalContractual();
+    fetchAndRenderProjects();
   }
 
   initializePage();

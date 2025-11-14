@@ -151,15 +151,15 @@ document.addEventListener("DOMContentLoaded", () => {
     setText("progress", ` % ${project.progress} `);
     setText(
       "estimatedValue",
-      (project.estimatedValue || 0).toLocaleString() + " جنيه"
+      (project.estimatedValue || 0).toLocaleString() + " مليون ج.م"
     );
     setText(
       "contractualValue",
-      (project.contractualValue || 0).toLocaleString() + " جنيه"
+      (project.contractualValue || 0).toLocaleString() + " مليون ج.م"
     );
     setText(
       "disbursedAmount",
-      (project.disbursedAmount || 0).toLocaleString() + " جنيه"
+      (project.disbursedAmount || 0).toLocaleString() + " مليون ج.م"
     );
     setText(
       "executivePosition",
@@ -246,122 +246,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
- function setExtensionTable(extensions = []) {
-    const tbody = document.getElementById("extensionsTableBody");
-    tbody.innerHTML = "";
-
-    for (let i = 0; i < extensions.length - 1; i++) {
-      const fromDate = new Date(extensions[i].extensionDate).toLocaleDateString(
-        "ar-EG"
-      );
-      const toDate = new Date(
-        extensions[i + 1].extensionDate
-      ).toLocaleDateString("ar-EG");
-
-      const row = `
-      <tr>
-        <td>${fromDate}</td>
-        <td>${toDate}</td>
-      </tr>
-    `;
-      tbody.insertAdjacentHTML("beforeend", row);
-    }
-
-    if (extensions.length === 1) {
-      const onlyDate = new Date(extensions[0].extensionDate).toLocaleDateString(
-        "ar-EG"
-      );
-      const row = `
-      <tr>
-        <td>${onlyDate}</td>
-        <td>—</td>
-      </tr>
-    `;
-      tbody.insertAdjacentHTML("beforeend", row);
-    }
-  }
-
-  function setExtractTable(extracts = [], disbursedAmount) {
-    const tbody = document.getElementById("extractsTableBody");
-    tbody.innerHTML = "";
-
-    const createPDFLink = (pdfArray) => {
-      const pdfUrl =
-        Array.isArray(pdfArray) && pdfArray.length > 0
-          ? pdfArray[0].path
-          : null;
-
-      return pdfUrl
-        ? `<div class="mt-2">
-        <button class="btn btn-sm btn-outline-primary" 
-        onclick="window.open('http://81.10.47.76:4000${pdfUrl}', '_blank')">
-          عرض المستخلص
-        </button>
-      </div>`
-        : "";
-    };
-
-    if (extracts.length === 1) {
-      const onlyDate = new Date(extracts[0].extractDate).toLocaleDateString(
-        "ar-EG"
-      );
-      const onlyPrice =
-        (extracts[0].extractValue || 0).toLocaleString() + " جنيه";
-      const pdfLink = createPDFLink(extracts[0].extractPDFs);
-
-      const row = `
-      <tr>
-        <td class="text-center">جاري 1</td>
-        <td>
-          <div class="text-center">
-            <div>تم اضافة مستخلص بتاريخ ${onlyDate}</div>
-            <div class="d-flex justify-content-center align-items-center mt-2">
-              <span class="me-2">قيمة المستخلص:</span>
-              <span class="text-primary">${onlyPrice}</span>
-            </div>
-            ${pdfLink}
-          </div>
-        </td>
-      </tr>
-    `;
-      tbody.insertAdjacentHTML("beforeend", row);
-    } else {
-      for (let i = 0; i < extracts.length; i++) {
-        const fromDate = new Date(extracts[i].extractDate).toLocaleDateString(
-          "ar-EG"
-        );
-        const fromPrice =
-          (extracts[i].extractValue || 0).toLocaleString() + " جنيه";
-        const pdfLink = createPDFLink(extracts[i].extractPDFs);
-
-        const row = `
-        <tr>
-          <td class="text-center">جاري ${i + 1}</td>
-          <td>
-            <div class="text-center">
-              <div>تم اضافة مستخلص بتاريخ ${fromDate}</div>
-              <div class="d-flex justify-content-center align-items-center mt-2">
-                <span class="me-2">قيمة المستخلص:</span>
-                <span class="text-primary">${fromPrice}</span>
-              </div>
-              ${pdfLink}
-            </div>
-          </td>
-        </tr>
-      `;
-        tbody.insertAdjacentHTML("beforeend", row);
-      }
-    }
-
-    const formattedTotal = (disbursedAmount || 0).toLocaleString() + " جنيه";
-    const totalRow = `
-    <tr class="table-light fw-bold">
-      <td class="text-center">الإجمالي</td>
-      <td class="text-center text-success">إجمالي المنصرف: ${formattedTotal}</td>
-    </tr>
-  `;
-    tbody.insertAdjacentHTML("beforeend", totalRow);
-  }
   function setExtensionTable(extensions = []) {
     const tbody = document.getElementById("extensionsTableBody");
     tbody.innerHTML = "";
@@ -399,114 +283,111 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setExtractTable(extracts = []) {
     const tbody = document.getElementById("extractsTableBody");
+    if (!tbody) return;
+
     tbody.innerHTML = "";
 
-    const createPDFLink = (pdfArray) => {
-      const pdfUrl =
-        Array.isArray(pdfArray) && pdfArray.length > 0
-          ? pdfArray[0].path
-          : null;
+    // Create PDF Links (Show all PDFs, not just first one)
+    const createPDFLinks = (pdfArray) => {
+      if (!Array.isArray(pdfArray) || pdfArray.length === 0) return "";
 
-      return pdfUrl
-        ? `<div class="mt-2">
-        <button class="btn btn-sm btn-outline-primary" 
-        onclick="window.open('http://localhost:3000${pdfUrl}', '_blank')">
-          عرض المستخلص
-        </button>
-      </div>`
-        : "";
+      return `
+      <div class="mt-2 d-flex flex-wrap gap-2 justify-content-center">
+        ${pdfArray
+          .map(
+            (pdf, idx) => `
+          <button class="btn btn-sm btn-outline-primary" 
+                  onclick="window.open('${API_URL}${pdf.path}', '_blank')"
+                  title="${pdf.filename || "ملف PDF"}">
+            <i class="fas fa-file-pdf me-1"></i>
+            ${pdf.filename || `ملف ${idx + 1}`}
+          </button>
+        `
+          )
+          .join("")}
+      </div>
+    `;
     };
 
+    // Create Action Buttons (Edit & Delete)
     const createActionsButtons = (extractId, index) => {
       return `
-        <div class="d-flex justify-content-center gap-2">
-          <button class="btn btn-sm btn-warning" 
-                  onclick="editExtract('${extractId}', ${index})" 
-                  title="تعديل">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button class="btn btn-sm btn-danger" 
-                  onclick="deleteExtract('${extractId}', ${index})" 
-                  title="حذف">
-            <i class="fas fa-trash"></i>
-          </button>
-        </div>
-      `;
+      <div class="d-flex justify-content-center gap-2">
+        <button class="btn btn-sm btn-warning" 
+                onclick="editExtract('${extractId}', ${index})" 
+                title="تعديل المستخلص">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="btn btn-sm btn-danger" 
+                onclick="deleteExtract('${extractId}')" 
+                title="حذف المستخلص">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    `;
     };
 
-    if (extracts.length === 1) {
-      const onlyDate = new Date(extracts[0].extractDate).toLocaleDateString(
+    // Handle empty extracts
+    if (!extracts || extracts.length === 0) {
+      tbody.innerHTML = `
+      <tr>
+        <td colspan="3" class="text-center text-muted py-4">
+          <i class="fas fa-inbox me-2"></i>
+          لا توجد مستخلصات
+        </td>
+      </tr>
+    `;
+      return;
+    }
+
+    // Render extracts
+    extracts.forEach((extract, i) => {
+      const extractDate = new Date(extract.extractDate).toLocaleDateString(
         "ar-EG"
       );
-      const onlyPrice =
-        (extracts[0].extractValue || 0).toLocaleString() + " جنيه";
-      const pdfLink = createPDFLink(extracts[0].extractPDFs);
-      const actions = createActionsButtons(
-        extracts[0].id || extracts[0]._id,
-        0
-      );
+      const extractPrice =
+        (extract.extractValue || 0).toLocaleString() + " مليون جنيه";
+      const pdfLinks = createPDFLinks(extract.extractPDFs);
+      const actions = createActionsButtons(extract._id || extract.id, i);
 
       const row = `
       <tr>
-        <td class="text-center">جاري 1</td>
+        <td class="text-center align-middle">
+          <span class="badge bg-primary">جاري ${i + 1}</span>
+        </td>
         <td>
-          <div class="text-center">
-            <div>تم اضافة مستخلص بتاريخ ${onlyDate}</div>
-            <div class="d-flex justify-content-center align-items-center mt-2">
-              <span class="me-2">قيمة المستخلص:</span>
-              <span class="text-primary">${onlyPrice}</span>
+          <div class="p-2">
+            <div class="mb-2">
+              <i class="fas fa-calendar-alt me-2 text-primary"></i>
+              <strong>تاريخ الإضافة:</strong> ${extractDate}
             </div>
-            ${pdfLink}
+            <div class="d-flex justify-content-center align-items-center mb-2">
+              <span class="me-2"><strong>قيمة المستخلص:</strong></span>
+              <span class="text-success fw-bold fs-5">${extractPrice}</span>
+            </div>
+            ${pdfLinks}
           </div>
         </td>
         <td class="text-center align-middle">${actions}</td>
       </tr>
     `;
       tbody.insertAdjacentHTML("beforeend", row);
-    } else {
-      for (let i = 0; i < extracts.length; i++) {
-        const fromDate = new Date(extracts[i].extractDate).toLocaleDateString(
-          "ar-EG"
-        );
-        const fromPrice =
-          (extracts[i].extractValue || 0).toLocaleString() + " جنيه";
-        const pdfLink = createPDFLink(extracts[i].extractPDFs);
-        const actions = createActionsButtons(
-          extracts[i].id || extracts[i]._id,
-          i
-        );
+    });
 
-        const row = `
-        <tr>
-          <td class="text-center">جاري ${i + 1}</td>
-          <td>
-            <div class="text-center">
-              <div>تم اضافة مستخلص بتاريخ ${fromDate}</div>
-              <div class="d-flex justify-content-center align-items-center mt-2">
-                <span class="me-2">قيمة المستخلص:</span>
-                <span class="text-primary">${fromPrice}</span>
-              </div>
-              ${pdfLink}
-            </div>
-          </td>
-          <td class="text-center align-middle">${actions}</td>
-        </tr>
-      `;
-        tbody.insertAdjacentHTML("beforeend", row);
-      }
-    }
-
-    // حساب الإجمالي الصحيح من المستخلصات الموجودة
+    // Add total row
     const calculatedTotal = extracts.reduce((sum, extract) => {
       return sum + (extract.extractValue || 0);
     }, 0);
 
-    const formattedTotal = calculatedTotal.toLocaleString() + " جنيه";
+    const formattedTotal = calculatedTotal.toLocaleString() + " مليون ج.م";
     const totalRow = `
-    <tr class="table-light fw-bold">
-      <td class="text-center">الإجمالي</td>
-      <td class="text-center text-success">إجمالي المنصرف: ${formattedTotal}</td>
-      <td></td>
+    <tr class="table-success fw-bold">
+      <td class="text-center" colspan="2">
+        إجمالي المنصرف
+      </td>
+      <td class="text-center">
+        <span class="fs-5">${formattedTotal}</span>
+      </td>
     </tr>
   `;
     tbody.insertAdjacentHTML("beforeend", totalRow);
@@ -521,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "ar-EG"
       );
       const onlyPrice =
-        (contracts[0].contractPrice || 0).toLocaleString() + " جنيه";
+        (contracts[0].contractPrice || 0).toLocaleString() + " مليون ج.م";
       const row = `
       <tr>
       <td class="text-center">رقم  ${1}</td>
@@ -544,7 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "ar-EG"
         );
         const fromPrice =
-          (contracts[i].contractPrice || 0).toLocaleString() + " جنيه";
+          (contracts[i].contractPrice || 0).toLocaleString() + " مليون ج.م";
         const row = `
     <tr>
       <td class="text-center">رقم  ${i + 1}</td>

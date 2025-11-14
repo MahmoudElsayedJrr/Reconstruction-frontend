@@ -199,14 +199,14 @@ export function renderForm(
       </div>
       
       <div class="col-md-4">
-        <label for="estimatedValue" class="form-label">القيمة التعاقدية</label>
+        <label for="estimatedValue" class="form-label">القيمة التعاقدية (مليون ج.م)</label>
         <input type="number" id="estimatedValue" class="form-control" value="${
           project.estimatedValue || 0
         }">
       </div>
       
       <div class="col-md-4">
-        <label for="contractualValue" class="form-label">القيمة المعدله</label>
+        <label for="contractualValue" class="form-label">القيمة المعدله (مليون ج.م)</label>
         <input type="number" id="contractualValue" class="form-control" value="${
           project.contractualValue || 0
         }">
@@ -299,7 +299,7 @@ export function renderForm(
       <h5 class="form-section-title">البيانات المالية</h5>
       
           <div class="col-md-4">
-        <label for="disbursedAmount" class="form-label">المنصرف</label>
+        <label for="disbursedAmount" class="form-label">المنصرف (مليون ج.م)</label>
         <input type="number" id="disbursedAmount" class="form-control" value="${
           project.disbursedAmount || 0
         }">
