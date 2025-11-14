@@ -415,7 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       </td>
-      <td class="text-center align-middle">${actions}</td>
+     
     </tr>
     `;
       tbody.insertAdjacentHTML("beforeend", row);
@@ -438,7 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       </td>
-      <td class="text-center align-middle">${actions}</td>
+      
     </tr>
   `;
         tbody.insertAdjacentHTML("beforeend", row);
