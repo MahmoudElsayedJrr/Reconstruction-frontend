@@ -118,28 +118,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     new Chart(ctx1, {
-      type: "doughnut",
+      type: "bar",
       data: {
-        labels: labelsWithCounts,
+        labels: chartData.status.labels,
         datasets: [
           {
+            label: "حاله المشروعات",
             data: chartData.status.values,
-            backgroundColor: chartData.status.labels.map((label) => {
-              switch (label) {
-                case "مكتمل":
-                  return "#198754";
-                case "متأخر":
-                  return "#d15d26ff";
-                case "متوقف":
-                  return "#dc3545";
-                case "قيد التنفيذ":
-                  return "#0d6efd";
-                case "مسحوب":
-                  return "#ffc107";
-                default:
-                  return "#6c757d";
-              }
-            }),
+            backgroundColor: "#0464a3ff",
           },
         ],
       },
@@ -149,10 +135,33 @@ document.addEventListener("DOMContentLoaded", () => {
         plugins: {
           legend: {
             display: true,
-            position: "right",
+          },
+          datalabels: {
+            display: false,
+          },
+        },
+        scales: {
+          x: {
+            ticks: {
+              callback: function (value, index) {
+                const label = chartData.status.labels[index];
+                const count = chartData.status.values[index];
+                return `${label} (${count.toLocaleString()})`;
+              },
+              font: { size: 12 },
+            },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0,
+              callback: (val) => val.toLocaleString(),
+            },
           },
         },
       },
+      // تأكد من وجود هذا السطر إذا كنت تستخدم مكتبة datalabels
+      // plugins: [ChartDataLabels],
     });
 
     chart2Container.innerHTML =

@@ -181,12 +181,12 @@ function renderStatsTable(stats) {
     <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
       stat.governorate
     }', 'متوقف')">${stat.suspended || 0}</td>
-    <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
-      stat.initialDelivery
+    <td class="text-center align-middle clickable bg-info bg-opacity-10" onclick="handleCellClick('${
+      stat.governorate
     }', 'تسليم ابتدائي')">${stat.initialDelivery || 0}</td>
-    <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
-      stat.initialDelivery
-    }', 'تسليم نهائي')">${stat.initialDelivery || 0}</td>
+    <td class="text-center align-middle clickable bg-success bg-opacity-10" onclick="handleCellClick('${
+      stat.governorate
+    }', 'تسليم نهائي')">${stat.finalDelivery || 0}</td>
 `;
     tbody.appendChild(row);
   });
@@ -280,6 +280,8 @@ function renderProjects(activities) {
       متأخر: "warning",
       مسحوب: "danger",
       متوقف: "secondary",
+      "تسليم ابتدائي": "info",
+      "تسليم نهائي": "success",
     };
 
     const col = document.createElement("div");
