@@ -6,6 +6,10 @@ document.getElementById("export-excel-btn").addEventListener("click", () => {
   const governorate = document.getElementById("governorateFilter").value;
   const fundingType = document.getElementById("fundingTypeFilter").value;
   const status = document.getElementById("statusFilter").value;
+  const fiscalYear = document.getElementById("fiscalYearFilter").value;
+  const projectCategory = document.getElementById(
+    "projectCategoryFilter"
+  ).value;
 
   const queryParams = [];
 
@@ -17,6 +21,10 @@ document.getElementById("export-excel-btn").addEventListener("click", () => {
     queryParams.push(`governorate=${encodeURIComponent(governorate)}`);
   if (fundingType && fundingType !== "الكل")
     queryParams.push(`fundingType=${encodeURIComponent(fundingType)}`);
+  if (projectCategory && projectCategory !== "الكل")
+    queryParams.push(`projectCategory=${encodeURIComponent(projectCategory)}`);
+  if (fiscalYear && fiscalYear !== "الكل")
+    queryParams.push(`fiscalYear=${encodeURIComponent(fiscalYear)}`);
   if (status && status !== "الكل")
     queryParams.push(`status=${encodeURIComponent(status)}`);
 
