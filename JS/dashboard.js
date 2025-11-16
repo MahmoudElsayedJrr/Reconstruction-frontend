@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByCategory.labels[index];
                 const amount = chartData.disbursedByCategory.values[index];
-                return `${label} (${amount.toLocaleString()} ج.م)`;
+                return `${label} (${amount.toLocaleString()} مليون ج.م)`;
               },
               font: {
                 size: 11,
