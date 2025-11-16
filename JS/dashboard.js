@@ -46,47 +46,67 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.show();
   }
 
-  async function fetchTotalDisbursed() {
+  async function fetchTotalDisbursed(filters = {}) {
     const totalElement = document.getElementById("totalDisbursedValue");
     try {
       const token = localStorage.getItem("loggedInUserToken");
-      const response = await fetch(`${API_URL}activity/total-disbursed`, {
+
+      const queryParams = new URLSearchParams();
+
+      if (filters.fiscalYear && filters.fiscalYear !== "الكل") {
+        queryParams.append("fiscalYear", filters.fiscalYear);
+      }
+
+      const queryString = queryParams.toString();
+      const url = `${API_URL}activity/total-disbursed${
+        queryString ? `?${queryString}` : ""
+      }`;
+
+      const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const apiResponse = await response.json();
+
       if (!response.ok)
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalDisbursed || 0;
-
       totalElement.textContent = total.toLocaleString("ar-EG") + " مليون ج.م";
     } catch (error) {
-      console.error(" فشل تحميل إجمالي المنصرف", error);
+      console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
     }
   }
-
-  async function fetchTotalContractual() {
+  async function fetchTotalContractual(filters = {}) {
     const totalElement = document.getElementById("totalContractualValue");
     try {
       const token = localStorage.getItem("loggedInUserToken");
-      const response = await fetch(
-        `${API_URL}activity/total-contractualValue`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+
+      const queryParams = new URLSearchParams();
+
+      if (filters.fiscalYear && filters.fiscalYear !== "الكل") {
+        queryParams.append("fiscalYear", filters.fiscalYear);
+      }
+
+      const queryString = queryParams.toString();
+      const url = `${API_URL}activity/total-contractualValue${
+        queryString ? `?${queryString}` : ""
+      }`;
+
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const apiResponse = await response.json();
+      console.log(apiResponse);
       if (!response.ok)
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
-      const total = apiResponse.data.totalDisbursed || 0;
-
-      totalElement.textContent = total.toLocaleString("ar-EG") + " ج.م";
+      const total = apiResponse.data.totalContractualValue || 0;
+      totalElement.textContent = total.toLocaleString("ar-EG") + " مليون ج.م";
     } catch (error) {
-      console.error(" فشل تحميل إجمالي المنصرف", error);
+      console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
     }
   }
@@ -541,7 +561,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!filters[key] || filters[key] === "الكل") delete filters[key];
     });
 
-    fetchAndRenderProjects(filters).finally(() => {
+    Promise.all([
+      fetchAndRenderProjects(filters),
+      fetchTotalDisbursed(filters),
+      fetchTotalContractual(filters),
+    ]).finally(() => {
       filterButton.disabled = false;
       filterButton.innerHTML = `<i class="fas fa-filter"></i>`;
       window.scrollTo(0, scrollPosition);

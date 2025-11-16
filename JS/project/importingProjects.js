@@ -30,8 +30,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function parseDate(value) {
     if (!value) return null;
-    const date = new Date(value);
-    return isNaN(date.getTime()) ? null : date.toISOString();
+
+    try {
+      if (typeof value === "number") {
+        const date = new Date((value - 25569) * 86400 * 1000);
+        return date.toISOString();
+      }
+
+      if (typeof value === "string") {
+        value = value.trim();
+        const match = value.match(
+          /^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})$/
+        );
+        if (match) {
+          let [, day, month, year] = match;
+          if (year.length === 2) {
+            year = "20" + year;
+          }
+          const date = new Date(
+            `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
+          );
+          if (!isNaN(date.getTime())) {
+            return date.toISOString();
+          }
+        }
+      }
+      if (value instanceof Date) {
+        return value.toISOString();
+      }
+
+      return null;
+    } catch (error) {
+      console.error("خطأ في تحليل التاريخ:", value, error);
+      return null;
+    }
   }
 
   function generateCode(length = 6) {
@@ -73,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
           executingCompany: (row["الشركة المنفذة"] || "").trim(),
           consultant: (row["الاستشارى"] || "").trim(),
 
-          assignmentDate: parseDate(row["تاريخ الاسناد"]),
+          assignmentDate: parseDate(row["تاريخ الإسناد"]),
           completionDate: parseDate(row["تاريخ النهو"]),
 
           contractualValue: parseFloat(row["القيمه التعاقديه"]),
