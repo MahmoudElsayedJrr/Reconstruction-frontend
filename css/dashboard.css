@@ -18,7 +18,6 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-
 * {
   margin: 0;
   padding: 0;
@@ -31,7 +30,6 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-
 
 .sidebar {
   position: fixed;
@@ -141,7 +139,6 @@ body {
   text-align: center;
 }
 
-
 .main-content {
   margin-right: 280px;
   padding: 2rem;
@@ -171,7 +168,6 @@ body {
   border-radius: 10px;
 }
 
-
 .card {
   border: none;
   border-radius: var(--border-radius);
@@ -199,12 +195,56 @@ body {
   margin-bottom: 1rem;
 }
 
-#totalDisbursedCard {
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-dark)
+#totalContractualCard {
+  background: linear-gradient(135deg, #0a2463, #24816c);
+  color: white;
+  border-radius: var(--border-radius);
+  position: relative;
+  overflow: hidden;
+}
+
+#totalContractualCard::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
   );
+  animation: rotate 20s linear infinite;
+}
+
+#totalContractualCard .card-title {
+  color: white;
+  font-size: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+#totalContractualValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white !important;
+  position: relative;
+  z-index: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#totalDisbursedCard {
+  background: linear-gradient(135deg, #3d37b1, #414294);
   color: white;
   border-radius: var(--border-radius);
   position: relative;
@@ -573,7 +613,6 @@ body {
   border-bottom: none !important;
 }
 
-
 .action-btn .fa,
 .action-btn .fas,
 .action-btn .far,
@@ -581,7 +620,6 @@ body {
   text-decoration: none !important;
   border-bottom: none !important;
 }
-
 
 .action-buttons {
   display: flex;
