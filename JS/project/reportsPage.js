@@ -142,6 +142,7 @@ function renderStatsTable(stats) {
 
   let totals = {
     totalActivities: 0,
+    begin: 0,
     completed: 0,
     withdrawn: 0,
     inProgress: 0,
@@ -154,6 +155,7 @@ function renderStatsTable(stats) {
     const row = document.createElement("tr");
 
     totals.totalActivities += stat.totalActivities;
+    totals.begin += stat.begin;
     totals.completed += stat.completed;
     totals.withdrawn += stat.withdrawn;
     totals.inProgress += stat.inProgress;
@@ -169,6 +171,9 @@ function renderStatsTable(stats) {
     <td class="text-center align-middle clickable" onclick="handleCellClick('${
       stat.governorate
     }', null)">${stat.totalActivities || 0}</td>
+    <td class="text-center align-middle clickable bg-success bg-opacity-10" onclick="handleCellClick('${
+      stat.governorate
+    }', 'تحت الطرح')">${stat.begin || 0}</td>
     <td class="text-center align-middle clickable bg-success bg-opacity-10" onclick="handleCellClick('${
       stat.governorate
     }', 'مكتمل')">${stat.completed || 0}</td>
@@ -198,6 +203,7 @@ function renderStatsTable(stats) {
     totalRow.innerHTML = `
                     <td colspan="2" class="text-center">الإجمــــــــالي</td>
                     <td class="text-center">${totals.totalActivities}</td>
+                    <td class="text-center">${totals.begin}</td>
                     <td class="text-center">${totals.completed}</td>
                     <td class="text-center">${totals.withdrawn}</td>
                     <td class="text-center">${totals.inProgress}</td>
@@ -276,6 +282,7 @@ function renderProjects(activities) {
   activities.forEach((activity) => {
     const statusColors = {
       "قيد التنفيذ": "primary",
+      "تحت الطرح": "info",
       مكتمل: "success",
       متأخر: "warning",
       مسحوب: "danger",
@@ -436,6 +443,7 @@ function printStatistics() {
             <th class="text-center">#</th>
             <th class="text-center">المحافظة</th>
             <th class="text-center">إجمالي المشروعات</th>
+            <th class="text-center">تحت لطرح</th>
             <th class="text-center">مكتمل</th>
             <th class="text-center">مسحوب</th>
             <th class="text-center">قيد التنفيذ</th>
