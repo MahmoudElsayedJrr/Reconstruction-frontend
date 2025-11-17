@@ -222,7 +222,7 @@ export function renderForm(
       </div>
       
       <div class="col-md-4">
-        <label for="receptionDate" class="form-label">تاريخ الاستلام</label>
+        <label for="receptionDate" class="form-label">تاريخ البدء</label>
         <input type="date" id="receptionDate" class="form-control" value="${
           project.receptionDate
             ? new Date(project.receptionDate).toISOString().split("T")[0]

@@ -97,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const dateFields = [
     "completionDate",
     "assignmentDate",
+    "receptionDate",
     "siteHandoverDate",
     "assignmentOrderDate",
     "financialDecisionDate",
@@ -309,22 +310,22 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     };
 
-    // Create Action Buttons (Edit & Delete)
+    //
     const createActionsButtons = (extractId, index) => {
       return `
-      <div class="d-flex justify-content-center gap-2">
-        <button class="btn btn-sm btn-warning" 
-                onclick="editExtract('${extractId}', ${index})" 
-                title="تعديل المستخلص">
-          <i class="fas fa-edit"></i>
-        </button>
-        <button class="btn btn-sm btn-danger" 
-                onclick="deleteExtract('${extractId}')" 
-                title="حذف المستخلص">
-          <i class="fas fa-trash"></i>
-        </button>
-      </div>
-    `;
+    <div class="d-flex justify-content-center gap-2">
+      <button class="btn btn-sm btn-warning" 
+              onclick="openEditExtractModal('${extractId}', ${index})" 
+              title="تعديل المستخلص">
+        <i class="fas fa-edit"></i>
+      </button>
+      <button class="btn btn-sm btn-danger" 
+              onclick="confirmDeleteExtract('${extractId}')" 
+              title="حذف المستخلص">
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  `;
     };
 
     // Handle empty extracts
