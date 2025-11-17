@@ -153,6 +153,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  const generateColors = (count) => {
+    const colors = [];
+    for (let i = 0; i < count; i++) {
+      const hue = ((i * 360) / count) % 360;
+      colors.push(`hsl(${hue}, 70%, 60%)`);
+    }
+    return colors;
+  };
+
   function renderCharts(chartData) {
     chart1Container.innerHTML = '<canvas id="projectStatusChart"></canvas>';
     const ctx1 = chart1Container.querySelector("canvas").getContext("2d");
@@ -169,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "حاله المشروعات",
             data: chartData.status.values,
-            backgroundColor: "#0464a3ff",
+            backgroundColor: generateColors(chartData.status.labels.length),
           },
         ],
       },
@@ -220,7 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "عدد المشروعات",
             data: chartData.governorates.values,
-            backgroundColor: "#3966aaff",
+            backgroundColor: generateColors(
+              chartData.governorates.labels.length
+            ),
           },
         ],
       },
@@ -267,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "عدد المشاريع",
             data: chartData.categories.values,
-            backgroundColor: "#6668ceff",
+            backgroundColor: generateColors(chartData.categories.labels.length),
           },
         ],
       },
@@ -342,7 +353,9 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             label: "المنصرف (مليون ج.م)",
             data: chartData.disbursedByCategory.values,
-            backgroundColor: "#1e293b",
+            backgroundColor: generateColors(
+              chartData.disbursedByCategory.labels.length
+            ),
           },
         ],
       },
