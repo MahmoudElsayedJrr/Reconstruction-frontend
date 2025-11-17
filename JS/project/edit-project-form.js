@@ -298,13 +298,6 @@ export function renderForm(
     formHTML += `
       <h5 class="form-section-title">البيانات المالية</h5>
       
-          <div class="col-md-4">
-        <label for="disbursedAmount" class="form-label">المنصرف (مليون ج.م)</label>
-        <input type="number" id="disbursedAmount" class="form-control" value="${
-          project.disbursedAmount || 0
-        }">
-      </div>
-
       <div class="d-flex justify-content-start gap-3 my-3 flex-wrap">
         <button type="button" class="btn custom-btn px-3" data-bs-toggle="modal" data-bs-target="#addExtractModal">
           + إضافة مستخلص

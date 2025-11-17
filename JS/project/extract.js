@@ -77,3 +77,17 @@ export async function addExtract(BaseUrl, activityCode, showToast) {
     resetButton();
   }
 }
+
+function clearAndCloseExtractModal() {
+  document.getElementById("extractDate").value = "";
+  document.getElementById("extractValue").value = "";
+  document.getElementById("extractPDFs").value = "";
+
+  const extractModalElement = document.getElementById("extractModal");
+  if (extractModalElement) {
+    const modalInstance = bootstrap.Modal.getInstance(extractModalElement);
+    if (modalInstance) {
+      modalInstance.hide();
+    }
+  }
+}
