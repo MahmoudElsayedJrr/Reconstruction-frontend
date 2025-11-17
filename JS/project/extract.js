@@ -2,10 +2,10 @@ const token = localStorage.getItem("loggedInUserToken");
 let currentExtractId = null;
 let isEditMode = false;
 
-async function addExtract(BaseUrl, activityCode, showToast) {
+export async function addExtract(BaseUrl, activityCode, showToast) {
   const extractDate = document.getElementById("extractDate").value;
   const extractValue = document.getElementById("extractValue").value;
-  const extractFiles = document.getElementById("extractPDFs").files;
+  const extractFiles = document.getElementById("extractpdfs").files;
 
   const saveBtn = document.getElementById("saveExtractBtn");
   const originalBtnText = saveBtn.innerHTML;
@@ -42,7 +42,7 @@ async function addExtract(BaseUrl, activityCode, showToast) {
   formData.append("extractValue", parsedValue);
 
   for (let i = 0; i < extractFiles.length; i++) {
-    formData.append("files", extractFiles[i]);
+    formData.append("extractpdfs", extractFiles[i]);
   }
 
   try {
@@ -77,7 +77,7 @@ async function addExtract(BaseUrl, activityCode, showToast) {
   }
 }
 
-async function editExtract(BaseUrl, activityCode, extractId, showToast) {
+export async function editExtract(BaseUrl, activityCode, extractId, showToast) {
   const extractDate = document.getElementById("extractDate").value;
   const extractValue = document.getElementById("extractValue").value;
 
@@ -151,7 +151,7 @@ async function editExtract(BaseUrl, activityCode, extractId, showToast) {
   }
 }
 
-async function executeDeleteExtract(
+export async function executeDeleteExtract(
   BaseUrl,
   activityCode,
   extractId,
@@ -180,7 +180,7 @@ async function executeDeleteExtract(
 
       setTimeout(() => {
         window.location.reload();
-      }, 1500);
+      }, 500);
     } else {
       const errorMessage = data.message || "فشل الحذف، برجاء المحاولة.";
       showToast(errorMessage, "danger");
@@ -194,7 +194,7 @@ async function executeDeleteExtract(
 function clearAndCloseExtractModal() {
   document.getElementById("extractDate").value = "";
   document.getElementById("extractValue").value = "";
-  document.getElementById("extractPDFs").value = "";
+  document.getElementById("extractpdfs").value = "";
 
   const extractModalElement = document.getElementById("extractModal");
   if (extractModalElement) {

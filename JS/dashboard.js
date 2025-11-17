@@ -616,6 +616,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(result.data || result.message || "فشل حذف المشروع.");
       showToast("تم حذف المشروع بنجاح!", "success");
       fetchAndRenderProjects();
+      window.location.reload();
     } catch (error) {
       showToast(`Error: ${error.message}`, "danger");
     } finally {

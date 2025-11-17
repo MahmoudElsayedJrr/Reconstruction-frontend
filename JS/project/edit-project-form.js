@@ -550,8 +550,8 @@ export function renderForm(
               <input type="number" class="form-control" id="extractValue" name="extractValue" step="any" min="0">
             </div>
             <div class="mb-3">
-              <label for="extractPDFs" class="form-label">ملفات PDF</label>
-              <input type="file" class="form-control" id="extractPDFs" name="extractPDFs" accept=".pdf" multiple>
+              <label for="extractpdfs" class="form-label">ملفات PDF</label>
+              <input type="file" class="form-control" id="extractpdfs" name="extractpdfs" multiple accept="application/pdf">
               <div class="form-text">يمكنك رفع ملف أو أكثر بصيغة PDF.</div>
             </div>
           </div>

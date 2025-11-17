@@ -1,3 +1,5 @@
+import { executeDeleteExtract, editExtract } from "./project/extract.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const projectNameHeader = document.getElementById("project-name-header");
   if (!projectNameHeader) return;
@@ -361,7 +363,9 @@ document.addEventListener("DOMContentLoaded", () => {
           .map(
             (pdf, idx) => `
           <button class="btn btn-sm btn-outline-primary" 
-                  onclick="window.open('${API_URL}${pdf.path}', '_blank')"
+                  onclick="window.open('http://81.10.47.76:4000${
+                    pdf.path
+                  }', '_blank')"
                   title="${pdf.filename || "ملف PDF"}">
             <i class="fas fa-file-pdf me-1"></i>
             ${pdf.filename || `ملف ${idx + 1}`}

@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </span>`;
 
       const progressInput = document.getElementById("progress");
-      const statusInput = document.getElementById("status");
 
       if (progressInput) {
         const progressValue = parseFloat(progressInput.value);
@@ -56,10 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
           saveButton.disabled = false;
           saveButton.innerHTML = "حفظ التعديلات";
           return;
-        }
-
-        if (progressValue === 100 && statusInput) {
-          statusInput.value = "مكتمل";
         }
       }
 
@@ -94,13 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         const input = document.getElementById(fieldId);
         if (input) {
-          if (fieldId === "status" && progressInput) {
-            const progressValue = parseFloat(progressInput.value);
-            if (progressValue === 100) {
-              formData.append("status", "مكتمل");
-            } else {
-              formData.append("status", input.value);
-            }
+          if (fieldId === "status") {
+            formData.append("status", input.value);
           } else {
             formData.append(fieldId, input.value);
           }
@@ -185,7 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast,
         attachSubmitListener
       );
-      
     } catch (error) {
       formContainer.innerHTML = `<div class="alert alert-danger">فشل في جلب بيانات المشروع: ${error.message}</div>`;
     }
