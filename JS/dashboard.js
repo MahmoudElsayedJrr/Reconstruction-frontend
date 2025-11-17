@@ -73,16 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const total = apiResponse.data.totalDisbursed || 0;
       const formattedTotal = total.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 3,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
       });
 
-      const finalFormatted = formattedTotal
+      /*       const finalFormatted = formattedTotal
         .replace(".", "#")
         .replace(/,/g, ".")
-        .replace("#", ",");
+        .replace("#", ","); */
 
-      totalElement.textContent = finalFormatted + " مليون ج.م";
+      totalElement.textContent = formattedTotal + " مليون ج.م";
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
@@ -116,16 +116,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const total = apiResponse.data.totalContractualValue || 0;
 
       const formattedTotal = total.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 3,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
       });
 
-      const finalFormatted = formattedTotal
+      /*      const finalFormatted = formattedTotal
         .replace(".", "#")
         .replace(/,/g, ".")
-        .replace("#", ",");
+        .replace("#", ","); */
 
-      totalElement.textContent = finalFormatted + " مليون ج.م";
+      totalElement.textContent = formattedTotal + " مليون ج.م";
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
