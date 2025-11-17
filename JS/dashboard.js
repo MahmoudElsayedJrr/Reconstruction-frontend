@@ -77,11 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
         maximumFractionDigits: 2,
       });
 
-      /*       const finalFormatted = formattedTotal
-        .replace(".", "#")
-        .replace(/,/g, ".")
-        .replace("#", ","); */
-
       totalElement.textContent = formattedTotal + " مليون ج.م";
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
@@ -119,11 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
       });
-
-      /*      const finalFormatted = formattedTotal
-        .replace(".", "#")
-        .replace(/,/g, ".")
-        .replace("#", ","); */
 
       totalElement.textContent = formattedTotal + " مليون ج.م";
     } catch (error) {
@@ -594,7 +584,7 @@ document.addEventListener("DOMContentLoaded", () => {
     Object.keys(filters).forEach((key) => {
       if (!filters[key] || filters[key] === "الكل") delete filters[key];
     });
-
+    localStorage.setItem("dashboardFilters", JSON.stringify(filters));
     Promise.all([
       fetchAndRenderProjects(filters),
       fetchTotalDisbursed(filters),
@@ -639,11 +629,44 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  function restoreFilters() {
+    const savedFilters = localStorage.getItem("dashboardFilters");
+    if (savedFilters) {
+      const filters = JSON.parse(savedFilters);
+
+      if (filters.name)
+        document.getElementById("projectNameFilter").value = filters.name;
+      if (filters.governorate)
+        document.getElementById("governorateFilter").value =
+          filters.governorate;
+      if (filters.activityCode)
+        document.getElementById("activityCodeFilter").value =
+          filters.activityCode;
+      if (filters.status)
+        document.getElementById("statusFilter").value = filters.status;
+      if (filters.fundingType)
+        document.getElementById("fundingTypeFilter").value =
+          filters.fundingType;
+      if (filters.fiscalYear)
+        document.getElementById("fiscalYearFilter").value = filters.fiscalYear;
+      if (filters.projectCategory)
+        document.getElementById("projectCategoryFilter").value =
+          filters.projectCategory;
+      if (filters.progressMin !== undefined)
+        document.getElementById("progressMin").value = filters.progressMin;
+      if (filters.progressMax !== undefined)
+        document.getElementById("progressMax").value = filters.progressMax;
+
+      return filters;
+    }
+    return {};
+  }
+
   function initializePage() {
-    //console.log(API_URL);
-    fetchTotalDisbursed();
-    fetchTotalContractual();
-    fetchAndRenderProjects();
+    const filters = restoreFilters();
+    fetchTotalDisbursed(filters);
+    fetchTotalContractual(filters);
+    fetchAndRenderProjects(filters);
   }
 
   initializePage();

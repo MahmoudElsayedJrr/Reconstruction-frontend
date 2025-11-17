@@ -54,6 +54,69 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.show();
   }
 
+  let currentExtractsData = [];
+
+  window.openEditExtractModal = function (extractId, index) {
+    const extractToEdit = currentExtractsData.find(
+      (e) => (e._id || e.id) === extractId
+    );
+    if (!extractToEdit) {
+      showToast("لا يمكن العثور على بيانات المستخلص.", "danger");
+      return;
+    }
+
+    document.getElementById("editExtractDate").value =
+      extractToEdit.extractDate.split("T")[0];
+    document.getElementById("editExtractValue").value =
+      extractToEdit.extractValue;
+
+    const modal = new bootstrap.Modal(
+      document.getElementById("editExtractModal")
+    );
+    modal.show();
+
+    document.getElementById("saveEditExtractBtn").onclick = async () => {
+      const closeEditModal = () => modal.hide();
+      await editExtract(
+        API_BASE_URL,
+        activityCode,
+        extractId,
+        showToast,
+        closeEditModal
+      );
+    };
+  };
+
+  let extractIdToDelete = null;
+
+  window.confirmDeleteExtract = function (extractId) {
+    extractIdToDelete = extractId;
+    const confirmModal = new bootstrap.Modal(
+      document.getElementById("confirmDeleteModal")
+    );
+    confirmModal.show();
+  };
+
+  document
+    .getElementById("confirmDeleteMediaBtn")
+    .addEventListener("click", async function handleExtractDelete() {
+      if (extractIdToDelete) {
+        const confirmModal = bootstrap.Modal.getInstance(
+          document.getElementById("confirmDeleteModal")
+        );
+        if (confirmModal) confirmModal.hide();
+
+        await executeDeleteExtract(
+          API_BASE_URL,
+          activityCode,
+          extractIdToDelete,
+          showToast
+        );
+
+        extractIdToDelete = null;
+      }
+    });
+
   function deleteDecision(BaseUrl, activityCode, decisionId, showToast) {
     const confirmModal = bootstrap.Modal.getOrCreateInstance(
       document.getElementById("confirmDeleteModal")
