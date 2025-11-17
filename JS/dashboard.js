@@ -72,7 +72,17 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalDisbursed || 0;
-      totalElement.textContent = total.toLocaleString("ar-EG") + " مليون ج.م";
+      const formattedTotal = total.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 3,
+      });
+
+      const finalFormatted = formattedTotal
+        .replace(".", "#")
+        .replace(/,/g, ".")
+        .replace("#", ",");
+
+      totalElement.textContent = finalFormatted + " مليون ج.م";
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
@@ -104,7 +114,18 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalContractualValue || 0;
-      totalElement.textContent = total.toLocaleString("ar-EG") + " مليون ج.م";
+
+      const formattedTotal = total.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 3,
+      });
+
+      const finalFormatted = formattedTotal
+        .replace(".", "#")
+        .replace(/,/g, ".")
+        .replace("#", ",");
+
+      totalElement.textContent = finalFormatted + " مليون ج.م";
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
