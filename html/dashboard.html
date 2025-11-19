@@ -162,6 +162,25 @@
         </div>
       </div>
 
+      <div class="my-4"></div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">المنصرف حسب المنطقه</h5>
+              <div
+                class="chart-container"
+                id="chart5-container"
+                style="height: 400px"
+              >
+                <span class="spinner-border text-primary"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="card mt-4 filter-card">
         <div class="card-header bg-white border-0 py-3">
           <h4 class="mb-0 text-right text-secondry fw-bold">
@@ -259,6 +278,30 @@
                   placeholder="إلى"
                   min="0"
                   max="100"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+              <label for="disbursedAmountFilter" class="form-label"
+                >نسبه الصرف</label
+              >
+              <div class="d-flex align-items-center gap-2">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="disbursedPercentageMin"
+                  placeholder="من"
+                  min="0"
+                  max="100"
+                />
+                <span class="fw-bold">-</span>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="disbursedPercentageMax"
+                  placeholder="إلى"
+                  min="0"
                 />
               </div>
             </div>

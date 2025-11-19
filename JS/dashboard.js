@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const chart2Container = document.getElementById("chart2-container");
   const chart3Container = document.getElementById("chart3-container");
   const chart4Container = document.getElementById("chart4-container");
+  const chart5Container = document.getElementById("chart5-container");
   const deleteConfirmBtn = document.getElementById("confirmDeleteBtn");
   const toastContainer = document.querySelector(".toast-container");
   const filterButton = document.getElementById("filter-button");
@@ -127,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const governorateCounts = {};
     const categoryCounts = {};
     const disbursedByCategory = {};
+    const disbursedByGovernorate = {};
 
     projects.forEach((project) => {
       let currentStatus = project.progress >= 100 ? "مكتمل" : project.status;
@@ -142,6 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const category = project.projectCategory || "غير محدد";
       disbursedByCategory[category] =
         (disbursedByCategory[category] || 0) + (project.disbursedAmount || 0);
+
+      const governorate = project.governorate || "غير محدد";
+      disbursedByGovernorate[governorate] =
+        (disbursedByGovernorate[governorate] || 0) +
+        (project.disbursedAmount || 0);
     });
 
     return {
@@ -160,6 +167,11 @@ document.addEventListener("DOMContentLoaded", () => {
       disbursedByCategory: {
         labels: Object.keys(disbursedByCategory),
         values: Object.values(disbursedByCategory),
+      },
+
+      disbursedByGovernorate: {
+        labels: Object.keys(disbursedByGovernorate),
+        values: Object.values(disbursedByGovernorate),
       },
     };
   }
@@ -402,6 +414,57 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       plugins: [ChartDataLabels],
     });
+
+    chart5Container.innerHTML =
+      '<canvas id="disbursedByGovernorateChart"></canvas>';
+    const ctx6 = chart5Container.querySelector("canvas").getContext("2d");
+
+    new Chart(ctx6, {
+      type: "bar",
+      data: {
+        labels: chartData.disbursedByGovernorate.labels,
+        datasets: [
+          {
+            label: "المنصرف (مليون ج.م)",
+            data: chartData.disbursedByGovernorate.values,
+            backgroundColor: generateColors(
+              chartData.disbursedByGovernorate.labels.length
+            ),
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true },
+          datalabels: {
+            display: false,
+          },
+        },
+        scales: {
+          x: {
+            ticks: {
+              callback: function (value, index) {
+                const label = chartData.disbursedByGovernorate.labels[index];
+                const amount = chartData.disbursedByGovernorate.values[index];
+                return `${label} (${amount.toLocaleString()} مليون ج.م)`;
+              },
+              font: {
+                size: 11,
+              },
+            },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: (val) => val.toLocaleString() + " مليون ج.م",
+            },
+          },
+        },
+      },
+      plugins: [ChartDataLabels],
+    });
   }
 
   function renderTable(projects) {
@@ -579,6 +642,10 @@ document.addEventListener("DOMContentLoaded", () => {
       projectCategory: document.getElementById("projectCategoryFilter").value,
       progressMin: document.getElementById("progressMin").value || 0,
       progressMax: document.getElementById("progressMax").value || 100,
+      disbursedPercentageMin:
+        document.getElementById("disbursedPercentageMin").value || 0,
+      disbursedPercentageMax:
+        document.getElementById("disbursedPercentageMax").value || 100,
     };
 
     Object.keys(filters).forEach((key) => {
