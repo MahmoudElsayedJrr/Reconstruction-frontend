@@ -4,6 +4,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const saveButton = document.getElementById("save-project-button");
   const toastContainer = document.querySelector(".toast-container");
+  const fundingTypeSelect = document.getElementById("fundingType");
+  const fundingSourceContainer = document.getElementById(
+    "fundingSourceContainer"
+  );
+  const fundingSourceSelect = document.getElementById("fundingSource");
+
+  const toggleFundingSource = () => {
+    const selectedValue = fundingTypeSelect.value;
+
+    if (selectedValue === "تمويل الغير") {
+      fundingSourceContainer.style.display = "block";
+      fundingSourceSelect.setAttribute("required", "required");
+    } else {
+      fundingSourceContainer.style.display = "none";
+      fundingSourceSelect.removeAttribute("required");
+      fundingSourceSelect.value = "";
+    }
+  };
+  fundingTypeSelect.addEventListener("change", toggleFundingSource);
+  toggleFundingSource();
 
   function generateCode() {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -58,10 +78,13 @@ document.addEventListener("DOMContentLoaded", () => {
       activityCode: code,
       activityName: document.getElementById("activityName").value,
       executingCompany: document.getElementById("executingCompany").value,
+      supervisorEngineer: document.getElementById("supervisorEngineer").value,
+      supervisorPhone: document.getElementById("supervisorPhone").value,
       consultant: document.getElementById("consultant").value,
       governorate: document.getElementById("governorate").value,
-      status: "قيد التنفيذ",
+      status: "تحت الطرح",
       fundingType: document.getElementById("fundingType").value,
+      fundingSource: document.getElementById("fundingSource").value,
       projectCategory: document.getElementById("projectCategory").value,
       fiscalYear:
         document.getElementById("fiscalYear").value || getCurrentFiscalYear(),
@@ -80,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let fiscalYear = fiscalYearInput;
 
     if (fiscalYear === "") {
-      fiscalYear = getCurrentFiscalYear(); 
+      fiscalYear = getCurrentFiscalYear();
     } else {
       const fiscalYearRegex = /^\d{4}\/\d{4}$/;
       if (!fiscalYearRegex.test(fiscalYear)) {
@@ -90,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         saveButton.disabled = false;
         saveButton.innerHTML = "حفظ المشروع";
-        return; 
+        return;
       }
     }
 

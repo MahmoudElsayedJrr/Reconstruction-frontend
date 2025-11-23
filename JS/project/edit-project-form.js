@@ -133,6 +133,25 @@ export function renderForm(
         }">
       </div>
 
+      <div class="col-md-6">
+        <label for="supervisorEngineer" class="form-label">المهندس المشرف</label>
+        <input type="text" id="supervisorEngineer" class="form-control" value="${
+          project.supervisorEngineer || ""
+        }">
+      </div>
+
+      <div class="col-md-6">
+      <label for="supervisorPhone" class="form-label">رقم تليفون المشرف</label>
+      <input
+        type="text"
+        id="supervisorPhone"
+        class="form-control"
+        value="${project.supervisorPhone || ""}"
+        inputmode="numeric"
+        title="يجب إدخال 11 رقمًا فقط (بدون حروف)."
+      />
+      </div>
+
       <div class="col-md-12">
         <label for="activityDescription" class="form-label">وصف المشروع</label>
         <textarea id="activityDescription" class="form-control" rows="4" style="resize: vertical;">${

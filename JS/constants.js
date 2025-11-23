@@ -1,4 +1,4 @@
-const API_URL = "http://81.10.47.76:4000/";
+const API_URL = "http://localhost:3000/";
 
 // http://81.10.47.76:4000/
 // http://192.168.0.38:3000/
@@ -8,10 +8,13 @@ const permissions = {
     "activityName",
     "executingCompany",
     "fundingType",
+    "fundingSource",
     "projectCategory",
     "consultant",
     "governorate",
     "activityDescription",
+    "supervisorEngineer",
+    "supervisorPhone",
     "estimatedValue",
     "contractualValue",
     "completionDate",
@@ -57,6 +60,9 @@ const permissions = {
     "governorate",
     "projectCategory",
     "fundingType",
+    "fundingSource",
+    "supervisorEngineer",
+    "supervisorPhone",
     "consultant",
     "activityDescription",
     "estimatedValue",

@@ -212,7 +212,10 @@ document.addEventListener("DOMContentLoaded", () => {
     setText("executingCompany", project.executingCompany);
     setText("governorate", project.governorate);
     setText("consultant", project.consultant);
+    setText("supervisorPhone", project.supervisorPhone);
+    setText("supervisorEngineer", project.supervisorEngineer);
     setText("fundingType", project.fundingType);
+    setText("fundingSource", project.fundingSource);
     setText("projectCategory", project.projectCategory);
     setText("progress", ` % ${project.progress} `);
     setText(
