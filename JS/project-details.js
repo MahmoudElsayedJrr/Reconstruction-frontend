@@ -531,7 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
         col.className = "col-md-4";
         col.innerHTML = `
         <div class="position-relative">
-          <a href="http://81.10.47.76:4000/${imgUrl}" target="_blank">
+          <a href="http://81.10.47.76:4000${imgUrl}" target="_blank">
             <img src="http://81.10.47.76:4000${imgUrl}" 
                  class="img-fluid rounded shadow-sm zoom-hover" 
                  style="height:200px; object-fit:cover; width: 100%;" />
