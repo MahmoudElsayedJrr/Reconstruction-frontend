@@ -100,6 +100,33 @@
                 ><input type="text" id="consultant" class="form-control" />
               </div>
 
+              <div class="col-md-6">
+                <label for="supervisorEngineer" class="form-label"
+                  >المهندس المشرف</label
+                ><input
+                  type="text"
+                  id="supervisorEngineer"
+                  class="form-control"
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label for="supervisorPhone" class="form-label"
+                  >رقم تليفون المشرف</label
+                >
+                <input
+                  type="tel"
+                  id="supervisorPhone"
+                  class="form-control"
+                  required
+                  maxlength="11"
+                  minlength="11"
+                  pattern="\d{11}"
+                  inputmode="numeric"
+                  title="يجب إدخال 11 رقمًا فقط (بدون حروف)."
+                />
+              </div>
+
               <h5 class="form-section-title">التصنيف والتمويل</h5>
               <div class="col-md-4">
                 <label for="governorate" class="form-label">المحافظة</label
@@ -114,14 +141,7 @@
                   <option>دمياط</option>
                 </select>
               </div>
-              <div class="col-md-4">
-                <label for="fundingType" class="form-label">نوع التمويل</label
-                ><select id="fundingType" class="form-select" required>
-                  <option selected disabled value="">اختر...</option>
-                  <option>خطة استثمارية</option>
-                  <option>تمويل الغير</option>
-                </select>
-              </div>
+
               <div class="col-md-4">
                 <label for="projectCategory" class="form-label"
                   >فئة المشروع</label
@@ -140,6 +160,46 @@
                   <option>تأهيل مباني حكومية</option>
                   <option>تجمعات تنموية</option>
                   <option>اخر</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label for="fundingType" class="form-label">نوع التمويل</label
+                ><select id="fundingType" class="form-select" required>
+                  <option selected disabled value="">اختر...</option>
+                  <option>خطة استثمارية</option>
+                  <option>تمويل الغير</option>
+                </select>
+              </div>
+
+              <div
+                class="col-md-4"
+                id="fundingSourceContainer"
+                style="display: none"
+              >
+                <label for="fundingSource" class="form-label"
+                  >مصدر التمويل</label
+                >
+                <select id="fundingSource" class="form-select">
+                  <option selected disabled value="">اختر...</option>
+                  <option>صندوق الإسكان الاجتماعي</option>
+                  <option>وزارة المالية</option>
+                  <option>محافظة الإسماعيلية</option>
+                  <option>محافظة بورسعيد</option>
+                  <option>محافظة السويس</option>
+                  <option>محافظة شمال سيناء</option>
+                  <option>محافظة جنوب سيناء</option>
+                  <option>محافظة الشرقية</option>
+                  <option>محافظة دمياط</option>
+                  <option>وزارة التضامن الاجتماعي</option>
+                  <option>وزارة التنمية المحلية</option>
+                  <option>وزارة الشباب والرياضة</option>
+                  <option>وزارة الصحة والسكان</option>
+                  <option>هيئة الإسعاف المصرية</option>
+                  <option>هيئة الرقابة الإدارية</option>
+                  <option>هيئة النيابة الإدارية</option>
+                  <option>صندوق تطوير العشوائيات</option>
+                  <option>الهيئة الاقتصادية لقناة السويس</option>
                 </select>
               </div>
 

@@ -60,6 +60,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const formData = new FormData();
 
+      const supervisorPhoneInput = document.getElementById("supervisorPhone");
+      const supervisorPhoneValue = supervisorPhoneInput?.value?.trim();
+
+      if (supervisorPhoneValue !== "" && supervisorPhoneValue !== undefined) {
+        const phoneRegex = /^\d{11}$/;
+
+        if (!phoneRegex.test(supervisorPhoneValue)) {
+          showToast(
+            "رقم تليفون المشرف يجب أن يتكون من 11 رقمًا فقط.",
+            "danger"
+          );
+          saveButton.disabled = false;
+          saveButton.innerHTML = "حفظ التعديلات";
+          supervisorPhoneInput.focus();
+          return;
+        }
+        formData.append("supervisorPhone", supervisorPhoneValue);
+      }
+
       allowedFields.forEach((fieldId) => {
         if (document.getElementById("petroleumCompany")) {
           formData.append(
