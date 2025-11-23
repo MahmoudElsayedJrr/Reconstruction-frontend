@@ -8,6 +8,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const userRole = localStorage.getItem("loggedInUserRole");
   const token = localStorage.getItem("loggedInUserToken");
 
+  function setupFundingToggle() {
+    const fundingTypeSelect = document.getElementById("fundingType");
+    const fundingSourceContainer = document.getElementById(
+      "fundingSourceContainer"
+    );
+    const fundingSourceSelect = document.getElementById("fundingSource");
+
+    const toggleFundingSource = () => {
+      const selectedValue = fundingTypeSelect.value;
+
+      if (selectedValue === "تمويل الغير") {
+        fundingSourceContainer.style.display = "block";
+        fundingSourceSelect.setAttribute("required", "required");
+      } else {
+        fundingSourceContainer.style.display = "none";
+        fundingSourceSelect.removeAttribute("required");
+
+        fundingSourceSelect.value = "";
+      }
+    };
+
+    // ربط الحدث
+    fundingTypeSelect.addEventListener("change", toggleFundingSource);
+
+    // ضبط الحالة الأولية
+    toggleFundingSource();
+  }
+
   const allowedFields = permissions[userRole] || [];
 
   function getProjectCodeFromUrl() {
@@ -80,6 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       allowedFields.forEach((fieldId) => {
+        if (fieldId === "supervisorPhone") {
+          return;
+        }
         if (document.getElementById("petroleumCompany")) {
           formData.append(
             "roaddetails[petroleumCompany]",
@@ -194,6 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast,
         attachSubmitListener
       );
+      setupFundingToggle();
     } catch (error) {
       formContainer.innerHTML = `<div class="alert alert-danger">فشل في جلب بيانات المشروع: ${error.message}</div>`;
     }

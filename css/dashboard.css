@@ -321,6 +321,7 @@ body {
 }
 
 #filter-button {
+  width: 120px;
   background: linear-gradient(
     135deg,
     var(--primary-color),
@@ -334,6 +335,18 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+#reset-button {
+  width: 120px;
+  background: linear-gradient(135deg, var(--dark-color), #8598b1);
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+  color: #fff;
+}
+
 #filter-button:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
@@ -342,6 +355,11 @@ body {
     var(--primary-dark),
     var(--primary-color)
   );
+}
+#reset-button:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(135deg, var(--dark-color), #8598b1);
 }
 
 .table-responsive {

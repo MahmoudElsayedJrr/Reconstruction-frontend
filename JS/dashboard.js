@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const deleteConfirmBtn = document.getElementById("confirmDeleteBtn");
   const toastContainer = document.querySelector(".toast-container");
   const filterButton = document.getElementById("filter-button");
+  const resetButton = document.getElementById("reset-button");
 
   let codeToDelete = null;
 
@@ -45,6 +46,42 @@ document.addEventListener("DOMContentLoaded", () => {
       toastElement.remove();
     });
     toast.show();
+  }
+
+  function resetFilters() {
+    const allFilterIDs = [
+      "activityCodeFilter",
+      "projectNameFilter",
+      "governorateFilter",
+      "projectCategoryFilter",
+      "fundingTypeFilter",
+      "fundingSourceFilter",
+      "fiscalYearFilter",
+      "statusFilter",
+      "progressMin",
+      "progressMax",
+      "disbursedPercentageMin",
+      "disbursedPercentageMax",
+    ];
+
+    allFilterIDs.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        if (element.tagName === "INPUT") {
+          element.value = "";
+        } else if (element.tagName === "SELECT") {
+          element.value = element.options[0].value;
+        }
+      }
+    });
+
+    localStorage.removeItem("dashboardFilters");
+
+    filterButton.click();
+  }
+
+  if (resetButton) {
+    resetButton.addEventListener("click", resetFilters);
   }
 
   async function fetchTotalDisbursed(filters = {}) {
@@ -236,8 +273,6 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         },
       },
-      // تأكد من وجود هذا السطر إذا كنت تستخدم مكتبة datalabels
-      // plugins: [ChartDataLabels],
     });
 
     chart2Container.innerHTML =
@@ -335,35 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       plugins: [ChartDataLabels],
     });
-
-    /* chart4Container.innerHTML =
-      '<canvas id="disbursedByCategoryChart"></canvas>';
-    const ctx5 = chart4Container.querySelector("canvas").getContext("2d");
-    new Chart(ctx5, {
-      type: "bar",
-      data: {
-        labels: chartData.disbursedByCategory.labels,
-        datasets: [
-          {
-            label: "المنصرف (ج.م)",
-            data: chartData.disbursedByCategory.values,
-            backgroundColor: "#0dcaf0",
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: (val) => val.toLocaleString() + " ج.م",
-            },
-          },
-        },
-      },
-    }); */
 
     chart4Container.innerHTML =
       '<canvas id="disbursedByCategoryChart"></canvas>';
@@ -638,6 +644,7 @@ document.addEventListener("DOMContentLoaded", () => {
       activityCode: document.getElementById("activityCodeFilter").value,
       status: document.getElementById("statusFilter").value,
       fundingType: document.getElementById("fundingTypeFilter").value,
+      fundingSource: document.getElementById("fundingSourceFilter").value,
       fiscalYear: document.getElementById("fiscalYearFilter").value,
       projectCategory: document.getElementById("projectCategoryFilter").value,
       progressMin: document.getElementById("progressMin").value || 0,

@@ -50,6 +50,69 @@ export function renderForm(
         </select>
       </div>
 
+  <div class="col-md-6" id="fundingSourceContainer" style="display: none;">
+  <label for="fundingSource" class="form-label">مصدر التمويل</label>
+  <select id="fundingSource" class="form-select">
+    <option selected disabled value="">اختر...</option>
+    <option ${
+      project.fundingSource === "صندوق الإسكان الاجتماعي" ? "selected" : ""
+    }>صندوق الإسكان الاجتماعي</option>
+    <option ${
+      project.fundingSource === "وزارة المالية" ? "selected" : ""
+    }>وزارة المالية</option>
+    <option ${
+      project.fundingSource === "محافظة الإسماعيلية" ? "selected" : ""
+    }>محافظة الإسماعيلية</option>
+    <option ${
+      project.fundingSource === "محافظة بورسعيد" ? "selected" : ""
+    }>محافظة بورسعيد</option>
+    <option ${
+      project.fundingSource === "محافظة السويس" ? "selected" : ""
+    }>محافظة السويس</option>
+    <option ${
+      project.fundingSource === "محافظة شمال سيناء" ? "selected" : ""
+    }>محافظة شمال سيناء</option>
+    <option ${
+      project.fundingSource === "محافظة جنوب سيناء" ? "selected" : ""
+    }>محافظة جنوب سيناء</option>
+    <option ${
+      project.fundingSource === "محافظة الشرقية" ? "selected" : ""
+    }>محافظة الشرقية</option>
+    <option ${
+      project.fundingSource === "محافظة دمياط" ? "selected" : ""
+    }>محافظة دمياط</option>
+    <option ${
+      project.fundingSource === "وزارة التضامن الاجتماعي" ? "selected" : ""
+    }>وزارة التضامن الاجتماعي</option>
+    <option ${
+      project.fundingSource === "وزارة التنمية المحلية" ? "selected" : ""
+    }>وزارة التنمية المحلية</option>
+    <option ${
+      project.fundingSource === "وزارة الشباب والرياضة" ? "selected" : ""
+    }>وزارة الشباب والرياضة</option>
+    <option ${
+      project.fundingSource === "وزارة الصحة والسكان" ? "selected" : ""
+    }>وزارة الصحة والسكان</option>
+    <option ${
+      project.fundingSource === "هيئة الإسعاف المصرية" ? "selected" : ""
+    }>هيئة الإسعاف المصرية</option>
+    <option ${
+      project.fundingSource === "هيئة الرقابة الإدارية" ? "selected" : ""
+    }>هيئة الرقابة الإدارية</option>
+    <option ${
+      project.fundingSource === "هيئة النيابة الإدارية" ? "selected" : ""
+    }>هيئة النيابة الإدارية</option>
+    <option ${
+      project.fundingSource === "صندوق تطوير العشوائيات" ? "selected" : ""
+    }>صندوق تطوير العشوائيات</option>
+    <option ${
+      project.fundingSource === "الهيئة الاقتصادية لقناة السويس"
+        ? "selected"
+        : ""
+    }>الهيئة الاقتصادية لقناة السويس</option>
+  </select>
+</div>
+
       <div class="col-md-6">
         <label for="governorate" class="form-label">المحافظة</label>
         <select id="governorate" class="form-select">

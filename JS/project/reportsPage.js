@@ -6,6 +6,7 @@ function saveFilters() {
     governorate: document.getElementById("governorateFilter").value,
     category: document.getElementById("projectCategoryFilter").value,
     funding: document.getElementById("fundingTypeFilter").value,
+    fundingSource: document.getElementById("fundingSourceFilter").value,
     progressMin: document.getElementById("progressMin").value,
     progressMax: document.getElementById("progressMax").value,
     fiscalYear: document.getElementById("fiscalYearFilter").value,
@@ -31,6 +32,9 @@ function restoreFilters() {
       document.getElementById("projectCategoryFilter").value = filters.category;
     if (filters.funding)
       document.getElementById("fundingTypeFilter").value = filters.funding;
+    if (filters.fundingSource)
+      document.getElementById("fundingSourceFilter").value =
+        filters.fundingSource;
     if (filters.progressMin)
       document.getElementById("progressMin").value = filters.progressMin;
     if (filters.progressMax)
@@ -44,6 +48,7 @@ function restoreFilters() {
       governorate: filters.governorate,
       category: filters.category,
       funding: filters.funding,
+      fundingSource: filters.fundingSource,
       progressMin: filters.progressMin,
       progressMax: filters.progressMax,
       fiscalYear: filters.fiscalYear,
@@ -115,6 +120,8 @@ function buildQueryParams(additionalFilters = {}) {
     params.append("projectCategory", filters.category);
   if (filters.funding && filters.funding !== "الكل")
     params.append("fundingType", filters.funding);
+  if (filters.fundingSource && filters.fundingSource !== "الكل")
+    params.append("fundingSource", filters.fundingSource);
   if (filters.progressMin) params.append("progressMin", filters.progressMin);
   if (filters.progressMax) params.append("progressMax", filters.progressMax);
   if (filters.fiscalYear && filters.fiscalYear !== "الكل")
@@ -130,6 +137,7 @@ function applyFilters() {
     governorate: document.getElementById("governorateFilter").value,
     category: document.getElementById("projectCategoryFilter").value,
     funding: document.getElementById("fundingTypeFilter").value,
+    fundingSource: document.getElementById("fundingSourceFilter").value,
     progressMin: document.getElementById("progressMin").value,
     progressMax: document.getElementById("progressMax").value,
     fiscalYear: document.getElementById("fiscalYearFilter").value,
@@ -152,6 +160,7 @@ function resetFilters() {
   document.getElementById("governorateFilter").selectedIndex = 0;
   document.getElementById("projectCategoryFilter").selectedIndex = 0;
   document.getElementById("fundingTypeFilter").selectedIndex = 0;
+  document.getElementById("fundingSourceFilter").selectedIndex = 0;
   document.getElementById("progressMin").value = "";
   document.getElementById("progressMax").value = "";
   document.getElementById("fiscalYearFilter").selectedIndex = 0;
@@ -257,7 +266,7 @@ function renderStatsTable(stats) {
     row.innerHTML = `
         <td class="text-center align-middle">${index + 1}</td>
         <td class="text-center align-middle clickable fw-bold" onclick="handleRowClick('${
-          stat.governorate
+          stat.governorate  
         }')">${stat.governorate}</td>
         <td class="text-center align-middle clickable" onclick="handleCellClick('${
           stat.governorate
