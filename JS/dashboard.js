@@ -259,7 +259,8 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.status.labels[index];
                 const count = chartData.status.values[index];
-                return `${label} (${count.toLocaleString()})`;
+
+                return [label, count.toLocaleString()];
               },
               font: { size: 12 },
             },
@@ -308,7 +309,8 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.governorates.labels[index];
                 const count = chartData.governorates.values[index];
-                return `${label} (${count.toLocaleString()})`;
+
+                return [label, count.toLocaleString()];
               },
               font: { size: 11 },
             },
@@ -355,7 +357,8 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.categories.labels[index];
                 const count = chartData.categories.values[index];
-                return `${label} (${count})`;
+
+                return [label, count.toLocaleString()];
               },
               font: {
                 size: 11,
@@ -364,7 +367,9 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           y: {
             beginAtZero: true,
-            ticks: { precision: 0 },
+            ticks: {
+              precision: 0,
+            },
           },
         },
       },
@@ -373,7 +378,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chart4Container.innerHTML =
       '<canvas id="disbursedByCategoryChart"></canvas>';
+
     const ctx5 = chart4Container.querySelector("canvas").getContext("2d");
+
     new Chart(ctx5, {
       type: "bar",
       data: {
@@ -403,7 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByCategory.labels[index];
                 const amount = chartData.disbursedByCategory.values[index];
-                return `${label} (${amount.toLocaleString()} مليون ج.م)`;
+                return [label, amount.toLocaleString() + " مليون ج.م"];
               },
               font: {
                 size: 11,
@@ -454,7 +461,8 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByGovernorate.labels[index];
                 const amount = chartData.disbursedByGovernorate.values[index];
-                return `${label} (${amount.toLocaleString()} مليون ج.م)`;
+
+                return [label, amount.toLocaleString() + " مليون ج.م"];
               },
               font: {
                 size: 11,
