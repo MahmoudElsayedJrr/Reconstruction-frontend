@@ -183,9 +183,9 @@ export function renderForm(
           <option value="تجمعات تنموية" ${
             project.projectCategory === "تجمعات تنموية" ? "selected" : ""
           }>تجمعات تنموية</option>
-          <option value="اخر" ${
-            project.projectCategory === "اخر" ? "selected" : ""
-          }>اخر</option>
+          <option value="عمارات" ${
+            project.projectCategory === "عمارات" ? "selected" : ""
+          }>عمارات</option>
         </select>
       </div>
 
