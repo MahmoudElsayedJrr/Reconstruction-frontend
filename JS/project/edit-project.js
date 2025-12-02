@@ -29,11 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    // ربط الحدث
-    fundingTypeSelect.addEventListener("change", toggleFundingSource);
-
-    // ضبط الحالة الأولية
-    toggleFundingSource();
+    if (userRole === "admin" || userRole === "manager") {
+      fundingTypeSelect.addEventListener("change", toggleFundingSource);
+      toggleFundingSource();
+    }
   }
 
   const allowedFields = permissions[userRole] || [];
