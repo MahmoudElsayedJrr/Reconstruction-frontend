@@ -505,11 +505,6 @@ document.addEventListener("DOMContentLoaded", () => {
       let serial = index + 1;
 
       row.innerHTML = `
-                <td>
-                    <span class="truncate-text" title="${serial}">
-                        ${serial}
-                    </span>
-                </td>
                 <td><span class="badge bg-info bg-opacity-25 text-info-emphasis">${
                   project.activityCode || "غير محدد"
                 }</span></td>
