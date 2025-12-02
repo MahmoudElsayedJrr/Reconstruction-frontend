@@ -16,7 +16,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
   </head>
   <body class="no-sidebar">
     <main class="main-content">
@@ -47,7 +47,6 @@
                 <label for="email" class="form-label">البريد الإلكتروني</label>
                 <input type="email" id="email" class="form-control" required />
               </div>
-              
 
               <div class="col-md-6">
                 <label for="role" class="form-label">الدور الوظيفي</label>
@@ -60,6 +59,20 @@
                   <option value="projectManager">مشروعات</option>
                   <option value="contractual">تعاقدية</option>
                   <option value="employee">موظف</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="region" class="form-label">المحافظة</label>
+                <select id="region" class="form-select" required>
+                  <option selected disabled value="">اختر المحافظة</option>
+                  <option value="شمال سيناء">شمال سيناء</option>
+                  <option value="جنوب سيناء">جنوب سيناء</option>
+                  <option value="بورسعيد">بورسعيد</option>
+                  <option value="الإسماعيلية">الإسماعيلية</option>
+                  <option value="السويس">السويس</option>
+                  <option value="الشرقية">الشرقية</option>
+                  <option value="دمياط">دمياط</option>
                 </select>
               </div>
 

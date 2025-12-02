@@ -1292,3 +1292,49 @@ canvas {
   max-height: 100%;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
+
+#viewExcelModal .modal-body {
+  background-color: #f8f9fa;
+}
+
+#modalExcelTable {
+  font-size: 0.875rem;
+  table-layout: fixed;
+  width: 2400px;
+}
+
+#modalExcelTable th {
+  background-color: #1f4e78 !important;
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 10px 8px;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+#modalExcelTable td {
+  vertical-align: middle;
+  padding: 8px;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#modalExcelTable tbody tr:hover {
+  background-color: #e3f2fd;
+}
+
+@media print {
+  .modal-header,
+  .bg-light,
+  .btn {
+    display: none !important;
+  }
+
+  #modalExcelTable {
+    font-size: 10pt;
+  }
+}

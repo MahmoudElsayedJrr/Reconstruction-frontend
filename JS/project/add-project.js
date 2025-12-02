@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
       addProjectForm.reset();
       setTimeout(() => {
         window.location.href = "dashboard.html";
-      }, 1500);
+      }, 750);
     } catch (error) {
       showToast(error.message, "danger");
     } finally {

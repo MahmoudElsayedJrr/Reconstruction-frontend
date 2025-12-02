@@ -125,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       totalElement.textContent = "خطأ";
     }
   }
+
   async function fetchTotalContractual(filters = {}) {
     const totalElement = document.getElementById("totalContractualValue");
     try {
@@ -497,12 +498,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    projects.reverse().forEach((project) => {
+    projects.reverse().forEach((project, index) => {
       const row = document.createElement("tr");
       const percentage = project.progress || 0;
       const barColor = getProgressBarColor(percentage, project.status);
+      let serial = index + 1;
 
       row.innerHTML = `
+                <td>
+                    <span class="truncate-text" title="${serial}">
+                        ${serial}
+                    </span>
+                </td>
                 <td><span class="badge bg-info bg-opacity-25 text-info-emphasis">${
                   project.activityCode || "غير محدد"
                 }</span></td>

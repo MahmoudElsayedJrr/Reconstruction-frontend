@@ -55,8 +55,8 @@
             id="updateAndRemoveEmployeeLink"
             style="display: none"
           >
-            <span class="icon"><i class="fas fa-user-minus"></i></span>
-            تعديل او حذف موظف
+            <span class="icon"><i class="fas fa-gears"></i></span>
+            الأعدادات
           </a>
         </nav>
       </div>
@@ -406,9 +406,14 @@
               <i class="fas fa-list-ul me-2"></i>
               قائمة المشروعات
             </h5>
-            <button id="export-excel-btn" class="btn btn-success">
-              <i class="fas fa-file-excel me-2"></i> تصدير Excel
-            </button>
+            <div class="d-flex gap-3">
+              <button id="export-excel-btn" class="btn btn-success">
+                <i class="fas fa-file-excel me-2"></i> تصدير Excel
+              </button>
+              <!--  <button id="view-excel-btn" class="btn btn-primary">
+                <i class="fas fa-eye me-2"></i> عرض الجدول
+              </button> -->
+            </div>
           </div>
         </div>
         <div class="card-body p-0">
@@ -416,6 +421,7 @@
             <table class="table table-hover align-middle mb-0">
               <thead>
                 <tr>
+                  <th>#</th>
                   <th><i class="fas fa-hashtag me-1"></i> كود المشروع</th>
                   <th>
                     <i class="fas fa-project-diagram me-1"></i> اسم المشروع
@@ -428,14 +434,155 @@
                   <th><i class="fas fa-cogs me-1"></i> إجراءات</th>
                 </tr>
               </thead>
-              <tbody id="projects-table-body">
-                <!-- سيتم ملؤها ديناميكياً -->
-              </tbody>
+              <tbody id="projects-table-body"></tbody>
             </table>
           </div>
         </div>
       </div>
     </main>
+
+    <div
+      class="modal fade"
+      id="viewExcelModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+          <div
+            class="modal-header bg-primary text-white d-flex align-items-center justify-content-between"
+          >
+            <h5 class="modal-title m-0">
+              <i class="fas fa-table me-2"></i> تقرير المشروعات
+            </h5>
+
+            <div class="d-flex align-items-center gap-2">
+              <button
+                type="button"
+                class="btn btn-outline-primary"
+                data-bs-dismiss="modal"
+              >
+                <i class="fas fa-arrow-right ms-1"></i> العودة للوحة التحكم
+              </button>
+            </div>
+          </div>
+
+          <div class="modal-body" style="padding: 20px 50px">
+            <div class="bg-light p-3 border-bottom">
+              <div class="row g-2 align-items-end">
+                <div class="col-md-3">
+                  <label class="form-label small fw-bold">ترتيب حسب:</label>
+                  <select id="modalSortBy" class="form-select form-select-sm">
+                    <option value="none">-- اختر --</option>
+                    <option value="governorate">المحافظة</option>
+                    <option value="projectCategory">فئة المشروع</option>
+                  </select>
+                </div>
+
+                <div class="col-md-9">
+                  <div class="d-flex gap-2 justify-content-end">
+                    <button
+                      id="export-excel-btn"
+                      class="btn btn-success"
+                      onclick="downloadModalExcel()"
+                    >
+                      <i class="fas fa-file-excel me-2"></i> تصدير Excel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-light p-3 border-bottom">
+              <div class="row text-center g-3">
+                <div class="col-md-4">
+                  <div class="small text-muted">إجمالي المشروعات</div>
+                  <div
+                    class="h5 fw-bold text-primary mb-0"
+                    id="modalTotalProjects"
+                  >
+                    0
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="small text-muted">إجمالي القيمة التعاقدية</div>
+                  <div
+                    class="h5 fw-bold text-success mb-0"
+                    id="modalTotalValue"
+                  >
+                    0 جنيه
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="small text-muted">إجمالي المنصرف</div>
+                  <div
+                    class="h5 fw-bold text-info mb-0"
+                    id="modalTotalDisbursed"
+                  >
+                    0 جنيه
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="table-responsive"
+              style="max-height: calc(100vh - 300px); overflow-x: auto"
+            >
+              <table
+                class="table table-bordered table-hover table-sm mb-0"
+                id="modalExcelTable"
+              >
+                <thead class="table-primary sticky-top">
+                  <tr>
+                    <th class="text-center" style="width: 80px">رقم المسلسل</th>
+                    <th style="width: 300px">اسم المشروع</th>
+                    <th style="width: 200px">الشركة المنفذة</th>
+                    <th class="text-center" style="width: 130px">المحافظة</th>
+                    <th class="text-center" style="width: 150px">
+                      فئة المشروع
+                    </th>
+                    <th class="text-center" style="width: 60px">
+                      القيمة التعاقدية
+                    </th>
+                    <th class="text-center" style="width: 60px">
+                      القيمة المعدلة
+                    </th>
+                    <th class="text-center" style="width: 80px">
+                      المنصرف خلال العام المالي
+                    </th>
+                    <th class="text-center" style="width: 80px">
+                      إجمالي المنصرف
+                    </th>
+                    <th class="text-center" style="width: 110px">نسبة الصرف</th>
+                    <th class="text-center" style="width: 110px">
+                      نسبة التنفيذ
+                    </th>
+                    <th class="text-center" style="width: 60px">
+                      الموقع الجغرافي
+                    </th>
+                    <th class="text-center" style="width: 80px">تاريخ البدء</th>
+                    <th class="text-center" style="width: 80px">
+                      تاريخ النهاية
+                    </th>
+                    <th style="width: 250px">الموقف التنفيذي</th>
+                  </tr>
+                </thead>
+                <tbody id="modalExcelTableBody">
+                  <tr>
+                    <td colspan="15" class="text-center py-4">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">جاري التحميل...</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="modal fade" id="deleteConfirmationModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
@@ -476,6 +623,7 @@
     <script src="../JS/main.js"></script>
     <script src="../JS/dashboard.js"></script>
     <script src="../JS/project/exportProjects.js"></script>
+    <script src="../JS/project/view-table.js"></script>
     <script src="../JS/constants.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
