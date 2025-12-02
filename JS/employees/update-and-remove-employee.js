@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const nameInput = document.getElementById("name");
   const emailInput = document.getElementById("email");
   const roleInput = document.getElementById("role");
+  const regionInput = document.getElementById("region");
 
   let currentEmployeeName = null;
 
@@ -35,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
       toast.show();
     }
   }
-
 
   searchBtn.addEventListener("click", async () => {
     const name = searchInput.value.trim();
@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       nameInput.value = employee.name;
       emailInput.value = employee.email || "";
       roleInput.value = employee.role;
+      regionInput.value = employee.region;
 
       document.getElementById("editEmployeeCard").classList.remove("d-none");
       form.classList.remove("d-none");
@@ -70,7 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: nameInput.value.trim(),
       email: emailInput.value.trim(),
       role: roleInput.value,
+      region: regionInput.value.trim(),
     };
 
     try {
@@ -130,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteForm.name.value = employee.name;
         deleteForm.email.value = employee.email || "";
         deleteForm.role.value = employee.role;
+        deleteForm.region.value = employee.region;
         deleteCard.classList.remove("d-none");
         deleteForm.classList.remove("d-none");
       } else {

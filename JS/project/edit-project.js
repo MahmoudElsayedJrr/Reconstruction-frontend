@@ -189,8 +189,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const result = await response.json();
         console.log(result);
-        if (!response.ok) throw new Error(result.data || "فشل تحديث المشروع");
-
+        if (!response.ok)
+          throw new Error(
+            result.message || result.data || "فشل تحديث المشروع لسبب غير معروف"
+          );
         showToast("تم حفظ التعديلات بنجاح!", "success");
 
         setTimeout(() => {

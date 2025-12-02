@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>تعديل موظف - نظام متابعة المشروعات</title>
+    <title>تعديل / حذف موظف - نظام متابعة المشروعات</title>
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
       rel="stylesheet"
@@ -16,19 +17,19 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
   </head>
+
   <body class="no-sidebar">
+    <!-- ================= MAIN الأول: تعديل بيانات موظف ================= -->
     <main class="main-content">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0 fw-bold">تعديل بيانات موظف</h2>
+        <h2 class="mb-0 fw-bold">الأعدادات</h2>
         <a href="../html/dashboard.html" class="btn btn-outline-primary">
           <i class="fas fa-arrow-right ms-0"></i> العودة للوحة التحكم
         </a>
       </div>
 
-      
       <div class="card mb-4">
         <div class="card-body">
           <div class="input-group">
@@ -43,13 +44,13 @@
         </div>
       </div>
 
-   
       <div class="card d-none" id="editEmployeeCard">
         <div class="card-header bg-light">
           <h5 class="mb-0">
             <i class="fas fa-user-edit me-2"></i> تعديل بيانات الموظف
           </h5>
         </div>
+
         <div class="card-body p-4">
           <form id="editEmployeeForm" class="d-none">
             <div class="row g-3">
@@ -60,16 +61,6 @@
                 <input type="text" id="name" class="form-control" required />
               </div>
 
-<!--               <div class="col-md-6">
-                <label for="nationalId" class="form-label">الرقم القومي</label>
-                <input
-                  type="text" 
-                  id="nationalId"
-                  class="form-control"
-                  disabled
-                />
-              </div> -->
-
               <div class="col-md-6">
                 <label for="email" class="form-label">البريد الإلكتروني</label>
                 <input type="email" id="email" class="form-control" required />
@@ -78,9 +69,9 @@
               <div class="col-md-6">
                 <label for="role" class="form-label">الدور الوظيفي</label>
                 <select id="role" class="form-select" required>
-                  <option selected disabled value="">اختر الدور</option>
+                  <option disabled selected value="">اختر الدور</option>
                   <option value="admin">أدمن</option>
-                  <option value="manager">إنشاء وتخطيط</option>
+                  <option value="manager">تخطيط ومتابعه</option>
                   <option value="financial">مالي</option>
                   <option value="executive">تنفيذي</option>
                   <option value="contractual">تعاقدية</option>
@@ -89,17 +80,19 @@
                 </select>
               </div>
 
-              <!--               <div class="col-md-6">
-                <label for="password" class="form-label"
-                  >كلمة المرور الجديدة (اختياري)</label
-                >
-                <input
-                  type="password"
-                  id="password"
-                  class="form-control"
-                  minlength="8"
-                />
-              </div> -->
+              <div class="col-md-6">
+                <label for="region" class="form-label">المحافظة</label>
+                <select id="region" class="form-select">
+                  <option disabled selected value="">اختر المحافظة</option>
+                  <option value="شمال سيناء">شمال سيناء</option>
+                  <option value="جنوب سيناء">جنوب سيناء</option>
+                  <option value="بورسعيد">بورسعيد</option>
+                  <option value="الإسماعيلية">الإسماعيلية</option>
+                  <option value="السويس">السويس</option>
+                  <option value="الشرقية">الشرقية</option>
+                  <option value="دمياط">دمياط</option>
+                </select>
+              </div>
 
               <div class="col-12 mt-4 text-center">
                 <a href="../html/dashboard.html" class="btn btn-secondary px-4"
@@ -119,6 +112,7 @@
       </div>
     </main>
 
+    <!-- ================= MAIN الثاني: حذف موظف + المحافظات + الاستشاريين ================= -->
     <main class="main-content">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0 fw-bold">حذف موظف</h2>
@@ -144,6 +138,7 @@
             <i class="fas fa-user-edit me-2"></i> بيانات الموظف
           </h5>
         </div>
+
         <div class="card-body p-4">
           <form id="deleteEmployeeForm" class="d-none">
             <div class="row g-3">
@@ -152,16 +147,6 @@
               <div class="col-md-6">
                 <label for="name" class="form-label">اسم الموظف</label>
                 <input type="text" id="name" class="form-control" disabled />
-              </div>
-
-              <div class="col-md-6">
-                <label for="nationalId" class="form-label">الرقم القومي</label>
-                <input
-                  type="text"
-                  id="nationalId"
-                  class="form-control"
-                  disabled
-                />
               </div>
 
               <div class="col-md-6">
@@ -174,7 +159,7 @@
                 <select id="role" class="form-select" disabled>
                   <option selected disabled value="">اختر الدور</option>
                   <option value="admin">أدمن</option>
-                  <option value="manager">إنشاء وتخطيط</option>
+                  <option value="manager">تخطيط ومتابعه</option>
                   <option value="financial">مالي</option>
                   <option value="executive">تنفيذي</option>
                   <option value="contractual">تعاقدية</option>
@@ -183,10 +168,25 @@
                 </select>
               </div>
 
+              <div class="col-md-6">
+                <label for="region" class="form-label">المحافظة</label>
+                <select id="region" class="form-select" required>
+                  <option selected disabled value="">اختر المحافظة</option>
+                  <option value="شمال سيناء">شمال سيناء</option>
+                  <option value="جنوب سيناء">جنوب سيناء</option>
+                  <option value="بورسعيد">بورسعيد</option>
+                  <option value="الإسماعيلية">الإسماعيلية</option>
+                  <option value="السويس">السويس</option>
+                  <option value="الشرقية">الشرقية</option>
+                  <option value="دمياط">دمياط</option>
+                </select>
+              </div>
+
               <div class="col-12 mt-4 text-center">
                 <a href="../html/dashboard.html" class="btn btn-secondary px-4"
                   >إلغاء</a
                 >
+
                 <button
                   type="submit"
                   class="btn btn-danger px-4"
@@ -199,13 +199,103 @@
           </form>
         </div>
       </div>
+
+      <!--       
+      <h2 class="mb-3 mt-5 fw-bold">إدارة المحافظات والاستشاريين</h2>
+
+      
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0 fw-bold text-dark">
+            <i class="fas fa-city me-2"></i> إدارة المحافظات
+          </h5>
+        </div>
+
+        <div class="card-body p-4">
+          <form id="governorate-form" class="mb-4 d-flex">
+            <input
+              type="text"
+              class="form-control form-control-lg me-2"
+              id="governorate-name"
+              placeholder="أدخل اسم محافظة..."
+              required
+            />
+            <button
+              type="submit"
+              id="governorate-submit-btn"
+              class="btn btn-success btn-lg flex-shrink-0"
+            >
+              <i class="fas fa-plus"></i> إضافة
+            </button>
+            <input type="hidden" id="governorate-id-field" />
+          </form>
+
+          <h6 class="text-muted border-bottom pb-2 mb-3">
+            قائمة المحافظات (<span id="governorate-count">0</span>)
+          </h6>
+
+          <div id="governorate-list" class="list-group data-list">
+            <div
+              class="text-center p-3 text-muted"
+              id="governorate-loading-indicator"
+            >
+              <span class="spinner-border spinner-border-sm me-2"></span> جاري
+              التحميل...
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0 fw-bold text-dark">
+            <i class="fas fa-users-cog me-2"></i> إدارة الاستشاريين
+          </h5>
+        </div>
+
+        <div class="card-body p-4">
+          <form id="consultant-form" class="mb-4 d-flex">
+            <input
+              type="text"
+              class="form-control form-control-lg me-2"
+              id="consultant-name"
+              placeholder="أدخل اسم استشاري..."
+              required
+            />
+            <button
+              type="submit"
+              id="consultant-submit-btn"
+              class="btn btn-success btn-lg flex-shrink-0"
+            >
+              <i class="fas fa-plus"></i> إضافة
+            </button>
+            <input type="hidden" id="consultant-id-field" />
+          </form>
+
+          <h6 class="text-muted border-bottom pb-2 mb-3">
+            قائمة الاستشاريين (<span id="consultant-count">0</span>)
+          </h6>
+
+          <div id="consultant-list" class="list-group data-list">
+            <div
+              class="text-center p-3 text-muted"
+              id="consultant-loading-indicator"
+            >
+              <span class="spinner-border spinner-border-sm me-2"></span> جاري
+              التحميل...
+            </div>
+          </div>
+        </div>
+      </div> -->
     </main>
 
     <div class="toast-container position-fixed top-0 start-0 p-3"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../JS/constants.js"></script>
     <script src="../JS/main.js"></script>
     <script src="../JS/employees/update-and-remove-employee.js"></script>
-    <script src="../JS/constants.js"></script>
+    <script src="../JS/employees/governorates-and-consultant.js"></script>
   </body>
 </html>

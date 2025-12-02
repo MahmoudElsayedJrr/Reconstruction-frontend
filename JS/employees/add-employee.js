@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
+    const region = document.getElementById("region").value.trim();
     const confirmPassword = document
       .getElementById("confirmPassword")
       .value.trim();
@@ -51,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       email,
       password,
       role,
+      region,
     };
 
     const token = localStorage.getItem("loggedInUserToken");
