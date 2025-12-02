@@ -133,8 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const queryParams = new URLSearchParams();
 
-      if (filters.fiscalYear && filters.fiscalYear !== "الكل") {
-        queryParams.append("fiscalYear", filters.fiscalYear);
+      for (const key in filters) {
+        const value = filters[key];
+
+        if (value && value !== "الكل" && value !== "") {
+          queryParams.append(key, value);
+        }
       }
 
       const queryString = queryParams.toString();
