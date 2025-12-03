@@ -1,7 +1,6 @@
 let modalActivitiesData = [];
 let currentModalData = [];
 
-// فتح الـ Modal وجلب البيانات
 document
   .getElementById("view-excel-btn")
   .addEventListener("click", async function () {
@@ -10,11 +9,9 @@ document
     );
     modal.show();
 
-    // جلب البيانات من نفس الـ API
     await fetchModalData();
   });
 
-// جلب البيانات
 async function fetchModalData() {
   const tbody = document.getElementById("modalExcelTableBody");
   tbody.innerHTML = `<tr><td colspan="15" class="text-center py-4">
@@ -26,7 +23,6 @@ async function fetchModalData() {
   try {
     const token = localStorage.getItem("loggedInUserToken");
 
-    // جلب الفلاتر الحالية من localStorage
     const savedFilters = JSON.parse(
       localStorage.getItem("dashboardFilters") || "{}"
     );
@@ -63,7 +59,6 @@ async function fetchModalData() {
   }
 }
 
-// رسم الجدول
 function renderModalTable() {
   const tbody = document.getElementById("modalExcelTableBody");
   tbody.innerHTML = "";
@@ -75,25 +70,22 @@ function renderModalTable() {
     return;
   }
 
-  // حساب السنة المالية الحالية
   const now = new Date();
   const currentYear =
     now.getMonth() + 1 >= 7 ? now.getFullYear() : now.getFullYear() - 1;
   const nextYear = currentYear + 1;
-  const fiscalStart = new Date(currentYear, 6, 1); // 1 يوليو
-  const fiscalEnd = new Date(nextYear, 5, 30, 23, 59, 59); // 30 يونيو
+  const fiscalStart = new Date(currentYear, 6, 1);
+  const fiscalEnd = new Date(nextYear, 5, 30, 23, 59, 59);
 
   currentModalData.forEach((activity, index) => {
     const contractualValue = activity.contractualValue || 0;
 
-    // حساب إجمالي المنصرف
     const totalDisbursed =
       activity.extract?.reduce(
         (sum, ext) => sum + (ext.extractValue || 0),
         0
       ) || 0;
 
-    // حساب المنصرف خلال العام المالي الحالي
     const currentYearDisbursed =
       activity.extract
         ?.filter((ext) => {
@@ -102,7 +94,6 @@ function renderModalTable() {
         })
         .reduce((sum, ext) => sum + (ext.extractValue || 0), 0) || 0;
 
-    // حساب نسبة الصرف
     const disbursementRate =
       contractualValue > 0
         ? ((totalDisbursed / contractualValue) * 100).toFixed(2) + "%"
@@ -158,7 +149,6 @@ function renderModalTable() {
   updateModalStats();
 }
 
-// تحديث الإحصائيات
 function updateModalStats() {
   const totalProjects = currentModalData.length;
   const totalValue = currentModalData.reduce(
@@ -174,9 +164,9 @@ function updateModalStats() {
 
   document.getElementById("modalTotalProjects").textContent = totalProjects;
   document.getElementById("modalTotalValue").textContent =
-    formatNumber(totalValue) + " جنيه";
+    formatNumber(totalValue) + " مليون ج.م";
   document.getElementById("modalTotalDisbursed").textContent =
-    formatNumber(totalDisbursed) + " جنيه";
+    formatNumber(totalDisbursed) + " مليون ج.م";
 }
 
 // معالج الترتيب
