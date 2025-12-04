@@ -1293,7 +1293,7 @@ canvas {
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
-#viewExcelModal .modal-body {
+/* #viewExcelModal .modal-body {
   background-color: #f8f9fa;
 }
 
@@ -1336,5 +1336,360 @@ canvas {
 
   #modalExcelTable {
     font-size: 10pt;
+  }
+} */
+
+/* ===== Font Family ===== */
+#modalExcelTable {
+  font-family: "Cairo", "Segoe UI", Tahoma, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1a202c;
+}
+
+/* ===== Modal Styling ===== */
+#modalExcelTable .modal-dialog {
+  max-width: 95vw;
+  margin: 1.5rem auto;
+}
+
+#modalExcelTable .modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+}
+
+#modalExcelTable .modal-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px 16px 0 0;
+  padding: 1.5rem 2rem;
+  border: none;
+}
+
+#modalExcelTable .modal-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+#modalExcelTable .btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+#modalExcelTable .btn-close:hover {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+#modalExcelTable .modal-body {
+  padding: 0;
+  max-height: 75vh;
+  overflow: auto;
+  background: #ffffff;
+}
+
+/* ===== Table Container ===== */
+.table-responsive {
+  border-radius: 0 0 16px 16px;
+  position: relative;
+}
+
+/* ===== Table Styling ===== */
+#modalExcelTable table {
+  margin: 0;
+  background: white;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95rem;
+  table-layout: auto;
+  width: max-content;
+}
+
+#modalExcelTable td {
+  width: fit-content;
+  white-space: normal;
+  color: #1a202c;
+}
+
+/* ===== Table Header ===== */
+#modalExcelTable thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#modalExcelTable thead th {
+  background: linear-gradient(to bottom, #2d3748, #1a202c);
+  color: white;
+  font-weight: 600;
+  padding: 1rem 0.75rem;
+  white-space: nowrap;
+  border: none;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  vertical-align: middle;
+}
+
+#modalExcelTable thead th:first-child {
+  border-radius: 0;
+  padding-right: 1rem;
+}
+
+#modalExcelTable thead th:last-child {
+  border-radius: 0;
+  padding-left: 1rem;
+}
+
+/* ===== Table Body ===== */
+#modalExcelTable tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #e9ecef;
+}
+
+#modalExcelTable tbody tr:hover {
+  background: linear-gradient(to right, #f8f9ff, #ffffff);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+  transform: scale(1.01);
+}
+
+#modalExcelTable tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+#modalExcelTable tbody tr:nth-child(even):hover {
+  background: linear-gradient(to right, #f0f4ff, #f8f9fa);
+}
+
+#modalExcelTable tbody td {
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+  border: none;
+  transition: all 0.2s ease;
+  color: #2d3748;
+}
+
+/* ===== Cell Width Management ===== */
+#modalExcelTable td:nth-child(1) {
+  /* رقم */
+  width: 50px;
+  min-width: 50px;
+}
+
+#modalExcelTable td:nth-child(2) {
+  /* اسم النشاط */
+  width: auto;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+#modalExcelTable td:nth-child(3) {
+  /* الشركة */
+  width: auto;
+  min-width: 180px;
+  max-width: 250px;
+}
+
+#modalExcelTable td:nth-child(4), /* المحافظة */
+#modalExcelTable td:nth-child(5) {
+  /* فئة المشروع */
+  width: 120px;
+  min-width: 120px;
+}
+
+#modalExcelTable td:nth-child(6), /* القيمة التعاقدية */
+#modalExcelTable td:nth-child(7), /* القيمة التقديرية */
+#modalExcelTable td:nth-child(8), /* الصرف السنوي */
+#modalExcelTable td:nth-child(9) {
+  /* إجمالي الصرف */
+  width: 130px;
+  min-width: 130px;
+}
+
+#modalExcelTable td:nth-child(10), /* نسبة الصرف */
+#modalExcelTable td:nth-child(11) {
+  /* نسبة الإنجاز */
+  width: 100px;
+  min-width: 100px;
+}
+
+#modalExcelTable td:nth-child(12) {
+  /* الموقع */
+  width: 100px;
+  min-width: 100px;
+}
+
+#modalExcelTable td:nth-child(13), /* تاريخ الاستلام */
+#modalExcelTable td:nth-child(14) {
+  /* تاريخ الإنجاز */
+  width: 120px;
+  min-width: 120px;
+}
+
+#modalExcelTable td:nth-child(15) {
+  /* الموقف التنفيذي */
+  width: auto;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+/* ===== Text Colors ===== */
+#modalExcelTable tbody td strong {
+  color: #1a202c !important;
+}
+
+#modalExcelTable tbody td .text-muted {
+  color: #6c757d !important;
+}
+
+/* ===== Badges Styling ===== */
+#modalExcelTable .badge {
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+#modalExcelTable .badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Number Formatting ===== */
+#modalExcelTable .fw-bold[style*="color: #198754"] {
+  background: linear-gradient(135deg, #d4edda 0%, #e8f5e9 100%);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  display: inline-block;
+  min-width: 100px;
+  box-shadow: 0 1px 3px rgba(25, 135, 84, 0.1);
+  color: #198754 !important;
+}
+
+/* ===== Buttons ===== */
+#modalExcelTable .btn-outline-primary {
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  border-width: 2px;
+}
+
+#modalExcelTable .btn-outline-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+/* ===== Custom Scrollbar ===== */
+#modalExcelTable .modal-body::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+#modalExcelTable .modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+#modalExcelTable .modal-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+#modalExcelTable .modal-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+/* ===== Text Styling ===== */
+#modalExcelTable strong[style*="color: #1a202c"] {
+  color: #1a202c !important;
+  font-weight: 600;
+}
+
+/* ===== Loading Animation ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#modalExcelTable tbody tr {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+#modalExcelTable tbody tr:nth-child(1) {
+  animation-delay: 0.05s;
+}
+#modalExcelTable tbody tr:nth-child(2) {
+  animation-delay: 0.1s;
+}
+#modalExcelTable tbody tr:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1400px) {
+  #modalExcelTable .modal-dialog {
+    max-width: 98vw;
+  }
+
+  #modalExcelTable table {
+    font-size: 0.85rem;
+  }
+
+  #modalExcelTable tbody td,
+  #modalExcelTable thead th {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #modalExcelTable .modal-body {
+    max-height: 65vh;
+  }
+
+  #modalExcelTable table {
+    font-size: 0.8rem;
+  }
+
+  #modalExcelTable .badge {
+    font-size: 0.75rem !important;
+    padding: 0.4rem 0.6rem !important;
+  }
+}
+
+/* ===== Empty State ===== */
+#modalExcelTable .text-muted {
+  opacity: 0.6;
+  font-style: italic;
+  color: #6c757d !important;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  #modalExcelTable .modal-dialog {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  #modalExcelTable .modal-header,
+  #modalExcelTable .btn {
+    display: none;
+  }
+
+  #modalExcelTable tbody tr:hover {
+    background: none;
+    transform: none;
   }
 }
