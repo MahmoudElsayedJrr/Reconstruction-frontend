@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     contractual: "تعاقدية",
     financial: "مالية",
     projectManager: "مشروعات",
-    employee: "موظف",
+    employee: "مدير",
   };
 
   function showToast(message, type = "success") {
