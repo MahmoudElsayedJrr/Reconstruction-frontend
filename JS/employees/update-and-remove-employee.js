@@ -7,15 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("editEmployeeForm");
 
   const deleteInput = document.getElementById("searchnameDelete");
-  const deleteBtn = document.getElementById("searchEmployeeDeleteBtn");
+  const deleteBtn = document.getElementById("searchDeleteBtn");
   const deleteForm = document.getElementById("deleteEmployeeForm");
   const deleteCard = document.getElementById("deleteEmployeeCard");
   const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+  const activateAccountBtn = document.getElementById("activateAccountBtn");
 
-  const nameInput = document.getElementById("name");
-  const emailInput = document.getElementById("email");
-  const roleInput = document.getElementById("role");
-  const regionInput = document.getElementById("region");
+  const nameEdit = document.getElementById("nameEdit");
+  const emailEdit = document.getElementById("emailEdit");
+  const roleEdit = document.getElementById("roleEdit");
+  const regionEdit = document.getElementById("regionEdit");
 
   let currentEmployeeName = null;
 
@@ -58,10 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       currentEmployeeName = employee.name;
 
-      nameInput.value = employee.name;
-      emailInput.value = employee.email || "";
-      roleInput.value = employee.role;
-      regionInput.value = employee.region;
+      nameEdit.value = employee.name;
+      emailEdit.value = employee.email || "";
+      roleEdit.value = employee.role;
+      regionEdit.value = employee.region;
 
       document.getElementById("editEmployeeCard").classList.remove("d-none");
       form.classList.remove("d-none");
@@ -75,10 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     const updatedData = {
-      name: nameInput.value.trim(),
-      email: emailInput.value.trim(),
-      role: roleInput.value,
-      region: regionInput.value.trim(),
+      name: nameEdit.value.trim(),
+      email: emailEdit.value.trim(),
+      role: roleEdit.value,
+      region: regionEdit.value.trim(),
     };
 
     try {
@@ -109,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  deleteInput.addEventListener("change", async () => {
+  deleteBtn.addEventListener("click", async () => {
     const name = deleteInput.value.trim();
     if (!name) return;
 
@@ -128,10 +129,10 @@ document.addEventListener("DOMContentLoaded", () => {
         currentEmployeeName = employee.name;
 
         deleteForm.classList.remove("d-none");
-        deleteForm.name.value = employee.name;
-        deleteForm.email.value = employee.email || "";
-        deleteForm.role.value = employee.role;
-        deleteForm.region.value = employee.region;
+        nameDelete.value = employee.name;
+        emailDelete.value = employee.email || "";
+        roleDelete.value = employee.role;
+        regionDelete.value = employee.region;
         deleteCard.classList.remove("d-none");
         deleteForm.classList.remove("d-none");
       } else {
@@ -144,7 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // تأكيد الحذف
   confirmDeleteBtn.addEventListener("click", async (e) => {
     e.preventDefault();
 
@@ -180,6 +180,42 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error(err);
       showToast("فشل الاتصال بالسيرفر", "danger");
+    }
+  });
+
+  activateAccountBtn.addEventListener("click", async () => {
+    const nameInput = document.getElementById("searchnameActivate");
+    const name = nameInput.value.trim();
+
+    if (!name) {
+      showToast("الرجاء إدخال اسم الموظف المراد تفعيله", "danger");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}auth/unlock`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        showToast(`تم تفعيل حساب الموظف ${name} بنجاح.`);
+        nameInput.value = "";
+      } else {
+        showToast(
+          data.message || "فشل التفعيل. الرجاء التحقق من الاسم.",
+          "danger"
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("فشل الاتصال بالسيرفر. تأكد من اتصال الشبكة.", "danger");
     }
   });
 });
