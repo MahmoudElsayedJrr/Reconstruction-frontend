@@ -426,7 +426,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "createElement",
           "id",
           "style",
-          "position:fixed;bottom:0;width:100%;background:#fff;text-align:center;padding:15px;border-top:2px solid #000;z-index:999;direction:rtl;",
+          "position:fixed;bottom:0;width:100%;background:#fff;text-align:center;padding:6px;border-top:1px solid #000;z-index:999;direction:rtl;font-size:12px;line-height:1.4;",
           "cssText",
           "body",
           "appendChild",
