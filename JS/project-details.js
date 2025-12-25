@@ -193,8 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setText("extractValue", extracts.length.toString());
     setText("contractNumber", contracts.length.toString());
     const extensions = project.extension || [];
-    const lastExtension =
-      extensions.length > 0 ? extensions[extensions.length - 1] : null;
+    const lastExtension = project.extension?.at(-1);
 
     setText(
       "extensionNumber",
@@ -252,12 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         (project.remainingQuantitiesTons || 0).toLocaleString() + " طن"
       );
 
-      setText(
-        "lastExtensionDate",
-        project.extension?.extensionDate
-          ? project.extension?.extensionDate.toLocaleDateString("ar-EG")
-          : "N/A"
-      );
+
     }
     dateFields.forEach((field) => {
       const value = project[field];
