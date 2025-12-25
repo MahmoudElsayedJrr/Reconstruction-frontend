@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     localStorage.removeItem("dashboardFilters");
-
     filterButton.click();
   }
 
@@ -88,13 +87,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalElement = document.getElementById("totalDisbursedValue");
     try {
       const token = localStorage.getItem("loggedInUserToken");
-
       const queryParams = new URLSearchParams();
 
+      // FIX: التعامل الصحيح مع القيم الرقمية
       for (const key in filters) {
         const value = filters[key];
-
-        if (value && value !== "الكل" && value !== "") {
+        // السماح بالقيمة 0 للقيم الرقمية
+        if (
+          value !== null &&
+          value !== undefined &&
+          value !== "" &&
+          value !== "الكل"
+        ) {
           queryParams.append(key, value);
         }
       }
@@ -130,13 +134,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalElement = document.getElementById("totalContractualValue");
     try {
       const token = localStorage.getItem("loggedInUserToken");
-
       const queryParams = new URLSearchParams();
 
+      // FIX: التعامل الصحيح مع القيم الرقمية
       for (const key in filters) {
         const value = filters[key];
-
-        if (value && value !== "الكل" && value !== "") {
+        if (
+          value !== null &&
+          value !== undefined &&
+          value !== "" &&
+          value !== "الكل"
+        ) {
           queryParams.append(key, value);
         }
       }
@@ -151,12 +159,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const apiResponse = await response.json();
-      console.log(apiResponse);
+
       if (!response.ok)
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalContractualValue || 0;
-
       const formattedTotal = total.toLocaleString("en-US", {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
@@ -169,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // FIX: إعادة كتابة دالة prepareChartData
   function prepareChartData(projects) {
     const statusCounts = {};
     const governorateCounts = {};
@@ -177,24 +185,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const disbursedByGovernorate = {};
 
     projects.forEach((project) => {
-      let currentStatus = project.progress >= 100 ? "مكتمل" : project.status;
+      // FIX: عدم تعديل الحالة الأصلية
+      const progress = parseFloat(project.progress) || 0;
+      const status = project.status || "غير محدد";
 
-      statusCounts[currentStatus] = (statusCounts[currentStatus] || 0) + 1;
+      // حساب الحالة بناءً على Progress
+      let displayStatus = status;
+      if (progress >= 100 && status !== "مكتمل") {
+        displayStatus = "مكتمل";
+      }
 
-      governorateCounts[project.governorate] =
-        (governorateCounts[project.governorate] || 0) + 1;
+      // عد الحالات
+      statusCounts[displayStatus] = (statusCounts[displayStatus] || 0) + 1;
 
-      categoryCounts[project.projectCategory] =
-        (categoryCounts[project.projectCategory] || 0) + 1;
+      // FIX: التعامل مع القيم الفارغة
+      const governorate = project.governorate || "غير محدد";
+      governorateCounts[governorate] =
+        (governorateCounts[governorate] || 0) + 1;
 
       const category = project.projectCategory || "غير محدد";
-      disbursedByCategory[category] =
-        (disbursedByCategory[category] || 0) + (project.disbursedAmount || 0);
+      categoryCounts[category] = (categoryCounts[category] || 0) + 1;
 
-      const governorate = project.governorate || "غير محدد";
+      // FIX: التأكد من أن disbursedAmount رقم صحيح
+      const disbursedAmount = parseFloat(project.disbursedAmount) || 0;
+      disbursedByCategory[category] =
+        (disbursedByCategory[category] || 0) + disbursedAmount;
       disbursedByGovernorate[governorate] =
-        (disbursedByGovernorate[governorate] || 0) +
-        (project.disbursedAmount || 0);
+        (disbursedByGovernorate[governorate] || 0) + disbursedAmount;
     });
 
     return {
@@ -214,7 +231,6 @@ document.addEventListener("DOMContentLoaded", () => {
         labels: Object.keys(disbursedByCategory),
         values: Object.values(disbursedByCategory),
       },
-
       disbursedByGovernorate: {
         labels: Object.keys(disbursedByGovernorate),
         values: Object.values(disbursedByGovernorate),
@@ -235,10 +251,6 @@ document.addEventListener("DOMContentLoaded", () => {
     chart1Container.innerHTML = '<canvas id="projectStatusChart"></canvas>';
     const ctx1 = chart1Container.querySelector("canvas").getContext("2d");
 
-    const labelsWithCounts = chartData.status.labels.map((label, index) => {
-      return `${label} (${chartData.status.values[index]})`;
-    });
-
     new Chart(ctx1, {
       type: "bar",
       data: {
@@ -255,12 +267,8 @@ document.addEventListener("DOMContentLoaded", () => {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: {
-            display: true,
-          },
-          datalabels: {
-            display: false,
-          },
+          legend: { display: true },
+          datalabels: { display: false },
         },
         scales: {
           x: {
@@ -268,7 +276,6 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.status.labels[index];
                 const count = chartData.status.values[index];
-
                 return [label, count.toLocaleString()];
               },
               font: { size: 12 },
@@ -308,9 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: true },
-          datalabels: {
-            display: false,
-          },
+          datalabels: { display: false },
         },
         scales: {
           x: {
@@ -318,7 +323,6 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.governorates.labels[index];
                 const count = chartData.governorates.values[index];
-
                 return [label, count.toLocaleString()];
               },
               font: { size: 11 },
@@ -356,9 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: true },
-          datalabels: {
-            display: false,
-          },
+          datalabels: { display: false },
         },
         scales: {
           x: {
@@ -366,19 +368,14 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.categories.labels[index];
                 const count = chartData.categories.values[index];
-
                 return [label, count.toLocaleString()];
               },
-              font: {
-                size: 11,
-              },
+              font: { size: 11 },
             },
           },
           y: {
             beginAtZero: true,
-            ticks: {
-              precision: 0,
-            },
+            ticks: { precision: 0 },
           },
         },
       },
@@ -387,7 +384,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chart4Container.innerHTML =
       '<canvas id="disbursedByCategoryChart"></canvas>';
-
     const ctx5 = chart4Container.querySelector("canvas").getContext("2d");
 
     new Chart(ctx5, {
@@ -409,9 +405,7 @@ document.addEventListener("DOMContentLoaded", () => {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: true },
-          datalabels: {
-            display: false,
-          },
+          datalabels: { display: false },
         },
         scales: {
           x: {
@@ -421,9 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const amount = chartData.disbursedByCategory.values[index];
                 return [label, amount.toLocaleString() + " مليون ج.م"];
               },
-              font: {
-                size: 11,
-              },
+              font: { size: 11 },
             },
           },
           y: {
@@ -460,9 +452,7 @@ document.addEventListener("DOMContentLoaded", () => {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: true },
-          datalabels: {
-            display: false,
-          },
+          datalabels: { display: false },
         },
         scales: {
           x: {
@@ -470,12 +460,9 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByGovernorate.labels[index];
                 const amount = chartData.disbursedByGovernorate.values[index];
-
                 return [label, amount.toLocaleString() + " مليون ج.م"];
               },
-              font: {
-                size: 11,
-              },
+              font: { size: 11 },
             },
           },
           y: {
@@ -490,75 +477,74 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // FIX: عدم تعديل الأراي الأصلي
   function renderTable(projects) {
     const projectsTableBody = document.getElementById("projects-table-body");
     projectsTableBody.innerHTML = "";
+
     if (!projects || projects.length === 0) {
-      projectsTableBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">لا توجد مشاريع تطابق البحث.</td></tr>`;
+      projectsTableBody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">لا توجد مشاريع تطابق البحث.</td></tr>`;
       return;
     }
 
-    projects.reverse().forEach((project, index) => {
+    // FIX: استخدام slice().reverse() بدلاً من reverse() مباشرة
+    const reversedProjects = projects.slice().reverse();
+
+    reversedProjects.forEach((project, index) => {
       const row = document.createElement("tr");
-      const percentage = project.progress || 0;
+      const percentage = parseFloat(project.progress) || 0;
       const barColor = getProgressBarColor(percentage, project.status);
-      let serial = index + 1;
 
       row.innerHTML = `
-                <td><span class="badge bg-info bg-opacity-25 text-info-emphasis">${
-                  project.activityCode || "غير محدد"
-                }</span></td>
-                <td>
-                    <span class="truncate-text" title="${
-                      project.activityName || "مشروع بدون اسم"
-                    }">
-                        ${project.activityName || "مشروع بدون اسم"}
-                    </span>
-                </td>
-                <td><span class="badge bg-light text-dark">${
-                  project.projectCategory || "غير محدد"
-                }</span></td>
-                <td><span class="badge bg-light text-dark">${
-                  project.fundingType || "غير محدد"
-                }</span></td>
-                <td>
-                  <div class="progress" role="progressbar" style="height: 20px; font-size: 0.6rem;">
-                    ${
-                      percentage > 0
-                        ? `
-                      <div class="progress-bar fw-bold"
-                          style="
-                            width: ${percentage}%;
-                            min-width: 16px;
-                            background-color: ${barColor};
-                            text-align: center;
-                            white-space: nowrap;
-                            overflow: hidden;">
-                        ${percentage}%
-                      </div>
-                    `
-                        : ""
-                    }
-                  </div>
-              </td>
-                <td>
-                    <a href="project-details.html?code=${
-                      project.activityCode
-                    }" class="action-btn" title="عرض التفاصيل"><i class="fas fa-eye text-info"></i></a>
-                    <a href="edit-project.html?code=${
-                      project.activityCode
-                    }" class="action-btn" title="تعديل"><i class="fas fa-pen text-primary"></i></a>
-                    <button class="action-btn delete-btn" data-code="${
-                      project.activityCode
-                    }" title="حذف" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash text-danger"></i></button>
-                </td>
-            `;
+        <td><span class="badge bg-info bg-opacity-25 text-info-emphasis">${
+          project.activityCode || "غير محدد"
+        }</span></td>
+        <td>
+          <span class="truncate-text" title="${
+            project.activityName || "مشروع بدون اسم"
+          }">
+            ${project.activityName || "مشروع بدون اسم"}
+          </span>
+        </td>
+        <td><span class="badge bg-light text-dark">${
+          project.projectCategory || "غير محدد"
+        }</span></td>
+        <td><span class="badge bg-light text-dark">${
+          project.fundingType || "غير محدد"
+        }</span></td>
+        <td>
+          <div class="progress" role="progressbar" style="height: 20px; font-size: 0.6rem;">
+            ${
+              percentage > 0
+                ? `
+              <div class="progress-bar fw-bold"
+                style="width: ${percentage}%; min-width: 16px; background-color: ${barColor}; text-align: center; white-space: nowrap; overflow: hidden;">
+                ${percentage}%
+              </div>
+            `
+                : ""
+            }
+          </div>
+        </td>
+        <td>
+          <a href="project-details.html?code=${
+            project.activityCode
+          }" class="action-btn" title="عرض التفاصيل"><i class="fas fa-eye text-info"></i></a>
+          <a href="edit-project.html?code=${
+            project.activityCode
+          }" class="action-btn" title="تعديل"><i class="fas fa-pen text-primary"></i></a>
+          <button class="action-btn delete-btn" data-code="${
+            project.activityCode
+          }" title="حذف" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash text-danger"></i></button>
+        </td>
+      `;
 
       projectsTableBody.appendChild(row);
     });
   }
+
   function displayErrorInTable(message) {
-    projectsTableBody.innerHTML = `<tr><td colspan="4" class="text-center text-danger p-4">${message}</td></tr>`;
+    projectsTableBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger p-4">${message}</td></tr>`;
   }
 
   const toggleBtn = document.getElementById("toggle-sidebar");
@@ -600,37 +586,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchAndRenderProjects(filters = {}) {
     projectsTableBody.innerHTML = `<tr>
-    <td><p class="skeleton skeleton-text mb-0"></p></td>
-    <td><p class="skeleton skeleton-text mb-0"></p></td>
-    <td><div class="skeleton" style="height:10px; border-radius: 5px;"></div></td>
-    <td><p class="skeleton skeleton-text mb-0" style="width: 110px;"></p></td></tr>`;
+      <td><p class="skeleton skeleton-text mb-0"></p></td>
+      <td><p class="skeleton skeleton-text mb-0"></p></td>
+      <td><div class="skeleton" style="height:10px; border-radius: 5px;"></div></td>
+      <td><p class="skeleton skeleton-text mb-0" style="width: 110px;"></p></td>
+    </tr>`;
 
     chart1Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
     chart2Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
     chart3Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
     chart4Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
+    chart5Container.innerHTML = `<span class="spinner-border text-primary"></span>`;
 
     try {
       const token = localStorage.getItem("loggedInUserToken");
 
-      const queryParams = new URLSearchParams(filters).toString();
-      const fetchUrl = `${API_URL}activity?${queryParams}`;
+      // FIX: بناء الـ query params بشكل صحيح
+      const queryParams = new URLSearchParams();
+      for (const key in filters) {
+        const value = filters[key];
+        if (
+          value !== null &&
+          value !== undefined &&
+          value !== "" &&
+          value !== "الكل"
+        ) {
+          queryParams.append(key, value);
+        }
+      }
+
+      const fetchUrl = `${API_URL}activity?${queryParams.toString()}`;
+      console.log("Fetching from:", fetchUrl); // للتأكد من الـ URL
 
       const response = await fetch(fetchUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const apiResponse = await response.json();
+      console.log("API Response:", apiResponse); // للتأكد من البيانات
 
       if (!response.ok) {
-        throw new Error(apiResponse.data || "فشل جلب البيانات");
+        throw new Error(
+          apiResponse.data || apiResponse.message || "فشل جلب البيانات"
+        );
       }
 
       if (
-        apiResponse &&
-        apiResponse.data &&
+        apiResponse?.data?.activities &&
         Array.isArray(apiResponse.data.activities)
       ) {
+        console.log("Number of projects:", apiResponse.data.activities.length);
         renderTable(apiResponse.data.activities);
         const chartData = prepareChartData(apiResponse.data.activities);
         renderCharts(chartData);
@@ -642,41 +647,54 @@ document.addEventListener("DOMContentLoaded", () => {
           governorates: { labels: [], values: [] },
           categories: { labels: [], values: [] },
           disbursedByCategory: { labels: [], values: [] },
+          disbursedByGovernorate: { labels: [], values: [] },
         });
       }
     } catch (error) {
-      console.error(" فشل تحميل البيانات:", error);
+      console.error("فشل تحميل البيانات:", error);
       displayErrorInTable(error.message);
     }
   }
 
   filterButton.addEventListener("click", () => {
     const scrollPosition = window.scrollY;
-
     filterButton.disabled = true;
     filterButton.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
 
     const filters = {
-      name: document.getElementById("projectNameFilter").value,
-      governorate: document.getElementById("governorateFilter").value,
-      activityCode: document.getElementById("activityCodeFilter").value,
-      status: document.getElementById("statusFilter").value,
-      fundingType: document.getElementById("fundingTypeFilter").value,
-      fundingSource: document.getElementById("fundingSourceFilter").value,
-      fiscalYear: document.getElementById("fiscalYearFilter").value,
-      projectCategory: document.getElementById("projectCategoryFilter").value,
-      progressMin: document.getElementById("progressMin").value || 0,
-      progressMax: document.getElementById("progressMax").value || 100,
+      name: document.getElementById("projectNameFilter")?.value || "",
+      governorate: document.getElementById("governorateFilter")?.value || "",
+      activityCode: document.getElementById("activityCodeFilter")?.value || "",
+      status: document.getElementById("statusFilter")?.value || "",
+      fundingType: document.getElementById("fundingTypeFilter")?.value || "",
+      fundingSource:
+        document.getElementById("fundingSourceFilter")?.value || "",
+      fiscalYear: document.getElementById("fiscalYearFilter")?.value || "",
+      projectCategory:
+        document.getElementById("projectCategoryFilter")?.value || "",
+      progressMin: document.getElementById("progressMin")?.value || "",
+      progressMax: document.getElementById("progressMax")?.value || "",
       disbursedPercentageMin:
-        document.getElementById("disbursedPercentageMin").value || 0,
+        document.getElementById("disbursedPercentageMin")?.value || "",
       disbursedPercentageMax:
-        document.getElementById("disbursedPercentageMax").value || 100,
+        document.getElementById("disbursedPercentageMax")?.value || "",
     };
 
+    // FIX: حذف القيم الفارغة فقط، والاحتفاظ بالقيم الرقمية
     Object.keys(filters).forEach((key) => {
-      if (!filters[key] || filters[key] === "الكل") delete filters[key];
+      if (
+        filters[key] === "" ||
+        filters[key] === "الكل" ||
+        filters[key] === null ||
+        filters[key] === undefined
+      ) {
+        delete filters[key];
+      }
     });
+
+    console.log("Filters to apply:", filters);
     localStorage.setItem("dashboardFilters", JSON.stringify(filters));
+
     Promise.all([
       fetchAndRenderProjects(filters),
       fetchTotalDisbursed(filters),
@@ -706,17 +724,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
       if (!response.ok)
         throw new Error(result.data || result.message || "فشل حذف المشروع.");
+
       showToast("تم حذف المشروع بنجاح!", "success");
-      fetchAndRenderProjects();
-      window.location.reload();
+
+      // FIX: إعادة تحميل البيانات بدلاً من reload الصفحة
+      const savedFilters = JSON.parse(
+        localStorage.getItem("dashboardFilters") || "{}"
+      );
+      await fetchAndRenderProjects(savedFilters);
+      await fetchTotalDisbursed(savedFilters);
+      await fetchTotalContractual(savedFilters);
     } catch (error) {
       showToast(`Error: ${error.message}`, "danger");
     } finally {
       const modalElement = document.getElementById("deleteConfirmationModal");
       const modal = bootstrap.Modal.getInstance(modalElement);
-      if (modal) {
-        modal.hide();
-      }
+      if (modal) modal.hide();
       document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
       codeToDelete = null;
     }
@@ -740,6 +763,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (filters.fundingType)
         document.getElementById("fundingTypeFilter").value =
           filters.fundingType;
+      if (filters.fundingSource)
+        document.getElementById("fundingSourceFilter").value =
+          filters.fundingSource;
       if (filters.fiscalYear)
         document.getElementById("fiscalYearFilter").value = filters.fiscalYear;
       if (filters.projectCategory)
@@ -749,6 +775,12 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("progressMin").value = filters.progressMin;
       if (filters.progressMax !== undefined)
         document.getElementById("progressMax").value = filters.progressMax;
+      if (filters.disbursedPercentageMin !== undefined)
+        document.getElementById("disbursedPercentageMin").value =
+          filters.disbursedPercentageMin;
+      if (filters.disbursedPercentageMax !== undefined)
+        document.getElementById("disbursedPercentageMax").value =
+          filters.disbursedPercentageMax;
 
       return filters;
     }
