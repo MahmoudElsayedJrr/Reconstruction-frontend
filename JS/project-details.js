@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setText(
       "extensionNumber",
-      extensions.length === 0 ? 0 : (extensions.length - 1).toString()
+      extensions.length === 0 ? 0 : extensions.length.toString()
     );
     setText("contractNumber", contracts.length.toString());
     setText(
@@ -250,8 +250,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "remainingQuantitiesTons",
         (project.remainingQuantitiesTons || 0).toLocaleString() + " طن"
       );
-
-
     }
     dateFields.forEach((field) => {
       const value = project[field];
@@ -309,37 +307,77 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function setExtensionTable(extensions = []) {
+  let currentActivityCode = "";
+
+  function setExtensionTable(extensions = [], activityCode, completionDate) {
+    currentActivityCode = activityCode;
     const tbody = document.getElementById("extensionsTableBody");
     tbody.innerHTML = "";
 
-    for (let i = 0; i < extensions.length - 1; i++) {
-      const fromDate = new Date(extensions[i].extensionDate).toLocaleDateString(
-        "ar-EG"
-      );
-      const toDate = new Date(
-        extensions[i + 1].extensionDate
-      ).toLocaleDateString("ar-EG");
+    const formatDate = (date) => {
+      if (!date) return "—";
+      return new Date(date).toLocaleDateString("ar-EG");
+    };
 
-      const row = `
+    const formatDateForInput = (date) => {
+      if (!date) return "";
+      return new Date(date).toISOString().split("T")[0];
+    };
+
+    if (!extensions || extensions.length === 0) {
+      tbody.innerHTML = `
       <tr>
-        <td>${fromDate}</td>
-        <td>${toDate}</td>
+        <td colspan="4" class="text-center text-muted py-3">
+          <i class="bi bi-info-circle me-2"></i>
+          لا يوجد مد مدة حتى الآن
+        </td>
       </tr>
     `;
-      tbody.insertAdjacentHTML("beforeend", row);
+      return;
     }
 
-    if (extensions.length === 1) {
-      const onlyDate = new Date(extensions[0].extensionDate).toLocaleDateString(
-        "ar-EG"
-      );
+    for (let i = 0; i < extensions.length; i++) {
+      const fromDate =
+        i === 0 ? completionDate : extensions[i - 1].extensionDate;
+
+      const toDate = extensions[i].extensionDate;
+
       const row = `
       <tr>
-        <td>${onlyDate}</td>
-        <td>—</td>
+        <td class="align-middle">
+          <span class="badge bg-primary rounded-pill">${i + 1}</span>
+        </td>
+        <td class="align-middle">${formatDate(fromDate)}</td>
+        <td class="align-middle">${formatDate(toDate)}</td>
+        <td class="align-middle">
+          <button
+            type="button"
+            class="btn btn-warning btn-sm rounded-3 shadow-sm me-2"
+            onclick="openEditExtensionModal(
+              ${i},
+              '${formatDateForInput(fromDate)}',
+              '${formatDateForInput(toDate)}',
+              '${activityCode}'
+            )"
+            title="تعديل"
+          >
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-danger btn-sm rounded-3 shadow-sm"
+            onclick="openDeleteExtensionModal(${i}, ${
+        i + 1
+      }, '${activityCode}')"
+            title="حذف"
+          >
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </td>
       </tr>
     `;
+
       tbody.insertAdjacentHTML("beforeend", row);
     }
   }
@@ -350,7 +388,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     tbody.innerHTML = "";
 
-    // Create PDF Links (Show all PDFs, not just first one)
     const createPDFLinks = (pdfArray) => {
       if (!Array.isArray(pdfArray) || pdfArray.length === 0) return "";
 
@@ -852,7 +889,11 @@ document.addEventListener("DOMContentLoaded", () => {
       renderImages(result.data.images || []);
       renderPDFs(result.data.activitypdfs || []);
       populateDecisions(result.data.decision || []);
-      setExtensionTable(result.data.extension || []);
+      setExtensionTable(
+        result.data.extension || [],
+        activityCode,
+        result.data.originalCompletionDate
+      );
       setContractTable(result.data.contract || []);
       setExtractTable(result.data.extract || [], result.data.disbursedAmount);
 
