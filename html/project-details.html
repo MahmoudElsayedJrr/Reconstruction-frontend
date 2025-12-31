@@ -476,10 +476,102 @@
                 <tr>
                   <th class="text-nowrap">رقم تعديل العقد</th>
                   <th class="w-100">التفاصيل</th>
+                  <th class="text-center" style="width: 120px">الاجراءات</th>
                 </tr>
               </thead>
               <tbody id="contractsTableBody"></tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editContractModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">تعديل العقد</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="editContractNumber" />
+            <div class="mb-3">
+              <label for="editContractDate" class="form-label"
+                >تاريخ العقد</label
+              >
+              <input type="date" class="form-control" id="editContractDate" />
+            </div>
+            <div class="mb-3">
+              <label for="editContractPrice" class="form-label"
+                >قيمة العقد</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="editContractPrice"
+                step="0.01"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              إلغاء
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="saveEditContractBtn"
+              onclick="editContract(document.getElementById('activityCode').textContent.trim(), document.getElementById('editContractNumber').value, showToast)"
+            >
+              حفظ التعديلات
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal الحذف -->
+    <div class="modal fade" id="deleteContractModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">تأكيد الحذف</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="deleteContractNumber" />
+            <p>
+              هل أنت متأكد من حذف العقد <span id="deleteContractText"></span>؟
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              إلغاء
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="confirmDeleteContractBtn"
+              onclick="deleteContract(document.getElementById('activityCode').textContent.trim(), document.getElementById('deleteContractNumber').value, showToast)"
+            >
+              حذف
+            </button>
           </div>
         </div>
       </div>
@@ -818,6 +910,7 @@
     <script src="../JS/constants.js"></script>
     <script src="../JS/project/decision.js"></script>
     <script src="../JS/project/Extension.js"></script>
+    <script src="../JS/project/contract.js" type="module"></script>
     <script src="../JS/project/extract.js" type="module"></script>
   </body>
 </html>

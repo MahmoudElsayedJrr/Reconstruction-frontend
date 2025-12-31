@@ -1,4 +1,15 @@
 import { executeDeleteExtract, editExtract } from "./project/extract.js";
+import {
+  openEditContractModal,
+  openDeleteContractModal,
+  editContract,
+  deleteContract,
+} from "./project/contract.js";
+
+window.openEditContractModal = openEditContractModal;
+window.openDeleteContractModal = openDeleteContractModal;
+window.editContract = editContract;
+window.deleteContract = deleteContract;
 
 document.addEventListener("DOMContentLoaded", () => {
   const projectNameHeader = document.getElementById("project-name-header");
@@ -499,52 +510,65 @@ document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.getElementById("contractsTableBody");
     tbody.innerHTML = "";
 
-    if (contracts.length === 1) {
-      const onlyDate = new Date(contracts[0].contractDate).toLocaleDateString(
-        "ar-EG"
-      );
-      const onlyPrice =
-        (contracts[0].contractPrice || 0).toLocaleString() + " مليون ج.م";
+    if (contracts.length === 0) {
+      tbody.innerHTML = `
+      <tr>
+        <td colspan="3" class="text-center text-muted">لا توجد عقود</td>
+      </tr>
+    `;
+      return;
+    }
+
+    for (let i = 0; i < contracts.length; i++) {
+      const contractDate = new Date(
+        contracts[i].contractDate
+      ).toLocaleDateString("ar-EG");
+      const contractPrice =
+        (contracts[i].contractPrice || 0).toLocaleString() + " مليون ج.م";
+      const contractNumber = contracts[i].contractNumber || i + 1;
+
       const row = `
       <tr>
-      <td class="text-center">رقم  ${1}</td>
-      <td>
-        <div class="text-center">
-          <div> تم عمل تعديل عقد بتاريخ ${onlyDate}</div>
-          <div class="d-flex justify-content-center align-items-center mt-2">
-            <span class="me-2">قيمة تعديل العقد:</span>
-            <span class="text-primary">${onlyPrice}</span>
+        <td class="text-center align-middle">رقم ${i + 1}</td>
+        <td>
+          <div class="text-center">
+            <div>تم عمل تعديل عقد بتاريخ: ${contractDate}</div>
+            <div class="d-flex justify-content-center align-items-center mt-2">
+              <span class="me-2">قيمة تعديل العقد:</span>
+              <span class="text-primary">${contractPrice}</span>
+            </div>
           </div>
-        </div>
-      </td>
-     
-    </tr>
+        </td>
+        <td class="align-middle">
+          <div class="d-flex justify-content-center align-items-center gap-2 flex-nowrap">
+            <button
+              type="button"
+              class="btn btn-warning btn-sm rounded-3 shadow-sm"
+              onclick="openEditContractModal(
+                ${i},
+                '${contracts[i].contractDate}',
+                ${contracts[i].contractPrice || 0},
+                ${contractNumber}
+              )"
+              title="تعديل"
+            >
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm rounded-3 shadow-sm"
+              onclick="openDeleteContractModal(${i}, ${
+        i + 1
+      }, ${contractNumber})"
+              title="حذف"
+            >
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
     `;
       tbody.insertAdjacentHTML("beforeend", row);
-    } else {
-      for (let i = 0; i < contracts.length; i++) {
-        const fromDate = new Date(contracts[i].contractDate).toLocaleDateString(
-          "ar-EG"
-        );
-        const fromPrice =
-          (contracts[i].contractPrice || 0).toLocaleString() + " مليون ج.م";
-        const row = `
-    <tr>
-      <td class="text-center">رقم  ${i + 1}</td>
-      <td>
-        <div class="text-center">
-          <div> تم عمل تعديل عقد بتاريخ  : ${fromDate}</div>
-          <div class="d-flex justify-content-center align-items-center mt-2">
-            <span class="me-2">قيمة تعديل العقد:</span>
-            <span class="text-primary">${fromPrice}</span>
-          </div>
-        </div>
-      </td>
-      
-    </tr>
-  `;
-        tbody.insertAdjacentHTML("beforeend", row);
-      }
     }
   }
 
@@ -610,7 +634,7 @@ document.addEventListener("DOMContentLoaded", () => {
         item.innerHTML = `
         <span>${pdf.filename}</span>
         <div>
-          <a href="http://localhost:4000${fullUrl}" target="_blank" class="btn btn-sm btn-outline-primary me-2">عرض / تحميل</a>
+          <a href="http://81.10.47.76:4000${fullUrl}" target="_blank" class="btn btn-sm btn-outline-primary me-2">عرض / تحميل</a>
           <button 
             class="btn btn-sm btn-outline-danger delete-pdf-btn" 
             data-path="${fullUrl}" 
