@@ -68,6 +68,38 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let currentExtractsData = [];
+  function createEditExtractModal() {
+    if (document.getElementById("editExtractModal")) return;
+
+    const modalHTML = `
+    <div class="modal fade" id="editExtractModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">تعديل المستخلص</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="editExtractDate" class="form-label">تاريخ المستخلص</label>
+              <input type="date" class="form-control" id="editExtractDate">
+            </div>
+            <div class="mb-3">
+              <label for="editExtractValue" class="form-label">قيمة المستخلص</label>
+              <input type="number" class="form-control" id="editExtractValue">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+            <button type="button" class="btn btn-primary" id="saveEditExtractBtn">حفظ التعديلات</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `;
+
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
+  }
 
   window.openEditExtractModal = function (extractId, index) {
     const extractToEdit = currentExtractsData.find(
@@ -77,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showToast("لا يمكن العثور على بيانات المستخلص.", "danger");
       return;
     }
-
+    createEditExtractModal();
     document.getElementById("editExtractDate").value =
       extractToEdit.extractDate.split("T")[0];
     document.getElementById("editExtractValue").value =
@@ -396,6 +428,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function setExtractTable(extracts = []) {
     const tbody = document.getElementById("extractsTableBody");
     if (!tbody) return;
+
+    currentExtractsData = extracts;
 
     tbody.innerHTML = "";
 

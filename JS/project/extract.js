@@ -78,8 +78,8 @@ export async function addExtract(BaseUrl, activityCode, showToast) {
 }
 
 export async function editExtract(BaseUrl, activityCode, extractId, showToast) {
-  const extractDate = document.getElementById("extractDate").value;
-  const extractValue = document.getElementById("extractValue").value;
+  const extractDate = document.getElementById("editExtractDate").value;
+  const extractValue = document.getElementById("editExtractValue").value;
 
   const saveBtn = document.getElementById("saveExtractBtn");
   const originalBtnText = saveBtn.innerHTML;
@@ -138,9 +138,10 @@ export async function editExtract(BaseUrl, activityCode, extractId, showToast) {
       clearAndCloseExtractModal();
       setTimeout(() => {
         window.location.reload();
-      }, 1500);
+      }, 500);
     } else {
       const errorMessage = data.message || "فشل التعديل، برجاء المحاولة.";
+      console.log(errorMessage);
       showToast(errorMessage, "danger");
     }
   } catch (err) {
@@ -194,7 +195,7 @@ export async function executeDeleteExtract(
 function clearAndCloseExtractModal() {
   document.getElementById("extractDate").value = "";
   document.getElementById("extractValue").value = "";
-  document.getElementById("extractpdfs").value = "";
+  //document.getElementById("extractpdfs").value = "";
 
   const extractModalElement = document.getElementById("extractModal");
   if (extractModalElement) {
