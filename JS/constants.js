@@ -113,8 +113,8 @@ const permissions = {
 
   employee: [],
 };
-<<<<<<< HEAD
 
+/* 
 function formatMoneyAdvanced(num, currency = "ج.م") {
   num = num * 1000000;
   if (num === 0) return `0 ${currency}`;
@@ -151,6 +151,4 @@ function formatMoneyAdvanced(num, currency = "ج.م") {
   }
 
   return `${num} ${currency}`;
-}
-=======
->>>>>>> e6d17170d9a2d7220538db812d28f6816ca2a184
+} */

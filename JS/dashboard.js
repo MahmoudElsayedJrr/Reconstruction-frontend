@@ -411,7 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByCategory.labels[index];
                 const amount = chartData.disbursedByCategory.values[index];
-                return [label, formatMoneyAdvanced(amount, "ج.م")];
+                return [label, amount.toLocaleString() + " مليون ج.م"];
               },
               font: { size: 11 },
             },
@@ -456,7 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const label = chartData.disbursedByGovernorate.labels[index];
                 const amount = chartData.disbursedByGovernorate.values[index];
                 // return [label, amount.toLocaleString() + " مليون ج.م"];
-                return [label, formatMoneyAdvanced(amount, "ج.م")];
+                return [label, amount.toLocaleString() + " مليون ج.م"];
               },
               font: { size: 11 },
             },
