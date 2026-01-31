@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/";
+const API_URL = "http://81.10.47.76:4000/";
 
 // http://81.10.47.76:4000/
 // http://192.168.0.38:3000/
@@ -113,6 +113,7 @@ const permissions = {
 
   employee: [],
 };
+<<<<<<< HEAD
 
 function formatMoneyAdvanced(num, currency = "ج.م") {
   num = num * 1000000;
@@ -151,3 +152,5 @@ function formatMoneyAdvanced(num, currency = "ج.م") {
 
   return `${num} ${currency}`;
 }
+=======
+>>>>>>> e6d17170d9a2d7220538db812d28f6816ca2a184

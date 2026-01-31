@@ -303,7 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
             label: "عدد المشروعات",
             data: chartData.governorates.values,
             backgroundColor: generateColors(
-              chartData.governorates.labels.length
+              chartData.governorates.labels.length,
             ),
           },
         ],
@@ -393,7 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
             label: "المنصرف حسب الفئه",
             data: chartData.disbursedByCategory.values,
             backgroundColor: generateColors(
-              chartData.disbursedByCategory.labels.length
+              chartData.disbursedByCategory.labels.length,
             ),
           },
         ],
@@ -437,7 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
             label: "المنصرف حسب المنطقه",
             data: chartData.disbursedByGovernorate.values,
             backgroundColor: generateColors(
-              chartData.disbursedByGovernorate.labels.length
+              chartData.disbursedByGovernorate.labels.length,
             ),
           },
         ],
@@ -620,7 +620,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) {
         throw new Error(
-          apiResponse.data || apiResponse.message || "فشل جلب البيانات"
+          apiResponse.data || apiResponse.message || "فشل جلب البيانات",
         );
       }
 
@@ -660,6 +660,9 @@ document.addEventListener("DOMContentLoaded", () => {
       activityCode: document.getElementById("activityCodeFilter")?.value || "",
       status: document.getElementById("statusFilter")?.value || "",
       fundingType: document.getElementById("fundingTypeFilter")?.value || "",
+      hasContract: document.getElementById("hasContractFilter")?.value || "لا",
+      hasExtension:
+        document.getElementById("hasExtensionFilter")?.value || "لا",
       fundingSource:
         document.getElementById("fundingSourceFilter")?.value || "",
       fiscalYear: document.getElementById("fiscalYearFilter")?.value || "",
@@ -722,7 +725,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // FIX: إعادة تحميل البيانات بدلاً من reload الصفحة
       const savedFilters = JSON.parse(
-        localStorage.getItem("dashboardFilters") || "{}"
+        localStorage.getItem("dashboardFilters") || "{}",
       );
       await fetchAndRenderProjects(savedFilters);
       await fetchTotalDisbursed(savedFilters);
@@ -759,6 +762,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (filters.fundingSource)
         document.getElementById("fundingSourceFilter").value =
           filters.fundingSource;
+      if (filters.hasContract)
+        document.getElementById("hasContractFilter").value =
+          filters.hasContract;
+      if (filters.hasExtension)
+        document.getElementById("hasExtensionFilter").value =
+          filters.hasExtension;
       if (filters.fiscalYear)
         document.getElementById("fiscalYearFilter").value = filters.fiscalYear;
       if (filters.projectCategory)
