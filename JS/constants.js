@@ -114,4 +114,40 @@ const permissions = {
   employee: [],
 };
 
+function formatMoneyAdvanced(num, currency = "ج.م") {
+  num = num * 1000000;
+  if (num === 0) return `0 ${currency}`;
 
+  const isNegative = num < 0;
+  num = Math.abs(num);
+
+  const units = [
+    { value: 1e12, singular: "تريليون ج.م", plural: "تريليون ج.م" },
+    { value: 1e9, singular: "مليار ج.م", plural: "مليار ج.م" },
+    { value: 1e6, singular: "مليون ج.م", plural: "مليون ج.م" },
+    { value: 1e3, singular: "ألف ج.م", plural: "آلاف ج.م" },
+    { value: 1, singular: "ج.م", plural: "ج.م" },
+  ];
+
+  for (const unit of units) {
+    if (num >= unit.value) {
+      const value = num / unit.value;
+
+      let formatted;
+      if (value % 1 === 0) {
+        formatted = value.toLocaleString("ar-EG");
+      } else {
+        formatted = value
+          .toFixed(2)
+          .replace(/\.?0+$/, "")
+          .replace(".", "٫");
+      }
+
+      const label = value > 10 ? unit.plural : unit.singular;
+
+      return `${isNegative ? "-" : ""}${formatted} ${label}`;
+    }
+  }
+
+  return `${num} ${currency}`;
+}

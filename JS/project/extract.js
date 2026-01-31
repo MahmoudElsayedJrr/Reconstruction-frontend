@@ -145,7 +145,7 @@ export async function editExtract(BaseUrl, activityCode, extractId, showToast) {
     }
   } catch (err) {
     console.error("Error editing extract:", err);
-    showToast("حدث خطأ أثناء تعديل المستخلص.", "danger");
+    showToast(err, "danger");
   } finally {
     resetButton();
   }

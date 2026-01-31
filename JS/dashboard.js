@@ -89,10 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const token = localStorage.getItem("loggedInUserToken");
       const queryParams = new URLSearchParams();
 
-      // FIX: التعامل الصحيح مع القيم الرقمية
       for (const key in filters) {
         const value = filters[key];
-        // السماح بالقيمة 0 للقيم الرقمية
         if (
           value !== null &&
           value !== undefined &&
@@ -124,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       totalElement.textContent = formattedTotal + " مليون ج.م";
+      //totalElement.textContent = formatMoneyAdvanced(total);
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
@@ -136,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const token = localStorage.getItem("loggedInUserToken");
       const queryParams = new URLSearchParams();
 
-      // FIX: التعامل الصحيح مع القيم الرقمية
       for (const key in filters) {
         const value = filters[key];
         if (
@@ -168,8 +166,8 @@ document.addEventListener("DOMContentLoaded", () => {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
       });
-
       totalElement.textContent = formattedTotal + " مليون ج.م";
+      // totalElement.textContent = formatMoneyAdvanced(total);
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
@@ -392,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
         labels: chartData.disbursedByCategory.labels,
         datasets: [
           {
-            label: "المنصرف (مليون ج.م)",
+            label: "المنصرف حسب الفئه",
             data: chartData.disbursedByCategory.values,
             backgroundColor: generateColors(
               chartData.disbursedByCategory.labels.length
@@ -413,16 +411,13 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByCategory.labels[index];
                 const amount = chartData.disbursedByCategory.values[index];
-                return [label, amount.toLocaleString() + " مليون ج.م"];
+                return [label, formatMoneyAdvanced(amount, "ج.م")];
               },
               font: { size: 11 },
             },
           },
           y: {
             beginAtZero: true,
-            ticks: {
-              callback: (val) => val.toLocaleString() + " مليون ج.م",
-            },
           },
         },
       },
@@ -439,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
         labels: chartData.disbursedByGovernorate.labels,
         datasets: [
           {
-            label: "المنصرف (مليون ج.م)",
+            label: "المنصرف حسب المنطقه",
             data: chartData.disbursedByGovernorate.values,
             backgroundColor: generateColors(
               chartData.disbursedByGovernorate.labels.length
@@ -460,16 +455,14 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByGovernorate.labels[index];
                 const amount = chartData.disbursedByGovernorate.values[index];
-                return [label, amount.toLocaleString() + " مليون ج.م"];
+                // return [label, amount.toLocaleString() + " مليون ج.م"];
+                return [label, formatMoneyAdvanced(amount, "ج.م")];
               },
               font: { size: 11 },
             },
           },
           y: {
             beginAtZero: true,
-            ticks: {
-              callback: (val) => val.toLocaleString() + " مليون ج.م",
-            },
           },
         },
       },
