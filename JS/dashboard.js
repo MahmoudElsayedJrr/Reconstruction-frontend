@@ -174,7 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // FIX: إعادة كتابة دالة prepareChartData
   function prepareChartData(projects) {
     const statusCounts = {};
     const governorateCounts = {};
@@ -182,21 +181,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const disbursedByCategory = {};
     const disbursedByGovernorate = {};
 
+    const statusOrder = [
+      "تحت الطرح",
+      "قيد التنفيذ",
+      "متأخر",
+      "مسحوب",
+      "متوقف",
+      "مكتمل",
+      "تسليم ابتدائي",
+      "تسليم نهائي",
+    ].reverse();
+
     projects.forEach((project) => {
-      // FIX: عدم تعديل الحالة الأصلية
       const progress = parseFloat(project.progress) || 0;
       const status = project.status || "غير محدد";
 
-      // حساب الحالة بناءً على Progress
       let displayStatus = status;
-      if (progress >= 100 && status !== "مكتمل") {
-        displayStatus = "مكتمل";
-      }
 
-      // عد الحالات
       statusCounts[displayStatus] = (statusCounts[displayStatus] || 0) + 1;
 
-      // FIX: التعامل مع القيم الفارغة
       const governorate = project.governorate || "غير محدد";
       governorateCounts[governorate] =
         (governorateCounts[governorate] || 0) + 1;
@@ -204,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const category = project.projectCategory || "غير محدد";
       categoryCounts[category] = (categoryCounts[category] || 0) + 1;
 
-      // FIX: التأكد من أن disbursedAmount رقم صحيح
       const disbursedAmount = parseFloat(project.disbursedAmount) || 0;
       disbursedByCategory[category] =
         (disbursedByCategory[category] || 0) + disbursedAmount;
@@ -212,10 +214,27 @@ document.addEventListener("DOMContentLoaded", () => {
         (disbursedByGovernorate[governorate] || 0) + disbursedAmount;
     });
 
+    const sortedStatusLabels = [];
+    const sortedStatusValues = [];
+
+    statusOrder.forEach((status) => {
+      if (statusCounts[status] !== undefined) {
+        sortedStatusLabels.push(status);
+        sortedStatusValues.push(statusCounts[status]);
+      }
+    });
+
+    Object.keys(statusCounts).forEach((status) => {
+      if (!statusOrder.includes(status)) {
+        sortedStatusLabels.push(status);
+        sortedStatusValues.push(statusCounts[status]);
+      }
+    });
+
     return {
       status: {
-        labels: Object.keys(statusCounts),
-        values: Object.values(statusCounts),
+        labels: sortedStatusLabels,
+        values: sortedStatusValues,
       },
       governorates: {
         labels: Object.keys(governorateCounts),
@@ -235,7 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     };
   }
-
   const generateColors = (count) => {
     const colors = [];
     for (let i = 0; i < count; i++) {
@@ -470,7 +488,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // FIX: عدم تعديل الأراي الأصلي
   function renderTable(projects) {
     const projectsTableBody = document.getElementById("projects-table-body");
     projectsTableBody.innerHTML = "";
@@ -480,7 +497,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // FIX: استخدام slice().reverse() بدلاً من reverse() مباشرة
     const reversedProjects = projects.slice().reverse();
 
     reversedProjects.forEach((project, index) => {
@@ -594,7 +610,6 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const token = localStorage.getItem("loggedInUserToken");
 
-      // FIX: بناء الـ query params بشكل صحيح
       const queryParams = new URLSearchParams();
       for (const key in filters) {
         const value = filters[key];
@@ -609,14 +624,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const fetchUrl = `${API_URL}activity?${queryParams.toString()}`;
-      console.log("Fetching from:", fetchUrl); // للتأكد من الـ URL
 
       const response = await fetch(fetchUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const apiResponse = await response.json();
-      console.log("API Response:", apiResponse); // للتأكد من البيانات
 
       if (!response.ok) {
         throw new Error(
@@ -676,7 +689,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("disbursedPercentageMax")?.value || "",
     };
 
-    // FIX: حذف القيم الفارغة فقط، والاحتفاظ بالقيم الرقمية
     Object.keys(filters).forEach((key) => {
       if (
         filters[key] === "" ||

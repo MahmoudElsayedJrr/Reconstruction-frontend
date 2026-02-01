@@ -76,7 +76,7 @@ function clearAndCloseModal() {
   );
   modal.hide();
   //window.location.href = "dashboard.html";
-  // Clear the form
+  
   document.getElementById("decisionName").value = "";
   document.getElementById("decisionType").value = "";
   document.getElementById("decisionQuantity").value = "";

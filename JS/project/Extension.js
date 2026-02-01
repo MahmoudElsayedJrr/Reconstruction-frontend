@@ -32,7 +32,7 @@ async function saveExtensionEdit() {
   const newExtensionDate = document.getElementById("editExtensionDate").value;
   const token = localStorage.getItem("loggedInUserToken");
   if (!newExtensionDate) {
-    showToast("❌ يرجى اختيار تاريخ", "danger");
+    showToast("يرجى اختيار تاريخ", "danger");
     return;
   }
 

@@ -474,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
     };
 
-    // Handle empty extracts
+ 
     if (!extracts || extracts.length === 0) {
       tbody.innerHTML = `
       <tr>
@@ -487,7 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Render extracts
+ 
     extracts.forEach((extract, i) => {
       const extractDate = new Date(extract.extractDate).toLocaleDateString(
         "ar-EG"
@@ -521,7 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tbody.insertAdjacentHTML("beforeend", row);
     });
 
-    // Add total row
+ 
     const calculatedTotal = extracts.reduce((sum, extract) => {
       return sum + (extract.extractValue || 0);
     }, 0);
