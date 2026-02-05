@@ -16,7 +16,7 @@ function saveFilters() {
       : null,
   };
   const saved = Object.fromEntries(
-    Object.entries(filters).filter(([_, v]) => v && v !== "الكل")
+    Object.entries(filters).filter(([_, v]) => v && v !== "الكل"),
   );
   localStorage.setItem("reportsFilters", JSON.stringify(saved));
 }
@@ -189,7 +189,7 @@ async function loadStatistics() {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     if (!response.ok) {
@@ -197,7 +197,7 @@ async function loadStatistics() {
       throw new Error(
         `HTTP error! status: ${response.status} - ${
           errorData.message || "فشل جلب الإحصائيات"
-        }`
+        }`,
       );
     }
 
@@ -211,7 +211,7 @@ async function loadStatistics() {
         .scrollIntoView({ behavior: "smooth", block: "start" });
     } else {
       alert(
-        "حدث خطأ في تحميل الإحصائيات: " + (data.message || "خطأ غير معروف")
+        "حدث خطأ في تحميل الإحصائيات: " + (data.message || "خطأ غير معروف"),
       );
     }
   } catch (error) {
@@ -245,6 +245,7 @@ function renderStatsTable(stats) {
     begin: 0,
     completed: 0,
     withdrawn: 0,
+    late: 0,
     inProgress: 0,
     suspended: 0,
     initialDelivery: 0,
@@ -258,6 +259,7 @@ function renderStatsTable(stats) {
     totals.begin += stat.begin;
     totals.completed += stat.completed;
     totals.withdrawn += stat.withdrawn;
+    totals.late += stat.late;
     totals.inProgress += stat.inProgress;
     totals.suspended += stat.suspended;
     totals.initialDelivery += stat.initialDelivery;
@@ -266,7 +268,7 @@ function renderStatsTable(stats) {
     row.innerHTML = `
         <td class="text-center align-middle">${index + 1}</td>
         <td class="text-center align-middle clickable fw-bold" onclick="handleRowClick('${
-          stat.governorate  
+          stat.governorate
         }')">${stat.governorate}</td>
         <td class="text-center align-middle clickable" onclick="handleCellClick('${
           stat.governorate
@@ -283,6 +285,9 @@ function renderStatsTable(stats) {
         <td class="text-center align-middle clickable bg-primary bg-opacity-10" onclick="handleCellClick('${
           stat.governorate
         }', 'قيد التنفيذ')">${stat.inProgress || 0}</td>
+        <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
+          stat.governorate
+        }', 'متأخر')">${stat.late || 0}</td>
         <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
           stat.governorate
         }', 'متوقف')">${stat.suspended || 0}</td>
@@ -307,6 +312,7 @@ function renderStatsTable(stats) {
                         <td class="text-center">${totals.completed}</td>
                         <td class="text-center">${totals.withdrawn}</td>
                         <td class="text-center">${totals.inProgress}</td>
+                        <td class="text-center">${totals.late}</td>
                         <td class="text-center">${totals.suspended}</td>
                         <td class="text-center">${totals.initialDelivery}</td>
                         <td class="text-center">${totals.finalDelivery}</td>
@@ -381,17 +387,15 @@ function renderProjects(activities) {
       "قيد التنفيذ": "primary",
       "تحت الطرح": "info",
       مكتمل: "success",
-      متأخر: "warning",
-      مسحوب: "danger",
-      متوقف: "secondary",
+      متأخر: "danger",
+      مسحوب: "warning",
+      متوقف: "danger",
       "تسليم ابتدائي": "info",
       "تسليم نهائي": "success",
     };
 
-    // 💡 التعديل هنا: تحديد كلاس لون شريط التقدم
     const progressValue = activity.progress || 0;
     const progressBarColor = progressValue >= 100 ? "bg-success" : "bg-primary";
-    // إذا كانت النسبة 100% أو أكثر (للاحتياط)، يصبح اللون أخضر (bg-success)، وإلا يبقى أزرق (bg-primary).
 
     const col = document.createElement("div");
     col.className = "col-12";
@@ -448,8 +452,8 @@ function renderProjects(activities) {
                     </div>
                     <div class="progress" style="height: 8px;">
                         <div class="progress-bar ${progressBarColor}" role="progressbar" style="width: ${
-      progressValue || 0
-    }%"></div>
+                          progressValue || 0
+                        }%"></div>
                     </div>
                 </div>
             </div>
@@ -555,6 +559,7 @@ function printStatistics() {
                         <th class="text-center">مكتمل</th>
                         <th class="text-center">مسحوب</th>
                         <th class="text-center">قيد التنفيذ</th>
+                        <th class="text-center">متأخر</th>
                         <th class="text-center">متوقف</th>
                         <th class="text-center">تسليم ابتدائي</th>
                         <th class="text-center">تسليم نهائي</th>
