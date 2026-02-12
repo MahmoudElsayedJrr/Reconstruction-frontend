@@ -1,11 +1,9 @@
-
 body {
   font-family: "Cairo", sans-serif;
   background-color: #f4f7f6;
   padding-left: 50px;
   padding-right: 50px;
 }
-
 
 .sidebar {
   width: 280px;
@@ -53,7 +51,7 @@ body {
 
 .sidebar .user-profile strong {
   display: inline-block;
-  max-width: 150px; 
+  max-width: 150px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -66,19 +64,16 @@ body.no-sidebar .main-content {
   width: 100%;
 }
 
-
 .main-content {
   margin-right: 280px;
   padding: 2rem;
 }
-
 
 .card {
   border: none;
   border-radius: 0.75rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
 }
-
 
 .action-btn {
   background: none;
@@ -90,7 +85,6 @@ body.no-sidebar .main-content {
 .action-btn:hover {
   background-color: #e9ecef;
 }
-
 
 .chart-container {
   position: relative;
@@ -119,11 +113,9 @@ body.no-sidebar .main-content {
   border-radius: 0.25rem;
 }
 
-
 .filter-card .form-label {
   font-size: 0.875rem;
 }
-
 
 .form-section-title {
   font-weight: 600;
@@ -134,11 +126,9 @@ body.no-sidebar .main-content {
   margin-bottom: 1.5rem;
 }
 
-
 .toast-container {
   z-index: 1100;
 }
-
 
 @media (max-width: 768px) {
   .main-content {
@@ -191,7 +181,9 @@ body.no-sidebar .main-content {
 
 .zoom-hover {
   cursor: zoom-in;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .zoom-hover:hover {

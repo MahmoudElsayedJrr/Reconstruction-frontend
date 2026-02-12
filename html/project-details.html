@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -300,28 +300,28 @@
                   <strong> تاريخ الاستئناف :</strong>
                   <span id="resumptionDate"></span>
                 </li>
-                <div class="mt-4">
-                  <h5 class="mb-3">البنود</h5>
-                  <div class="table-responsive">
-                    <table
-                      class="table table-bordered text-center align-middle"
-                    >
-                      <thead class="table-light">
-                        <tr>
-                          <th class="wrap-column">اسم البند</th>
-                          <th>نوع البند</th>
-                          <th>الوحده</th>
-                          <th>الكمية</th>
-                          <th>الفئه</th>
-                          <th>الإجمالي</th>
-                          <th>الاجراءات</th>
-                        </tr>
-                      </thead>
-                      <tbody id="decisionTableBody"></tbody>
-                    </table>
-                  </div>
-                </div>
               </ul>
+
+              <!-- قسم البنود منفصل -->
+              <div class="decisions-section">
+                <h5 class="mb-3">البنود</h5>
+                <div class="table-responsive">
+                  <table class="table text-center align-middle">
+                    <thead>
+                      <tr>
+                        <th class="wrap-column">اسم البند</th>
+                        <th>نوع البند</th>
+                        <th>الوحده</th>
+                        <th>الكمية</th>
+                        <th>الفئه</th>
+                        <th>الإجمالي</th>
+                        <th>الاجراءات</th>
+                      </tr>
+                    </thead>
+                    <tbody id="decisionTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
             </div>
 
             <div class="tab-pane fade" id="road-tab" role="tabpanel">
@@ -377,11 +377,13 @@
                   <span id="siteHandoverDate"></span>
                 </li>
               </ul>
-              <h5 class="card-title mb-3 pt-3">المستندات</h5>
+
+              <h5 class="card-title mb-3">المستندات</h5>
               <div id="contractual-pdf-section"></div>
             </div>
 
             <div class="tab-pane fade" id="media-tab" role="tabpanel"></div>
+
             <div
               class="tab-pane fade"
               id="projectLocationLink-tab"
@@ -529,7 +531,13 @@
               type="button"
               class="btn btn-primary"
               id="saveEditContractBtn"
-              onclick="editContract(document.getElementById('activityCode').textContent.trim(), document.getElementById('editContractNumber').value, showToast)"
+              onclick="
+                editContract(
+                  document.getElementById('activityCode').textContent.trim(),
+                  document.getElementById('editContractNumber').value,
+                  showToast,
+                )
+              "
             >
               حفظ التعديلات
             </button>
@@ -568,7 +576,13 @@
               type="button"
               class="btn btn-danger"
               id="confirmDeleteContractBtn"
-              onclick="deleteContract(document.getElementById('activityCode').textContent.trim(), document.getElementById('deleteContractNumber').value, showToast)"
+              onclick="
+                deleteContract(
+                  document.getElementById('activityCode').textContent.trim(),
+                  document.getElementById('deleteContractNumber').value,
+                  showToast,
+                )
+              "
             >
               حذف
             </button>

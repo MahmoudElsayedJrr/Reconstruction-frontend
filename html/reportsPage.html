@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>نظام فلترة وعرض المشاريع</title>
+    <title>الإحصائيات والتقارير</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.rtl.min.css"
       rel="stylesheet"
@@ -11,270 +12,270 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../css/reports.css" />
   </head>
   <body>
-    <div class="container-fluid py-4">
-      <div
-        class="d-flex justify-content-between align-items-center mb-4 flex-wrap"
-      >
-        <h2 class="mb-0 fw-bold">
-          <i class="fas fa-chart-line me-2"></i>
-          الإحصائيات والتقارير
-        </h2>
-        <a href="../html/dashboard.html" class="btn btn-outline-primary">
-          <i class="fas fa-arrow-right me-2"></i>
-          العودة للوحة التحكم
-        </a>
-      </div>
-      <div class="card mt-4 filter-card">
-        <div class="card-header bg-white border-0 py-3">
-          <h4 class="mb-0 text-right text-secondry fw-bold">
-            <i class="fas fa-search me-2"></i>
-            البحث في المشروعات
-          </h4>
-        </div>
-        <div class="card-body">
-          <div class="row g-3 align-items-end">
-            <div class="col-md-4 col-lg-2">
-              <label for="governorateFilter" class="form-label">المحافظة</label>
-              <select id="governorateFilter" class="form-select">
-                <option selected>الكل</option>
-                <option>شمال سيناء</option>
-                <option>جنوب سيناء</option>
-                <option>بورسعيد</option>
-                <option>الإسماعيلية</option>
-                <option>السويس</option>
-                <option>الشرقية</option>
-                <option>دمياط</option>
-              </select>
+    <!-- Header Section -->
+    <div class="page-header">
+      <div class="container-fluid">
+        <div class="header-content">
+          <div class="header-title">
+            <div class="icon-wrapper">
+              <i class="fas fa-chart-line"></i>
             </div>
-
-            <div class="col-md-4 col-lg-2">
-              <label for="projectCategoryFilter" class="form-label"
-                >فئة المشروع</label
-              >
-              <select id="projectCategoryFilter" class="form-select">
-                <option selected>الكل</option>
-                <option>طرق</option>
-                <option>كهرباء</option>
-                <option>مياه</option>
-                <option>صرف صحي</option>
-                <option>منازل بدوية</option>
-                <option>إسكان اجتماعي</option>
-                <option>خدمات</option>
-                <option>تنمية متكاملة</option>
-                <option>حضانات</option>
-                <option>مجازر</option>
-                <option>تأهيل مباني حكومية</option>
-                <option>تجمعات تنموية</option>
-                <option>عمارات</option>
-              </select>
-            </div>
-
-            <div class="col-lg-2 col-md-6">
-              <label for="fundingTypeFilter" class="form-label"
-                >نوع التمويل</label
-              >
-              <select id="fundingTypeFilter" class="form-select">
-                <option selected>الكل</option>
-                <option>خطة استثمارية</option>
-                <option>تمويل الغير</option>
-              </select>
-            </div>
-
-            <div class="col-lg-2 col-md-6">
-              <label for="fundingSourceFilter" class="form-label"
-                >مصدر التمويل</label
-              ><select id="fundingSourceFilter" class="form-select">
-                <option selected>الكل</option>
-                <option>صندوق الإسكان الاجتماعي</option>
-                <option>وزارة المالية</option>
-                <option>محافظة الإسماعيلية</option>
-                <option>محافظة بورسعيد</option>
-                <option>محافظة السويس</option>
-                <option>محافظة شمال سيناء</option>
-                <option>محافظة جنوب سيناء</option>
-                <option>محافظة الشرقية</option>
-                <option>محافظة دمياط</option>
-                <option>وزارة التضامن الاجتماعي</option>
-                <option>وزارة التنمية المحلية</option>
-                <option>وزارة الشباب والرياضة</option>
-                <option>وزارة الصحة والسكان</option>
-                <option>هيئة الإسعاف المصرية</option>
-                <option>هيئة الرقابة الإدارية</option>
-                <option>هيئة النيابة الإدارية</option>
-                <option>صندوق تطوير العشوائيات</option>
-                <option>الهيئة الاقتصادية لقناة السويس</option>
-              </select>
-            </div>
-
-            <div class="col-md-4 col-lg-3">
-              <label for="progressFilter" class="form-label"
-                >نسبة التنفيذ</label
-              >
-              <div class="d-flex align-items-center gap-2">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="progressMin"
-                  placeholder="من"
-                  min="0"
-                  max="100"
-                />
-                <span class="fw-bold">-</span>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="progressMax"
-                  placeholder="إلى"
-                  min="0"
-                  max="100"
-                />
-              </div>
-            </div>
-
-            <div class="col-lg-2 col-md-6">
-              <label for="fiscalYearFilter" class="form-label"
-                >السنة المالية</label
-              >
-              <select id="fiscalYearFilter" class="form-select">
-                <option selected>الكل</option>
-                <option>2024/2025</option>
-                <option>2025/2026</option>
-                <option>2026/2027</option>
-                <option>2027/2028</option>
-              </select>
-            </div>
-
-            <div class="col-md-4 col-lg-2">
-              <label for="statusFilter" class="form-label">حالة المشروع</label>
-              <select id="statusFilter" class="form-select">
-                <option selected>الكل</option>
-                <option>قيد التنفيذ</option>
-                <option>مكتمل</option>
-                <option>متأخر</option>
-                <option>مسحوب</option>
-                <option>متوقف</option>
-                <option>تحت الطرح</option>
-                <option>تسليم ابتدائي</option>
-                <option>تسليم نهائي</option>
-              </select>
-            </div>
-
-            <div class="col-md-4 col-lg-1">
-              <label class="form-label invisible">فلتر</label>
-              <button
-                class="btn btn-primary w-100 filter-btn"
-                id="filterButton"
-              >
-                <i class="fas fa-filter"></i>
-              </button>
-            </div>
-
-            <div class="col-md-4 col-lg-1 d-grid">
-              <button
-                class="btn btn-secondary w-100 filter-btn"
-                id="resetButton"
-              >
-                <i class="fas fa-redo"></i>
-              </button>
+            <div class="title-text">
+              <h1>الإحصائيات والتقارير</h1>
+              <p class="header-subtitle">نظام متقدم لإدارة ومتابعة المشروعات</p>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="loading-overlay" id="loadingOverlay"></div>
-      <div class="loading-spinner" id="loadingSpinner">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="loading-text">جاري التحميل...</div>
-      </div>
-
-      <div class="card mt-4 filter-card" id="statsCard" style="display: none">
-        <div
-          class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center flex-wrap"
-        >
-          <h4 class="mb-0 text-right text-secondry fw-bold">
-            <i class="fas fa-chart-bar me-2"></i>
-            جدول الإحصائيات
-          </h4>
-          <button class="btn print-stats-btn" id="printStatsBtn">
-            <i class="fas fa-print me-2"></i>
-            طباعة الجدول
-          </button>
-        </div>
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table
-              class="table table-bordered mb-0 stats-table"
-              id="statsTable"
-            >
-              <thead>
-                <tr class="total-row table-secondary">
-                  <th class="text-center align-middle">م</th>
-                  <th class="text-center align-middle">المحافظة</th>
-                  <th class="text-center align-middle">إجمالي عدد المشروعات</th>
-                  <th class="text-center align-middle">
-                    عدد المشروعات لازالت تحت الطرح
-                  </th>
-                  <th class="text-center align-middle">
-                    عدد المشروعات تم اكتمالها
-                  </th>
-                  <th class="text-center align-middle">
-                    عدد المشروعات تم سحب اعمالها
-                  </th>
-                  <th class="text-center align-middle">
-                    عدد المشروعات الجاري تنفيذها
-                  </th>
-                  <th class="text-center align-middle">
-                    عدد المشروعات المتأخرة
-                  </th>
-                  <th class="text-center align-middle">
-                    عدد المشروعات الموقوفة
-                  </th>
-                  <th class="text-center align-middle">
-                    عدد المشروعات تم تسليمها ابتدائي
-                  </th>
-                  <th class="text-center align-middle">
-                    عدد المشروعات تم تسليمها نهائي
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="statsBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="card mt-4 filter-card"
-        id="projectsCard"
-        style="display: none"
-      >
-        <div
-          class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center"
-        >
-          <h4 class="mb-0 text-secondry fw-bold">
-            <i class="fas fa-list me-2"></i>
-            المشروعات <span class="badge bg-primary" id="projectsCount">0</span>
-          </h4>
-          <button
-            class="btn btn-sm btn-outline-secondary"
-            id="closeProjectsBtn"
-          >
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        <div class="card-body">
-          <div id="projectsList" class="row g-3"></div>
+          <a href="../html/dashboard.html" class="btn-back">
+            <i class="fas fa-arrow-right"></i>
+            <span>العودة للوحة التحكم</span>
+          </a>
         </div>
       </div>
     </div>
+
+    <div class="container-fluid main-content">
+      <!-- Filter Card -->
+      <div class="filter-section">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fas fa-filter"></i>
+            <h3>فلترة المشروعات</h3>
+          </div>
+          <div class="filter-actions">
+            <button class="btn-action btn-filter" id="filterButton">
+              <i class="fas fa-search"></i>
+              <span>تطبيق الفلتر</span>
+            </button>
+            <button class="btn-action btn-reset" id="resetButton">
+              <i class="fas fa-redo"></i>
+              <span>إعادة تعيين</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="filters-grid">
+          <!-- Row 1 -->
+          <div class="filter-group">
+            <label class="filter-label">
+              <i class="fas fa-map-marker-alt"></i>
+              المحافظة
+            </label>
+            <select id="governorateFilter" class="filter-select">
+              <option value="">الكل</option>
+              <option>شمال سيناء</option>
+              <option>جنوب سيناء</option>
+              <option>بورسعيد</option>
+              <option>الإسماعيلية</option>
+              <option>السويس</option>
+              <option>الشرقية</option>
+              <option>دمياط</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">
+              <i class="fas fa-layer-group"></i>
+              فئة المشروع
+            </label>
+            <select id="projectCategoryFilter" class="filter-select">
+              <option value="">الكل</option>
+              <option>طرق</option>
+              <option>كهرباء</option>
+              <option>مياه</option>
+              <option>صرف صحي</option>
+              <option>منازل بدوية</option>
+              <option>إسكان اجتماعي</option>
+              <option>خدمات</option>
+              <option>تنمية متكاملة</option>
+              <option>حضانات</option>
+              <option>مجازر</option>
+              <option>تأهيل مباني حكومية</option>
+              <option>تجمعات تنموية</option>
+              <option>عمارات</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">
+              <i class="fas fa-money-bill-wave"></i>
+              نوع التمويل
+            </label>
+            <select id="fundingTypeFilter" class="filter-select">
+              <option value="">الكل</option>
+              <option>خطة استثمارية</option>
+              <option>تمويل الغير</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">
+              <i class="fas fa-university"></i>
+              مصدر التمويل
+            </label>
+            <select id="fundingSourceFilter" class="filter-select">
+              <option value="">الكل</option>
+              <option>صندوق الإسكان الاجتماعي</option>
+              <option>وزارة المالية</option>
+              <option>محافظة الإسماعيلية</option>
+              <option>محافظة بورسعيد</option>
+              <option>محافظة السويس</option>
+              <option>محافظة شمال سيناء</option>
+              <option>محافظة جنوب سيناء</option>
+              <option>محافظة الشرقية</option>
+              <option>محافظة دمياط</option>
+              <option>وزارة التضامن الاجتماعي</option>
+              <option>وزارة التنمية المحلية</option>
+              <option>وزارة الشباب والرياضة</option>
+              <option>وزارة الصحة والسكان</option>
+              <option>هيئة الإسعاف المصرية</option>
+              <option>هيئة الرقابة الإدارية</option>
+              <option>هيئة النيابة الإدارية</option>
+              <option>صندوق تطوير العشوائيات</option>
+              <option>الهيئة الاقتصادية لقناة السويس</option>
+            </select>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="filter-group filter-range">
+            <label class="filter-label">
+              <i class="fas fa-percentage"></i>
+              نسبة التنفيذ
+            </label>
+            <div class="range-inputs">
+              <input
+                type="number"
+                class="filter-input"
+                id="progressMin"
+                placeholder="من"
+                min="0"
+                max="100"
+              />
+              <span class="range-separator">-</span>
+              <input
+                type="number"
+                class="filter-input"
+                id="progressMax"
+                placeholder="إلى"
+                min="0"
+                max="100"
+              />
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">
+              <i class="fas fa-calendar-alt"></i>
+              السنة المالية
+            </label>
+            <select id="fiscalYearFilter" class="filter-select">
+              <option value="">الكل</option>
+              <option>2024/2025</option>
+              <option>2025/2026</option>
+              <option>2026/2027</option>
+              <option>2027/2028</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label">
+              <i class="fas fa-tasks"></i>
+              حالة المشروع
+            </label>
+            <select id="statusFilter" class="filter-select">
+              <option value="">الكل</option>
+              <option>قيد التنفيذ</option>
+              <option>مكتمل</option>
+              <option>متأخر</option>
+              <option>مسحوب</option>
+              <option>متوقف</option>
+              <option>تحت الطرح</option>
+              <option>تسليم ابتدائي</option>
+              <option>تسليم نهائي</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Overlay -->
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner" id="loadingSpinner">
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+          <div class="loading-text">جاري تحميل البيانات...</div>
+        </div>
+      </div>
+
+      <!-- Stats Card -->
+      <div class="stats-section" id="statsCard" style="display: none">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fas fa-chart-bar"></i>
+            <h3>جدول الإحصائيات التفصيلية</h3>
+          </div>
+          <button class="btn-action btn-print" id="printStatsBtn">
+            <i class="fas fa-print"></i>
+            <span>طباعة التقرير</span>
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table class="stats-table" id="statsTable">
+            <thead>
+              <tr>
+                <th class="col-index">م</th>
+                <th class="col-governorate">المحافظة</th>
+                <th>إجمالي المشروعات</th>
+                <th>تحت الطرح</th>
+                <th>مكتملة</th>
+                <th>مسحوبة</th>
+                <th>قيد التنفيذ</th>
+                <th>متأخرة</th>
+                <th>موقوفة</th>
+                <th>تسليم ابتدائي</th>
+                <th>تسليم نهائي</th>
+              </tr>
+            </thead>
+            <tbody id="statsBody">
+              <!-- Data will be inserted here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Projects Card -->
+      <div class="projects-section" id="projectsCard" style="display: none">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fas fa-list"></i>
+            <h3>قائمة المشروعات</h3>
+            <span class="projects-badge" id="projectsCount">0</span>
+          </div>
+          <button class="btn-close" id="closeProjectsBtn">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div id="projectsList" class="projects-grid">
+          <!-- Projects will be inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="../JS/project/reportsPage.js"></script>
+    <script src="../JS/constants.js"></script>
+    <script src="../JS/main.js"></script>
   </body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-  <script src="../JS/project/reportsPage.js"></script>
-  <script src="../JS/constants.js"></script>
-  <script src="../JS/main.js"></script>
 </html>

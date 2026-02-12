@@ -12,7 +12,7 @@ export function renderForm(
   allowedFields,
   userRole,
   showToast,
-  attachSubmitListener
+  attachSubmitListener,
 ) {
   console.log("🔑 User Role:", userRole);
   console.log("📋 Allowed Fields:", allowedFields);
@@ -217,7 +217,7 @@ export function renderForm(
 
       <div class="col-md-12">
         <label for="activityDescription" class="form-label">وصف المشروع</label>
-        <textarea id="activityDescription" class="form-control" rows="4" style="resize: vertical;">${
+        <textarea id="activityDescription" class="form-control" rows="6" style="resize: vertical;">${
           project.activityDescription || ""
         }</textarea>
       </div>
@@ -294,14 +294,7 @@ export function renderForm(
         }" >
       </div>
       
-      <div class="col-md-4">
-        <label for="completionDate" class="form-label">تاريخ النهو</label>
-        <input type="date" id="completionDate" class="form-control" value="${
-          project.completionDate
-            ? new Date(project.completionDate).toISOString().split("T")[0]
-            : ""
-        }">
-      </div>
+   
       
       <div class="col-md-4">
         <label for="receptionDate" class="form-label">تاريخ البدء</label>
@@ -357,7 +350,7 @@ export function renderForm(
 
       <div class="col-md-12">
         <label for="executivePosition" class="form-label">الموقف التنفيذي</label>
-        <textarea id="executivePosition" class="form-control" rows="4" style="resize: vertical;">${
+        <textarea id="executivePosition" class="form-control" rows="6" style="resize: vertical;">${
           project.executivePosition || ""
         }</textarea>
       </div>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -8,121 +8,340 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
       rel="stylesheet"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="../css/settings.css" />
+    <link rel="stylesheet" href="../css/add_employee.css" />
   </head>
-  <body class="no-sidebar">
-    <main class="main-content">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0 fw-bold">إضافة موظف</h2>
-        <a href="../html/dashboard.html" class="btn btn-outline-primary">
-          <i class="fas fa-arrow-right ms-0"></i> العودة للوحة التحكم
-        </a>
-      </div>
-
-      <div class="card">
-        <div class="card-header bg-light">
-          <h5 class="mb-0">
-            <i class="fas fa-user-plus me-2"></i> إضافة موظف جديد
-          </h5>
+  <body>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container-fluid">
+        <div class="header-content">
+          <div class="header-title">
+            <div class="icon-wrapper">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="title-text">
+              <h1>إضافة موظف جديد</h1>
+              <p class="header-subtitle">إدارة الموظفين والصلاحيات</p>
+            </div>
+          </div>
+          <a href="../html/dashboard.html" class="btn-back">
+            <i class="fas fa-arrow-right"></i>
+            <span>العودة للوحة التحكم</span>
+          </a>
         </div>
-        <div class="card-body p-4">
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid main-content">
+      <!-- Employee Form Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fas fa-id-card"></i>
+            <h3>بيانات الموظف</h3>
+          </div>
+          <span class="section-badge">نموذج تسجيل</span>
+        </div>
+
+        <div class="form-body">
           <form id="addEmployeeForm">
-            <div class="row g-3">
-              <h5 class="form-section-title">البيانات الأساسية</h5>
-
-              <div class="col-md-6">
-                <label for="name" class="form-label">اسم الموظف</label>
-                <input type="text" id="name" class="form-control" required />
+            <!-- البيانات الأساسية -->
+            <div class="form-group-section">
+              <div class="form-group-header">
+                <div class="group-icon">
+                  <i class="fas fa-user"></i>
+                </div>
+                <h4>البيانات الشخصية</h4>
               </div>
 
-              <div class="col-md-6">
-                <label for="email" class="form-label">البريد الإلكتروني</label>
-                <input type="email" id="email" class="form-control" required />
+              <div class="form-grid">
+                <div class="form-field full-width">
+                  <label for="name" class="field-label">
+                    <i class="fas fa-signature"></i>
+                    اسم الموظف بالكامل
+                    <span class="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    class="field-input"
+                    placeholder="أدخل الاسم الكامل للموظف..."
+                    required
+                  />
+                </div>
+
+                <div class="form-field">
+                  <label for="email" class="field-label">
+                    <i class="fas fa-envelope"></i>
+                    البريد الإلكتروني
+                    <span class="required">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="field-input"
+                    placeholder="example@domain.com"
+                    required
+                  />
+                </div>
+
+                <div class="form-field">
+                  <label for="region" class="field-label">
+                    <i class="fas fa-map-marker-alt"></i>
+                    المحافظة
+                  </label>
+                  <select id="region" class="field-select">
+                    <option value="" disabled selected>اختر المحافظة...</option>
+                    <option value="شمال سيناء">شمال سيناء</option>
+                    <option value="جنوب سيناء">جنوب سيناء</option>
+                    <option value="بورسعيد">بورسعيد</option>
+                    <option value="الإسماعيلية">الإسماعيلية</option>
+                    <option value="السويس">السويس</option>
+                    <option value="الشرقية">الشرقية</option>
+                    <option value="دمياط">دمياط</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- الدور الوظيفي والصلاحيات -->
+            <div class="form-group-section">
+              <div class="form-group-header">
+                <div class="group-icon">
+                  <i class="fas fa-user-shield"></i>
+                </div>
+                <h4>الدور الوظيفي والصلاحيات</h4>
               </div>
 
-              <div class="col-md-6">
-                <label for="role" class="form-label">الدور الوظيفي</label>
-                <select id="role" class="form-select" required>
-                  <option selected disabled value="">اختر الدور</option>
-                  <option value="admin">أدمن</option>
-                  <option value="manager">تخطيط ومتابعه</option>
-                  <option value="executive">تنفيذيه</option>
-                  <option value="financial">مالي</option>
-                  <option value="projectManager">مشروعات</option>
-                  <option value="contractual">تعاقدية</option>
-                  <option value="employee">مدير</option>
-                </select>
+              <div class="form-grid">
+                <div class="form-field full-width">
+                  <label for="role" class="field-label">
+                    <i class="fas fa-user-tag"></i>
+                    الدور الوظيفي
+                    <span class="required">*</span>
+                  </label>
+                  <select id="role" class="field-select" required>
+                    <option value="" disabled selected>
+                      اختر الدور الوظيفي...
+                    </option>
+                    <option value="admin">👑 أدمن - صلاحيات كاملة</option>
+                    <option value="manager">📊 تخطيط ومتابعة</option>
+                    <option value="executive">⚙️ تنفيذية</option>
+                    <option value="financial">💰 مالي</option>
+                    <option value="projectManager">🏗️ مشروعات</option>
+                    <option value="contractual">📝 تعاقدية</option>
+                    <option value="employee">👔 مدير</option>
+                  </select>
+                  <small class="field-hint"
+                    >اختر الدور المناسب لصلاحيات الموظف في النظام</small
+                  >
+                </div>
+
+                <div class="role-info-box">
+                  <div class="info-icon">
+                    <i class="fas fa-info-circle"></i>
+                  </div>
+                  <div class="info-content">
+                    <h5>معلومات الصلاحيات</h5>
+                    <ul>
+                      <li>
+                        <strong>أدمن:</strong> صلاحيات كاملة على كل أقسام النظام
+                      </li>
+                      <li>
+                        <strong>تخطيط ومتابعة:</strong> إدارة المشاريع والتخطيط
+                      </li>
+                      <li><strong>تنفيذية:</strong> متابعة التنفيذ والتقدم</li>
+                      <li>
+                        <strong>مالي:</strong> إدارة الشؤون المالية والمستخلصات
+                      </li>
+                      <li><strong>مشروعات:</strong> إدارة بيانات المشاريع</li>
+                      <li><strong>تعاقدية:</strong> إدارة العقود والبنود</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- كلمة المرور -->
+            <div class="form-group-section">
+              <div class="form-group-header">
+                <div class="group-icon">
+                  <i class="fas fa-lock"></i>
+                </div>
+                <h4>تعيين كلمة المرور</h4>
               </div>
 
-              <div class="col-md-6">
-                <label for="region" class="form-label">المحافظة</label>
-                <select id="region" class="form-select">
-                  <option selected disabled value="">اختر المحافظة</option>
-                  <option value="شمال سيناء">شمال سيناء</option>
-                  <option value="جنوب سيناء">جنوب سيناء</option>
-                  <option value="بورسعيد">بورسعيد</option>
-                  <option value="الإسماعيلية">الإسماعيلية</option>
-                  <option value="السويس">السويس</option>
-                  <option value="الشرقية">الشرقية</option>
-                  <option value="دمياط">دمياط</option>
-                </select>
-              </div>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="password" class="field-label">
+                    <i class="fas fa-key"></i>
+                    كلمة المرور
+                    <span class="required">*</span>
+                  </label>
+                  <div class="password-input-wrapper">
+                    <input
+                      type="password"
+                      id="password"
+                      class="field-input password-input"
+                      placeholder="أدخل كلمة مرور قوية..."
+                      minlength="8"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="toggle-password"
+                      data-target="password"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                  <small class="field-hint">يجب أن تكون 8 أحرف على الأقل</small>
+                </div>
 
-              <div class="col-md-6">
-                <label for="password" class="form-label">كلمة المرور</label>
-                <input
-                  type="password"
-                  id="password"
-                  class="form-control"
-                  minlength="8"
-                  required
-                />
-              </div>
+                <div class="form-field">
+                  <label for="confirmPassword" class="field-label">
+                    <i class="fas fa-check-circle"></i>
+                    تأكيد كلمة المرور
+                    <span class="required">*</span>
+                  </label>
+                  <div class="password-input-wrapper">
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      class="field-input password-input"
+                      placeholder="أعد إدخال كلمة المرور..."
+                      minlength="8"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="toggle-password"
+                      data-target="confirmPassword"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                  <small class="field-hint">يجب أن تطابق كلمة المرور</small>
+                </div>
 
-              <div class="col-md-6">
-                <label for="password" class="form-label"
-                  >تأكيد كلمة المرور</label
-                >
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  class="form-control"
-                  minlength="8"
-                  required
-                />
+                <div class="form-field full-width">
+                  <div class="strength-label">قوة كلمة المرور:</div>
+                  <div class="strength-bar">
+                    <div class="strength-progress" id="strengthProgress"></div>
+                  </div>
+                  <div class="strength-text" id="strengthText">ضعيفة</div>
+                </div>
               </div>
+            </div>
 
-              <div class="col-12 mt-4 text-center">
-                <a href="../HTML/dashboard.html" class="btn btn-secondary px-4"
-                  >إلغاء</a
-                >
-                <button
-                  type="submit"
-                  class="btn btn-primary px-4"
-                  id="save-employee-button"
-                >
-                  إضافة الموظف
-                </button>
-              </div>
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <a href="../html/dashboard.html" class="btn-cancel">
+                <i class="fas fa-times"></i>
+                <span>إلغاء</span>
+              </a>
+              <button
+                type="submit"
+                class="btn-submit"
+                id="save-employee-button"
+              >
+                <i class="fas fa-user-check"></i>
+                <span>إضافة الموظف</span>
+              </button>
             </div>
           </form>
         </div>
       </div>
-    </main>
+    </div>
 
+    <!-- Toast Container -->
     <div class="toast-container position-fixed top-0 start-0 p-3"></div>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../JS/main.js"></script>
     <script src="../JS/employees/add-employee.js"></script>
     <script src="../JS/constants.js"></script>
+
+    <!-- Password Toggle Script -->
+    <script>
+      // Toggle password visibility
+      document.querySelectorAll(".toggle-password").forEach((button) => {
+        button.addEventListener("click", function () {
+          const targetId = this.dataset.target;
+          const input = document.getElementById(targetId);
+          const icon = this.querySelector("i");
+
+          if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+          } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+          }
+        });
+      });
+
+      // Password strength checker
+      const passwordInput = document.getElementById("password");
+      const strengthProgress = document.getElementById("strengthProgress");
+      const strengthText = document.getElementById("strengthText");
+
+      passwordInput.addEventListener("input", function () {
+        const password = this.value;
+        let strength = 0;
+
+        if (password.length >= 8) strength++;
+        if (password.length >= 12) strength++;
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+        if (/\d/.test(password)) strength++;
+        if (/[^a-zA-Z\d]/.test(password)) strength++;
+
+        const percentage = (strength / 5) * 100;
+        strengthProgress.style.width = percentage + "%";
+
+        if (strength <= 2) {
+          strengthProgress.className = "strength-progress weak";
+          strengthText.textContent = "ضعيفة";
+          strengthText.className = "strength-text weak";
+        } else if (strength <= 3) {
+          strengthProgress.className = "strength-progress medium";
+          strengthText.textContent = "متوسطة";
+          strengthText.className = "strength-text medium";
+        } else {
+          strengthProgress.className = "strength-progress strong";
+          strengthText.textContent = "قوية";
+          strengthText.className = "strength-text strong";
+        }
+      });
+
+      // Password match validation
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+
+      confirmPasswordInput.addEventListener("input", function () {
+        if (this.value === passwordInput.value && this.value !== "") {
+          this.classList.add("match");
+          this.classList.remove("no-match");
+        } else if (this.value !== "") {
+          this.classList.add("no-match");
+          this.classList.remove("match");
+        } else {
+          this.classList.remove("match", "no-match");
+        }
+      });
+    </script>
   </body>
 </html>

@@ -4,7 +4,7 @@
   --primary-blue-light: #3b82f6;
   --secondary-blue: #0ea5e9;
   --accent-purple: #8b5cf6;
-  --accent-green: #10b981;
+  --accent-teal: #14b8a6;
 
   --success-green: #10b981;
   --success-dark: #059669;
@@ -150,23 +150,34 @@ body {
 
 /* ==================== MAIN CONTENT ==================== */
 .main-content {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2.5rem 2rem;
 }
 
-/* ==================== UPLOAD SECTION ==================== */
-.upload-section {
+/* ==================== FORM SECTION ==================== */
+.form-section {
   background: white;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-md);
   padding: 2rem;
-  margin-bottom: 2rem;
   border: 1px solid var(--border-light);
   transition: var(--transition);
+  animation: slideUp 0.5s ease-out;
 }
 
-.upload-section:hover {
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-section:hover {
   box-shadow: var(--shadow-lg);
   transform: translateY(-2px);
 }
@@ -191,7 +202,11 @@ body {
 .section-title i {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, var(--accent-green), var(--success-dark));
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue-dark),
+    var(--primary-blue)
+  );
   color: white;
   border-radius: var(--radius-md);
   display: flex;
@@ -220,134 +235,7 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-/* ==================== UPLOAD AREA ==================== */
-.upload-body {
-  padding: 1rem 0;
-}
-
-.upload-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 3rem 2rem;
-  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-  border: 2px dashed var(--border-color);
-  border-radius: var(--radius-lg);
-  transition: var(--transition);
-  position: relative;
-}
-
-.upload-area:hover {
-  border-color: var(--accent-green);
-  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-}
-
-.upload-icon {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, var(--accent-green), var(--success-dark));
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-  box-shadow: var(--shadow-md);
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.upload-content {
-  text-align: center;
-}
-
-.file-input {
-  display: none;
-}
-
-.file-label {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.file-text {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-dark);
-}
-
-.file-hint {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-}
-
-.btn-upload {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, var(--accent-green), var(--success-dark));
-  color: white;
-  border: none;
-  border-radius: var(--radius-md);
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: var(--shadow-sm);
-}
-
-.btn-upload:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-  background: linear-gradient(135deg, var(--success-dark), #047857);
-}
-
-.btn-upload i {
-  font-size: 1.2rem;
-}
-
-.upload-result {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  border-radius: var(--radius-md);
-}
-
-/* ==================== FORM SECTION ==================== */
-.form-section {
-  background: white;
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
-  padding: 2rem;
-  border: 1px solid var(--border-light);
-  transition: var(--transition);
-}
-
-.form-section:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
-}
-
-.form-section .section-title i {
-  background: linear-gradient(
-    135deg,
-    var(--primary-blue),
-    var(--secondary-blue)
-  );
-}
-
+/* ==================== FORM BODY ==================== */
 .form-body {
   padding: 1rem 0;
 }
@@ -381,8 +269,8 @@ body {
   height: 44px;
   background: linear-gradient(
     135deg,
-    var(--primary-blue),
-    var(--secondary-blue)
+    var(--primary-blue-dark),
+    var(--primary-blue)
   );
   color: white;
   border-radius: var(--radius-md);
@@ -414,6 +302,10 @@ body {
   gap: 0.5rem;
 }
 
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
 .field-label {
   display: flex;
   align-items: center;
@@ -424,7 +316,7 @@ body {
 }
 
 .field-label i {
-  color: var(--primary-blue);
+  color: var(--accent-teal);
   font-size: 1rem;
 }
 
@@ -453,31 +345,197 @@ body {
 
 .field-input:hover,
 .field-select:hover {
-  border-color: var(--primary-blue-light);
+  border-color: var(--accent-teal);
 }
 
 .field-input:focus,
 .field-select:focus {
   outline: none;
-  border-color: var(--primary-blue);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
   background: white;
-}
-
-.field-input:disabled,
-.field-select:disabled {
-  background: var(--bg-secondary);
-  cursor: not-allowed;
-  opacity: 0.6;
 }
 
 .field-select {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232563eb' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2314b8a6' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: left 1rem center;
   padding-left: 2.5rem;
+}
+
+.field-hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* ==================== PASSWORD INPUT ==================== */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input {
+  padding-left: 3rem;
+}
+
+.toggle-password {
+  position: absolute;
+  left: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: var(--transition);
+  border-radius: var(--radius-sm);
+}
+
+.toggle-password:hover {
+  color: var(--accent-teal);
+  background: var(--bg-secondary);
+}
+
+.toggle-password i {
+  font-size: 1.1rem;
+}
+
+/* ==================== PASSWORD STRENGTH ==================== */
+.password-strength {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+.strength-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-medium);
+  margin-bottom: 0.5rem;
+}
+
+.strength-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.strength-progress {
+  height: 100%;
+  width: 0;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.strength-progress.weak {
+  background: linear-gradient(90deg, var(--danger-red), #dc2626);
+}
+
+.strength-progress.medium {
+  background: linear-gradient(90deg, var(--warning-orange), #d97706);
+}
+
+.strength-progress.strong {
+  background: linear-gradient(90deg, var(--success-green), var(--success-dark));
+}
+
+.strength-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.strength-text.weak {
+  color: var(--danger-red);
+}
+
+.strength-text.medium {
+  color: var(--warning-orange);
+}
+
+.strength-text.strong {
+  color: var(--success-green);
+}
+
+/* ==================== PASSWORD MATCH ==================== */
+.field-input.match {
+  border-color: var(--success-green);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.field-input.no-match {
+  border-color: var(--danger-red);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+/* ==================== ROLE INFO BOX ==================== */
+.role-info-box {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #e0f2fe, #e0e7ff);
+  border-radius: var(--radius-md);
+  border: 2px solid #bae6fd;
+}
+
+.info-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue),
+    var(--secondary-blue)
+  );
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.info-content h5 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.info-content ul {
+  margin: 0;
+  padding-right: 1.25rem;
+  list-style: none;
+}
+
+.info-content li {
+  margin-bottom: 0.5rem;
+  color: var(--text-medium);
+  font-size: 0.9rem;
+  position: relative;
+  padding-right: 1rem;
+}
+
+.info-content li::before {
+  content: "•";
+  position: absolute;
+  right: 0;
+  color: var(--primary-blue);
+  font-weight: 700;
+}
+
+.info-content li strong {
+  color: var(--text-dark);
 }
 
 /* ==================== FORM ACTIONS ==================== */
@@ -522,8 +580,8 @@ body {
 .btn-submit {
   background: linear-gradient(
     135deg,
-    var(--primary-blue),
-    var(--primary-blue-dark)
+    var(--primary-blue-dark),
+    var(--primary-blue-light)
   );
   color: white;
 }
@@ -531,24 +589,17 @@ body {
 .btn-submit:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
-  background: linear-gradient(135deg, var(--primary-blue-dark), #1e3a8a);
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue-light),
+    var(--primary-blue-dark)
+  );
 }
 
 .btn-submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
-}
-
-/* ==================== VALIDATION STYLES ==================== */
-.field-input:invalid:not(:placeholder-shown),
-.field-select:invalid:not(:placeholder-shown) {
-  border-color: var(--danger-red);
-}
-
-.field-input:valid:not(:placeholder-shown),
-.field-select:valid:not(:placeholder-shown) {
-  border-color: var(--success-green);
 }
 
 /* ==================== SCROLLBAR ==================== */
@@ -563,27 +614,19 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    135deg,
-    var(--primary-blue),
-    var(--secondary-blue)
-  );
+  background: linear-gradient(135deg, var(--accent-teal), #0d9488);
   border-radius: 10px;
   border: 2px solid var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    135deg,
-    var(--primary-blue-dark),
-    var(--primary-blue)
-  );
+  background: linear-gradient(135deg, #0d9488, #0f766e);
 }
 
 /* ==================== RESPONSIVE DESIGN ==================== */
 @media (max-width: 1200px) {
-  .form-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  .main-content {
+    max-width: 100%;
   }
 }
 
@@ -611,8 +654,7 @@ body {
   }
 
   .form-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -636,7 +678,6 @@ body {
     padding: 1.5rem 1rem;
   }
 
-  .upload-section,
   .form-section {
     padding: 1.5rem;
   }
@@ -651,16 +692,12 @@ body {
     justify-content: center;
   }
 
-  .upload-area {
-    padding: 2rem 1rem;
-  }
-
   .form-group-section {
     padding: 1.5rem;
   }
 
-  .form-grid {
-    grid-template-columns: 1fr;
+  .role-info-box {
+    flex-direction: column;
   }
 
   .form-actions {
@@ -699,34 +736,12 @@ body {
     font-size: 1.1rem;
   }
 
-  .upload-icon {
-    width: 60px;
-    height: 60px;
-    font-size: 2rem;
-  }
-
-  .file-text {
+  .form-group-header h4 {
     font-size: 1.1rem;
   }
 }
 
 /* ==================== ANIMATIONS ==================== */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.upload-section,
-.form-section {
-  animation: slideUp 0.5s ease-out;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -748,7 +763,7 @@ body {
 
   .page-header,
   .btn-back,
-  .upload-section,
+  .section-badge,
   .form-actions {
     display: none !important;
   }
