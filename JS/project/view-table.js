@@ -5,7 +5,7 @@ document
   .getElementById("view-excel-btn")
   .addEventListener("click", async function () {
     const modal = new bootstrap.Modal(
-      document.getElementById("viewExcelModal")
+      document.getElementById("viewExcelModal"),
     );
     modal.show();
 
@@ -24,7 +24,7 @@ async function fetchModalData() {
     const token = localStorage.getItem("loggedInUserToken");
 
     const savedFilters = JSON.parse(
-      localStorage.getItem("dashboardFilters") || "{}"
+      localStorage.getItem("dashboardFilters") || "{}",
     );
     const queryParams = new URLSearchParams(savedFilters).toString();
     const fetchUrl = `${API_URL}activity?${queryParams}`;
@@ -178,19 +178,21 @@ function renderModalTable() {
   currentModalData.forEach((activity, index) => {
     const contractualValue = activity.contractualValue || 0;
 
-    const totalDisbursed =
+    const totalDisbursed = (
       activity.extract?.reduce(
         (sum, ext) => sum + (ext.extractValue || 0),
-        0
-      ) || 0;
+        0,
+      ) || 0
+    ).toFixed(2);
 
-    const currentYearDisbursed =
+    const currentYearDisbursed = (
       activity.extract
         ?.filter((ext) => {
           const d = new Date(ext.extractDate);
           return d >= fiscalStart && d <= fiscalEnd;
         })
-        .reduce((sum, ext) => sum + (ext.extractValue || 0), 0) || 0;
+        .reduce((sum, ext) => sum + (ext.extractValue || 0), 0) || 0
+    ).toFixed(2);
 
     const disbursementRate =
       contractualValue > 0
@@ -215,40 +217,42 @@ function renderModalTable() {
     </span>
   </td>
   
-  <!-- اسم العملية -->
+  
   <td class="align-middle" style="min-width: 300px; word-break: break-word;">
     <strong style="color: #2d3748; font-size: 0.95rem; font-family: 'Cairo', sans-serif;">
       ${activity.activityName || "-"}
     </strong>
   </td>
   
-  <!-- الشركة المنفذة -->
+ 
   <td class="align-middle" style="min-width: 150px; word-break: break-word; color: #4a5568;">
     ${activity.executingCompany || "-"}
   </td>
   
-  <!-- المحافظة -->
+ 
   <td class="text-center align-middle">
     <span class="badge bg-light text-dark shadow-sm px-3 py-2 rounded-3 fw-normal">
       ${activity.governorate || "غير محدد"}
     </span>
   </td>
   
-  <!-- تصنيف المشروع -->
+  
   <td class="text-center align-middle">
     <span class="badge bg-light text-dark shadow-sm px-3 py-2 rounded-3 fw-normal">
       ${activity.projectCategory || "غير محدد"}
     </span>
   </td>
+
+  <td class="text-center align-middle fw-bold text-success" style="white-space: nowrap; font-family: 'Cairo', monospace; font-size: 1rem;">
+    ${activity.estimatedValue || 0}
+  </td>
   
-  <!-- المبالغ المالية (أخضر وبخط واضح) -->
+  
   <td class="text-center align-middle fw-bold text-success" style="white-space: nowrap; max-width: 50px;  font-family: 'Cairo', monospace; font-size: 1rem;">
     ${contractualValue}
   </td>
   
-  <td class="text-center align-middle fw-bold text-success" style="white-space: nowrap; font-family: 'Cairo', monospace; font-size: 1rem;">
-    ${activity.estimatedValue || 0}
-  </td>
+
   
   <td class="text-center align-middle fw-bold text-success" style="white-space: nowrap; font-family: 'Cairo', monospace; font-size: 1rem;">
     ${currentYearDisbursed}
@@ -268,7 +272,7 @@ function renderModalTable() {
   <!-- نسبة الإنجاز (ملونة حسب الرقم) -->
   <td class="text-center align-middle" style="white-space: nowrap;">
     <span class="badge ${getProgressColorClass(
-      progress
+      progress,
     )} text-white shadow-sm px-3 py-2 rounded-3 fw-normal" 
           style="font-size: 0.9rem; min-width: 60px;">
       ${progressText}
@@ -312,7 +316,7 @@ function updateModalStats() {
   const totalProjects = currentModalData.length;
   const totalValue = currentModalData.reduce(
     (sum, a) => sum + (a.contractualValue || 0),
-    0
+    0,
   );
 
   const totalDisbursed = currentModalData.reduce((sum, activity) => {
