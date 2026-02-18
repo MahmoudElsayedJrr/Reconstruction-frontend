@@ -18,7 +18,7 @@ function formatNumber(num) {
 function showToast(message, type = "success") {
   const container = document.getElementById("toastContainer");
   const toast = document.createElement("div");
-  toast.className = `toast ${type}`;
+  toast.className = `budget-toast ${type}`;
 
   let icon = "";
 
@@ -58,7 +58,7 @@ function setLoading(loading) {
 }
 
 function showCurrentBudget(amount, year) {
-  displayValue.textContent = formatNumber(amount) + " ج.م";
+  displayValue.textContent = formatNumber(amount) + " مليون ج.م";
   displayYear.textContent = "السنة المالية: " + year;
   currentBudget.classList.add("show");
 }
@@ -82,11 +82,11 @@ form.addEventListener("submit", async (e) => {
   setLoading(true);
 
   try {
-    const response = await fetch(`${API_URL}/budget`, {
+    const response = await fetch(`${API_URL}budget`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         fiscalYear: fiscalYear,
@@ -113,13 +113,16 @@ yearSelect.addEventListener("change", async () => {
   const fiscalYear = yearSelect.value;
   if (!fiscalYear) return;
 
-  const response = await fetch(`${API_URL}/${encodeURIComponent(fiscalYear)}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: token,
+  const response = await fetch(
+    `${API_URL}budget/${encodeURIComponent(fiscalYear)}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
   const data = await response.json();
 
   if (data.status === "success") {
@@ -127,6 +130,6 @@ yearSelect.addEventListener("change", async () => {
     showCurrentBudget(data.data.amount, data.data.fiscalYear);
   } else {
     amountInput.value = "";
-    currentBudget.classList.remove("show");
+    showCurrentBudget(0, fiscalYear);
   }
 });

@@ -25,10 +25,10 @@
 }
 
 body {
-  font-family: "Cairo", sans-serif;
-  background: linear-gradient(135deg, #f8fafc 0%, #f8fafc 100%);
-  min-height: 100vh;
-  overflow-x: hidden;
+  font-family: "Cairo", sans-serif !important;
+  background: linear-gradient(135deg, #f8fafc 0%, #f8fafc 100%) !important;
+  min-height: 100vh !important;
+  overflow-x: hidden !important;
 }
 
 .sidebar {
@@ -193,6 +193,45 @@ body {
   font-weight: 600;
   font-size: 1.1rem;
   margin-bottom: 1rem;
+}
+
+#totalBudgetCard {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: white;
+  border-radius: var(--border-radius);
+  position: relative;
+  overflow: hidden;
+}
+
+#totalBudgetCard::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
+  animation: rotate 20s linear infinite;
+}
+
+#totalBudgetCard .card-title {
+  color: white;
+  font-size: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+#totalBudgetValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white !important;
+  position: relative;
+  z-index: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #totalContractualCard {
@@ -676,7 +715,9 @@ body {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.4);
   transform: translate(-50%, -50%);
-  transition: width 0.5s, height 0.5s;
+  transition:
+    width 0.5s,
+    height 0.5s;
 }
 
 .action-btn:hover::before {

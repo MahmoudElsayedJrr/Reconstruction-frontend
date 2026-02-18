@@ -83,6 +83,18 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener("click", resetFilters);
   }
 
+  const userRole = localStorage.getItem("loggedInUserRole");
+  const allowedRoles = ["admin", "manager"];
+
+  const budgetCard = document.getElementById("totalBudgetCard");
+
+  if (allowedRoles.includes(userRole)) {
+    budgetCard.style.cursor = "pointer";
+    budgetCard.addEventListener("click", () => {
+      const modal = new bootstrap.Modal(document.getElementById("budgetModal"));
+      modal.show();
+    });
+  }
   async function fetchTotalDisbursed(filters = {}) {
     const totalElement = document.getElementById("totalDisbursedValue");
     try {
@@ -171,6 +183,35 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
+    }
+  }
+
+  async function loadBudgetForYear(fiscalYear) {
+    if (!fiscalYear || fiscalYear === "الكل") {
+      document.getElementById("totalBudgetValue").textContent =
+        "برجاء تحديد السنه الماليه ";
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API_URL}budget/${encodeURIComponent(fiscalYear)}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      const data = await response.json();
+
+      if (data.status === "success") {
+        document.getElementById("totalBudgetValue").textContent =
+          new Intl.NumberFormat("ar-EG").format(data.data.amount) +
+          " مليون ج.م";
+      } else {
+        document.getElementById("totalBudgetValue").textContent = "0";
+      }
+    } catch (error) {
+      console.error("خطأ في تحميل الميزانية:", error);
+      document.getElementById("totalBudgetValue").textContent = "خطأ";
     }
   }
 
@@ -707,6 +748,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fetchAndRenderProjects(filters),
       fetchTotalDisbursed(filters),
       fetchTotalContractual(filters),
+      loadBudgetForYear(filters.fiscalYear || ""),
     ]).finally(() => {
       filterButton.disabled = false;
       filterButton.innerHTML = `<i class="fas fa-filter"></i>`;
@@ -735,13 +777,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       showToast("تم حذف المشروع بنجاح!", "success");
 
-      // FIX: إعادة تحميل البيانات بدلاً من reload الصفحة
       const savedFilters = JSON.parse(
         localStorage.getItem("dashboardFilters") || "{}",
       );
       await fetchAndRenderProjects(savedFilters);
       await fetchTotalDisbursed(savedFilters);
       await fetchTotalContractual(savedFilters);
+      await loadBudgetForYear(savedFilters.fiscalYear || "");
     } catch (error) {
       showToast(`Error: ${error.message}`, "danger");
     } finally {
@@ -806,6 +848,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchTotalDisbursed(filters);
     fetchTotalContractual(filters);
     fetchAndRenderProjects(filters);
+    loadBudgetForYear(filters.fiscalYear || "");
   }
 
   initializePage();

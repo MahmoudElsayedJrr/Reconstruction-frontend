@@ -17,6 +17,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
     <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/budget.css" />
   </head>
   <body>
     <button class="btn btn-outline-light d-md-none m-2" id="toggle-sidebar">
@@ -96,10 +97,10 @@
         <h3 id="totalContractualValue" class="text-success fw-bold">0</h3>
       </div>
 
-<!--        <div id="totalDisbursedCard" class="card text-center shadow-sm mb-4 p-3">
+      <div id="totalBudgetCard" class="card text-center shadow-sm mb-4 p-3">
         <h5 class="card-title">المخصص المالي</h5>
-        <h3 id="totalDisbursedValue" class="text-success fw-bold">0</h3>
-      </div> -->
+        <h3 id="totalBudgetValue" class="text-primary fw-bold">0</h3>
+      </div>
 
       <div id="totalDisbursedCard" class="card text-center shadow-sm mb-4 p-3">
         <h5 class="card-title">إجمالي المنصرف</h5>
@@ -642,11 +643,128 @@
         </div>
       </div>
     </div>
-    <div class="toast-container position-fixed top-0 start-0 p-3"></div>
+
+    <div
+      class="modal fade"
+      id="budgetModal"
+      tabindex="-1"
+      aria-labelledby="budgetModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" dir="rtl">
+          <div class="modal-header card-header" style="border-radius: 0">
+            <div class="card-header-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                />
+              </svg>
+            </div>
+
+            <div class="text-center flex-grow-1">
+              <h5 class="modal-title mb-0" id="budgetModalLabel">
+                المخصص المالي
+              </h5>
+              <p
+                class="mb-0"
+                style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.75)"
+              >
+                تحديد المخصص المالي للسنة المالية
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body card-body">
+            <form id="budgetForm">
+              <div class="form-group">
+                <label class="form-label">
+                  <svg class="label-icon" viewBox="0 0 24 24">
+                    <rect x="2" y="5" width="20" height="14" rx="2" />
+                    <path d="M2 10h20" />
+                  </svg>
+                  القيمة المالية
+                </label>
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="amountInput"
+                    placeholder="أدخل قيمة المخصص المالي"
+                    min="0"
+                    step="any"
+                    required
+                  />
+                  <span class="currency-badge">مليون ح.م</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <svg class="label-icon" viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                  السنة المالية
+                </label>
+                <div class="select-wrapper">
+                  <select class="form-select" id="yearSelect" required>
+                    <option value="" disabled selected>
+                      اختر السنة المالية
+                    </option>
+                    <option value="2024/2025">2024/2025</option>
+                    <option value="2025/2026">2025/2026</option>
+                    <option value="2026/2027">2026/2027</option>
+                    <option value="2027/2028">2027/2028</option>
+                    <option value="2028/2029">2028/2029</option>
+                    <option value="2029/2030">2029/2030</option>
+                    <option value="2030/2031">2030/2031</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-submit" id="submitBtn">
+                <svg class="btn-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
+                  />
+                  <polyline points="17 21 17 13 7 13 7 21" />
+                  <polyline points="7 3 7 8 15 8" />
+                </svg>
+                <span class="btn-text">حفظ المخصص المالي</span>
+                <div class="spinner"></div>
+              </button>
+            </form>
+
+            <div class="current-budget" id="currentBudget">
+              <div class="label">المخصص المالي المسجل</div>
+              <div class="value" id="displayValue">0</div>
+              <div class="year-badge" id="displayYear"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="toast-container position-fixed top-0 start-0 p-3"
+      id="toastContainer"
+    ></div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="../JS/main.js"></script>
+    <script src="../JS/budget.js"></script>
     <script src="../JS/dashboard.js"></script>
     <script src="../JS/project/exportProjects.js"></script>
     <script src="../JS/project/view-table.js"></script>
