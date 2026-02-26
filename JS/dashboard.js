@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener("click", resetFilters);
   }
 
-  const userRole = localStorage.getItem("loggedInUserRole");
+     const userRole = localStorage.getItem("loggedInUserRole");
   const allowedRoles = ["admin", "manager"];
 
   const budgetCard = document.getElementById("totalBudgetCard");
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const modal = new bootstrap.Modal(document.getElementById("budgetModal"));
       modal.show();
     });
-  }
+  } 
   async function fetchTotalDisbursed(filters = {}) {
     const totalElement = document.getElementById("totalDisbursedValue");
     try {
