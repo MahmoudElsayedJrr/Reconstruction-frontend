@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إدارة المخصصات المالية</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/budget_two.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="page-header">
+        <div class="header-content">
+          <div class="header-title">
+            <div class="icon-wrapper">
+              <i class="fas fa-coins"></i>
+            </div>
+            <div class="title-text">
+              <h1>إدارة المخصصات المالية</h1>
+              <p class="header-subtitle">
+                إضافة وتعديل المخصصات المالية حسب السنة المالية
+              </p>
+            </div>
+          </div>
+          <a href="../html/dashboard.html" class="btn-back">
+            <i class="fas fa-arrow-right"></i>
+            <span>العودة للوحة التحكم</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="layout">
+        <!-- Form Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                />
+              </svg>
+            </div>
+            <div>
+              <h2 id="formTitle">إضافة مخصص مالي</h2>
+              <p id="formSub">تسجيل مخصص جديد للسنة المالية</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="mode-bar">
+              <button
+                class="mode-btn active"
+                data-mode="add"
+                onclick="setMode('add')"
+              >
+                <i class="fas fa-plus"></i>
+                إضافة
+              </button>
+              <button
+                class="mode-btn"
+                data-mode="edit"
+                id="editModeBtn"
+                disabled
+                onclick="setMode('edit')"
+              >
+                <i class="fas fa-pen"></i>
+                تعديل
+              </button>
+            </div>
+
+            <form id="budgetForm" onsubmit="handleSubmit(event)">
+              <div class="form-group">
+                <label class="form-label" for="yearSelect">
+                  <i class="fas fa-calendar-alt"></i>
+                  السنة المالية
+                </label>
+                <div class="input-wrap">
+                  <select class="form-select" id="yearSelect" required>
+                    <option value="" disabled selected>
+                      اختر السنة المالية
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="amountInput">
+                  <i class="fas fa-money-bill-wave"></i>
+                  القيمة المالية
+                </label>
+                <div class="input-wrap">
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    class="form-input has-badge"
+                    id="amountInput"
+                    placeholder="0.00"
+                    required
+                  />
+                  <span class="currency-badge">مليون ج.م</span>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-submit" id="submitBtn">
+                <i class="fas fa-save btn-icon-fa"></i>
+                <span class="btn-text" id="submitText">حفظ المخصص</span>
+                <div class="spinner"></div>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="icon table-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"
+                />
+              </svg>
+            </div>
+            <div class="table-card-header">
+              <div>
+                <h2>المخصصات المسجّلة</h2>
+                <p>جميع السنوات المالية المضافة</p>
+              </div>
+              <span class="count-badge" id="countBadge">0</span>
+            </div>
+          </div>
+
+          <div class="card-body" style="padding: 0">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>السنة المالية</th>
+                    <th>القيمة (مليون ج.م)</th>
+                    <th>إجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="budgetsTable"></tbody>
+              </table>
+
+              <div class="empty-state" id="emptyState" style="display: none">
+                <div class="empty-icon">
+                  <i class="fas fa-coins"></i>
+                </div>
+                <h3>لا توجد مخصصات مالية</h3>
+                <p>قم بإضافة أول مخصص<br />من النموذج بجانبك</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="confirmOverlay">
+      <div class="confirm-box">
+        <h3>تأكيد الحذف</h3>
+        <p>
+          هل أنت متأكد من حذف مخصص سنة
+          <strong id="confirmYear"></strong>؟<br />هذا الإجراء لا يمكن التراجع
+          عنه.
+        </p>
+        <div class="confirm-actions">
+          <button class="btn-cancel" onclick="closeConfirm()">إلغاء</button>
+          <button class="btn-confirm-delete" onclick="confirmDelete()">
+            نعم، احذف
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script src="../JS/budget.js"></script>
+    <script src="../JS/constants.js"></script>
+    <script src="../JS/main.js"></script>
+  </body>
+</html>

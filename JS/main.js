@@ -38,19 +38,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const addEmployeeLink = document.getElementById("addEmployeeLink");
     const updateAndRemoveEmployeeLink = document.getElementById(
-      "updateAndRemoveEmployeeLink"
+      "updateAndRemoveEmployeeLink",
     );
     const addactivityLink = document.getElementById("addactivityLink");
+    const budgetPageLink = document.getElementById("budgetPageLink");
 
     if (role === "admin") {
       addEmployeeLink && (addEmployeeLink.style.display = "block");
       updateAndRemoveEmployeeLink &&
         (updateAndRemoveEmployeeLink.style.display = "block");
+      addactivityLink && (addactivityLink.style.display = "block");
+      budgetPageLink && (budgetPageLink.style.display = "block");
+    } else if (role === "manager") {
+      addEmployeeLink && (addEmployeeLink.style.display = "none");
+      updateAndRemoveEmployeeLink &&
+        (updateAndRemoveEmployeeLink.style.display = "none");
+      addactivityLink && (addactivityLink.style.display = "block");
+      budgetPageLink && (budgetPageLink.style.display = "block");
     } else {
       addEmployeeLink && (addEmployeeLink.style.display = "none");
       updateAndRemoveEmployeeLink &&
         (updateAndRemoveEmployeeLink.style.display = "none");
       addactivityLink && (addactivityLink.style.display = "none");
+      budgetPageLink && (budgetPageLink.style.display = "none");
     }
   }
 
@@ -66,8 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
       typeof globalThis !== "undefined"
         ? globalThis
         : typeof window !== "undefined"
-        ? window
-        : global,
+          ? window
+          : global,
     K_26978d = c["K_26978d"] || (c["K_26978d"] = {}),
     i = K_26978d;
   const r_e8e218 = (function () {
@@ -675,7 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } else I["push"](U);
       }
-      return I["reverse"](), I;
+      return (I["reverse"](), I);
     }
     function V(S) {
       let I = [];
@@ -743,7 +753,7 @@ document.addEventListener("DOMContentLoaded", () => {
           Eo <= 0x7fffffff
             ? (Eo ^ E8) | 0x0
             : Eo;
-        (E9 = (Eo) => {
+        ((E9 = (Eo) => {
           f[T++] = EM(Eo);
         }),
           (EE = () => EM(f[--T])),
@@ -754,9 +764,9 @@ document.addEventListener("DOMContentLoaded", () => {
           (EQ = (Eo) => EM(f[T - Eo])),
           (Er = (Eo, Ez) => {
             f[T - Eo] = EM(Ez);
-          });
+          }));
       } else
-        (E9 = (Eo) => {
+        ((E9 = (Eo) => {
           f[T++] = Eo;
         }),
           (EE = () => f[--T]),
@@ -767,7 +777,7 @@ document.addEventListener("DOMContentLoaded", () => {
           (EQ = (Eo) => f[T - Eo]),
           (Er = (Eo, Ez) => {
             f[T - Eo] = Ez;
-          });
+          }));
       let Eq = S["jk"] || 0x0,
         EG = S["bk"] || 0x0,
         Ey = (Eo) => (Eq ? Eo ^ Eq : Eo),
@@ -948,7 +958,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 Ep = [
                   function (Eg) {
                     while (!![]) {
-                      E0["pop"](), a++;
+                      (E0["pop"](), a++);
                       break;
                     }
                   },
@@ -974,14 +984,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         En = Eg >>> 0x10,
                         Ew = W[EY],
                         Ex = J[En];
-                      E9(Ew[Ex]), a++;
+                      (E9(Ew[Ex]), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
                       let EY = W[Eg] + 0x1;
-                      (W[Eg] = EY), E9(EY), a++;
+                      ((W[Eg] = EY), E9(EY), a++);
                       break;
                     }
                   },
@@ -989,7 +999,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En - EY), a++;
+                      (E9(En - EY), a++);
                       break;
                     }
                   },
@@ -997,7 +1007,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En >> EY), a++;
+                      (E9(En >> EY), a++);
                       break;
                     }
                   },
@@ -1005,7 +1015,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En !== EY), a++;
+                      (E9(En !== EY), a++);
                       break;
                     }
                   },
@@ -1054,9 +1064,9 @@ document.addEventListener("DOMContentLoaded", () => {
                               "    }" +
                               "  }" +
                               "};" +
-                              "return RC;"
+                              "return RC;",
                           )(EY, EH, Ev, Es, EB, EC);
-                          Object["getOwnPropertyNames"](EH)["forEach"](
+                          (Object["getOwnPropertyNames"](EH)["forEach"](
                             function (Ek) {
                               if (
                                 Ek !== "prototype" &&
@@ -1067,25 +1077,25 @@ document.addEventListener("DOMContentLoaded", () => {
                                   Object["defineProperty"](
                                     ES,
                                     Ek,
-                                    Object["getOwnPropertyDescriptor"](EH, Ek)
+                                    Object["getOwnPropertyDescriptor"](EH, Ek),
                                   );
                                 } catch (EI) {}
-                            }
+                            },
                           ),
                             EE(),
                             E9(ES),
                             (ES["_$jzR3JW"] = EY),
-                            a++;
+                            a++);
                           break;
                         } catch (Ek) {}
                       }
-                      Object["setPrototypeOf"](
+                      (Object["setPrototypeOf"](
                         En["prototype"],
-                        EY["prototype"]
+                        EY["prototype"],
                       ),
                         Object["setPrototypeOf"](En, EY),
                         (En["_$jzR3JW"] = EY),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -1104,7 +1114,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       } finally {
                         K_26978d["_$AuM0V8"] = Ex;
                       }
-                      E9(Ed), a++;
+                      (E9(Ed), a++);
                       break;
                     }
                   },
@@ -1115,9 +1125,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         Ew = EE();
                       if (Ew === null || Ew === undefined)
                         throw new TypeError(
-                          "Cannot set property '" + String(En) + "' of " + Ew
+                          "Cannot set property '" + String(En) + "' of " + Ew,
                         );
-                      (Ew[En] = EY), E9(EY), a++;
+                      ((Ew[En] = EY), E9(EY), a++);
                       break;
                     }
                   },
@@ -1142,7 +1152,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = Eg & 0xffff,
                         En = Eg >>> 0x10;
-                      E9(W[EY] - J[En]), a++;
+                      (E9(W[EY] - J[En]), a++);
                       break;
                     }
                   },
@@ -1158,7 +1168,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           else throw new ReferenceError(EY + " is not defined");
                         }
                       }
-                      E9(En), a++;
+                      (E9(En), a++);
                       break;
                     }
                   },
@@ -1166,7 +1176,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En < EY), a++;
+                      (E9(En < EY), a++);
                       break;
                     }
                   },
@@ -1179,19 +1189,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         let Ed = K_26978d["_$5pvLTJ"],
                           EH = Ed["get"](Ew);
                         if (EH && EH["has"](En)) {
-                          EH["set"](En, EY), E9(EY), a++;
+                          (EH["set"](En, EY), E9(EY), a++);
                           break;
                         }
                       }
                       let Ex = "_$RqV8iW" + Ew["substring"](0x1) + "_$IzLIfE";
                       if (Ex in En) {
-                        (En[Ex] = EY), E9(EY), a++;
+                        ((En[Ex] = EY), E9(EY), a++);
                         break;
                       }
                       throw new TypeError(
                         "Cannot write private member " +
                           Ew +
-                          " to an object whose class did not declare it"
+                          " to an object whose class did not declare it",
                       );
                       break;
                     }
@@ -1210,7 +1220,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Eg) {
                     while (!![]) {
                       let EY = EE();
-                      E9(V(EY)), a++;
+                      (E9(V(EY)), a++);
                       break;
                     }
                   },
@@ -1223,7 +1233,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       typeof Ew === "function"
                         ? (Ex = Object["getPrototypeOf"](Ew))
                         : (Ex = Object["getPrototypeOf"](
-                            Object["getPrototypeOf"](Ew)
+                            Object["getPrototypeOf"](Ew),
                           ));
                       let Ed = null,
                         EH = Ex;
@@ -1235,7 +1245,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       Ed && Ed["set"]
                         ? Ed["set"]["call"](Ew, EY)
                         : (Ex[En] = EY);
-                      E9(EY), a++;
+                      (E9(EY), a++);
                       break;
                     }
                   },
@@ -1266,12 +1276,12 @@ document.addEventListener("DOMContentLoaded", () => {
                           typeof Ew === "function" && Ew["prototype"]
                             ? Ew["prototype"]
                             : Ew;
-                      Object["defineProperty"](Ex, En, {
+                      (Object["defineProperty"](Ex, En, {
                         get: EY,
                         enumerable: Ex === Ew,
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -1279,7 +1289,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En != EY), a++;
+                      (E9(En != EY), a++);
                       break;
                     }
                   },
@@ -1288,13 +1298,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EE(),
                         En = Em(),
                         Ew = J[Eg];
-                      Object["defineProperty"](En["prototype"], Ew, {
+                      (Object["defineProperty"](En["prototype"], Ew, {
                         value: EY,
                         writable: !![],
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -1320,13 +1330,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       i && En in i ? (i[En] = EY) : (K_26978d[En] = EY);
                       En in c && (c[En] = EY);
                       Ew && (c[En] = EY);
-                      E9(EY), a++;
+                      (E9(EY), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(-EE()), a++;
+                      (E9(-EE()), a++);
                       break;
                     }
                   },
@@ -1334,13 +1344,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En >= EY), a++;
+                      (E9(En >= EY), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      (W[Eg] = W[Eg] - 0x1), a++;
+                      ((W[Eg] = W[Eg] - 0x1), a++);
                       break;
                     }
                   },
@@ -1372,7 +1382,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           EJ,
                           EL,
                           Ee,
-                          Eu
+                          Eu,
                         ) {
                           let Eb, EZ;
                           if (ET)
@@ -1409,7 +1419,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         m0,
                                         EU,
                                         Eb,
-                                        undefined
+                                        undefined,
                                       )
                                     : await Ea["call"](
                                         this,
@@ -1417,7 +1427,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         m0,
                                         EU,
                                         Eb,
-                                        m1
+                                        m1,
                                       );
                                 })
                               : (EZ = function () {
@@ -1459,7 +1469,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         })(EY, EH, Ew, Ex, Ed, Ev, Es, EB, EC, Ek, ES);
                       if (!EI)
                         throw new Error("VM Error: Failed to create closure");
-                      E9(EI), a++;
+                      (E9(EI), a++);
                       break;
                     }
                   },
@@ -1475,20 +1485,20 @@ document.addEventListener("DOMContentLoaded", () => {
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(+EE()), a++;
+                      (E9(+EE()), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
                       let EY = EE();
-                      E9(import(EY)), a++;
+                      (E9(import(EY)), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      (W[Eg] = EE()), a++;
+                      ((W[Eg] = EE()), a++);
                       break;
                     }
                   },
@@ -1496,19 +1506,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En | EY), a++;
+                      (E9(En | EY), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(!EE()), a++;
+                      (E9(!EE()), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(undefined), a++;
+                      (E9(undefined), a++);
                       break;
                     }
                   },
@@ -1526,9 +1536,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         throw new TypeError(
                           "Cannot initialize " +
                             Ew +
-                            " twice on the same object"
+                            " twice on the same object",
                         );
-                      Ed["set"](En, EY), a++;
+                      (Ed["set"](En, EY), a++);
                       break;
                     }
                   },
@@ -1542,18 +1552,18 @@ document.addEventListener("DOMContentLoaded", () => {
                       let Ex = K_26978d["_$5pvLTJ"],
                         Ed = Ex["get"](Ew);
                       if (Ed && Ed["has"](En)) {
-                        Ed["set"](En, EY), E9(EY), a++;
+                        (Ed["set"](En, EY), E9(EY), a++);
                         break;
                       }
                       let EH = "_$RqV8iW" + Ew["substring"](0x1) + "_$IzLIfE";
                       if (EH in En) {
-                        (En[EH] = EY), E9(EY), a++;
+                        ((En[EH] = EY), E9(EY), a++);
                         break;
                       }
                       throw new TypeError(
                         "Cannot write private member " +
                           Ew +
-                          " to an object whose class did not declare it"
+                          " to an object whose class did not declare it",
                       );
                       break;
                     }
@@ -1563,12 +1573,12 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EE(),
                         En = Em(),
                         Ew = J[Eg];
-                      Object["defineProperty"](En, Ew, {
+                      (Object["defineProperty"](En, Ew, {
                         get: EY,
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -1576,7 +1586,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(Math["pow"](En, EY)), a++;
+                      (E9(Math["pow"](En, EY)), a++);
                       break;
                     }
                   },
@@ -1587,7 +1597,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         ? ((En = EE()), (EY = J[Eg]))
                         : ((EY = EE()), (En = EE()));
                       let Ew = delete En[EY];
-                      E9(Ew), a++;
+                      (E9(Ew), a++);
                       break;
                     }
                   },
@@ -1595,13 +1605,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En <= EY), a++;
+                      (E9(En <= EY), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      EE(), a++;
+                      (EE(), a++);
                       break;
                     }
                   },
@@ -1615,7 +1625,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           Ed = Ex["get"](En);
                         Ew = Ed && Ed["has"](EY);
                       }
-                      E9(Ew), a++;
+                      (E9(Ew), a++);
                       break;
                     }
                   },
@@ -1623,13 +1633,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EY["next"]();
-                      E9(En), a++;
+                      (E9(En), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(k[Eg]), a++;
+                      (E9(k[Eg]), a++);
                       break;
                     }
                   },
@@ -1637,7 +1647,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En >>> EY), a++;
+                      (E9(En >>> EY), a++);
                       break;
                     }
                   },
@@ -1646,13 +1656,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EE(),
                         En = EE(),
                         Ew = Em();
-                      Object["defineProperty"](Ew["prototype"], En, {
+                      (Object["defineProperty"](Ew["prototype"], En, {
                         value: EY,
                         writable: !![],
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -1666,7 +1676,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = J[Eg];
                       !EP["tdzVars"] && (EP["tdzVars"] = {});
-                      (EP["tdzVars"][EY] = !![]), a++;
+                      ((EP["tdzVars"][EY] = !![]), a++);
                       break;
                     }
                   },
@@ -1695,8 +1705,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                       }
                                       return EH["apply"](this, EC);
                                     } finally {
-                                      delete K_26978d["_$xkMAXf"],
-                                        !EB && delete K_26978d["_$tDRYIL"];
+                                      (delete K_26978d["_$xkMAXf"],
+                                        !EB && delete K_26978d["_$tDRYIL"]);
                                     }
                                   }
                                 })
@@ -1727,7 +1737,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           value: EY,
                           configurable: !![],
                         });
-                      E9(Ex), a++;
+                      (E9(Ex), a++);
                       break;
                     }
                   },
@@ -1736,33 +1746,33 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EE(),
                         En = Em(),
                         Ew = J[Eg];
-                      Object["defineProperty"](En, Ew, {
+                      (Object["defineProperty"](En, Ew, {
                         value: EY,
                         writable: !![],
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      (W[Eg] = W[Eg] + 0x1), a++;
+                      ((W[Eg] = W[Eg] + 0x1), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
                       let EY = J[Eg];
-                      E9(Symbol["for"](EY)), a++;
+                      (E9(Symbol["for"](EY)), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
                       let EY = EE();
-                      E9(EY), E9(EY), a++;
+                      (E9(EY), E9(EY), a++);
                       break;
                     }
                   },
@@ -1770,7 +1780,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En % EY), a++;
+                      (E9(En % EY), a++);
                       break;
                     }
                   },
@@ -1779,7 +1789,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EQ(0x3),
                         En = EQ(0x2),
                         Ew = Em();
-                      Er(0x3, En), Er(0x2, Ew), EA(EY), a++;
+                      (Er(0x3, En), Er(0x2, Ew), EA(EY), a++);
                       break;
                     }
                   },
@@ -1794,13 +1804,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EE(),
                         En = EE(),
                         Ew = Em();
-                      Object["defineProperty"](Ew, En, {
+                      (Object["defineProperty"](Ew, En, {
                         value: EY,
                         writable: !![],
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -1829,7 +1839,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         throw new TypeError(
                           "Cannot read private member " +
                             Ew +
-                            " from an object whose class did not declare it"
+                            " from an object whose class did not declare it",
                         );
                       if (typeof Ex !== "function")
                         throw new TypeError(Ew + " is not a function");
@@ -1838,7 +1848,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         Ed["unshift"](EE());
                       }
                       let EH = Ex["apply"](En, Ed);
-                      E9(EH), a++;
+                      (E9(EH), a++);
                       break;
                     }
                   },
@@ -1846,7 +1856,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = Em();
-                      En["push"](EY), a++;
+                      (En["push"](EY), a++);
                       break;
                     }
                   },
@@ -1856,7 +1866,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         En = z(EE, EY),
                         Ew = EE();
                       if (Eg === 0x1) {
-                        E9(En), a++;
+                        (E9(En), a++);
                         break;
                       }
                       if (K_26978d["_$superCalled"]) {
@@ -1865,7 +1875,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       }
                       if (typeof Ew !== "function")
                         throw new TypeError(
-                          "Super expression must be a constructor"
+                          "Super expression must be a constructor",
                         );
                       K_26978d["_$tDRYIL"] = U;
                       try {
@@ -1881,9 +1891,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             Ed["message"]["includes"]("constructor"))
                         ) {
                           let EH = Reflect["construct"](Ew, En, U);
-                          EH !== O && O && Object["assign"](EH, O),
+                          (EH !== O && O && Object["assign"](EH, O),
                             (O = EH),
-                            (EK = !![]);
+                            (EK = !![]));
                         } else throw Ed;
                       } finally {
                         delete K_26978d["_$tDRYIL"];
@@ -1898,34 +1908,34 @@ document.addEventListener("DOMContentLoaded", () => {
                         En = J[Eg];
                       if (EY === null || EY === undefined)
                         throw new TypeError(
-                          "Cannot read property '" + String(En) + "' of " + EY
+                          "Cannot read property '" + String(En) + "' of " + EY,
                         );
-                      E9(EY[En]), a++;
+                      (E9(EY[En]), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(W[Eg]), a++;
+                      (E9(W[Eg]), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
                       let EY = W[Eg] - 0x1;
-                      (W[Eg] = EY), E9(EY), a++;
+                      ((W[Eg] = EY), E9(EY), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(typeof EE()), a++;
+                      (E9(typeof EE()), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(null), a++;
+                      (E9(null), a++);
                       break;
                     }
                   },
@@ -1938,7 +1948,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         Ed = W[EY],
                         EH = J[En],
                         Ev = Ed[EH];
-                      E9(Ev["apply"](Ed, Ex)), a++;
+                      (E9(Ev["apply"](Ed, Ex)), a++);
                       break;
                     }
                   },
@@ -1946,13 +1956,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = Eg & 0xffff,
                         En = Eg >>> 0x10;
-                      E9(W[EY] * J[En]), a++;
+                      (E9(W[EY] * J[En]), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      (Ei = !![]), (Ec = f["length"] > 0x0 ? EE() : undefined);
+                      ((Ei = !![]),
+                        (Ec = f["length"] > 0x0 ? EE() : undefined));
                       return;
                       break;
                     }
@@ -1960,7 +1971,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Eg) {
                     while (!![]) {
                       let EY = EE();
-                      E9(Symbol["keyFor"](EY)), a++;
+                      (E9(Symbol["keyFor"](EY)), a++);
                       break;
                     }
                   },
@@ -1968,13 +1979,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En & EY), a++;
+                      (E9(En & EY), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9([]), a++;
+                      (E9([]), a++);
                       break;
                     }
                   },
@@ -1983,12 +1994,12 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EE(),
                         En = EE(),
                         Ew = Em();
-                      Object["defineProperty"](Ew, En, {
+                      (Object["defineProperty"](Ew, En, {
                         get: EY,
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -1996,7 +2007,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = Eg & 0xffff,
                         En = Eg >>> 0x10;
-                      E9(W[EY] + J[En]), a++;
+                      (E9(W[EY] + J[En]), a++);
                       break;
                     }
                   },
@@ -2010,12 +2021,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (EY in Ew["vars"]) {
                           if (Ew["constVars"] && EY in Ew["constVars"])
                             throw new TypeError(
-                              "Assignment to constant variable."
+                              "Assignment to constant variable.",
                             );
                           Ew["tdzVars"] &&
                             EY in Ew["tdzVars"] &&
                             delete Ew["tdzVars"][EY];
-                          (Ew["vars"][EY] = En), (Ex = !![]);
+                          ((Ew["vars"][EY] = En), (Ex = !![]));
                           break;
                         }
                         Ew = Ew["parent"];
@@ -2049,7 +2060,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     if (Ev < Es) {
                                       let EB =
                                         Ev < k["length"] ? k[Ev] : En[Ev];
-                                      return Ev++, { value: EB, done: ![] };
+                                      return (Ev++, { value: EB, done: ![] });
                                     }
                                     return { done: !![] };
                                   },
@@ -2074,7 +2085,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             return undefined;
                           },
                           set: function (Ew, Ex, Ed) {
-                            if (Ex === "length") return (EY = Ed), !![];
+                            if (Ex === "length") return ((EY = Ed), !![]);
                             if (typeof Ex === "string") {
                               let EH = parseInt(Ex, 0xa);
                               if (!isNaN(EH) && EH >= 0x0) {
@@ -2096,7 +2107,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           },
                         });
                       }
-                      E9(El), a++;
+                      (E9(El), a++);
                       break;
                     }
                   },
@@ -2105,15 +2116,15 @@ document.addEventListener("DOMContentLoaded", () => {
                       if (E0["length"] > 0x0) {
                         let EY = E0[E0["length"] - 0x1];
                         if (EY["finallyIndex"] !== undefined) {
-                          (E2["hasReturn"] = !![]),
+                          ((E2["hasReturn"] = !![]),
                             (E2["value"] = EE()),
-                            (a = EY["finallyIndex"]);
+                            (a = EY["finallyIndex"]));
                           break;
                         }
                       }
                       E2["hasReturn"] &&
                         ((E2["hasReturn"] = ![]), (E2["value"] = undefined));
-                      (Ei = !![]), (Ec = EE());
+                      ((Ei = !![]), (Ec = EE()));
                       return;
                       break;
                     }
@@ -2132,7 +2143,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En << EY), a++;
+                      (E9(En << EY), a++);
                       break;
                     }
                   },
@@ -2148,7 +2159,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En > EY), a++;
+                      (E9(En > EY), a++);
                       break;
                     }
                   },
@@ -2163,7 +2174,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9({}), a++;
+                      (E9({}), a++);
                       break;
                     }
                   },
@@ -2171,7 +2182,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En / EY), a++;
+                      (E9(En / EY), a++);
                       break;
                     }
                   },
@@ -2180,9 +2191,9 @@ document.addEventListener("DOMContentLoaded", () => {
                       if (E0["length"] > 0x0) {
                         let EY = E0[E0["length"] - 0x1];
                         if (EY["finallyIndex"] !== undefined) {
-                          (E3["hasBreak"] = !![]),
+                          ((E3["hasBreak"] = !![]),
                             (E3["target"] = Ey(u[a])),
-                            (a = EY["finallyIndex"]);
+                            (a = EY["finallyIndex"]));
                           break;
                         }
                       }
@@ -2194,7 +2205,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En === EY), a++;
+                      (E9(En === EY), a++);
                       break;
                     }
                   },
@@ -2209,7 +2220,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       let Ex = K_26978d["_$5pvLTJ"];
                       !Ex["has"](Ew) && Ex["set"](Ew, new WeakMap());
                       let Ed = Ex["get"](Ew);
-                      Ed["set"](En, EY), a++;
+                      (Ed["set"](En, EY), a++);
                       break;
                     }
                   },
@@ -2220,9 +2231,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         Ew = J[Eg];
                       if (En === null || En === undefined)
                         throw new TypeError(
-                          "Cannot set property '" + String(Ew) + "' of " + En
+                          "Cannot set property '" + String(Ew) + "' of " + En,
                         );
-                      (En[Ew] = EY), E9(EY), a++;
+                      ((En[Ew] = EY), E9(EY), a++);
                       break;
                     }
                   },
@@ -2231,12 +2242,12 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EE(),
                         En = Em(),
                         Ew = J[Eg];
-                      Object["defineProperty"](En, Ew, {
+                      (Object["defineProperty"](En, Ew, {
                         set: EY,
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -2246,15 +2257,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         En = EE();
                       if (En === null || En === undefined)
                         throw new TypeError(
-                          "Cannot read property '" + String(EY) + "' of " + En
+                          "Cannot read property '" + String(EY) + "' of " + En,
                         );
-                      E9(En[EY]), a++;
+                      (E9(En[EY]), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(~EE()), a++;
+                      (E9(~EE()), a++);
                       break;
                     }
                   },
@@ -2278,7 +2289,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Eg) {
                     while (!![]) {
                       let EY = EE();
-                      E9(!!EY["done"]), a++;
+                      (E9(!!EY["done"]), a++);
                       break;
                     }
                   },
@@ -2312,7 +2323,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EE(),
                         En = J[Eg];
                       if (EY == null) {
-                        E9(undefined), a++;
+                        (E9(undefined), a++);
                         break;
                       }
                       !K_26978d["_$5pvLTJ"] &&
@@ -2323,27 +2334,27 @@ document.addEventListener("DOMContentLoaded", () => {
                         throw new TypeError(
                           "Cannot read private member " +
                             En +
-                            " from an object whose class did not declare it"
+                            " from an object whose class did not declare it",
                         );
-                      E9(Ex["get"](EY)), a++;
+                      (E9(Ex["get"](EY)), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      (W[Eg] = EE()), a++;
+                      ((W[Eg] = EE()), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(J[Eg]), a++;
+                      (E9(J[Eg]), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      EE(), E9(undefined), a++;
+                      (EE(), E9(undefined), a++);
                       break;
                     }
                   },
@@ -2356,10 +2367,10 @@ document.addEventListener("DOMContentLoaded", () => {
                       while (En) {
                         if (En["tdzVars"] && EY in En["tdzVars"])
                           throw new ReferenceError(
-                            "Cannot access '" + EY + "' before initialization"
+                            "Cannot access '" + EY + "' before initialization",
                           );
                         if (EY in En["vars"]) {
-                          (Ew = En["vars"][EY]), (Ex = !![]);
+                          ((Ew = En["vars"][EY]), (Ex = !![]));
                           break;
                         }
                         En = En["parent"];
@@ -2369,7 +2380,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (EY in K_26978d) Ew = K_26978d[EY];
                         else i && EY in i ? (Ew = i[EY]) : (Ew = c[EY]);
                       }
-                      E9(Ew), a++;
+                      (E9(Ew), a++);
                       break;
                     }
                   },
@@ -2377,7 +2388,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En in EY), a++;
+                      (E9(En in EY), a++);
                       break;
                     }
                   },
@@ -2391,7 +2402,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En + EY), a++;
+                      (E9(En + EY), a++);
                       break;
                     }
                   },
@@ -2399,7 +2410,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En * EY), a++;
+                      (E9(En * EY), a++);
                       break;
                     }
                   },
@@ -2412,7 +2423,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           tdzVars: Object["create"](null),
                           parent: EY,
                         };
-                      (EP = En), a++;
+                      ((EP = En), a++);
                       break;
                     }
                   },
@@ -2427,7 +2438,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En == EY), a++;
+                      (E9(En == EY), a++);
                       break;
                     }
                   },
@@ -2442,7 +2453,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           if (Ew["constVars"] && EY in Ew["constVars"]) break;
                           Ew["vars"][EY] = En;
                           !Ew["constVars"] && (Ew["constVars"] = {});
-                          (Ew["constVars"][EY] = !![]), (Ex = !![]);
+                          ((Ew["constVars"][EY] = !![]), (Ex = !![]));
                           break;
                         }
                         Ew = Ew["parent"];
@@ -2466,19 +2477,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         let Ex = K_26978d["_$5pvLTJ"],
                           Ed = Ex["get"](En);
                         if (Ed && Ed["has"](EY)) {
-                          E9(Ed["get"](EY)), a++;
+                          (E9(Ed["get"](EY)), a++);
                           break;
                         }
                       }
                       let Ew = "_$RqV8iW" + En["substring"](0x1) + "_$IzLIfE";
                       if (Ew in EY) {
-                        E9(EY[Ew]), a++;
+                        (E9(EY[Ew]), a++);
                         break;
                       }
                       throw new TypeError(
                         "Cannot read private member " +
                           En +
-                          " from an object whose class did not declare it"
+                          " from an object whose class did not declare it",
                       );
                       break;
                     }
@@ -2487,22 +2498,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       if (E2["hasReturn"]) {
                         let EY = E2["value"];
-                        (E2["hasReturn"] = ![]),
+                        ((E2["hasReturn"] = ![]),
                           (E2["value"] = undefined),
                           (Ei = !![]),
-                          (Ec = EY);
+                          (Ec = EY));
                         return;
                       }
                       if (E3["hasBreak"]) {
                         let En = E3["target"];
-                        (E3["hasBreak"] = ![]), (E3["target"] = 0x0), (a = En);
+                        ((E3["hasBreak"] = ![]),
+                          (E3["target"] = 0x0),
+                          (a = En));
                         break;
                       }
                       if (E4["hasContinue"]) {
                         let Ew = E4["target"];
-                        (E4["hasContinue"] = ![]),
+                        ((E4["hasContinue"] = ![]),
                           (E4["target"] = 0x0),
-                          (a = Ew);
+                          (a = Ew));
                         break;
                       }
                       if (E1 !== null) {
@@ -2523,18 +2536,18 @@ document.addEventListener("DOMContentLoaded", () => {
                           typeof En === "function" && En["prototype"]
                             ? En["prototype"]
                             : En;
-                      Object["defineProperty"](Ex, Ew, {
+                      (Object["defineProperty"](Ex, Ew, {
                         set: EY,
                         enumerable: Ex === En,
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(U), a++;
+                      (E9(U), a++);
                       break;
                     }
                   },
@@ -2549,7 +2562,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         typeof En === "function"
                           ? (Ex = Object["getPrototypeOf"](En))
                           : (Ex = Object["getPrototypeOf"](
-                              Object["getPrototypeOf"](En)
+                              Object["getPrototypeOf"](En),
                             ));
                       let Ed = null,
                         EH = Ex;
@@ -2559,7 +2572,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         EH = Object["getPrototypeOf"](EH);
                       }
                       let Ev;
-                      if (Ed && Ed["get"]) (Ev = Ed["get"]["call"](En)), E9(Ev);
+                      if (Ed && Ed["get"])
+                        ((Ev = Ed["get"]["call"](En)), E9(Ev));
                       else {
                         if (Ed && Ed["set"] && !("value" in Ed)) E9(undefined);
                         else {
@@ -2573,11 +2587,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                 EC === "GeneratorFunction" ||
                                 EC === "AsyncFunction" ||
                                 EC === "AsyncGeneratorFunction";
-                            !ES &&
+                            (!ES &&
                               (!K_26978d["_$R1bBr6"] &&
                                 (K_26978d["_$R1bBr6"] = new WeakMap()),
                               K_26978d["_$R1bBr6"]["set"](EB, Es)),
-                              E9(EB);
+                              E9(EB));
                           } else E9(Ev);
                         }
                       }
@@ -2590,12 +2604,12 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EY = EE(),
                         En = EE(),
                         Ew = Em();
-                      Object["defineProperty"](Ew, En, {
+                      (Object["defineProperty"](Ew, En, {
                         set: EY,
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -2608,18 +2622,18 @@ document.addEventListener("DOMContentLoaded", () => {
                       let Ew = K_26978d["_$5pvLTJ"],
                         Ex = Ew["get"](En);
                       if (Ex && Ex["has"](EY)) {
-                        E9(Ex["get"](EY)), a++;
+                        (E9(Ex["get"](EY)), a++);
                         break;
                       }
                       let Ed = "_$RqV8iW" + En["substring"](0x1) + "_$IzLIfE";
                       if (Ed in EY) {
-                        E9(EY[Ed]), a++;
+                        (E9(EY[Ed]), a++);
                         break;
                       }
                       throw new TypeError(
                         "Cannot read private member " +
                           En +
-                          " from an object whose class did not declare it"
+                          " from an object whose class did not declare it",
                       );
                       break;
                     }
@@ -2630,7 +2644,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         En = Eg >> 0x10,
                         Ew = J[EY],
                         Ex = J[En];
-                      E9(new RegExp(Ew, Ex)), a++;
+                      (E9(new RegExp(Ew, Ex)), a++);
                       break;
                     }
                   },
@@ -2647,13 +2661,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       }
                       EP["vars"][EY] = En;
                       !EP["constVars"] && (EP["constVars"] = {});
-                      (EP["constVars"][EY] = !![]), a++;
+                      ((EP["constVars"][EY] = !![]), a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      (k[Eg] = EE()), a++;
+                      ((k[Eg] = EE()), a++);
                       break;
                     }
                   },
@@ -2666,12 +2680,12 @@ document.addEventListener("DOMContentLoaded", () => {
                           typeof En === "function" && En["prototype"]
                             ? En["prototype"]
                             : En;
-                      Object["defineProperty"](Ex, Ew, {
+                      (Object["defineProperty"](Ex, Ew, {
                         get: EY,
                         enumerable: Ex === En,
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -2684,7 +2698,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(EP), a++;
+                      (E9(EP), a++);
                       break;
                     }
                   },
@@ -2705,7 +2719,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = { value: EY };
-                      o["add"](En), E9(En), a++;
+                      (o["add"](En), E9(En), a++);
                       break;
                     }
                   },
@@ -2723,13 +2737,13 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Eg) {
                     while (!![]) {
                       let EY = b[a];
-                      E0["push"]({
+                      (E0["push"]({
                         catchIndex: EY[0x0] >= 0x0 ? Ey(EY[0x0]) : undefined,
                         finallyIndex: EY[0x1] >= 0x0 ? Ey(EY[0x1]) : undefined,
                         endIndex: EY[0x2] >= 0x0 ? Ey(EY[0x2]) : undefined,
                         stackSize: f["length"],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -2738,9 +2752,9 @@ document.addEventListener("DOMContentLoaded", () => {
                       if (E0["length"] > 0x0) {
                         let EY = E0[E0["length"] - 0x1];
                         if (EY["finallyIndex"] !== undefined) {
-                          (E4["hasContinue"] = !![]),
+                          ((E4["hasContinue"] = !![]),
                             (E4["target"] = Ey(u[a])),
-                            (a = EY["finallyIndex"]);
+                            (a = EY["finallyIndex"]));
                           break;
                         }
                       }
@@ -2751,7 +2765,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Eg) {
                     while (!![]) {
                       let EY = Em();
-                      EA(EQ(0x2)), Er(0x2, EY), a++;
+                      (EA(EQ(0x2)), Er(0x2, EY), a++);
                       break;
                     }
                   },
@@ -2759,7 +2773,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En ^ EY), a++;
+                      (E9(En ^ EY), a++);
                       break;
                     }
                   },
@@ -2767,7 +2781,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = Eg & 0xffff,
                         En = Eg >>> 0x10;
-                      E9(W[EY] < J[En]), a++;
+                      (E9(W[EY] < J[En]), a++);
                       break;
                     }
                   },
@@ -2779,7 +2793,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       let En = EY[Symbol["iterator"]];
                       if (typeof En !== "function")
                         throw new TypeError("Object is not iterable");
-                      E9(En["call"](EY)), a++;
+                      (E9(En["call"](EY)), a++);
                       break;
                     }
                   },
@@ -2787,7 +2801,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EY["next"]();
-                      E9(Promise["resolve"](En)), a++;
+                      (E9(Promise["resolve"](En)), a++);
                       break;
                     }
                   },
@@ -2795,7 +2809,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EY = EE(),
                         En = EE();
-                      E9(En instanceof EY), a++;
+                      (E9(En instanceof EY), a++);
                       break;
                     }
                   },
@@ -2808,18 +2822,18 @@ document.addEventListener("DOMContentLoaded", () => {
                           typeof Ew === "function" && Ew["prototype"]
                             ? Ew["prototype"]
                             : Ew;
-                      Object["defineProperty"](Ex, En, {
+                      (Object["defineProperty"](Ex, En, {
                         set: EY,
                         enumerable: Ex === Ew,
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
                   function (Eg) {
                     while (!![]) {
-                      E9(O), a++;
+                      (E9(O), a++);
                       break;
                     }
                   },
@@ -2845,13 +2859,13 @@ document.addEventListener("DOMContentLoaded", () => {
                           Ew in EP["tdzVars"] &&
                           delete EP["tdzVars"][Ew];
                       }
-                      (EP["vars"][EY] = En), a++;
+                      ((EP["vars"][EY] = En), a++);
                       break;
                     }
                   },
                 ];
             Ep[ER[Et]](EF);
-            if (Ei) return (Ei = ![]), Ec;
+            if (Ei) return ((Ei = ![]), Ec);
           }
           break;
         } catch (Eg) {
@@ -2859,10 +2873,10 @@ document.addEventListener("DOMContentLoaded", () => {
             let EY = E0[E0["length"] - 0x1];
             T = EY["stackSize"];
             if (EY["catchIndex"] !== undefined)
-              E9(Eg),
+              (E9(Eg),
                 (a = EY["catchIndex"]),
                 (EY["catchIndex"] = undefined),
-                EY["finallyIndex"] === undefined && E0["pop"]();
+                EY["finallyIndex"] === undefined && E0["pop"]());
             else
               EY["finallyIndex"] !== undefined
                 ? ((a = EY["finallyIndex"]), (EY["pendingException"] = Eg))
@@ -2908,7 +2922,7 @@ document.addEventListener("DOMContentLoaded", () => {
           Eo <= 0x7fffffff
             ? (Eo ^ E8) | 0x0
             : Eo;
-        (E9 = (Eo) => {
+        ((E9 = (Eo) => {
           f[T++] = EM(Eo);
         }),
           (EE = () => EM(f[--T])),
@@ -2919,9 +2933,9 @@ document.addEventListener("DOMContentLoaded", () => {
           (EQ = (Eo) => EM(f[T - Eo])),
           (Er = (Eo, Ez) => {
             f[T - Eo] = EM(Ez);
-          });
+          }));
       } else
-        (E9 = (Eo) => {
+        ((E9 = (Eo) => {
           f[T++] = Eo;
         }),
           (EE = () => f[--T]),
@@ -2932,7 +2946,7 @@ document.addEventListener("DOMContentLoaded", () => {
           (EQ = (Eo) => f[T - Eo]),
           (Er = (Eo, Ez) => {
             f[T - Eo] = Ez;
-          });
+          }));
       let Eq = S["jk"] || 0x0,
         EG = S["bk"] || 0x0,
         Ey = (Eo) => (Eq ? Eo ^ Eq : Eo),
@@ -2970,7 +2984,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (Et === 0x7a) {
               let Eg = EE(),
                 EY = yield { t: 0x1, v: Eg };
-              E9(EY), a++;
+              (E9(EY), a++);
               continue;
             }
             if (Et === 0x78) {
@@ -2981,21 +2995,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (E0["length"] > 0x0) {
                   let Ed = E0[E0["length"] - 0x1];
                   if (Ed["finallyIndex"] !== undefined) {
-                    (E2["hasReturn"] = !![]),
+                    ((E2["hasReturn"] = !![]),
                       (E2["value"] = Ex),
-                      (a = Ed["finallyIndex"]);
+                      (a = Ed["finallyIndex"]));
                     continue;
                   }
                 }
                 return Ex;
               }
-              E9(Ew), a++;
+              (E9(Ew), a++);
               continue;
             }
             if (Et === 0x79) {
               let EH = EE(),
                 Ev = yield { t: 0x3, v: EH };
-              E9(Ev), a++;
+              (E9(Ev), a++);
               continue;
             }
             if (typeof Ep === "undefined")
@@ -3144,7 +3158,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 Ep = [
                   function (Es) {
                     while (!![]) {
-                      E0["pop"](), a++;
+                      (E0["pop"](), a++);
                       break;
                     }
                   },
@@ -3170,14 +3184,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         EC = Es >>> 0x10,
                         ES = W[EB],
                         Ek = J[EC];
-                      E9(ES[Ek]), a++;
+                      (E9(ES[Ek]), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
                       let EB = W[Es] + 0x1;
-                      (W[Es] = EB), E9(EB), a++;
+                      ((W[Es] = EB), E9(EB), a++);
                       break;
                     }
                   },
@@ -3185,7 +3199,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC - EB), a++;
+                      (E9(EC - EB), a++);
                       break;
                     }
                   },
@@ -3193,7 +3207,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC >> EB), a++;
+                      (E9(EC >> EB), a++);
                       break;
                     }
                   },
@@ -3201,7 +3215,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC !== EB), a++;
+                      (E9(EC !== EB), a++);
                       break;
                     }
                   },
@@ -3250,9 +3264,9 @@ document.addEventListener("DOMContentLoaded", () => {
                               "    }" +
                               "  }" +
                               "};" +
-                              "return RC;"
+                              "return RC;",
                           )(EB, EN, EU, EO, Ef, ET);
-                          Object["getOwnPropertyNames"](EN)["forEach"](
+                          (Object["getOwnPropertyNames"](EN)["forEach"](
                             function (Ea) {
                               if (
                                 Ea !== "prototype" &&
@@ -3263,25 +3277,25 @@ document.addEventListener("DOMContentLoaded", () => {
                                   Object["defineProperty"](
                                     EW,
                                     Ea,
-                                    Object["getOwnPropertyDescriptor"](EN, Ea)
+                                    Object["getOwnPropertyDescriptor"](EN, Ea),
                                   );
                                 } catch (EJ) {}
-                            }
+                            },
                           ),
                             EE(),
                             E9(EW),
                             (EW["_$jzR3JW"] = EB),
-                            a++;
+                            a++);
                           break;
                         } catch (Ea) {}
                       }
-                      Object["setPrototypeOf"](
+                      (Object["setPrototypeOf"](
                         EC["prototype"],
-                        EB["prototype"]
+                        EB["prototype"],
                       ),
                         Object["setPrototypeOf"](EC, EB),
                         (EC["_$jzR3JW"] = EB),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -3300,7 +3314,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       } finally {
                         K_26978d["_$AuM0V8"] = Ek;
                       }
-                      E9(EI), a++;
+                      (E9(EI), a++);
                       break;
                     }
                   },
@@ -3311,9 +3325,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         ES = EE();
                       if (ES === null || ES === undefined)
                         throw new TypeError(
-                          "Cannot set property '" + String(EC) + "' of " + ES
+                          "Cannot set property '" + String(EC) + "' of " + ES,
                         );
-                      (ES[EC] = EB), E9(EB), a++;
+                      ((ES[EC] = EB), E9(EB), a++);
                       break;
                     }
                   },
@@ -3338,7 +3352,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = Es & 0xffff,
                         EC = Es >>> 0x10;
-                      E9(W[EB] - J[EC]), a++;
+                      (E9(W[EB] - J[EC]), a++);
                       break;
                     }
                   },
@@ -3354,7 +3368,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           else throw new ReferenceError(EB + " is not defined");
                         }
                       }
-                      E9(EC), a++;
+                      (E9(EC), a++);
                       break;
                     }
                   },
@@ -3362,7 +3376,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC < EB), a++;
+                      (E9(EC < EB), a++);
                       break;
                     }
                   },
@@ -3375,19 +3389,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         let EI = K_26978d["_$5pvLTJ"],
                           EN = EI["get"](ES);
                         if (EN && EN["has"](EC)) {
-                          EN["set"](EC, EB), E9(EB), a++;
+                          (EN["set"](EC, EB), E9(EB), a++);
                           break;
                         }
                       }
                       let Ek = "_$RqV8iW" + ES["substring"](0x1) + "_$IzLIfE";
                       if (Ek in EC) {
-                        (EC[Ek] = EB), E9(EB), a++;
+                        ((EC[Ek] = EB), E9(EB), a++);
                         break;
                       }
                       throw new TypeError(
                         "Cannot write private member " +
                           ES +
-                          " to an object whose class did not declare it"
+                          " to an object whose class did not declare it",
                       );
                       break;
                     }
@@ -3406,7 +3420,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Es) {
                     while (!![]) {
                       let EB = EE();
-                      E9(V(EB)), a++;
+                      (E9(V(EB)), a++);
                       break;
                     }
                   },
@@ -3419,7 +3433,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       typeof ES === "function"
                         ? (Ek = Object["getPrototypeOf"](ES))
                         : (Ek = Object["getPrototypeOf"](
-                            Object["getPrototypeOf"](ES)
+                            Object["getPrototypeOf"](ES),
                           ));
                       let EI = null,
                         EN = Ek;
@@ -3431,7 +3445,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       EI && EI["set"]
                         ? EI["set"]["call"](ES, EB)
                         : (Ek[EC] = EB);
-                      E9(EB), a++;
+                      (E9(EB), a++);
                       break;
                     }
                   },
@@ -3462,12 +3476,12 @@ document.addEventListener("DOMContentLoaded", () => {
                           typeof ES === "function" && ES["prototype"]
                             ? ES["prototype"]
                             : ES;
-                      Object["defineProperty"](Ek, EC, {
+                      (Object["defineProperty"](Ek, EC, {
                         get: EB,
                         enumerable: Ek === ES,
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -3475,7 +3489,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC != EB), a++;
+                      (E9(EC != EB), a++);
                       break;
                     }
                   },
@@ -3484,13 +3498,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EE(),
                         EC = Em(),
                         ES = J[Es];
-                      Object["defineProperty"](EC["prototype"], ES, {
+                      (Object["defineProperty"](EC["prototype"], ES, {
                         value: EB,
                         writable: !![],
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -3516,13 +3530,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       i && EC in i ? (i[EC] = EB) : (K_26978d[EC] = EB);
                       EC in c && (c[EC] = EB);
                       ES && (c[EC] = EB);
-                      E9(EB), a++;
+                      (E9(EB), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(-EE()), a++;
+                      (E9(-EE()), a++);
                       break;
                     }
                   },
@@ -3530,13 +3544,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC >= EB), a++;
+                      (E9(EC >= EB), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      (W[Es] = W[Es] - 0x1), a++;
+                      ((W[Es] = W[Es] - 0x1), a++);
                       break;
                     }
                   },
@@ -3568,7 +3582,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           m2,
                           m3,
                           m4,
-                          m5
+                          m5,
                         ) {
                           let m6, m7;
                           if (EZ)
@@ -3605,7 +3619,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         m8,
                                         Ee,
                                         m6,
-                                        undefined
+                                        undefined,
                                       )
                                     : await m1["call"](
                                         this,
@@ -3613,7 +3627,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         m8,
                                         Ee,
                                         m6,
-                                        m9
+                                        m9,
                                       );
                                 })
                               : (m7 = function () {
@@ -3655,7 +3669,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         })(EB, EN, ES, Ek, EI, EU, EO, Ef, ET, Ea, EW);
                       if (!EJ)
                         throw new Error("VM Error: Failed to create closure");
-                      E9(EJ), a++;
+                      (E9(EJ), a++);
                       break;
                     }
                   },
@@ -3671,20 +3685,20 @@ document.addEventListener("DOMContentLoaded", () => {
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(+EE()), a++;
+                      (E9(+EE()), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
                       let EB = EE();
-                      E9(import(EB)), a++;
+                      (E9(import(EB)), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      (W[Es] = EE()), a++;
+                      ((W[Es] = EE()), a++);
                       break;
                     }
                   },
@@ -3692,19 +3706,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC | EB), a++;
+                      (E9(EC | EB), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(!EE()), a++;
+                      (E9(!EE()), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(undefined), a++;
+                      (E9(undefined), a++);
                       break;
                     }
                   },
@@ -3722,9 +3736,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         throw new TypeError(
                           "Cannot initialize " +
                             ES +
-                            " twice on the same object"
+                            " twice on the same object",
                         );
-                      EI["set"](EC, EB), a++;
+                      (EI["set"](EC, EB), a++);
                       break;
                     }
                   },
@@ -3738,18 +3752,18 @@ document.addEventListener("DOMContentLoaded", () => {
                       let Ek = K_26978d["_$5pvLTJ"],
                         EI = Ek["get"](ES);
                       if (EI && EI["has"](EC)) {
-                        EI["set"](EC, EB), E9(EB), a++;
+                        (EI["set"](EC, EB), E9(EB), a++);
                         break;
                       }
                       let EN = "_$RqV8iW" + ES["substring"](0x1) + "_$IzLIfE";
                       if (EN in EC) {
-                        (EC[EN] = EB), E9(EB), a++;
+                        ((EC[EN] = EB), E9(EB), a++);
                         break;
                       }
                       throw new TypeError(
                         "Cannot write private member " +
                           ES +
-                          " to an object whose class did not declare it"
+                          " to an object whose class did not declare it",
                       );
                       break;
                     }
@@ -3759,12 +3773,12 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EE(),
                         EC = Em(),
                         ES = J[Es];
-                      Object["defineProperty"](EC, ES, {
+                      (Object["defineProperty"](EC, ES, {
                         get: EB,
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -3772,7 +3786,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(Math["pow"](EC, EB)), a++;
+                      (E9(Math["pow"](EC, EB)), a++);
                       break;
                     }
                   },
@@ -3783,7 +3797,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         ? ((EC = EE()), (EB = J[Es]))
                         : ((EB = EE()), (EC = EE()));
                       let ES = delete EC[EB];
-                      E9(ES), a++;
+                      (E9(ES), a++);
                       break;
                     }
                   },
@@ -3791,13 +3805,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC <= EB), a++;
+                      (E9(EC <= EB), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      EE(), a++;
+                      (EE(), a++);
                       break;
                     }
                   },
@@ -3811,7 +3825,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           EI = Ek["get"](EC);
                         ES = EI && EI["has"](EB);
                       }
-                      E9(ES), a++;
+                      (E9(ES), a++);
                       break;
                     }
                   },
@@ -3819,13 +3833,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EB["next"]();
-                      E9(EC), a++;
+                      (E9(EC), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(k[Es]), a++;
+                      (E9(k[Es]), a++);
                       break;
                     }
                   },
@@ -3833,7 +3847,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC >>> EB), a++;
+                      (E9(EC >>> EB), a++);
                       break;
                     }
                   },
@@ -3842,13 +3856,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EE(),
                         EC = EE(),
                         ES = Em();
-                      Object["defineProperty"](ES["prototype"], EC, {
+                      (Object["defineProperty"](ES["prototype"], EC, {
                         value: EB,
                         writable: !![],
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -3862,7 +3876,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = J[Es];
                       !EP["tdzVars"] && (EP["tdzVars"] = {});
-                      (EP["tdzVars"][EB] = !![]), a++;
+                      ((EP["tdzVars"][EB] = !![]), a++);
                       break;
                     }
                   },
@@ -3891,8 +3905,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                       }
                                       return EN["apply"](this, ET);
                                     } finally {
-                                      delete K_26978d["_$xkMAXf"],
-                                        !Ef && delete K_26978d["_$tDRYIL"];
+                                      (delete K_26978d["_$xkMAXf"],
+                                        !Ef && delete K_26978d["_$tDRYIL"]);
                                     }
                                   }
                                 })
@@ -3923,7 +3937,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           value: EB,
                           configurable: !![],
                         });
-                      E9(Ek), a++;
+                      (E9(Ek), a++);
                       break;
                     }
                   },
@@ -3932,33 +3946,33 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EE(),
                         EC = Em(),
                         ES = J[Es];
-                      Object["defineProperty"](EC, ES, {
+                      (Object["defineProperty"](EC, ES, {
                         value: EB,
                         writable: !![],
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      (W[Es] = W[Es] + 0x1), a++;
+                      ((W[Es] = W[Es] + 0x1), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
                       let EB = J[Es];
-                      E9(Symbol["for"](EB)), a++;
+                      (E9(Symbol["for"](EB)), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
                       let EB = EE();
-                      E9(EB), E9(EB), a++;
+                      (E9(EB), E9(EB), a++);
                       break;
                     }
                   },
@@ -3966,7 +3980,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC % EB), a++;
+                      (E9(EC % EB), a++);
                       break;
                     }
                   },
@@ -3975,7 +3989,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EQ(0x3),
                         EC = EQ(0x2),
                         ES = Em();
-                      Er(0x3, EC), Er(0x2, ES), EA(EB), a++;
+                      (Er(0x3, EC), Er(0x2, ES), EA(EB), a++);
                       break;
                     }
                   },
@@ -3990,13 +4004,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EE(),
                         EC = EE(),
                         ES = Em();
-                      Object["defineProperty"](ES, EC, {
+                      (Object["defineProperty"](ES, EC, {
                         value: EB,
                         writable: !![],
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -4025,7 +4039,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         throw new TypeError(
                           "Cannot read private member " +
                             ES +
-                            " from an object whose class did not declare it"
+                            " from an object whose class did not declare it",
                         );
                       if (typeof Ek !== "function")
                         throw new TypeError(ES + " is not a function");
@@ -4034,7 +4048,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         EI["unshift"](EE());
                       }
                       let EN = Ek["apply"](EC, EI);
-                      E9(EN), a++;
+                      (E9(EN), a++);
                       break;
                     }
                   },
@@ -4042,7 +4056,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = Em();
-                      EC["push"](EB), a++;
+                      (EC["push"](EB), a++);
                       break;
                     }
                   },
@@ -4052,7 +4066,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         EC = z(EE, EB),
                         ES = EE();
                       if (Es === 0x1) {
-                        E9(EC), a++;
+                        (E9(EC), a++);
                         break;
                       }
                       if (K_26978d["_$superCalled"]) {
@@ -4061,7 +4075,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       }
                       if (typeof ES !== "function")
                         throw new TypeError(
-                          "Super expression must be a constructor"
+                          "Super expression must be a constructor",
                         );
                       K_26978d["_$tDRYIL"] = U;
                       try {
@@ -4077,9 +4091,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             EI["message"]["includes"]("constructor"))
                         ) {
                           let EN = Reflect["construct"](ES, EC, U);
-                          EN !== O && O && Object["assign"](EN, O),
+                          (EN !== O && O && Object["assign"](EN, O),
                             (O = EN),
-                            (EK = !![]);
+                            (EK = !![]));
                         } else throw EI;
                       } finally {
                         delete K_26978d["_$tDRYIL"];
@@ -4094,34 +4108,34 @@ document.addEventListener("DOMContentLoaded", () => {
                         EC = J[Es];
                       if (EB === null || EB === undefined)
                         throw new TypeError(
-                          "Cannot read property '" + String(EC) + "' of " + EB
+                          "Cannot read property '" + String(EC) + "' of " + EB,
                         );
-                      E9(EB[EC]), a++;
+                      (E9(EB[EC]), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(W[Es]), a++;
+                      (E9(W[Es]), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
                       let EB = W[Es] - 0x1;
-                      (W[Es] = EB), E9(EB), a++;
+                      ((W[Es] = EB), E9(EB), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(typeof EE()), a++;
+                      (E9(typeof EE()), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(null), a++;
+                      (E9(null), a++);
                       break;
                     }
                   },
@@ -4134,7 +4148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         EI = W[EB],
                         EN = J[EC],
                         EU = EI[EN];
-                      E9(EU["apply"](EI, Ek)), a++;
+                      (E9(EU["apply"](EI, Ek)), a++);
                       break;
                     }
                   },
@@ -4142,13 +4156,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = Es & 0xffff,
                         EC = Es >>> 0x10;
-                      E9(W[EB] * J[EC]), a++;
+                      (E9(W[EB] * J[EC]), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      (Ei = !![]), (Ec = f["length"] > 0x0 ? EE() : undefined);
+                      ((Ei = !![]),
+                        (Ec = f["length"] > 0x0 ? EE() : undefined));
                       return;
                       break;
                     }
@@ -4156,7 +4171,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Es) {
                     while (!![]) {
                       let EB = EE();
-                      E9(Symbol["keyFor"](EB)), a++;
+                      (E9(Symbol["keyFor"](EB)), a++);
                       break;
                     }
                   },
@@ -4164,13 +4179,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC & EB), a++;
+                      (E9(EC & EB), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9([]), a++;
+                      (E9([]), a++);
                       break;
                     }
                   },
@@ -4179,12 +4194,12 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EE(),
                         EC = EE(),
                         ES = Em();
-                      Object["defineProperty"](ES, EC, {
+                      (Object["defineProperty"](ES, EC, {
                         get: EB,
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -4192,7 +4207,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = Es & 0xffff,
                         EC = Es >>> 0x10;
-                      E9(W[EB] + J[EC]), a++;
+                      (E9(W[EB] + J[EC]), a++);
                       break;
                     }
                   },
@@ -4206,12 +4221,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (EB in ES["vars"]) {
                           if (ES["constVars"] && EB in ES["constVars"])
                             throw new TypeError(
-                              "Assignment to constant variable."
+                              "Assignment to constant variable.",
                             );
                           ES["tdzVars"] &&
                             EB in ES["tdzVars"] &&
                             delete ES["tdzVars"][EB];
-                          (ES["vars"][EB] = EC), (Ek = !![]);
+                          ((ES["vars"][EB] = EC), (Ek = !![]));
                           break;
                         }
                         ES = ES["parent"];
@@ -4245,7 +4260,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     if (EU < EO) {
                                       let Ef =
                                         EU < k["length"] ? k[EU] : EC[EU];
-                                      return EU++, { value: Ef, done: ![] };
+                                      return (EU++, { value: Ef, done: ![] });
                                     }
                                     return { done: !![] };
                                   },
@@ -4270,7 +4285,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             return undefined;
                           },
                           set: function (ES, Ek, EI) {
-                            if (Ek === "length") return (EB = EI), !![];
+                            if (Ek === "length") return ((EB = EI), !![]);
                             if (typeof Ek === "string") {
                               let EN = parseInt(Ek, 0xa);
                               if (!isNaN(EN) && EN >= 0x0) {
@@ -4292,7 +4307,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           },
                         });
                       }
-                      E9(El), a++;
+                      (E9(El), a++);
                       break;
                     }
                   },
@@ -4301,15 +4316,15 @@ document.addEventListener("DOMContentLoaded", () => {
                       if (E0["length"] > 0x0) {
                         let EB = E0[E0["length"] - 0x1];
                         if (EB["finallyIndex"] !== undefined) {
-                          (E2["hasReturn"] = !![]),
+                          ((E2["hasReturn"] = !![]),
                             (E2["value"] = EE()),
-                            (a = EB["finallyIndex"]);
+                            (a = EB["finallyIndex"]));
                           break;
                         }
                       }
                       E2["hasReturn"] &&
                         ((E2["hasReturn"] = ![]), (E2["value"] = undefined));
-                      (Ei = !![]), (Ec = EE());
+                      ((Ei = !![]), (Ec = EE()));
                       return;
                       break;
                     }
@@ -4328,7 +4343,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC << EB), a++;
+                      (E9(EC << EB), a++);
                       break;
                     }
                   },
@@ -4344,7 +4359,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC > EB), a++;
+                      (E9(EC > EB), a++);
                       break;
                     }
                   },
@@ -4359,7 +4374,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   },
                   function (Es) {
                     while (!![]) {
-                      E9({}), a++;
+                      (E9({}), a++);
                       break;
                     }
                   },
@@ -4367,7 +4382,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC / EB), a++;
+                      (E9(EC / EB), a++);
                       break;
                     }
                   },
@@ -4376,9 +4391,9 @@ document.addEventListener("DOMContentLoaded", () => {
                       if (E0["length"] > 0x0) {
                         let EB = E0[E0["length"] - 0x1];
                         if (EB["finallyIndex"] !== undefined) {
-                          (E3["hasBreak"] = !![]),
+                          ((E3["hasBreak"] = !![]),
                             (E3["target"] = Ey(u[a])),
-                            (a = EB["finallyIndex"]);
+                            (a = EB["finallyIndex"]));
                           break;
                         }
                       }
@@ -4390,7 +4405,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC === EB), a++;
+                      (E9(EC === EB), a++);
                       break;
                     }
                   },
@@ -4405,7 +4420,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       let Ek = K_26978d["_$5pvLTJ"];
                       !Ek["has"](ES) && Ek["set"](ES, new WeakMap());
                       let EI = Ek["get"](ES);
-                      EI["set"](EC, EB), a++;
+                      (EI["set"](EC, EB), a++);
                       break;
                     }
                   },
@@ -4416,9 +4431,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         ES = J[Es];
                       if (EC === null || EC === undefined)
                         throw new TypeError(
-                          "Cannot set property '" + String(ES) + "' of " + EC
+                          "Cannot set property '" + String(ES) + "' of " + EC,
                         );
-                      (EC[ES] = EB), E9(EB), a++;
+                      ((EC[ES] = EB), E9(EB), a++);
                       break;
                     }
                   },
@@ -4427,12 +4442,12 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EE(),
                         EC = Em(),
                         ES = J[Es];
-                      Object["defineProperty"](EC, ES, {
+                      (Object["defineProperty"](EC, ES, {
                         set: EB,
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -4442,15 +4457,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         EC = EE();
                       if (EC === null || EC === undefined)
                         throw new TypeError(
-                          "Cannot read property '" + String(EB) + "' of " + EC
+                          "Cannot read property '" + String(EB) + "' of " + EC,
                         );
-                      E9(EC[EB]), a++;
+                      (E9(EC[EB]), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(~EE()), a++;
+                      (E9(~EE()), a++);
                       break;
                     }
                   },
@@ -4474,7 +4489,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Es) {
                     while (!![]) {
                       let EB = EE();
-                      E9(!!EB["done"]), a++;
+                      (E9(!!EB["done"]), a++);
                       break;
                     }
                   },
@@ -4508,7 +4523,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EE(),
                         EC = J[Es];
                       if (EB == null) {
-                        E9(undefined), a++;
+                        (E9(undefined), a++);
                         break;
                       }
                       !K_26978d["_$5pvLTJ"] &&
@@ -4519,27 +4534,27 @@ document.addEventListener("DOMContentLoaded", () => {
                         throw new TypeError(
                           "Cannot read private member " +
                             EC +
-                            " from an object whose class did not declare it"
+                            " from an object whose class did not declare it",
                         );
-                      E9(Ek["get"](EB)), a++;
+                      (E9(Ek["get"](EB)), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      (W[Es] = EE()), a++;
+                      ((W[Es] = EE()), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(J[Es]), a++;
+                      (E9(J[Es]), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      EE(), E9(undefined), a++;
+                      (EE(), E9(undefined), a++);
                       break;
                     }
                   },
@@ -4552,10 +4567,10 @@ document.addEventListener("DOMContentLoaded", () => {
                       while (EC) {
                         if (EC["tdzVars"] && EB in EC["tdzVars"])
                           throw new ReferenceError(
-                            "Cannot access '" + EB + "' before initialization"
+                            "Cannot access '" + EB + "' before initialization",
                           );
                         if (EB in EC["vars"]) {
-                          (ES = EC["vars"][EB]), (Ek = !![]);
+                          ((ES = EC["vars"][EB]), (Ek = !![]));
                           break;
                         }
                         EC = EC["parent"];
@@ -4565,7 +4580,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (EB in K_26978d) ES = K_26978d[EB];
                         else i && EB in i ? (ES = i[EB]) : (ES = c[EB]);
                       }
-                      E9(ES), a++;
+                      (E9(ES), a++);
                       break;
                     }
                   },
@@ -4573,7 +4588,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC in EB), a++;
+                      (E9(EC in EB), a++);
                       break;
                     }
                   },
@@ -4587,7 +4602,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC + EB), a++;
+                      (E9(EC + EB), a++);
                       break;
                     }
                   },
@@ -4595,7 +4610,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC * EB), a++;
+                      (E9(EC * EB), a++);
                       break;
                     }
                   },
@@ -4608,7 +4623,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           tdzVars: Object["create"](null),
                           parent: EB,
                         };
-                      (EP = EC), a++;
+                      ((EP = EC), a++);
                       break;
                     }
                   },
@@ -4623,7 +4638,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC == EB), a++;
+                      (E9(EC == EB), a++);
                       break;
                     }
                   },
@@ -4638,7 +4653,7 @@ document.addEventListener("DOMContentLoaded", () => {
                           if (ES["constVars"] && EB in ES["constVars"]) break;
                           ES["vars"][EB] = EC;
                           !ES["constVars"] && (ES["constVars"] = {});
-                          (ES["constVars"][EB] = !![]), (Ek = !![]);
+                          ((ES["constVars"][EB] = !![]), (Ek = !![]));
                           break;
                         }
                         ES = ES["parent"];
@@ -4662,19 +4677,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         let Ek = K_26978d["_$5pvLTJ"],
                           EI = Ek["get"](EC);
                         if (EI && EI["has"](EB)) {
-                          E9(EI["get"](EB)), a++;
+                          (E9(EI["get"](EB)), a++);
                           break;
                         }
                       }
                       let ES = "_$RqV8iW" + EC["substring"](0x1) + "_$IzLIfE";
                       if (ES in EB) {
-                        E9(EB[ES]), a++;
+                        (E9(EB[ES]), a++);
                         break;
                       }
                       throw new TypeError(
                         "Cannot read private member " +
                           EC +
-                          " from an object whose class did not declare it"
+                          " from an object whose class did not declare it",
                       );
                       break;
                     }
@@ -4683,22 +4698,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       if (E2["hasReturn"]) {
                         let EB = E2["value"];
-                        (E2["hasReturn"] = ![]),
+                        ((E2["hasReturn"] = ![]),
                           (E2["value"] = undefined),
                           (Ei = !![]),
-                          (Ec = EB);
+                          (Ec = EB));
                         return;
                       }
                       if (E3["hasBreak"]) {
                         let EC = E3["target"];
-                        (E3["hasBreak"] = ![]), (E3["target"] = 0x0), (a = EC);
+                        ((E3["hasBreak"] = ![]),
+                          (E3["target"] = 0x0),
+                          (a = EC));
                         break;
                       }
                       if (E4["hasContinue"]) {
                         let ES = E4["target"];
-                        (E4["hasContinue"] = ![]),
+                        ((E4["hasContinue"] = ![]),
                           (E4["target"] = 0x0),
-                          (a = ES);
+                          (a = ES));
                         break;
                       }
                       if (E1 !== null) {
@@ -4719,18 +4736,18 @@ document.addEventListener("DOMContentLoaded", () => {
                           typeof EC === "function" && EC["prototype"]
                             ? EC["prototype"]
                             : EC;
-                      Object["defineProperty"](Ek, ES, {
+                      (Object["defineProperty"](Ek, ES, {
                         set: EB,
                         enumerable: Ek === EC,
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(U), a++;
+                      (E9(U), a++);
                       break;
                     }
                   },
@@ -4745,7 +4762,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         typeof EC === "function"
                           ? (Ek = Object["getPrototypeOf"](EC))
                           : (Ek = Object["getPrototypeOf"](
-                              Object["getPrototypeOf"](EC)
+                              Object["getPrototypeOf"](EC),
                             ));
                       let EI = null,
                         EN = Ek;
@@ -4755,7 +4772,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         EN = Object["getPrototypeOf"](EN);
                       }
                       let EU;
-                      if (EI && EI["get"]) (EU = EI["get"]["call"](EC)), E9(EU);
+                      if (EI && EI["get"])
+                        ((EU = EI["get"]["call"](EC)), E9(EU));
                       else {
                         if (EI && EI["set"] && !("value" in EI)) E9(undefined);
                         else {
@@ -4769,11 +4787,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ET === "GeneratorFunction" ||
                                 ET === "AsyncFunction" ||
                                 ET === "AsyncGeneratorFunction";
-                            !EW &&
+                            (!EW &&
                               (!K_26978d["_$R1bBr6"] &&
                                 (K_26978d["_$R1bBr6"] = new WeakMap()),
                               K_26978d["_$R1bBr6"]["set"](Ef, EO)),
-                              E9(Ef);
+                              E9(Ef));
                           } else E9(EU);
                         }
                       }
@@ -4786,12 +4804,12 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EB = EE(),
                         EC = EE(),
                         ES = Em();
-                      Object["defineProperty"](ES, EC, {
+                      (Object["defineProperty"](ES, EC, {
                         set: EB,
                         enumerable: ![],
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -4804,18 +4822,18 @@ document.addEventListener("DOMContentLoaded", () => {
                       let ES = K_26978d["_$5pvLTJ"],
                         Ek = ES["get"](EC);
                       if (Ek && Ek["has"](EB)) {
-                        E9(Ek["get"](EB)), a++;
+                        (E9(Ek["get"](EB)), a++);
                         break;
                       }
                       let EI = "_$RqV8iW" + EC["substring"](0x1) + "_$IzLIfE";
                       if (EI in EB) {
-                        E9(EB[EI]), a++;
+                        (E9(EB[EI]), a++);
                         break;
                       }
                       throw new TypeError(
                         "Cannot read private member " +
                           EC +
-                          " from an object whose class did not declare it"
+                          " from an object whose class did not declare it",
                       );
                       break;
                     }
@@ -4826,7 +4844,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         EC = Es >> 0x10,
                         ES = J[EB],
                         Ek = J[EC];
-                      E9(new RegExp(ES, Ek)), a++;
+                      (E9(new RegExp(ES, Ek)), a++);
                       break;
                     }
                   },
@@ -4843,13 +4861,13 @@ document.addEventListener("DOMContentLoaded", () => {
                       }
                       EP["vars"][EB] = EC;
                       !EP["constVars"] && (EP["constVars"] = {});
-                      (EP["constVars"][EB] = !![]), a++;
+                      ((EP["constVars"][EB] = !![]), a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      (k[Es] = EE()), a++;
+                      ((k[Es] = EE()), a++);
                       break;
                     }
                   },
@@ -4862,12 +4880,12 @@ document.addEventListener("DOMContentLoaded", () => {
                           typeof EC === "function" && EC["prototype"]
                             ? EC["prototype"]
                             : EC;
-                      Object["defineProperty"](Ek, ES, {
+                      (Object["defineProperty"](Ek, ES, {
                         get: EB,
                         enumerable: Ek === EC,
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -4880,7 +4898,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(EP), a++;
+                      (E9(EP), a++);
                       break;
                     }
                   },
@@ -4901,7 +4919,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = { value: EB };
-                      o["add"](EC), E9(EC), a++;
+                      (o["add"](EC), E9(EC), a++);
                       break;
                     }
                   },
@@ -4919,13 +4937,13 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Es) {
                     while (!![]) {
                       let EB = b[a];
-                      E0["push"]({
+                      (E0["push"]({
                         catchIndex: EB[0x0] >= 0x0 ? Ey(EB[0x0]) : undefined,
                         finallyIndex: EB[0x1] >= 0x0 ? Ey(EB[0x1]) : undefined,
                         endIndex: EB[0x2] >= 0x0 ? Ey(EB[0x2]) : undefined,
                         stackSize: f["length"],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
@@ -4934,9 +4952,9 @@ document.addEventListener("DOMContentLoaded", () => {
                       if (E0["length"] > 0x0) {
                         let EB = E0[E0["length"] - 0x1];
                         if (EB["finallyIndex"] !== undefined) {
-                          (E4["hasContinue"] = !![]),
+                          ((E4["hasContinue"] = !![]),
                             (E4["target"] = Ey(u[a])),
-                            (a = EB["finallyIndex"]);
+                            (a = EB["finallyIndex"]));
                           break;
                         }
                       }
@@ -4947,7 +4965,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   function (Es) {
                     while (!![]) {
                       let EB = Em();
-                      EA(EQ(0x2)), Er(0x2, EB), a++;
+                      (EA(EQ(0x2)), Er(0x2, EB), a++);
                       break;
                     }
                   },
@@ -4955,7 +4973,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC ^ EB), a++;
+                      (E9(EC ^ EB), a++);
                       break;
                     }
                   },
@@ -4963,7 +4981,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = Es & 0xffff,
                         EC = Es >>> 0x10;
-                      E9(W[EB] < J[EC]), a++;
+                      (E9(W[EB] < J[EC]), a++);
                       break;
                     }
                   },
@@ -4975,7 +4993,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       let EC = EB[Symbol["iterator"]];
                       if (typeof EC !== "function")
                         throw new TypeError("Object is not iterable");
-                      E9(EC["call"](EB)), a++;
+                      (E9(EC["call"](EB)), a++);
                       break;
                     }
                   },
@@ -4983,7 +5001,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EB["next"]();
-                      E9(Promise["resolve"](EC)), a++;
+                      (E9(Promise["resolve"](EC)), a++);
                       break;
                     }
                   },
@@ -4991,7 +5009,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     while (!![]) {
                       let EB = EE(),
                         EC = EE();
-                      E9(EC instanceof EB), a++;
+                      (E9(EC instanceof EB), a++);
                       break;
                     }
                   },
@@ -5004,18 +5022,18 @@ document.addEventListener("DOMContentLoaded", () => {
                           typeof ES === "function" && ES["prototype"]
                             ? ES["prototype"]
                             : ES;
-                      Object["defineProperty"](Ek, EC, {
+                      (Object["defineProperty"](Ek, EC, {
                         set: EB,
                         enumerable: Ek === ES,
                         configurable: !![],
                       }),
-                        a++;
+                        a++);
                       break;
                     }
                   },
                   function (Es) {
                     while (!![]) {
-                      E9(O), a++;
+                      (E9(O), a++);
                       break;
                     }
                   },
@@ -5041,13 +5059,13 @@ document.addEventListener("DOMContentLoaded", () => {
                           ES in EP["tdzVars"] &&
                           delete EP["tdzVars"][ES];
                       }
-                      (EP["vars"][EB] = EC), a++;
+                      ((EP["vars"][EB] = EC), a++);
                       break;
                     }
                   },
                 ];
             Ep[ER[Et]](EF);
-            if (Ei) return (Ei = ![]), Ec;
+            if (Ei) return ((Ei = ![]), Ec);
           }
           break;
         } catch (Es) {
@@ -5055,10 +5073,10 @@ document.addEventListener("DOMContentLoaded", () => {
             let EB = E0[E0["length"] - 0x1];
             T = EB["stackSize"];
             if (EB["catchIndex"] !== undefined)
-              E9(Es),
+              (E9(Es),
                 (a = EB["catchIndex"]),
                 (EB["catchIndex"] = undefined),
-                EB["finallyIndex"] === undefined && E0["pop"]();
+                EB["finallyIndex"] === undefined && E0["pop"]());
             else
               EB["finallyIndex"] !== undefined
                 ? ((a = EB["finallyIndex"]), (EB["pendingException"] = Es))
@@ -5085,9 +5103,9 @@ document.addEventListener("DOMContentLoaded", () => {
           if (W["value"]["t"] === 0x1)
             try {
               let a = await Promise["resolve"](W["value"]["v"]);
-              (K_26978d["_$AuM0V8"] = O), (W = T["next"](a));
+              ((K_26978d["_$AuM0V8"] = O), (W = T["next"](a)));
             } catch (J) {
-              (K_26978d["_$AuM0V8"] = O), (W = T["throw"](J));
+              ((K_26978d["_$AuM0V8"] = O), (W = T["throw"](J)));
             }
           else throw new Error("Unexpected yield in async context");
         }
@@ -5126,7 +5144,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             }
             if (!E5["done"]) return { value: E5["value"], done: ![] };
-            (W = null), (E2 = E5["value"]), (E3 = ![]);
+            ((W = null), (E2 = E5["value"]), (E3 = ![]));
           }
           let E4;
           try {
@@ -5140,7 +5158,7 @@ document.addEventListener("DOMContentLoaded", () => {
         function b(E2) {
           if (E2["done"]) {
             T = !![];
-            if (L) return (L = ![]), { value: J, done: !![] };
+            if (L) return ((L = ![]), { value: J, done: !![] });
             return { value: E2["value"], done: !![] };
           }
           let E3 = E2["value"];
@@ -5154,7 +5172,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (E5 && typeof E5["next"] === "function") {
               let E6 = E5["next"]();
               if (!E6["done"])
-                return (W = E5), { value: E6["value"], done: ![] };
+                return ((W = E5), { value: E6["value"], done: ![] });
               return u(E6["value"], ![]);
             }
             return u(undefined, ![]);
@@ -5172,7 +5190,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             let E3;
             try {
-              (K_26978d["_$AuM0V8"] = U), (E3 = f["next"]({ t: 0x4, v: E2 }));
+              ((K_26978d["_$AuM0V8"] = U), (E3 = f["next"]({ t: 0x4, v: E2 })));
             } catch (E5) {
               T = !![];
               throw E5;
@@ -5182,14 +5200,14 @@ document.addEventListener("DOMContentLoaded", () => {
               if (E6["t"] === 0x1)
                 try {
                   let E7 = await Promise["resolve"](E6["v"]);
-                  (K_26978d["_$AuM0V8"] = U), (E3 = f["next"](E7));
+                  ((K_26978d["_$AuM0V8"] = U), (E3 = f["next"](E7)));
                 } catch (E8) {
-                  (K_26978d["_$AuM0V8"] = U), (E3 = f["throw"](E8));
+                  ((K_26978d["_$AuM0V8"] = U), (E3 = f["throw"](E8)));
                 }
               else {
                 if (E6["t"] === 0x2)
                   try {
-                    (K_26978d["_$AuM0V8"] = U), (E3 = f["next"]());
+                    ((K_26978d["_$AuM0V8"] = U), (E3 = f["next"]()));
                   } catch (E9) {
                     T = !![];
                     throw E9;
@@ -5197,7 +5215,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 else break;
               }
             }
-            return (T = !![]), { value: E3["value"], done: !![] };
+            return ((T = !![]), { value: E3["value"], done: !![] });
           },
           E1 = function (E2) {
             if (T) return { value: E2, done: !![] };
@@ -5207,17 +5225,17 @@ document.addEventListener("DOMContentLoaded", () => {
               } catch (E4) {}
               W = null;
             }
-            (J = E2), (L = !![]);
+            ((J = E2), (L = !![]));
             let E3;
             try {
-              (K_26978d["_$AuM0V8"] = U), (E3 = f["next"]({ t: 0x4, v: E2 }));
+              ((K_26978d["_$AuM0V8"] = U), (E3 = f["next"]({ t: 0x4, v: E2 })));
             } catch (E5) {
-              (T = !![]), (L = ![]);
+              ((T = !![]), (L = ![]));
               throw E5;
             }
             if (!E3["done"] && E3["value"] && E3["value"]["t"] === 0x2)
               return { value: E3["value"]["v"], done: ![] };
-            return (T = !![]), (L = ![]), { value: E3["value"], done: !![] };
+            return ((T = !![]), (L = ![]), { value: E3["value"], done: !![] });
           };
         return Z
           ? {
@@ -5266,10 +5284,10 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     K_26978d["document"] = document;
   } catch (mA) {}
-  (K_26978d["lockSystem"] = lockSystem),
+  ((K_26978d["lockSystem"] = lockSystem),
     (K_26978d["createSignature"] = createSignature),
     (K_26978d["observeSignature"] = observeSignature),
-    (K_26978d["getOriginalSignature"] = getOriginalSignature);
+    (K_26978d["getOriginalSignature"] = getOriginalSignature));
   function getOriginalSignature() {
     return r_e8e218["call"](
       this,
@@ -5277,7 +5295,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Array["from"](arguments),
       undefined,
       getOriginalSignature,
-      new.target
+      new.target,
     );
   }
   function observeSignature() {
@@ -5287,7 +5305,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Array["from"](arguments),
       undefined,
       observeSignature,
-      new.target
+      new.target,
     );
   }
   function createSignature() {
@@ -5297,13 +5315,13 @@ document.addEventListener("DOMContentLoaded", () => {
       Array["from"](arguments),
       undefined,
       createSignature,
-      new.target
+      new.target,
     );
   }
   let tamperTriggered = ![];
   K_26978d["tamperTriggered"] = tamperTriggered;
-  (globalThis["tamperTriggered"] = K_26978d["tamperTriggered"]),
-    (K_26978d["tamperTriggered"] = K_26978d["tamperTriggered"]);
+  ((globalThis["tamperTriggered"] = K_26978d["tamperTriggered"]),
+    (K_26978d["tamperTriggered"] = K_26978d["tamperTriggered"]));
   globalThis["tamperTriggered"] = K_26978d["tamperTriggered"];
   function lockSystem() {
     return r_e8e218["call"](
@@ -5312,8 +5330,8 @@ document.addEventListener("DOMContentLoaded", () => {
       Array["from"](arguments),
       undefined,
       lockSystem,
-      new.target
+      new.target,
     );
   }
-  createSignature(), observeSignature();
+  (createSignature(), observeSignature());
 });

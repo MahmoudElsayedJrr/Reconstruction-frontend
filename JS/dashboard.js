@@ -83,18 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener("click", resetFilters);
   }
 
-     const userRole = localStorage.getItem("loggedInUserRole");
-  const allowedRoles = ["admin", "manager"];
 
-  const budgetCard = document.getElementById("totalBudgetCard");
-
-  if (allowedRoles.includes(userRole)) {
-    budgetCard.style.cursor = "pointer";
-    budgetCard.addEventListener("click", () => {
-      const modal = new bootstrap.Modal(document.getElementById("budgetModal"));
-      modal.show();
-    });
-  } 
   async function fetchTotalDisbursed(filters = {}) {
     const totalElement = document.getElementById("totalDisbursedValue");
     try {
@@ -128,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalDisbursed || 0;
-      const formattedTotal = total.toLocaleString("en-US", {
+      const formattedTotal = total.toLocaleString("ar-EG", {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
       });
@@ -174,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalContractualValue || 0;
-      const formattedTotal = total.toLocaleString("en-US", {
+      const formattedTotal = total.toLocaleString("ar-EG", {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
       });
@@ -187,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function loadBudgetForYear(fiscalYear) {
+    const token = localStorage.getItem("loggedInUserToken");
     if (!fiscalYear || fiscalYear === "الكل") {
       document.getElementById("totalBudgetValue").textContent =
         "برجاء تحديد السنه الماليه ";
