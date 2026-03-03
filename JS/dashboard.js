@@ -83,7 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
     resetButton.addEventListener("click", resetFilters);
   }
 
-
   async function fetchTotalDisbursed(filters = {}) {
     const totalElement = document.getElementById("totalDisbursedValue");
     try {
@@ -172,6 +171,55 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
+    }
+  }
+
+  async function fetchPayoutPercentage(fiscalYear) {
+    const percentageElement = document.getElementById("payoutPercentageValue");
+
+    if (!fiscalYear || fiscalYear === "الكل") {
+      percentageElement.textContent = "برجاء تحديد السنه الماليه";
+      percentageElement.className = "text-muted fw-bold";
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("loggedInUserToken");
+
+      const response = await fetch(
+        `${API_URL}activity/payout-percentage?fiscalYear=${encodeURIComponent(fiscalYear)}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      const apiResponse = await response.json();
+
+      if (!response.ok) {
+        throw new Error(apiResponse.message || "فشل جلب البيانات");
+      }
+
+      const { percentage, status } = apiResponse.data;
+
+      // عرض النسبة
+      percentageElement.textContent =
+        percentage.toLocaleString("ar-EG", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }) + "%";
+
+      const colorMap = {
+        exceeded: "text-danger",
+        high: "text-warning",
+        medium: "text-info",
+        low: "text-success",
+      };
+
+      percentageElement.className = `${colorMap[status]} fw-bold`;
+    } catch (error) {
+      console.error("خطأ في حساب نسبة الصرف:", error);
+      percentageElement.textContent = "خطأ في الحساب";
+      percentageElement.className = "text-danger fw-bold";
     }
   }
 
@@ -739,6 +787,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fetchTotalDisbursed(filters),
       fetchTotalContractual(filters),
       loadBudgetForYear(filters.fiscalYear || ""),
+      fetchPayoutPercentage(filters.fiscalYear || ""),
     ]).finally(() => {
       filterButton.disabled = false;
       filterButton.innerHTML = `<i class="fas fa-filter"></i>`;
@@ -774,6 +823,7 @@ document.addEventListener("DOMContentLoaded", () => {
       await fetchTotalDisbursed(savedFilters);
       await fetchTotalContractual(savedFilters);
       await loadBudgetForYear(savedFilters.fiscalYear || "");
+      await fetchPayoutPercentage(savedFilters.fiscalYear || "");
     } catch (error) {
       showToast(`Error: ${error.message}`, "danger");
     } finally {
@@ -839,6 +889,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchTotalContractual(filters);
     fetchAndRenderProjects(filters);
     loadBudgetForYear(filters.fiscalYear || "");
+    fetchPayoutPercentage(filters.fiscalYear || "");
   }
 
   initializePage();
