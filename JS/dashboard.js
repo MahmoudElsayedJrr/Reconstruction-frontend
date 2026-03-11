@@ -102,9 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const queryString = queryParams.toString();
-      const url = `${API_URL}activity/total-disbursed${
-        queryString ? `?${queryString}` : ""
-      }`;
+      const url = `${API_URL}activity/total-disbursed${queryString ? `?${queryString}` : ""}`;
 
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -116,19 +114,13 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalDisbursed || 0;
-      const formattedTotal = total.toLocaleString("ar-EG", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      });
 
-      totalElement.textContent = formattedTotal + " مليون ج.م";
-      //totalElement.textContent = formatMoneyAdvanced(total);
+      totalElement.textContent = formatMoneyAdvanced(total);
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
     }
   }
-
   async function fetchTotalContractual(filters = {}) {
     const totalElement = document.getElementById("totalContractualValue");
     try {
@@ -162,23 +154,75 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalContractualValue || 0;
-      const formattedTotal = total.toLocaleString("ar-EG", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      });
-      totalElement.textContent = formattedTotal + " مليون ج.م";
-      // totalElement.textContent = formatMoneyAdvanced(total);
+
+      totalElement.textContent = formatMoneyAdvanced(total);
     } catch (error) {
-      console.error("فشل تحميل إجمالي المنصرف", error);
+      console.error("فشل تحميل إجمالي التعاقدي", error);
       totalElement.textContent = "خطأ";
     }
   }
 
-  async function fetchPayoutPercentage(fiscalYear) {
+  async function loadBudgetForYear(fiscalYear, fundingType) {
+    const token = localStorage.getItem("loggedInUserToken");
+    const budgetElement = document.getElementById("totalBudgetValue");
+
+    if (!fiscalYear || fiscalYear === "الكل") {
+      budgetElement.textContent = "برجاء تحديد السنة المالية";
+      return;
+    }
+
+    if (!fundingType || fundingType === "الكل") {
+      budgetElement.textContent = "برجاء تحديد نوع التمويل";
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API_URL}budget/${encodeURIComponent(fiscalYear)}/${encodeURIComponent(fundingType)}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      const apiResponse = await response.json();
+
+      if (apiResponse.status === "success" && apiResponse.data) {
+        if (fundingType && fundingType !== "الكل") {
+          budgetElement.textContent = formatMoneyAdvanced(
+            apiResponse.data.amount,
+          );
+        } else {
+          if (Array.isArray(apiResponse.data)) {
+            const totalAmount = apiResponse.data.reduce(
+              (sum, budget) => sum + budget.amount,
+              0,
+            );
+            budgetElement.textContent = formatMoneyAdvanced(totalAmount);
+          } else {
+            budgetElement.textContent = formatMoneyAdvanced(
+              apiResponse.data.amount,
+            );
+          }
+        }
+      } else {
+        budgetElement.textContent = "٠ ج.م";
+      }
+    } catch (error) {
+      console.error("خطأ في تحميل الميزانية:", error);
+      budgetElement.textContent = "خطأ";
+    }
+  }
+
+  async function fetchPayoutPercentage(fiscalYear, fundingType) {
     const percentageElement = document.getElementById("payoutPercentageValue");
 
     if (!fiscalYear || fiscalYear === "الكل") {
-      percentageElement.textContent = "برجاء تحديد السنه الماليه";
+      percentageElement.textContent = "برجاء تحديد السنة المالية";
+      percentageElement.className = "text-muted fw-bold";
+      return;
+    }
+
+    if (!fundingType || fundingType === "الكل") {
+      percentageElement.textContent = "برجاء تحديد نوع التمويل";
       percentageElement.className = "text-muted fw-bold";
       return;
     }
@@ -186,8 +230,15 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const token = localStorage.getItem("loggedInUserToken");
 
+      const queryParams = new URLSearchParams();
+      queryParams.append("fiscalYear", fiscalYear);
+
+      if (fundingType && fundingType !== "الكل") {
+        queryParams.append("fundingType", fundingType);
+      }
+
       const response = await fetch(
-        `${API_URL}activity/payout-percentage?fiscalYear=${encodeURIComponent(fiscalYear)}`,
+        `${API_URL}activity/payout-percentage?${queryParams.toString()}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -199,11 +250,10 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
       }
 
-      const { percentage, status } = apiResponse.data;
+      const { percentage, status, budget, totalDisbursed } = apiResponse.data;
 
-      // عرض النسبة
       percentageElement.textContent =
-        percentage.toLocaleString("ar-EG", {
+        percentage.toLocaleString("en-US", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         }) + "%";
@@ -216,40 +266,20 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       percentageElement.className = `${colorMap[status]} fw-bold`;
+
+      const detailsElement = document.getElementById("payoutDetails");
+      if (detailsElement) {
+        detailsElement.innerHTML = `
+        <small class="text-muted">
+          المنصرف: ${formatMoneyAdvanced(totalDisbursed)} / 
+          المخصص: ${formatMoneyAdvanced(budget)}
+        </small>
+      `;
+      }
     } catch (error) {
       console.error("خطأ في حساب نسبة الصرف:", error);
       percentageElement.textContent = "خطأ في الحساب";
       percentageElement.className = "text-danger fw-bold";
-    }
-  }
-
-  async function loadBudgetForYear(fiscalYear) {
-    const token = localStorage.getItem("loggedInUserToken");
-    if (!fiscalYear || fiscalYear === "الكل") {
-      document.getElementById("totalBudgetValue").textContent =
-        "برجاء تحديد السنه الماليه ";
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `${API_URL}budget/${encodeURIComponent(fiscalYear)}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
-      const data = await response.json();
-
-      if (data.status === "success") {
-        document.getElementById("totalBudgetValue").textContent =
-          new Intl.NumberFormat("ar-EG").format(data.data.amount) +
-          " مليون ج.م";
-      } else {
-        document.getElementById("totalBudgetValue").textContent = "0";
-      }
-    } catch (error) {
-      console.error("خطأ في تحميل الميزانية:", error);
-      document.getElementById("totalBudgetValue").textContent = "خطأ";
     }
   }
 
@@ -325,11 +355,11 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       disbursedByCategory: {
         labels: Object.keys(disbursedByCategory),
-        values: Object.values(disbursedByCategory),
+        values: [...Object.values(disbursedByCategory)],
       },
       disbursedByGovernorate: {
         labels: Object.keys(disbursedByGovernorate),
-        values: Object.values(disbursedByGovernorate),
+        values: [...Object.values(disbursedByGovernorate)],
       },
     };
   }
@@ -480,7 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
     chart4Container.innerHTML =
       '<canvas id="disbursedByCategoryChart"></canvas>';
     const ctx5 = chart4Container.querySelector("canvas").getContext("2d");
-
     new Chart(ctx5, {
       type: "bar",
       data: {
@@ -500,6 +529,14 @@ document.addEventListener("DOMContentLoaded", () => {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: true },
+
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return `${context.dataset.label}: ${formatMoneyAdvanced(context.raw)}`;
+              },
+            },
+          },
           datalabels: { display: false },
         },
         scales: {
@@ -508,13 +545,19 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByCategory.labels[index];
                 const amount = chartData.disbursedByCategory.values[index];
-                return [label, amount.toLocaleString() + " مليون ج.م"];
+
+                return [label, formatMoneyAdvanced(amount)];
               },
               font: { size: 11 },
             },
           },
           y: {
             beginAtZero: true,
+            ticks: {
+              callback: function (value) {
+                return formatMoneyAdvanced(value);
+              },
+            },
           },
         },
       },
@@ -531,7 +574,7 @@ document.addEventListener("DOMContentLoaded", () => {
         labels: chartData.disbursedByGovernorate.labels,
         datasets: [
           {
-            label: "المنصرف حسب المنطقه",
+            label: "المنصرف حسب المنطقة",
             data: chartData.disbursedByGovernorate.values,
             backgroundColor: generateColors(
               chartData.disbursedByGovernorate.labels.length,
@@ -544,6 +587,14 @@ document.addEventListener("DOMContentLoaded", () => {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: true },
+
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return `${context.dataset.label}: ${formatMoneyAdvanced(context.raw)}`;
+              },
+            },
+          },
           datalabels: { display: false },
         },
         scales: {
@@ -552,14 +603,19 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByGovernorate.labels[index];
                 const amount = chartData.disbursedByGovernorate.values[index];
-                // return [label, amount.toLocaleString() + " مليون ج.م"];
-                return [label, amount.toLocaleString() + " مليون ج.م"];
+
+                return [label, formatMoneyAdvanced(amount)];
               },
               font: { size: 11 },
             },
           },
           y: {
             beginAtZero: true,
+            ticks: {
+              callback: function (value) {
+                return formatMoneyAdvanced(value);
+              },
+            },
           },
         },
       },
@@ -786,8 +842,11 @@ document.addEventListener("DOMContentLoaded", () => {
       fetchAndRenderProjects(filters),
       fetchTotalDisbursed(filters),
       fetchTotalContractual(filters),
-      loadBudgetForYear(filters.fiscalYear || ""),
-      fetchPayoutPercentage(filters.fiscalYear || ""),
+      loadBudgetForYear(filters.fiscalYear || "", filters.fundingType || ""),
+      fetchPayoutPercentage(
+        filters.fiscalYear || "",
+        filters.fundingType || "",
+      ),
     ]).finally(() => {
       filterButton.disabled = false;
       filterButton.innerHTML = `<i class="fas fa-filter"></i>`;
@@ -822,8 +881,14 @@ document.addEventListener("DOMContentLoaded", () => {
       await fetchAndRenderProjects(savedFilters);
       await fetchTotalDisbursed(savedFilters);
       await fetchTotalContractual(savedFilters);
-      await loadBudgetForYear(savedFilters.fiscalYear || "");
-      await fetchPayoutPercentage(savedFilters.fiscalYear || "");
+      await loadBudgetForYear(
+        savedFilters.fiscalYear || "",
+        savedFilters.fundingType || "",
+      );
+      await fetchPayoutPercentage(
+        savedFilters.fiscalYear || "",
+        savedFilters.fundingType || "",
+      );
     } catch (error) {
       showToast(`Error: ${error.message}`, "danger");
     } finally {
@@ -888,8 +953,8 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchTotalDisbursed(filters);
     fetchTotalContractual(filters);
     fetchAndRenderProjects(filters);
-    loadBudgetForYear(filters.fiscalYear || "");
-    fetchPayoutPercentage(filters.fiscalYear || "");
+    loadBudgetForYear(filters.fiscalYear || "", filters.fundingType || "");
+    fetchPayoutPercentage(filters.fiscalYear || "", filters.fundingType || "");
   }
 
   initializePage();

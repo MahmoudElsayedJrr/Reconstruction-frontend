@@ -6,15 +6,23 @@ const ALL_YEARS = [
   "2028/2029",
   "2029/2030",
   "2030/2031",
+  "2031/2032",
+  "2032/2033",
+  "2033/2034",
 ];
 
+const FUNDING_TYPES = ["خطة استثمارية", "تمويل الغير"];
+
 let budgets = [];
+let filteredBudgets = [];
 let mode = "add";
 let editingId = null;
+let currentFilter = "";
 
 function getToken() {
   return localStorage.getItem("loggedInUserToken") || "";
 }
+
 function reqHeaders() {
   return {
     "Content-Type": "application/json",
@@ -23,6 +31,8 @@ function reqHeaders() {
 }
 
 document.addEventListener("DOMContentLoaded", fetchAllBudgets);
+
+// ============ API Calls ============
 
 async function fetchAllBudgets() {
   try {
@@ -35,24 +45,27 @@ async function fetchAllBudgets() {
   } catch (_) {
     budgets = [];
   }
-  renderTable();
+  applyFilter();
   buildYearOptions();
 }
 
-async function callUpsert(fiscalYear, amount) {
+async function callUpsert(fiscalYear, amount, fundingType) {
   const res = await fetch(`${API_URL}budget`, {
     method: "POST",
     headers: reqHeaders(),
-    body: JSON.stringify({ fiscalYear, amount }),
+    body: JSON.stringify({ fiscalYear, amount, fundingType }),
   });
   const json = await res.json();
   return { ok: json.status === "success", json, code: res.status };
 }
 
+// ============ Form Handling ============
+
 async function handleSubmit(e) {
   e.preventDefault();
 
   const year = document.getElementById("yearSelect").value;
+  const fundingType = document.getElementById("fundingTypeSelect").value;
   const raw = document.getElementById("amountInput").value.trim();
   const amount = parseFloat(raw);
 
@@ -60,17 +73,27 @@ async function handleSubmit(e) {
     showToast("اختر السنة المالية", "error");
     return;
   }
+  if (!fundingType) {
+    showToast("اختر جهة التمويل", "error");
+    return;
+  }
   if (!raw || isNaN(amount) || amount < 0) {
     showToast("أدخل قيمة مالية صحيحة", "error");
     return;
   }
-  if (mode === "add" && budgets.some((b) => b.fiscalYear === year)) {
-    showToast("هذه السنة المالية مضافة بالفعل", "error");
-    return;
+
+  if (mode === "add") {
+    const exists = budgets.some(
+      (b) => b.fiscalYear === year && b.fundingType === fundingType,
+    );
+    if (exists) {
+      showToast(`مخصص ${year} - ${fundingType} موجود بالفعل`, "error");
+      return;
+    }
   }
 
   setLoading(true);
-  const { ok, json, code } = await callUpsert(year, amount);
+  const { ok, json, code } = await callUpsert(year, amount, fundingType);
   setLoading(false);
 
   if (!ok) {
@@ -89,14 +112,17 @@ async function handleSubmit(e) {
   }
 
   resetForm();
-  renderTable();
+  applyFilter();
   buildYearOptions();
 }
+
+// ============ Mode Management ============
 
 function setMode(m, budget = null) {
   mode = m;
   const addBtn = document.querySelector('[data-mode="add"]');
   const editBtn = document.getElementById("editModeBtn");
+  const fundingSelect = document.getElementById("fundingTypeSelect");
 
   if (m === "add") {
     addBtn.classList.add("active");
@@ -108,6 +134,7 @@ function setMode(m, budget = null) {
     document.getElementById("submitText").textContent = "حفظ المخصص";
     editingId = null;
     document.getElementById("budgetForm").reset();
+    fundingSelect.disabled = false;
     buildYearOptions();
   } else if (m === "edit" && budget) {
     editingId = budget._id;
@@ -116,11 +143,16 @@ function setMode(m, budget = null) {
     editBtn.disabled = false;
     document.getElementById("formTitle").textContent = "تعديل مخصص مالي";
     document.getElementById("formSub").textContent =
-      `تعديل سنة ${budget.fiscalYear}`;
+      `تعديل ${budget.fiscalYear} - ${budget.fundingType}`;
     document.getElementById("submitText").textContent = "تحديث المخصص";
+
     buildYearOptions(budget.fiscalYear);
     document.getElementById("yearSelect").value = budget.fiscalYear;
+    document.getElementById("fundingTypeSelect").value = budget.fundingType;
     document.getElementById("amountInput").value = budget.amount;
+
+    fundingSelect.disabled = true;
+    document.getElementById("yearSelect").disabled = true;
   }
 }
 
@@ -145,39 +177,60 @@ function resetForm() {
     "تسجيل مخصص جديد للسنة المالية";
   document.getElementById("submitText").textContent = "حفظ المخصص";
   document.getElementById("budgetForm").reset();
+  document.getElementById("fundingTypeSelect").disabled = false;
+  document.getElementById("yearSelect").disabled = false;
   buildYearOptions();
 }
 
+// ============ Year Options ============
+
 function buildYearOptions(currentYear = null) {
   const sel = document.getElementById("yearSelect");
-  const usedSet = new Set(budgets.map((b) => b.fiscalYear));
   sel.innerHTML =
     '<option value="" disabled selected>اختر السنة المالية</option>';
 
   ALL_YEARS.forEach((y) => {
-    const isUsed = usedSet.has(y);
-    if (mode === "add" && isUsed) return;
     const opt = document.createElement("option");
     opt.value = y;
     opt.textContent = y;
-    if (mode === "edit" && isUsed && y !== currentYear) opt.disabled = true;
     sel.appendChild(opt);
   });
+
+  // Re-enable in case it was disabled
+  if (mode === "add") {
+    sel.disabled = false;
+  }
 }
+
+// ============ Filter ============
+
+function applyFilter() {
+  currentFilter = document.getElementById("filterFundingType")?.value || "";
+
+  if (currentFilter) {
+    filteredBudgets = budgets.filter((b) => b.fundingType === currentFilter);
+  } else {
+    filteredBudgets = [...budgets];
+  }
+
+  renderTable();
+}
+
+// ============ Table Rendering ============
 
 function renderTable() {
   const tbody = document.getElementById("budgetsTable");
   const empty = document.getElementById("emptyState");
-  document.getElementById("countBadge").textContent = budgets.length;
+  document.getElementById("countBadge").textContent = filteredBudgets.length;
 
-  if (!budgets.length) {
+  if (!filteredBudgets.length) {
     tbody.innerHTML = "";
     empty.style.display = "flex";
     return;
   }
   empty.style.display = "none";
 
-  tbody.innerHTML = budgets
+  tbody.innerHTML = filteredBudgets
     .map(
       (b, i) => `
     <tr style="animation-delay:${i * 0.05}s">
@@ -187,16 +240,21 @@ function renderTable() {
           ${b.fiscalYear}
         </span>
       </td>
+      <td>
+        <span class="funding-badge ${getFundingClass(b.fundingType)}">
+          <i class="fas ${getFundingIcon(b.fundingType)}"></i>
+          ${b.fundingType}
+        </span>
+      </td>
       <td class="amount-cell">
-        ${Number(b.amount).toLocaleString("ar-EG")}
-        <span class="unit">مليون ح.م</span>
+        ${formatMoneyAdvanced(b.amount)}
       </td>
       <td>
         <div class="actions">
           <button class="btn-icon edit" title="تعديل" onclick="startEdit('${b._id}')">
             <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
-          <button class="btn-icon del" title="حذف" onclick="openConfirm('${b._id}', '${b.fiscalYear}')">
+          <button class="btn-icon del" title="حذف" onclick="openConfirm('${b._id}', '${b.fiscalYear}', '${b.fundingType}')">
             <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
           </button>
         </div>
@@ -207,17 +265,33 @@ function renderTable() {
     .join("");
 }
 
+// Helper functions for funding type styling
+function getFundingClass(fundingType) {
+  return fundingType === "خطة استثمارية"
+    ? "funding-investment"
+    : "funding-external";
+}
+
+function getFundingIcon(fundingType) {
+  return fundingType === "خطة استثمارية" ? "fa-chart-line" : "fa-handshake";
+}
+
+// ============ Delete Confirmation ============
+
 let deleteTargetId = null;
 
-function openConfirm(id, year) {
+function openConfirm(id, year, fundingType) {
   deleteTargetId = id;
   document.getElementById("confirmYear").textContent = year;
+  document.getElementById("confirmFunding").textContent = fundingType;
   document.getElementById("confirmOverlay").classList.add("show");
 }
+
 function closeConfirm() {
   deleteTargetId = null;
   document.getElementById("confirmOverlay").classList.remove("show");
 }
+
 async function confirmDelete() {
   if (!deleteTargetId) return;
 
@@ -229,7 +303,7 @@ async function confirmDelete() {
 
     if (response.ok) {
       budgets = budgets.filter((b) => b._id !== deleteTargetId);
-      renderTable();
+      applyFilter();
       buildYearOptions();
       showToast("تم الحذف بنجاح", "success");
     } else {
@@ -242,6 +316,7 @@ async function confirmDelete() {
   closeConfirm();
 }
 
+// ============ Utilities ============
 
 function setLoading(v) {
   document.getElementById("submitBtn").classList.toggle("loading", v);
@@ -253,4 +328,12 @@ function showToast(msg, type = "success") {
   t.className = `show ${type}`;
   clearTimeout(t._timer);
   t._timer = setTimeout(() => t.classList.remove("show"), 3500);
+}
+
+function formatMoneyAdvanced(amount) {
+  if (typeof amount !== "number") return amount;
+  return new Intl.NumberFormat("ar-EG", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
 }

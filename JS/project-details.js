@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectNameHeader = document.getElementById("project-name-header");
   if (!projectNameHeader) return;
   const contractualTabContainer = document.getElementById(
-    "contractual-pdf-section"
+    "contractual-pdf-section",
   );
   const urlParams = new URLSearchParams(window.location.search);
   const mainContent = document.querySelector(".main-content");
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const API_BASE_URL = API_URL;
 
   const backButton = document.querySelector(
-    '.btn-outline-primary[href*="dashboard.html"]'
+    '.btn-outline-primary[href*="dashboard.html"]',
   );
   if (backButton) {
     if (fromPage === "filter") {
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.openEditExtractModal = function (extractId, index) {
     const extractToEdit = currentExtractsData.find(
-      (e) => (e._id || e.id) === extractId
+      (e) => (e._id || e.id) === extractId,
     );
     if (!extractToEdit) {
       showToast("لا يمكن العثور على بيانات المستخلص.", "danger");
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       extractToEdit.extractValue;
 
     const modal = new bootstrap.Modal(
-      document.getElementById("editExtractModal")
+      document.getElementById("editExtractModal"),
     );
     modal.show();
 
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         activityCode,
         extractId,
         showToast,
-        closeEditModal
+        closeEditModal,
       );
     };
   };
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.confirmDeleteExtract = function (extractId) {
     extractIdToDelete = extractId;
     const confirmModal = new bootstrap.Modal(
-      document.getElementById("confirmDeleteModal")
+      document.getElementById("confirmDeleteModal"),
     );
     confirmModal.show();
   };
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", async function handleExtractDelete() {
       if (extractIdToDelete) {
         const confirmModal = bootstrap.Modal.getInstance(
-          document.getElementById("confirmDeleteModal")
+          document.getElementById("confirmDeleteModal"),
         );
         if (confirmModal) confirmModal.hide();
 
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
           API_BASE_URL,
           activityCode,
           extractIdToDelete,
-          showToast
+          showToast,
         );
 
         extractIdToDelete = null;
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function deleteDecision(BaseUrl, activityCode, decisionId, showToast) {
     const confirmModal = bootstrap.Modal.getOrCreateInstance(
-      document.getElementById("confirmDeleteModal")
+      document.getElementById("confirmDeleteModal"),
     );
     confirmModal.show();
 
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         if (!response.ok) {
           throw new Error("فشل في حذف البند");
@@ -240,14 +240,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setText(
       "extensionNumber",
-      extensions.length === 0 ? 0 : extensions.length.toString()
+      extensions.length === 0 ? 0 : extensions.length.toString(),
     );
     setText("contractNumber", contracts.length.toString());
     setText(
       "lastExtensionDate",
       lastExtension?.extensionDate
         ? new Date(lastExtension.extensionDate).toLocaleDateString("ar-EG")
-        : "N/A"
+        : "N/A",
     );
     setText("activityCode", project.activityCode);
     setText("fiscalYear", project.fiscalYear);
@@ -260,45 +260,42 @@ document.addEventListener("DOMContentLoaded", () => {
     setText("fundingSource", project.fundingSource);
     setText("projectCategory", project.projectCategory);
     setText("progress", ` % ${project.progress} `);
-    setText(
-      "estimatedValue",
-      (project.estimatedValue || 0).toLocaleString() + " مليون ج.م"
-    );
+    setText("estimatedValue", formatMoneyAdvanced(project.estimatedValue || 0));
     setText(
       "contractualValue",
-      (project.contractualValue || 0).toLocaleString() + " مليون ج.م"
+      formatMoneyAdvanced(project.contractualValue || 0),
     );
     setText(
       "disbursedAmount",
-      (project.disbursedAmount || 0).toLocaleString() + " مليون ج.م"
+      formatMoneyAdvanced(project.disbursedAmount || 0),
     );
     setText(
       "executivePosition",
-      project.executivePosition || "لا يوجد موقف تنفيذي"
+      project.executivePosition || "لا يوجد موقف تنفيذي",
     );
     if (isRoadProject) {
       setText(
         "petroleumCompany",
-        project.roaddetails.petroleumCompany || "غير متوفر"
+        project.roaddetails.petroleumCompany || "غير متوفر",
       );
       setText("notes", project.roaddetails.notes || "لا توجد ملاحظات");
       setText(
         "bitumenQuantity",
-        (project.roaddetails.bitumenQuantity || "0").toLocaleString() + " طن"
+        (project.roaddetails.bitumenQuantity || "0").toLocaleString() + " طن",
       );
       setText("rc", (project.roaddetails.rc || "0").toLocaleString() + " طن");
       setText("mc", (project.roaddetails.mc || "0").toLocaleString() + " طن");
 
       setText(
         "remainingQuantitiesTons",
-        (project.remainingQuantitiesTons || 0).toLocaleString() + " طن"
+        (project.remainingQuantitiesTons || 0).toLocaleString() + " طن",
       );
     }
     dateFields.forEach((field) => {
       const value = project[field];
       setText(
         field,
-        value ? new Date(value).toLocaleDateString("ar-EG") : "N/A"
+        value ? new Date(value).toLocaleDateString("ar-EG") : "N/A",
       );
     });
 
@@ -411,8 +408,8 @@ document.addEventListener("DOMContentLoaded", () => {
             type="button"
             class="btn btn-danger btn-sm rounded-3 shadow-sm"
             onclick="openDeleteExtensionModal(${i}, ${
-        i + 1
-      }, '${activityCode}')"
+              i + 1
+            }, '${activityCode}')"
             title="حذف"
           >
             <i class="bi bi-trash-fill"></i>
@@ -449,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <i class="fas fa-file-pdf me-1"></i>
             ${pdf.filename || `ملف ${idx + 1}`}
           </button>
-        `
+        `,
           )
           .join("")}
       </div>
@@ -474,7 +471,6 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
     };
 
- 
     if (!extracts || extracts.length === 0) {
       tbody.innerHTML = `
       <tr>
@@ -487,13 +483,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
- 
     extracts.forEach((extract, i) => {
       const extractDate = new Date(extract.extractDate).toLocaleDateString(
-        "ar-EG"
+        "ar-EG",
       );
-      const extractPrice =
-        (extract.extractValue || 0).toLocaleString() + " مليون جنيه";
+      const extractPrice = formatMoneyAdvanced(extract.extractValue || 0);
       const pdfLinks = createPDFLinks(extract.extractPDFs);
       const actions = createActionsButtons(extract._id || extract.id, i);
 
@@ -521,12 +515,11 @@ document.addEventListener("DOMContentLoaded", () => {
       tbody.insertAdjacentHTML("beforeend", row);
     });
 
- 
     const calculatedTotal = extracts.reduce((sum, extract) => {
       return sum + (extract.extractValue || 0);
     }, 0);
 
-    const formattedTotal = calculatedTotal.toLocaleString() + " مليون ج.م";
+    const formattedTotal = formatMoneyAdvanced(calculatedTotal);
     const totalRow = `
     <tr class="table-success fw-bold">
       <td class="text-center" colspan="2">
@@ -555,10 +548,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let i = 0; i < contracts.length; i++) {
       const contractDate = new Date(
-        contracts[i].contractDate
+        contracts[i].contractDate,
       ).toLocaleDateString("ar-EG");
-      const contractPrice =
-        (contracts[i].contractPrice || 0).toLocaleString() + " مليون ج.م";
+      const contractPrice = formatMoneyAdvanced(
+        contracts[i].contractPrice || 0,
+      );
       const contractNumber = contracts[i].contractNumber || i + 1;
 
       const row = `
@@ -592,8 +586,8 @@ document.addEventListener("DOMContentLoaded", () => {
               type="button"
               class="btn btn-danger btn-sm rounded-3 shadow-sm"
               onclick="openDeleteContractModal(${i}, ${
-        i + 1
-      }, ${contractNumber})"
+                i + 1
+              }, ${contractNumber})"
               title="حذف"
             >
               <i class="bi bi-trash-fill"></i>
@@ -745,7 +739,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         showToast("تم الحذف بنجاح");
         bootstrap.Modal.getInstance(
-          document.getElementById("confirmDeleteModal")
+          document.getElementById("confirmDeleteModal"),
         ).hide();
         initializePage();
       } catch (err) {
@@ -869,7 +863,7 @@ document.addEventListener("DOMContentLoaded", () => {
             row.cells[5].textContent;
 
           const modal = new bootstrap.Modal(
-            document.getElementById("editDecisionModal")
+            document.getElementById("editDecisionModal"),
           );
           modal.show();
 
@@ -891,16 +885,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     decisionUnit:
                       document.getElementById("editDecisionUnit").value,
                     decisionQuantity: parseFloat(
-                      document.getElementById("editDecisionQuantity").value
+                      document.getElementById("editDecisionQuantity").value,
                     ),
                     decisionPrice: parseFloat(
-                      document.getElementById("editDecisionPrice").value
+                      document.getElementById("editDecisionPrice").value,
                     ),
                     decisionTotal: parseFloat(
-                      document.getElementById("editDecisionTotal").value
+                      document.getElementById("editDecisionTotal").value,
                     ),
                   }),
-                }
+                },
               );
 
               if (!response.ok) throw new Error("فشل في تعديل البند");
@@ -922,7 +916,7 @@ document.addEventListener("DOMContentLoaded", () => {
             API_BASE_URL,
             activityCode,
             decisionId,
-            showToast
+            showToast,
           );
         });
       tableBody.appendChild(row);
@@ -950,7 +944,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setExtensionTable(
         result.data.extension || [],
         activityCode,
-        result.data.originalCompletionDate
+        result.data.originalCompletionDate,
       );
       setContractTable(result.data.contract || []);
       setExtractTable(result.data.extract || [], result.data.disbursedAmount);
@@ -959,7 +953,7 @@ document.addEventListener("DOMContentLoaded", () => {
         contractualTabContainer.innerHTML = "";
         renderPDFs(
           result.data.contractualDocuments || [],
-          contractualTabContainer
+          contractualTabContainer,
         );
       }
     } catch (err) {
@@ -972,7 +966,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const targetImg = e.target.closest(".previewable-img");
     if (targetImg) {
       const previewModal = new bootstrap.Modal(
-        document.getElementById("imagePreviewModal")
+        document.getElementById("imagePreviewModal"),
       );
       const previewImage = document.getElementById("previewImage");
       previewImage.src = targetImg.dataset.full;
