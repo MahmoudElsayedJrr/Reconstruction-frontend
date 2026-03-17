@@ -307,7 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (filters?.fiscalYear && filters.fiscalYear !== "الكل") {
         disbursedAmount = extracts
           .filter((e) => e.extractFiscalYear === filters.fiscalYear)
-          .reduce((sum, e) => sum + (parseFloat(e.extractValue) || 0), 0);
+          .reduce((sum, e) => sum + (e.extractValue || 0), 0);
       } else {
         disbursedAmount = parseFloat(project.disbursedAmount) || 0;
       }
