@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetButton = document.getElementById("reset-button");
 
   let codeToDelete = null;
+  let currentFilters = {}; // ← متغير خارجي لحفظ الفلاتر الحالية
 
   function getProgressBarColor(percentage, status) {
     if (status === "متأخر") return "#dc3545";
@@ -114,13 +115,13 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalDisbursed || 0;
-
       totalElement.textContent = formatMoneyAdvanced(total);
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
       totalElement.textContent = "خطأ";
     }
   }
+
   async function fetchTotalContractual(filters = {}) {
     const totalElement = document.getElementById("totalContractualValue");
     try {
@@ -140,9 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const queryString = queryParams.toString();
-      const url = `${API_URL}activity/total-contractualValue${
-        queryString ? `?${queryString}` : ""
-      }`;
+      const url = `${API_URL}activity/total-contractualValue${queryString ? `?${queryString}` : ""}`;
 
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -154,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalContractualValue || 0;
-
       totalElement.textContent = formatMoneyAdvanced(total);
     } catch (error) {
       console.error("فشل تحميل إجمالي التعاقدي", error);
@@ -179,9 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch(
         `${API_URL}budget/${encodeURIComponent(fiscalYear)}/${encodeURIComponent(fundingType)}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       const apiResponse = await response.json();
 
@@ -229,26 +225,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const token = localStorage.getItem("loggedInUserToken");
-
       const queryParams = new URLSearchParams();
       queryParams.append("fiscalYear", fiscalYear);
-
       if (fundingType && fundingType !== "الكل") {
         queryParams.append("fundingType", fundingType);
       }
 
       const response = await fetch(
         `${API_URL}activity/payout-percentage?${queryParams.toString()}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       const apiResponse = await response.json();
-
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(apiResponse.message || "فشل جلب البيانات");
-      }
 
       const { percentage, status, budget, totalDisbursed } = apiResponse.data;
 
@@ -264,17 +254,16 @@ document.addEventListener("DOMContentLoaded", () => {
         medium: "text-info",
         low: "text-success",
       };
-
       percentageElement.className = `${colorMap[status]} fw-bold`;
 
       const detailsElement = document.getElementById("payoutDetails");
       if (detailsElement) {
         detailsElement.innerHTML = `
-        <small class="text-muted">
-          المنصرف: ${formatMoneyAdvanced(totalDisbursed)} / 
-          المخصص: ${formatMoneyAdvanced(budget)}
-        </small>
-      `;
+          <small class="text-muted">
+            المنصرف: ${formatMoneyAdvanced(totalDisbursed)} / 
+            المخصص: ${formatMoneyAdvanced(budget)}
+          </small>
+        `;
       }
     } catch (error) {
       console.error("خطأ في حساب نسبة الصرف:", error);
@@ -283,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function prepareChartData(projects) {
+  function prepareChartData(projects, filters = {}) {
     const statusCounts = {};
     const governorateCounts = {};
     const categoryCounts = {};
@@ -302,12 +291,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ].reverse();
 
     projects.forEach((project) => {
-      const progress = parseFloat(project.progress) || 0;
       const status = project.status || "غير محدد";
-
-      let displayStatus = status;
-
-      statusCounts[displayStatus] = (statusCounts[displayStatus] || 0) + 1;
+      statusCounts[status] = (statusCounts[status] || 0) + 1;
 
       const governorate = project.governorate || "غير محدد";
       governorateCounts[governorate] =
@@ -316,7 +301,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const category = project.projectCategory || "غير محدد";
       categoryCounts[category] = (categoryCounts[category] || 0) + 1;
 
-      const disbursedAmount = parseFloat(project.disbursedAmount) || 0;
+      const extracts = project.extract || [];
+      let disbursedAmount = 0;
+
+      if (filters?.fiscalYear && filters.fiscalYear !== "الكل") {
+        disbursedAmount = extracts
+          .filter((e) => e.extractFiscalYear === filters.fiscalYear)
+          .reduce((sum, e) => sum + (parseFloat(e.extractValue) || 0), 0);
+      } else {
+        disbursedAmount = parseFloat(project.disbursedAmount) || 0;
+      }
+
       disbursedByCategory[category] =
         (disbursedByCategory[category] || 0) + disbursedAmount;
       disbursedByGovernorate[governorate] =
@@ -341,10 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     return {
-      status: {
-        labels: sortedStatusLabels,
-        values: sortedStatusValues,
-      },
+      status: { labels: sortedStatusLabels, values: sortedStatusValues },
       governorates: {
         labels: Object.keys(governorateCounts),
         values: Object.values(governorateCounts),
@@ -363,6 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     };
   }
+
   const generateColors = (count) => {
     const colors = [];
     for (let i = 0; i < count; i++) {
@@ -375,7 +368,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderCharts(chartData) {
     chart1Container.innerHTML = '<canvas id="projectStatusChart"></canvas>';
     const ctx1 = chart1Container.querySelector("canvas").getContext("2d");
-
     new Chart(ctx1, {
       type: "bar",
       data: {
@@ -408,10 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           y: {
             beginAtZero: true,
-            ticks: {
-              precision: 0,
-              callback: (val) => val.toLocaleString(),
-            },
+            ticks: { precision: 0, callback: (val) => val.toLocaleString() },
           },
         },
       },
@@ -420,7 +409,6 @@ document.addEventListener("DOMContentLoaded", () => {
     chart2Container.innerHTML =
       '<canvas id="projectsByGovernorateChart"></canvas>';
     const ctx2 = chart2Container.querySelector("canvas").getContext("2d");
-
     new Chart(ctx2, {
       type: "bar",
       data: {
@@ -455,10 +443,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           y: {
             beginAtZero: true,
-            ticks: {
-              precision: 0,
-              callback: (val) => val.toLocaleString(),
-            },
+            ticks: { precision: 0, callback: (val) => val.toLocaleString() },
           },
         },
       },
@@ -467,7 +452,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chart3Container.innerHTML = '<canvas id="projectCategoryChart"></canvas>';
     const ctx3 = chart3Container.querySelector("canvas").getContext("2d");
-
     new Chart(ctx3, {
       type: "bar",
       data: {
@@ -498,10 +482,7 @@ document.addEventListener("DOMContentLoaded", () => {
               font: { size: 11 },
             },
           },
-          y: {
-            beginAtZero: true,
-            ticks: { precision: 0 },
-          },
+          y: { beginAtZero: true, ticks: { precision: 0 } },
         },
       },
       plugins: [ChartDataLabels],
@@ -529,7 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: true },
-
           tooltip: {
             callbacks: {
               label: function (context) {
@@ -545,7 +525,6 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByCategory.labels[index];
                 const amount = chartData.disbursedByCategory.values[index];
-
                 return [label, formatMoneyAdvanced(amount)];
               },
               font: { size: 11 },
@@ -553,11 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           y: {
             beginAtZero: true,
-            ticks: {
-              callback: function (value) {
-                return formatMoneyAdvanced(value);
-              },
-            },
+            ticks: { callback: (value) => formatMoneyAdvanced(value) },
           },
         },
       },
@@ -567,7 +542,6 @@ document.addEventListener("DOMContentLoaded", () => {
     chart5Container.innerHTML =
       '<canvas id="disbursedByGovernorateChart"></canvas>';
     const ctx6 = chart5Container.querySelector("canvas").getContext("2d");
-
     new Chart(ctx6, {
       type: "bar",
       data: {
@@ -587,7 +561,6 @@ document.addEventListener("DOMContentLoaded", () => {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: true },
-
           tooltip: {
             callbacks: {
               label: function (context) {
@@ -603,7 +576,6 @@ document.addEventListener("DOMContentLoaded", () => {
               callback: function (value, index) {
                 const label = chartData.disbursedByGovernorate.labels[index];
                 const amount = chartData.disbursedByGovernorate.values[index];
-
                 return [label, formatMoneyAdvanced(amount)];
               },
               font: { size: 11 },
@@ -611,11 +583,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           y: {
             beginAtZero: true,
-            ticks: {
-              callback: function (value) {
-                return formatMoneyAdvanced(value);
-              },
-            },
+            ticks: { callback: (value) => formatMoneyAdvanced(value) },
           },
         },
       },
@@ -633,29 +601,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const reversedProjects = projects.slice().reverse();
-
-    reversedProjects.forEach((project, index) => {
+    reversedProjects.forEach((project) => {
       const row = document.createElement("tr");
       const percentage = parseFloat(project.progress) || 0;
       const barColor = getProgressBarColor(percentage, project.status);
 
       row.innerHTML = `
-        <td><span class="badge bg-info bg-opacity-25 text-info-emphasis">${
-          project.activityCode || "غير محدد"
-        }</span></td>
+        <td><span class="badge bg-info bg-opacity-25 text-info-emphasis">${project.activityCode || "غير محدد"}</span></td>
         <td>
-          <span class="truncate-text" title="${
-            project.activityName || "مشروع بدون اسم"
-          }">
+          <span class="truncate-text" title="${project.activityName || "مشروع بدون اسم"}">
             ${project.activityName || "مشروع بدون اسم"}
           </span>
         </td>
-        <td><span class="badge bg-light text-dark">${
-          project.projectCategory || "غير محدد"
-        }</span></td>
-        <td><span class="badge bg-light text-dark">${
-          project.fundingType || "غير محدد"
-        }</span></td>
+        <td><span class="badge bg-light text-dark">${project.projectCategory || "غير محدد"}</span></td>
+        <td><span class="badge bg-light text-dark">${project.fundingType || "غير محدد"}</span></td>
         <td>
           <div class="progress" role="progressbar" style="height: 20px; font-size: 0.6rem;">
             ${
@@ -671,18 +630,11 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </td>
         <td>
-          <a href="project-details.html?code=${
-            project.activityCode
-          }" class="action-btn" title="عرض التفاصيل"><i class="fas fa-eye text-info"></i></a>
-          <a href="edit-project.html?code=${
-            project.activityCode
-          }" class="action-btn" title="تعديل"><i class="fas fa-pen text-primary"></i></a>
-          <button class="action-btn delete-btn" data-code="${
-            project.activityCode
-          }" title="حذف" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash text-danger"></i></button>
+          <a href="project-details.html?code=${project.activityCode}" class="action-btn" title="عرض التفاصيل"><i class="fas fa-eye text-info"></i></a>
+          <a href="edit-project.html?code=${project.activityCode}" class="action-btn" title="تعديل"><i class="fas fa-pen text-primary"></i></a>
+          <button class="action-btn delete-btn" data-code="${project.activityCode}" title="حذف" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash text-danger"></i></button>
         </td>
       `;
-
       projectsTableBody.appendChild(row);
     });
   }
@@ -704,7 +656,6 @@ document.addEventListener("DOMContentLoaded", () => {
           const overlay = document.createElement("div");
           overlay.className = "sidebar-overlay";
           document.body.appendChild(overlay);
-
           overlay.addEventListener("click", () => {
             sidebar.classList.remove("active");
             overlay.remove();
@@ -744,8 +695,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const token = localStorage.getItem("loggedInUserToken");
-
       const queryParams = new URLSearchParams();
+
       for (const key in filters) {
         const value = filters[key];
         if (
@@ -759,13 +710,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const fetchUrl = `${API_URL}activity?${queryParams.toString()}`;
-
       const response = await fetch(fetchUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const apiResponse = await response.json();
-
       if (!response.ok) {
         throw new Error(
           apiResponse.data || apiResponse.message || "فشل جلب البيانات",
@@ -778,7 +727,11 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         console.log("Number of projects:", apiResponse.data.activities.length);
         renderTable(apiResponse.data.activities);
-        const chartData = prepareChartData(apiResponse.data.activities);
+        // ← التعديل الأساسي: تمرير filters لـ prepareChartData
+        const chartData = prepareChartData(
+          apiResponse.data.activities,
+          filters,
+        );
         renderCharts(chartData);
       } else {
         console.log("لا توجد بيانات مشاريع");
@@ -808,9 +761,8 @@ document.addEventListener("DOMContentLoaded", () => {
       activityCode: document.getElementById("activityCodeFilter")?.value || "",
       status: document.getElementById("statusFilter")?.value || "",
       fundingType: document.getElementById("fundingTypeFilter")?.value || "",
-      hasContract: document.getElementById("hasContractFilter")?.value || "لا",
-      hasExtension:
-        document.getElementById("hasExtensionFilter")?.value || "لا",
+      hasContract: document.getElementById("hasContractFilter")?.value || "",
+      hasExtension: document.getElementById("hasExtensionFilter")?.value || "",
       fundingSource:
         document.getElementById("fundingSourceFilter")?.value || "",
       fiscalYear: document.getElementById("fiscalYearFilter")?.value || "",
@@ -835,6 +787,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    currentFilters = filters; // ← حفظ الفلاتر الحالية
     console.log("Filters to apply:", filters);
     localStorage.setItem("dashboardFilters", JSON.stringify(filters));
 
@@ -950,6 +903,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initializePage() {
     const filters = restoreFilters();
+    currentFilters = filters;
     fetchTotalDisbursed(filters);
     fetchTotalContractual(filters);
     fetchAndRenderProjects(filters);
