@@ -350,9 +350,15 @@ export function renderForm(
 
       <div class="col-md-4">
         <label for="progress" class="form-label">نسبة الإنجاز</label>
-        <input type="number" id="progress" class="form-control" value="${
-          project.progress || 0
-        }">
+        <input 
+          type="number" 
+          id="progress" 
+          class="form-control" 
+          step="0.1"
+          min="0"
+          max="100"
+          value="${project.progress || 0}"
+        >
       </div>
 
       <div class="col-md-12">
