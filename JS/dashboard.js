@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(apiResponse.message || "فشل جلب البيانات");
 
       const total = apiResponse.data.totalDisbursed || 0;
+      console.log("Total disbursed:", total);
       totalElement.textContent = formatMoneyAdvanced(total);
     } catch (error) {
       console.error("فشل تحميل إجمالي المنصرف", error);
@@ -285,6 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "متأخر",
       "مسحوب",
       "متوقف",
+      "يحتاج مد مده",
       "مكتمل",
       "تسليم ابتدائي",
       "تسليم نهائي",

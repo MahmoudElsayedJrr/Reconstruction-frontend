@@ -336,6 +336,9 @@ export function renderForm(
           <option value="متوقف" ${
             project.status === "متوقف" ? "selected" : ""
           }>متوقف</option>
+          <option value="يحتاج مد مده" ${
+            project.status === "يحتاج مد مده" ? "selected" : ""
+          }>يحتاج مد مده</option>
           <option value="تحت الطرح" ${
             project.status === "تحت الطرح" ? "selected" : ""
           }>تحت الطرح</option>

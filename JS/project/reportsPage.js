@@ -248,6 +248,7 @@ function renderStatsTable(stats) {
     late: 0,
     inProgress: 0,
     suspended: 0,
+    needsExtension: 0,
     initialDelivery: 0,
     finalDelivery: 0,
   };
@@ -262,6 +263,7 @@ function renderStatsTable(stats) {
     totals.late += stat.late;
     totals.inProgress += stat.inProgress;
     totals.suspended += stat.suspended;
+    totals.needsExtension += stat.needsExtension;
     totals.initialDelivery += stat.initialDelivery;
     totals.finalDelivery += stat.finalDelivery;
 
@@ -291,6 +293,9 @@ function renderStatsTable(stats) {
         <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
           stat.governorate
         }', 'متوقف')">${stat.suspended || 0}</td>
+        <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick('${
+          stat.governorate
+        }', 'يحتاج مد مده')">${stat.needsExtension || 0}</td>
         <td class="text-center align-middle clickable bg-info bg-opacity-10" onclick="handleCellClick('${
           stat.governorate
         }', 'تسليم ابتدائي')">${stat.initialDelivery || 0}</td>
@@ -314,6 +319,7 @@ function renderStatsTable(stats) {
                         <td class="text-center">${totals.inProgress}</td>
                         <td class="text-center">${totals.late}</td>
                         <td class="text-center">${totals.suspended}</td>
+                        <td class="text-center">${totals.needsExtension}</td>
                         <td class="text-center">${totals.initialDelivery}</td>
                         <td class="text-center">${totals.finalDelivery}</td>
                         
@@ -390,6 +396,7 @@ function renderProjects(activities) {
       متأخر: "danger",
       مسحوب: "warning",
       متوقف: "danger",
+      "يحتاج مد مده": "warning",
       "تسليم ابتدائي": "info",
       "تسليم نهائي": "success",
     };
@@ -561,6 +568,7 @@ function printStatistics() {
                         <th class="text-center">قيد التنفيذ</th>
                         <th class="text-center">متأخر</th>
                         <th class="text-center">متوقف</th>
+                        <th class="text-center">يحتاج مد مده</th>
                         <th class="text-center">تسليم ابتدائي</th>
                         <th class="text-center">تسليم نهائي</th>
                     </tr>
