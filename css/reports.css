@@ -262,6 +262,11 @@ body {
 }
 
 .btn-print {
+  background: linear-gradient(135deg, #f59e0b, #e7b257);
+  color: white;
+}
+
+.btn-export {
   background: linear-gradient(
     135deg,
     var(--success-green),
@@ -271,6 +276,10 @@ body {
 }
 
 .btn-print:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+.btn-export:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
   background: linear-gradient(135deg, var(--success-dark), #047857);

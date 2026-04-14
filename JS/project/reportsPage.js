@@ -86,6 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initializePage();
 });
 
+document
+  .getElementById("exportExcelBtn")
+  .addEventListener("click", exportToExcel);
 document.getElementById("filterButton").addEventListener("click", applyFilters);
 document.getElementById("resetButton").addEventListener("click", resetFilters);
 document
@@ -470,6 +473,134 @@ function renderProjects(activities) {
 
   projectsCard.style.display = "block";
   projectsCard.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function exportToExcel() {
+  const statsBody = document.getElementById("statsBody");
+
+  if (!statsBody.innerHTML.trim() || statsBody.querySelector(".default-row")) {
+    alert("لا توجد بيانات لتصديرها!");
+    return;
+  }
+
+  const table = document.querySelector("#statsCard table");
+  const ws = XLSX.utils.table_to_sheet(table);
+
+  ws["!sheetViews"] = [{ rightToLeft: true }];
+
+  const colWidths = [];
+  const range = XLSX.utils.decode_range(ws["!ref"]);
+  for (let C = range.s.c; C <= range.e.c; ++C) {
+    let maxWidth = 15;
+    for (let R = range.s.r; R <= range.e.r; ++R) {
+      const cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
+      if (cell && cell.v != null) {
+        const len = cell.v.toString().length;
+        if (len > maxWidth) maxWidth = len;
+      }
+    }
+    colWidths.push({ wch: maxWidth + 1 });
+  }
+  ws["!cols"] = colWidths;
+
+  const parseCssColor = (cssColor) => {
+    if (!cssColor || cssColor === "transparent") return null;
+
+    let m = String(cssColor).match(
+      /^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([0-9.]+)\s*\)$/i,
+    );
+    if (m) {
+      const r = +m[1],
+        g = +m[2],
+        b = +m[3],
+        a = +m[4];
+      if (a === 0) return null;
+      const hex = [r, g, b]
+        .map((n) => n.toString(16).padStart(2, "0"))
+        .join("")
+        .toUpperCase();
+      return { hex, r, g, b, a };
+    }
+
+    // rgb(r,g,b)
+    m = String(cssColor).match(/^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i);
+    if (m) {
+      const r = +m[1],
+        g = +m[2],
+        b = +m[3];
+      const hex = [r, g, b]
+        .map((n) => n.toString(16).padStart(2, "0"))
+        .join("")
+        .toUpperCase();
+      return { hex, r, g, b, a: 1 };
+    }
+
+    return null;
+  };
+
+  const isGrayLike = ({ r, g, b }) => {
+    const close =
+      Math.abs(r - g) < 12 && Math.abs(r - b) < 12 && Math.abs(g - b) < 12;
+    if (!close) return false;
+
+    const brightness = (r + g + b) / 3;
+    if (brightness < 60) return false;
+    if (brightness > 245) return false;
+
+    return true;
+  };
+
+  const mergeStyle = (cell, add) => {
+    cell.s = cell.s || {};
+    cell.s = {
+      ...cell.s,
+      ...add,
+      alignment: { ...(cell.s.alignment || {}), ...(add.alignment || {}) },
+      font: { ...(cell.s.font || {}), ...(add.font || {}) },
+      fill: { ...(cell.s.fill || {}), ...(add.fill || {}) },
+      border: { ...(cell.s.border || {}), ...(add.border || {}) },
+    };
+  };
+
+  const headerStyle = {
+    alignment: { horizontal: "center", vertical: "center" },
+    font: { bold: true, color: { rgb: "FF000000" } },
+    fill: { patternType: "solid", fgColor: { rgb: "FFE6E6E6" } },
+  };
+
+  const rows = table.rows;
+  for (let r = 0; r < rows.length; r++) {
+    for (let c = 0; c < rows[r].cells.length; c++) {
+      const elCell = rows[r].cells[c];
+      const addr = XLSX.utils.encode_cell({ r, c });
+      const xCell = ws[addr];
+      if (!xCell) continue;
+
+      if (r === 0) {
+        mergeStyle(xCell, headerStyle);
+        continue;
+      }
+
+      const parsed = parseCssColor(getComputedStyle(elCell).backgroundColor);
+      if (!parsed) continue;
+
+      if (isGrayLike(parsed)) {
+        mergeStyle(xCell, {
+          fill: { patternType: "solid", fgColor: { rgb: "FF" + parsed.hex } },
+        });
+      }
+    }
+  }
+
+  const wb = XLSX.utils.book_new();
+  wb.Workbook = { Views: [{ RTL: true }] };
+  XLSX.utils.book_append_sheet(wb, ws, "إحصائيات المشروعات");
+
+  const fileName = `تقرير_المشروعات_${new Date()
+    .toLocaleDateString("ar-EG")
+    .replace(/\//g, "-")}.xlsx`;
+
+  XLSX.writeFile(wb, fileName);
 }
 
 function printStatistics() {

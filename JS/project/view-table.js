@@ -314,6 +314,8 @@ function renderModalTable() {
 
 function updateModalStats() {
   const totalProjects = currentModalData.length;
+
+  // 1. حساب القيم
   const totalValue = currentModalData.reduce(
     (sum, a) => sum + (a.contractualValue || 0),
     0,
@@ -326,12 +328,13 @@ function updateModalStats() {
   }, 0);
 
   document.getElementById("modalTotalProjects").textContent = totalProjects;
-  document.getElementById("modalTotalValue").textContent =
-    formatNumber(totalValue) + " مليون ج.م";
-  document.getElementById("modalTotalDisbursed").textContent =
-    formatNumber(totalDisbursed) + " مليون ج.م";
-}
 
+  document.getElementById("modalTotalValue").textContent =
+    formatMoneyAdvanced(totalValue);
+
+  document.getElementById("modalTotalDisbursed").textContent =
+    formatMoneyAdvanced(totalDisbursed);
+}
 // معالج الترتيب
 document.getElementById("modalSortBy").addEventListener("change", function (e) {
   const sortValue = e.target.value;

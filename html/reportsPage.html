@@ -223,10 +223,17 @@
             <i class="fas fa-chart-bar"></i>
             <h3>جدول الإحصائيات التفصيلية</h3>
           </div>
-          <button class="btn-action btn-print" id="printStatsBtn">
-            <i class="fas fa-print"></i>
-            <span>طباعة التقرير</span>
-          </button>
+
+          <div class="filter-actions">
+            <button class="btn-action btn-print" id="printStatsBtn">
+              <i class="fas fa-print"></i>
+              <span>طباعة التقرير</span>
+            </button>
+
+            <button id="exportExcelBtn" class="btn-action btn-export">
+              <i class="fas fa-file-excel"></i> تصدير Excel
+            </button>
+          </div>
         </div>
 
         <div class="table-container">
@@ -276,6 +283,8 @@
     <!-- Footer -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+
     <script src="../JS/project/reportsPage.js"></script>
     <script src="../JS/constants.js"></script>
     <script src="../JS/main.js"></script>
