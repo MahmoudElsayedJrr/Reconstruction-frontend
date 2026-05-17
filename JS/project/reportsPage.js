@@ -246,6 +246,7 @@ function renderStatsTable(stats) {
   let totals = {
     totalActivities: 0,
     begin: 0,
+    stuck: 0,
     completed: 0,
     withdrawn: 0,
     late: 0,
@@ -261,6 +262,7 @@ function renderStatsTable(stats) {
 
     totals.totalActivities += stat.totalActivities;
     totals.begin += stat.begin;
+    totals.stuck += stat.stuck;
     totals.completed += stat.completed;
     totals.withdrawn += stat.withdrawn;
     totals.late += stat.late;
@@ -284,6 +286,11 @@ function renderStatsTable(stats) {
         <td class="text-center align-middle clickable bg-success bg-opacity-10" onclick="handleCellClick('${
           stat.governorate
         }', 'مكتمل')">${stat.completed || 0}</td>
+
+        <td class="text-center align-middle clickable bg-success bg-opacity-10" onclick="handleCellClick('${
+          stat.governorate
+        }', 'متعثرة')">${stat.stuck || 0}</td>
+
         <td class="text-center align-middle clickable bg-danger bg-opacity-10" onclick="handleCellClick('${
           stat.governorate
         }', 'مسحوب')">${stat.withdrawn || 0}</td>
@@ -318,6 +325,7 @@ function renderStatsTable(stats) {
                         <td class="text-center">${totals.totalActivities}</td>
                         <td class="text-center">${totals.begin}</td>
                         <td class="text-center">${totals.completed}</td>
+                        <td class="text-center">${totals.stuck}</td>
                         <td class="text-center">${totals.withdrawn}</td>
                         <td class="text-center">${totals.inProgress}</td>
                         <td class="text-center">${totals.late}</td>
@@ -396,6 +404,7 @@ function renderProjects(activities) {
       "قيد التنفيذ": "primary",
       "تحت الطرح": "info",
       مكتمل: "success",
+      متعثرة: "warning",
       متأخر: "danger",
       مسحوب: "warning",
       متوقف: "danger",

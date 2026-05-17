@@ -324,9 +324,12 @@ export function renderForm(
           <option value="قيد التنفيذ" ${
             project.status === "قيد التنفيذ" ? "selected" : ""
           }>قيد التنفيذ</option>
-          <option value="مكتمل" ${
-            project.status === "مكتمل" ? "selected" : ""
-          }>مكتمل</option>
+              <option value="مكتمل" ${
+                project.status === "مكتمل" ? "selected" : ""
+              }>مكتمل</option>
+              <option value="متعثرة" ${
+                project.status === "متعثرة" ? "selected" : ""
+              }>متعثرة</option>
           <option value="متأخر" ${
             project.status === "متأخر" ? "selected" : ""
           }>متأخر</option>
