@@ -107,82 +107,21 @@
 
         <div class="col-md-6 mb-4">
           <div
+            id="totalBudgetCard"
+            class="card text-center shadow-sm p-3 h-100"
+          >
+            <h5 class="card-title">المخصص المالي</h5>
+            <h3 id="totalBudgetValue" class="text-primary fw-bold">0</h3>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <div
             id="totalDisbursedCard"
             class="card text-center shadow-sm p-3 h-100"
           >
             <h5 class="card-title">إجمالي المنصرف</h5>
             <h3 id="totalDisbursedValue" class="text-success fw-bold">0</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mb-4">
-        <div class="col-12">
-          <div class="card p-4 search-filter-section">
-            <div class="row g-3 align-items-center">
-              <div class="col-md-6">
-                <label
-                  for="sharedFiscalYear"
-                  class="form-label filter-label white-text"
-                  >السنة المالية</label
-                >
-                <select class="form-select custom-select" id="sharedFiscalYear">
-                  <option value="">اختر السنة المالية</option>
-                  <option>2024/2025</option>
-                  <option>2025/2026</option>
-                  <option>2026/2027</option>
-                  <option>2027/2028</option>
-                  <option>2028/2029</option>
-                  <option>2029/2030</option>
-                  <option>2030/2031</option>
-                  <option>2031/2032</option>
-                  <option>2032/2033</option>
-                  <option>2033/2034</option>
-                  <option>2034/2035</option>
-                  <option>2035/2036</option>
-                  <option>2036/2037</option>
-                  <option>2037/2038</option>
-                  <option>2038/2039</option>
-                  <option>2039/2040</option>
-                  <option>2040/2041</option>
-                </select>
-              </div>
-
-              <div class="col-md-6">
-                <label for="sharedFundingType" class="form-label filter-label"
-                  >نوع التمويل</label
-                >
-                <select
-                  class="form-select custom-select"
-                  id="sharedFundingType"
-                >
-                  <option value="">اختر نوع التمويل</option>
-                  <option>خطة استثمارية</option>
-                  <option>تمويل الغير</option>
-                </select>
-              </div>
-
-              <!--             <div class="col-md-2">
-                <label class="form-label mb-1 d-none d-md-block">&nbsp;</label>
-                <button class="btn btn-apply w-100" id="applyFilters">
-                  <i class="fas fa-filter me-1"></i> تطبيق
-                </button>
-              </div> -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6 mb-4">
-          <div
-            id="totalBudgetCard"
-            class="card text-center shadow-sm p-3 h-100"
-          >
-            <h5 class="card-title">المخصص المالي</h5>
-            <h3 id="totalBudgetValue" class="text-primary fw-bold">
-              برجاء اختيار الفلاتر
-            </h3>
           </div>
         </div>
 
@@ -192,10 +131,7 @@
             class="card text-center shadow-sm p-3 h-100"
           >
             <h5 class="card-title">نسبة الصرف</h5>
-            <h3 id="payoutPercentageValue" class="text-warning fw-bold">
-              برجاء اختيار الفلاتر
-            </h3>
-            <div id="payoutDetails" class="mt-2"></div>
+            <h3 id="payoutPercentageValue" class="text-warning fw-bold">0%</h3>
           </div>
         </div>
       </div>

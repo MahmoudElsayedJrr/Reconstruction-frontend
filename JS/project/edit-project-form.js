@@ -293,16 +293,8 @@ export function renderForm(
           project.contractualValue || 0
         }" >
       </div>
-      
-          <div class="col-md-4">
-        <label for="completionDate" class="form-label">تاريخ النهو</label>
-        <input type="date" id="completionDate" class="form-control" value="${
-          project.completionDate
-            ? new Date(project.completionDate).toISOString().split("T")[0]
-            : ""
-        }">
-      </div>
-      
+
+
       <div class="col-md-4">
         <label for="receptionDate" class="form-label">تاريخ البدء</label>
         <input type="date" id="receptionDate" class="form-control" value="${
@@ -311,6 +303,17 @@ export function renderForm(
             : ""
         }">
       </div>
+      
+      <div class="col-md-4">
+        <label for="completionDate" class="form-label">تاريخ النهو</label>
+        <input type="date" id="completionDate" class="form-control" value="${
+          project.completionDate
+            ? new Date(project.completionDate).toISOString().split("T")[0]
+            : ""
+        }">
+      </div>
+      
+      
     `;
   }
 

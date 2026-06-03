@@ -3,16 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  document
-    .getElementById("sharedFiscalYear")
-    ?.addEventListener("change", applySharedFilters);
-  document
-    .getElementById("sharedFundingType")
-    ?.addEventListener("change", applySharedFilters);
-  document
-    .getElementById("applyFilters")
-    ?.addEventListener("click", applySharedFilters);
-
   const projectsTableBody = document.getElementById("projects-table-body");
   const chart1Container = document.getElementById("chart1-container");
   const chart2Container = document.getElementById("chart2-container");
@@ -25,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetButton = document.getElementById("reset-button");
 
   let codeToDelete = null;
-  let currentFilters = {}; // ← متغير خارجي لحفظ الفلاتر الحالية
+  let currentFilters = {}; 
 
   function getProgressBarColor(percentage, status) {
     if (status === "متأخر") return "#dc3545";
@@ -92,44 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (resetButton) {
     resetButton.addEventListener("click", resetFilters);
-  }
-
-  async function applySharedFilters() {
-    const fiscalYear = document.getElementById("sharedFiscalYear").value;
-    const fundingType = document.getElementById("sharedFundingType").value;
-
-    if (!fiscalYear) {
-      showFilterMessage("totalBudgetValue", "اختر السنة المالية");
-      showFilterMessage("payoutPercentageValue", "اختر السنة المالية");
-      return;
-    }
-
-    if (!fundingType) {
-      showFilterMessage("totalBudgetValue", "اختر نوع التمويل");
-      showFilterMessage("payoutPercentageValue", "اختر نوع التمويل");
-      return;
-    }
-
-    const sharedFilters = {
-      fiscalYear: fiscalYear,
-      fundingType: fundingType,
-    };
-    localStorage.setItem(
-      "dashboardSharedFilters",
-      JSON.stringify(sharedFilters),
-    );
-
-    await Promise.all([
-      loadBudgetForYear(fiscalYear, fundingType),
-      fetchPayoutPercentage(fiscalYear, fundingType),
-    ]);
-  }
-
-  function showFilterMessage(elementId, message) {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.innerHTML = `<small style="color: white;">${message}</small>`;
-    }
   }
 
   async function fetchTotalDisbursed(filters = {}) {
@@ -213,8 +165,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("loggedInUserToken");
     const budgetElement = document.getElementById("totalBudgetValue");
 
-    budgetElement.innerHTML =
-      '<span class="spinner-border spinner-border-sm"></span>';
+    if (!fiscalYear || fiscalYear === "الكل") {
+      budgetElement.textContent = "برجاء تحديد السنة المالية";
+      return;
+    }
+
+    if (!fundingType || fundingType === "الكل") {
+      budgetElement.textContent = "برجاء تحديد نوع التمويل";
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -224,65 +183,55 @@ document.addEventListener("DOMContentLoaded", () => {
       const apiResponse = await response.json();
 
       if (apiResponse.status === "success" && apiResponse.data) {
-        budgetElement.textContent = formatMoneyAdvanced(
-          apiResponse.data.amount,
-        );
-        budgetElement.className = "text-primary fw-bold";
+        if (fundingType && fundingType !== "الكل") {
+          budgetElement.textContent = formatMoneyAdvanced(
+            apiResponse.data.amount,
+          );
+        } else {
+          if (Array.isArray(apiResponse.data)) {
+            const totalAmount = apiResponse.data.reduce(
+              (sum, budget) => sum + budget.amount,
+              0,
+            );
+            budgetElement.textContent = formatMoneyAdvanced(totalAmount);
+          } else {
+            budgetElement.textContent = formatMoneyAdvanced(
+              apiResponse.data.amount,
+            );
+          }
+        }
       } else {
         budgetElement.textContent = "٠ ج.م";
-        budgetElement.className = "text-primary fw-bold";
       }
     } catch (error) {
       console.error("خطأ في تحميل الميزانية:", error);
-      budgetElement.innerHTML =
-        '<small class="text-danger">خطأ في التحميل</small>';
+      budgetElement.textContent = "خطأ";
     }
   }
 
   async function fetchPayoutPercentage(fiscalYear, fundingType) {
     const percentageElement = document.getElementById("payoutPercentageValue");
-    const detailsElement = document.getElementById("payoutDetails");
 
-    percentageElement.innerHTML =
-      '<span class="spinner-border spinner-border-sm"></span>';
-    if (detailsElement) detailsElement.innerHTML = "";
+    if (!fiscalYear || fiscalYear === "الكل") {
+      percentageElement.textContent = "برجاء تحديد السنة المالية";
+      percentageElement.className = "text-muted fw-bold";
+      return;
+    }
+
+    if (!fundingType || fundingType === "الكل") {
+      percentageElement.textContent = "برجاء تحديد نوع التمويل";
+      percentageElement.className = "text-muted fw-bold";
+      return;
+    }
 
     try {
       const token = localStorage.getItem("loggedInUserToken");
       const queryParams = new URLSearchParams();
-
-      // 1. إضافة الفلاتر الأساسية الإلزامية
       queryParams.append("fiscalYear", fiscalYear);
-      queryParams.append("fundingType", fundingType);
+      if (fundingType && fundingType !== "الكل") {
+        queryParams.append("fundingType", fundingType);
+      }
 
-      // 2. 👇 الجزء السحري: جلب الفلاتر الحالية المحددة في الصفحة (مثل المحافظة وباقي العناصر)
-      // قمنا بوضع كل الـ IDs للفلاتر المتاحة في لوحة التحكم لديك
-      const filterIds = [
-        "projectNameFilter",
-        "governorateFilter", // 👈 فلتر المحافظة (الإسماعيلية مثلاً)
-        "activityCodeFilter",
-        "statusFilter",
-        "fundingSourceFilter",
-        "hasContractFilter",
-        "hasExtensionFilter",
-        "projectCategoryFilter",
-        "progressMin",
-        "progressMax",
-        "disbursedPercentageMin",
-        "disbursedPercentageMax",
-      ];
-
-      filterIds.forEach((id) => {
-        const element = document.getElementById(id);
-        // إذا كان العنصر موجوداً وله قيمة ومختار قيمة فعلية (ليست فارغة)
-        if (element && element.value && element.value !== "") {
-          // نقوم بتحويل الـ ID إلى اسم الفلتر المتوقع في الباك إند (عن طريق إزالة كلمة Filter من نهايته)
-          const queryKey = id.replace("Filter", "");
-          queryParams.append(queryKey, element.value);
-        }
-      });
-
-      // 3. إرسال الطلب بالرابط الجديد المليء بالفلاتر كاملة
       const response = await fetch(
         `${API_URL}activity/payout-percentage?${queryParams.toString()}`,
         { headers: { Authorization: `Bearer ${token}` } },
@@ -307,10 +256,20 @@ document.addEventListener("DOMContentLoaded", () => {
         low: "text-success",
       };
       percentageElement.className = `${colorMap[status]} fw-bold`;
+
+      const detailsElement = document.getElementById("payoutDetails");
+      if (detailsElement) {
+        detailsElement.innerHTML = `
+          <small class="text-muted">
+            المنصرف: ${formatMoneyAdvanced(totalDisbursed)} / 
+            المخصص: ${formatMoneyAdvanced(budget)}
+          </small>
+        `;
+      }
     } catch (error) {
       console.error("خطأ في حساب نسبة الصرف:", error);
-      percentageElement.innerHTML =
-        '<small class="text-danger">خطأ في الحساب</small>';
+      percentageElement.textContent = "خطأ في الحساب";
+      percentageElement.className = "text-danger fw-bold";
     }
   }
 
@@ -324,7 +283,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusOrder = [
       "تحت الطرح",
       "قيد التنفيذ",
-      "متعثرة",
       "متأخر",
       "مسحوب",
       "متوقف",
@@ -771,6 +729,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         console.log("Number of projects:", apiResponse.data.activities.length);
         renderTable(apiResponse.data.activities);
+        // ← التعديل الأساسي: تمرير filters لـ prepareChartData
         const chartData = prepareChartData(
           apiResponse.data.activities,
           filters,
@@ -838,6 +797,11 @@ document.addEventListener("DOMContentLoaded", () => {
       fetchAndRenderProjects(filters),
       fetchTotalDisbursed(filters),
       fetchTotalContractual(filters),
+      loadBudgetForYear(filters.fiscalYear || "", filters.fundingType || ""),
+      fetchPayoutPercentage(
+        filters.fiscalYear || "",
+        filters.fundingType || "",
+      ),
     ]).finally(() => {
       filterButton.disabled = false;
       filterButton.innerHTML = `<i class="fas fa-filter"></i>`;
@@ -869,21 +833,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const savedFilters = JSON.parse(
         localStorage.getItem("dashboardFilters") || "{}",
       );
-
-      const savedSharedFilters = JSON.parse(
-        localStorage.getItem("dashboardSharedFilters") || "{}",
-      );
-
       await fetchAndRenderProjects(savedFilters);
       await fetchTotalDisbursed(savedFilters);
       await fetchTotalContractual(savedFilters);
       await loadBudgetForYear(
-        savedSharedFilters.fiscalYear,
-        savedSharedFilters.fundingType,
+        savedFilters.fiscalYear || "",
+        savedFilters.fundingType || "",
       );
       await fetchPayoutPercentage(
-        savedSharedFilters.fiscalYear,
-        savedSharedFilters.fundingType,
+        savedFilters.fiscalYear || "",
+        savedFilters.fundingType || "",
       );
     } catch (error) {
       showToast(`Error: ${error.message}`, "danger");
@@ -950,6 +909,8 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchTotalDisbursed(filters);
     fetchTotalContractual(filters);
     fetchAndRenderProjects(filters);
+    loadBudgetForYear(filters.fiscalYear || "", filters.fundingType || "");
+    fetchPayoutPercentage(filters.fiscalYear || "", filters.fundingType || "");
   }
 
   initializePage();
