@@ -20,7 +20,7 @@ export function renderForm(
   let formHTML = `<form id="editProjectForm" enctype="multipart/form-data" method="POST">
     <div class="row g-3">`;
 
-  if (userRole === "admin" || userRole === "manager") {
+  if (userRole === "admin" || userRole === "super_admin" || userRole === "manager") {
     formHTML += `
       <h5 class="form-section-title">البيانات الأساسية</h5>
       
@@ -317,7 +317,7 @@ export function renderForm(
     `;
   }
 
-  if (userRole === "admin" || userRole === "executive") {
+  if (userRole === "admin" || userRole === "super_admin" || userRole === "executive") {
     formHTML += `
       <h5 class="form-section-title">البيانات التنفيذية</h5>
 
@@ -391,7 +391,7 @@ export function renderForm(
     `;
   }
 
-  if (userRole === "financial" || userRole === "admin") {
+  if (userRole === "financial" || userRole === "admin" || userRole === "super_admin") {
     formHTML += `
       <h5 class="form-section-title">البيانات المالية</h5>
       
@@ -403,7 +403,7 @@ export function renderForm(
     `;
   }
 
-  if (userRole === "admin" || userRole === "projectManager") {
+  if (userRole === "admin" || userRole === "super_admin" || userRole === "projectManager") {
     if (project.projectCategory === "طرق") {
       formHTML += `
         <h5 class="form-section-title">بيانات الطرق</h5>
@@ -493,7 +493,7 @@ export function renderForm(
     `;
   }
 
-  if (userRole === "admin" || userRole === "contractual") {
+  if (userRole === "admin" || userRole === "super_admin" || userRole === "contractual") {
     formHTML += `
       <h5 class="form-section-title">البيانات التعاقدية</h5>
       

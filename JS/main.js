@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const role = localStorage.getItem("loggedInUserRole");
 
     const roleNames = {
+      super_admin: "أدمن",
       admin: "أدمن",
       manager: "تخطيط ومتابعة",
       executive: "تنفيذية",
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const addactivityLink = document.getElementById("addactivityLink");
     const budgetPageLink = document.getElementById("budgetPageLink");
 
-    if (role === "admin") {
+    if (role === "admin" || role === "super_admin") {
       addEmployeeLink && (addEmployeeLink.style.display = "block");
       updateAndRemoveEmployeeLink &&
         (updateAndRemoveEmployeeLink.style.display = "block");

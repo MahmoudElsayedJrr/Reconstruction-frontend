@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const savePasswordBtn = document.getElementById("save-password-btn");
 
   const roleTranslations = {
+    super_admin: "سوبر أدمن",
     admin: "ادمن",
     manager: "تخطيط ومتابعة",
     executive: "تنفيذية",
