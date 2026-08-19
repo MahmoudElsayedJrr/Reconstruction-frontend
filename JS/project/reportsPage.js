@@ -74,7 +74,7 @@ function initializePage() {
 
   if (restored) {
     loadStatistics();
-    if (selectedStatFilter && selectedStatFilter.governorate) {
+    if (selectedStatFilter) {
       loadProjects();
     }
   } else {
@@ -321,19 +321,18 @@ function renderStatsTable(stats) {
     totalRow.className = "total-row";
 
     totalRow.innerHTML = `
-                        <td colspan="2" class="text-center">الإجمــــــــالي</td>
-                        <td class="text-center">${totals.totalActivities}</td>
-                        <td class="text-center">${totals.begin}</td>
-                        <td class="text-center">${totals.completed}</td>
-                        <td class="text-center">${totals.stuck}</td>
-                        <td class="text-center">${totals.withdrawn}</td>
-                        <td class="text-center">${totals.inProgress}</td>
-                        <td class="text-center">${totals.late}</td>
-                        <td class="text-center">${totals.suspended}</td>
-                        <td class="text-center">${totals.needsExtension}</td>
-                        <td class="text-center">${totals.initialDelivery}</td>
-                        <td class="text-center">${totals.finalDelivery}</td>
-                        
+                        <td colspan="2" class="text-center align-middle">الإجمــــــــالي</td>
+                        <td class="text-center align-middle clickable" onclick="handleCellClick(null, null)">${totals.totalActivities}</td>
+                        <td class="text-center align-middle clickable bg-success bg-opacity-10" onclick="handleCellClick(null, 'تحت الطرح')">${totals.begin}</td>
+                        <td class="text-center align-middle clickable bg-success bg-opacity-10" onclick="handleCellClick(null, 'مكتمل')">${totals.completed}</td>
+                        <td class="text-center align-middle clickable bg-success bg-opacity-10" onclick="handleCellClick(null, 'متعثرة')">${totals.stuck}</td>
+                        <td class="text-center align-middle clickable bg-danger bg-opacity-10" onclick="handleCellClick(null, 'مسحوب')">${totals.withdrawn}</td>
+                        <td class="text-center align-middle clickable bg-primary bg-opacity-10" onclick="handleCellClick(null, 'قيد التنفيذ')">${totals.inProgress}</td>
+                        <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick(null, 'متأخر')">${totals.late}</td>
+                        <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick(null, 'متوقف')">${totals.suspended}</td>
+                        <td class="text-center align-middle clickable bg-warning bg-opacity-10" onclick="handleCellClick(null, 'يحتاج مد مده')">${totals.needsExtension}</td>
+                        <td class="text-center align-middle clickable bg-info bg-opacity-10" onclick="handleCellClick(null, 'تسليم ابتدائي')">${totals.initialDelivery}</td>
+                        <td class="text-center align-middle clickable bg-success bg-opacity-10" onclick="handleCellClick(null, 'تسليم نهائي')">${totals.finalDelivery}</td>
                     `;
     tbody.appendChild(totalRow);
   }
