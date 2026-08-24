@@ -9,149 +9,66 @@
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
   </head>
   <body class="no-sidebar">
-    <!--  <aside class="sidebar">
-      <div>
-        <div class="logo"><i class="fas fa-tasks"></i> نظام المتابعة</div>
-        <nav class="nav flex-column">
-          <a class="nav-link" href="dashboard.html"
-            ><span class="icon"><i class="fas fa-tachometer-alt"></i></span>
-            لوحة التحكم</a
-          >
-          <a class="nav-link" href="add-project.html"
-            ><span class="icon"><i class="fas fa-plus-circle"></i></span> إضافة
-            مشروع</a
-          >
-          <a class="nav-link" href="reports.html"
-            ><span class="icon"><i class="fas fa-file-alt"></i></span>
-            التقارير</a
-          >
-        </nav>
-      </div>
-      <div class="user-profile">
-        <div class="dropdown">
-          <a
-            href="#"
-            class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="fas fa-user-circle fa-2x me-2"></i>
-            <div>
-              <strong id="username-display"></strong>
-            </div>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li>
-              <a class="dropdown-item active" href="profile.html"
-                >ملفي الشخصي</a
-              >
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a class="dropdown-item" href="#" id="logout-button"
-                >تسجيل الخروج</a
-              >
-            </li>
-          </ul>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="header-content">
+        <div class="header-title">
+          <div class="icon-wrapper">
+            <i class="fas fa-id-card"></i>
+          </div>
+          <div class="title-text">
+            <h1>الملف الشخصي</h1>
+            <p class="header-subtitle">عرض بيانات الحساب والتفاصيل الشخصية</p>
+          </div>
         </div>
+        <a href="../html/dashboard.html" class="btn-back">
+          <i class="fas fa-arrow-right"></i>
+          <span>العودة للوحة التحكم</span>
+        </a>
       </div>
-    </aside> -->
+    </div>
 
+    <!-- Main Content -->
     <main class="main-content">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0 fw-bold">الملف الشخصي</h2>
-        <a href="../html/dashboard.html" class="btn btn-outline-primary"
-          ><i class="fas fa-arrow-right ms-0"></i>العوده للوحه التحكم</a
-        >
-      </div>
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="card h-100">
-            <div class="card-body text-center">
-              <i class="fas fa-user-circle fa-6x text-primary mb-3"></i>
-              <h4 class="card-title" id="profile-name">...</h4>
-              <p class="text-muted" id="profile-role">...</p>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-6">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center p-5">
+              <div class="mb-4">
+                <i class="fas fa-user-circle fa-6x text-primary"></i>
+              </div>
+              <h3 class="card-title fw-bold text-dark mb-1" id="profile-name">...</h3>
+              <p class="badge bg-primary fs-6 px-3 py-2 rounded-pill mt-2" id="profile-role">...</p>
             </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between">
-                <strong>البريد الإلكتروني:</strong>
-                <span id="profile-email">...</span>
+            <ul class="list-group list-group-flush fs-6">
+              <li class="list-group-item d-flex justify-content-between p-3">
+                <strong class="text-secondary"><i class="fas fa-envelope me-2 text-primary"></i> البريد الإلكتروني:</strong>
+                <span id="profile-email" class="fw-semibold">...</span>
               </li>
-              <li class="list-group-item d-flex justify-content-between">
-                <strong>تاريخ إنشاء الحساب:</strong>
-                <span id="profile-createdAt">...</span>
+              <li class="list-group-item d-flex justify-content-between p-3">
+                <strong class="text-secondary"><i class="fas fa-calendar-alt me-2 text-primary"></i> تاريخ إنشاء الحساب:</strong>
+                <span id="profile-createdAt" class="fw-semibold">...</span>
               </li>
             </ul>
           </div>
         </div>
-        <!-- <div class="col-lg-8">
-          <div class="card">
-            <div class="card-header bg-light">
-              <h5 class="mb-0">تغيير كلمة المرور</h5>
-            </div>
-            <div class="card-body">
-              <form id="changePasswordForm">
-                <div class="mb-3">
-                  <label for="currentPassword" class="form-label"
-                    >كلمة المرور الحالية</label
-                  >
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="currentPassword"
-                    required
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="newPassword" class="form-label"
-                    >كلمة المرور الجديدة</label
-                  >
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="newPassword"
-                    required
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="confirmPassword" class="form-label"
-                    >تأكيد كلمة المرور الجديدة</label
-                  >
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="confirmPassword"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  id="save-password-btn"
-                >
-                  حفظ التغييرات
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div> -->
-    </main> 
+      </div>
+    </main>
 
     <div class="toast-container position-fixed top-0 start-0 p-3"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../JS/constants.js"></script>
     <script src="../JS/main.js"></script>
     <script src="../JS/profile.js"></script>
-    <script src="../JS/constants.js"></script>
   </body>
 </html>

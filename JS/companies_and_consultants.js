@@ -1,14 +1,21 @@
-const token = localStorage.getItem("loggedInUserToken");
-const TOKEN = `Bearer ${token}`;
+function getToken() {
+  return localStorage.getItem("loggedInUserToken") || "";
+}
 
-const toastContainer = document.querySelector(".toast-container");
-const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+function getAuthHeaders() {
+  return {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + getToken(),
+  };
+}
+
+let deleteModal = null;
 let deleteItemId = null;
 let deleteItemType = null;
 
 function showToast(message, type = "success") {
+  const toastContainer = document.querySelector(".toast-container");
   if (!toastContainer) {
-    console.error("Toast container not found!");
     alert(message);
     return;
   }
@@ -21,26 +28,37 @@ function showToast(message, type = "success") {
     info: "fa-info-circle",
   };
 
+  const bgClass =
+    type === "success"
+      ? "bg-success"
+      : type === "danger"
+      ? "bg-danger"
+      : type === "warning"
+      ? "bg-warning"
+      : "bg-info";
+
   const toastHTML = `
-        <div id="${toastId}" class="toast align-items-center text-white bg-${type} border-0" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    <i class="fas ${icons[type]} me-2"></i>
-                    ${message}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>`;
+    <div id="${toastId}" class="toast align-items-center text-white ${bgClass} border-0 show" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i class="fas ${icons[type] || 'fa-info-circle'} me-2"></i>
+          ${message}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>`;
 
   toastContainer.insertAdjacentHTML("beforeend", toastHTML);
   const toastElement = document.getElementById(toastId);
-  const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
 
-  toastElement.addEventListener("hidden.bs.toast", () => toastElement.remove());
-  toast.show();
+  setTimeout(() => {
+    if (toastElement) {
+      toastElement.classList.remove("show");
+      setTimeout(() => toastElement.remove(), 300);
+    }
+  }, 3000);
 }
 
-// ===== Create List Item =====
 function createListItem(item, entityType) {
   const listItem = document.createElement("div");
   listItem.className = "list-item";
@@ -54,10 +72,10 @@ function createListItem(item, entityType) {
             <span>${item.name}</span>
         </div>
         <div class="item-actions">
-            <button class="btn-action btn-edit" title="تعديل" onclick="editItem('${item._id}', '${item.name}', '${entityType}')">
+            <button class="btn-action btn-edit" title="تعديل" onclick="editItem('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${entityType}')">
                 <i class="fas fa-edit"></i>
             </button>
-            <button class="btn-action btn-delete" title="حذف" onclick="confirmDelete('${item._id}', '${item.name}', '${entityType}')">
+            <button class="btn-action btn-delete" title="حذف" onclick="confirmDelete('${item._id}', '${item.name.replace(/'/g, "\\'")}', '${entityType}')">
                 <i class="fas fa-trash-alt"></i>
             </button>
         </div>
@@ -66,45 +84,59 @@ function createListItem(item, entityType) {
   return listItem;
 }
 
-// ===== Fetch Entities =====
 async function fetchEntities(apiPath, entityType) {
   const listElement = document.getElementById(`${entityType}-list`);
   const countElement = document.getElementById(`${entityType}-count`);
   const loadingIndicator = document.getElementById(
-    `${entityType}-loading-indicator`,
+    `${entityType}-loading-indicator`
   );
   const emptyState = document.getElementById(`${entityType}-empty`);
 
+  if (!listElement) return;
+
   listElement.querySelectorAll(".list-item").forEach((item) => item.remove());
-  loadingIndicator.classList.remove("d-none");
-  emptyState.classList.add("d-none");
+
+  if (loadingIndicator) loadingIndicator.classList.remove("d-none");
+  if (emptyState) emptyState.classList.add("d-none");
 
   try {
-    const response = await fetch(`${API_URL}${apiPath}/`, {
-      headers: { Authorization: TOKEN },
+    const baseUrl = typeof API_URL !== "undefined" ? API_URL.replace(/\/$/, "") : "http://localhost:3000";
+    const url = `${baseUrl}/${apiPath}`;
+
+    const response = await fetch(url, {
+      headers: getAuthHeaders(),
     });
     const result = await response.json();
 
-    loadingIndicator.classList.add("d-none");
+    if (loadingIndicator) loadingIndicator.classList.add("d-none");
 
-    if (response.ok && Array.isArray(result.data)) {
-      countElement.textContent = result.data.length;
+    const items = Array.isArray(result.data)
+      ? result.data
+      : Array.isArray(result.companies)
+      ? result.companies
+      : Array.isArray(result.consultants)
+      ? result.consultants
+      : [];
 
-      if (result.data.length === 0) {
-        emptyState.classList.remove("d-none");
+    if (response.ok && (result.status === "success" || Array.isArray(items))) {
+      if (countElement) countElement.textContent = items.length;
+
+      if (items.length === 0) {
+        if (emptyState) emptyState.classList.remove("d-none");
         return;
       }
 
-      result.data.forEach((item, index) => {
+      items.forEach((item) => {
         const listItem = createListItem(item, entityType);
-        listItem.style.animationDelay = `${index * 0.05}s`;
         listElement.appendChild(listItem);
       });
     } else {
+      if (emptyState) emptyState.classList.remove("d-none");
       showToast(result.message || `فشل جلب قائمة ${entityType}`, "danger");
     }
   } catch (error) {
-    loadingIndicator.classList.add("d-none");
+    if (loadingIndicator) loadingIndicator.classList.add("d-none");
+    if (emptyState) emptyState.classList.remove("d-none");
     showToast(`خطأ في الاتصال بالخادم: ${error.message}`, "danger");
   }
 }
@@ -115,15 +147,17 @@ function editItem(id, name, entityType) {
   const submitBtn = document.getElementById(`${entityType}-submit-btn`);
   const cancelBtn = document.getElementById(`${entityType}-cancel-btn`);
 
+  if (!nameInput || !idField || !submitBtn) return;
+
   nameInput.value = name;
   idField.value = id;
 
   submitBtn.innerHTML =
     '<i class="fas fa-save"></i><span class="btn-text">تعديل</span>';
-  submitBtn.classList.remove("btn-success");
-  submitBtn.classList.add("btn-warning");
+  submitBtn.classList.remove("btn-submit-add");
+  submitBtn.classList.add("btn-submit-edit");
 
-  cancelBtn.classList.remove("d-none");
+  if (cancelBtn) cancelBtn.classList.remove("d-none");
 
   nameInput.focus();
   nameInput.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -135,22 +169,30 @@ function cancelEdit(entityType) {
   const submitBtn = document.getElementById(`${entityType}-submit-btn`);
   const cancelBtn = document.getElementById(`${entityType}-cancel-btn`);
 
-  nameInput.value = "";
-  idField.value = "";
+  if (nameInput) nameInput.value = "";
+  if (idField) idField.value = "";
 
-  submitBtn.innerHTML =
-    '<i class="fas fa-plus"></i><span class="btn-text">إضافة</span>';
-  submitBtn.classList.remove("btn-warning");
-  submitBtn.classList.add("btn-success");
+  if (submitBtn) {
+    submitBtn.innerHTML =
+      '<i class="fas fa-plus"></i><span class="btn-text">إضافة</span>';
+    submitBtn.classList.remove("btn-submit-edit");
+    submitBtn.classList.add("btn-submit-add");
+  }
 
-  cancelBtn.classList.add("d-none");
+  if (cancelBtn) cancelBtn.classList.add("d-none");
 }
 
 function confirmDelete(id, name, entityType) {
   deleteItemId = id;
   deleteItemType = entityType;
-  document.getElementById("delete-item-name").textContent = name;
-  deleteModal.show();
+  const nameElem = document.getElementById("delete-item-name");
+  if (nameElem) nameElem.textContent = name;
+
+  const modalElem = document.getElementById("deleteModal");
+  if (modalElem && typeof bootstrap !== "undefined") {
+    deleteModal = bootstrap.Modal.getInstance(modalElem) || new bootstrap.Modal(modalElem);
+    deleteModal.show();
+  }
 }
 
 async function handleDelete() {
@@ -159,50 +201,34 @@ async function handleDelete() {
   const apiPath = deleteItemType;
   const confirmBtn = document.getElementById("confirm-delete-btn");
 
-  confirmBtn.disabled = true;
-  confirmBtn.innerHTML =
-    '<span class="spinner-border spinner-border-sm me-1"></span> جاري الحذف...';
+  if (confirmBtn) {
+    confirmBtn.disabled = true;
+    confirmBtn.innerHTML =
+      '<span class="spinner-border spinner-border-sm me-1"></span> جاري الحذف...';
+  }
 
   try {
-    const response = await fetch(`${API_URL}${apiPath}/${deleteItemId}`, {
+    const baseUrl = typeof API_URL !== "undefined" ? API_URL.replace(/\/$/, "") : "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/${apiPath}/${deleteItemId}`, {
       method: "DELETE",
-      headers: { Authorization: TOKEN },
+      headers: getAuthHeaders(),
     });
     const result = await response.json();
 
-    if (response.ok && result.status === "success") {
+    if (response.ok && (result.status === "success" || response.status === 200)) {
       showToast("تم الحذف بنجاح", "success");
-
-      const listElement = document.getElementById(`${deleteItemType}-list`);
-      const item = listElement.querySelector(`[data-id="${deleteItemId}"]`);
-      if (item) {
-        item.style.animation = "fadeOut 0.3s ease forwards";
-        setTimeout(() => {
-          item.remove();
-
-          const countElement = document.getElementById(
-            `${deleteItemType}-count`,
-          );
-          const currentCount = parseInt(countElement.textContent) - 1;
-          countElement.textContent = currentCount;
-
-          if (currentCount === 0) {
-            document
-              .getElementById(`${deleteItemType}-empty`)
-              .classList.remove("d-none");
-          }
-        }, 300);
-      }
-
-      deleteModal.hide();
+      if (deleteModal) deleteModal.hide();
+      fetchEntities(apiPath, deleteItemType);
     } else {
       showToast(result.message || "فشل عملية الحذف", "danger");
     }
   } catch (error) {
     showToast(`خطأ في الاتصال: ${error.message}`, "danger");
   } finally {
-    confirmBtn.disabled = false;
-    confirmBtn.innerHTML = '<i class="fas fa-trash-alt me-1"></i> حذف';
+    if (confirmBtn) {
+      confirmBtn.disabled = false;
+      confirmBtn.innerHTML = '<i class="fas fa-trash-alt me-1"></i> حذف';
+    }
     deleteItemId = null;
     deleteItemType = null;
   }
@@ -215,36 +241,34 @@ async function handleFormSubmit(event, apiPath, entityType) {
   const idField = document.getElementById(`${entityType}-id-field`);
   const submitBtn = document.getElementById(`${entityType}-submit-btn`);
 
-  const name = nameInput.value.trim();
-  const id = idField.value;
+  const name = nameInput ? nameInput.value.trim() : "";
+  const id = idField ? idField.value : "";
 
   if (!name) {
     showToast("الاسم لا يمكن أن يكون فارغاً", "warning");
-    nameInput.focus();
+    if (nameInput) nameInput.focus();
     return;
   }
 
   const isEdit = !!id;
   const method = isEdit ? "PUT" : "POST";
-  const url = isEdit ? `${API_URL}${apiPath}/${id}` : `${API_URL}${apiPath}/`;
+  const baseUrl = typeof API_URL !== "undefined" ? API_URL.replace(/\/$/, "") : "http://localhost:3000";
+  const url = isEdit ? `${baseUrl}/${apiPath}/${id}` : `${baseUrl}/${apiPath}`;
 
-  submitBtn.disabled = true;
-  const originalHTML = submitBtn.innerHTML;
-  submitBtn.innerHTML =
-    '<span class="spinner-border spinner-border-sm"></span>';
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+  }
 
   try {
     const response = await fetch(url, {
       method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: TOKEN,
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify({ name }),
     });
     const result = await response.json();
 
-    if (response.ok && result.status === "success") {
+    if (response.ok && (result.status === "success" || response.status === 200 || response.status === 201)) {
       showToast(isEdit ? "تم التعديل بنجاح" : "تمت الإضافة بنجاح", "success");
       cancelEdit(entityType);
       fetchEntities(apiPath, entityType);
@@ -254,34 +278,35 @@ async function handleFormSubmit(event, apiPath, entityType) {
   } catch (error) {
     showToast(`خطأ في الاتصال: ${error.message}`, "danger");
   } finally {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = originalHTML;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = isEdit
+        ? '<i class="fas fa-save"></i><span class="btn-text">تعديل</span>'
+        : '<i class="fas fa-plus"></i><span class="btn-text">إضافة</span>';
+    }
   }
 }
 
-// ===== Initialize =====
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("consultant-form").addEventListener("submit", (e) => {
-    handleFormSubmit(e, "consultant", "consultant");
-  });
+  const consultantForm = document.getElementById("consultant-form");
+  if (consultantForm) {
+    consultantForm.addEventListener("submit", (e) => {
+      handleFormSubmit(e, "consultant", "consultant");
+    });
+  }
 
-  document.getElementById("company-form").addEventListener("submit", (e) => {
-    handleFormSubmit(e, "company", "company");
-  });
+  const companyForm = document.getElementById("company-form");
+  if (companyForm) {
+    companyForm.addEventListener("submit", (e) => {
+      handleFormSubmit(e, "company", "company");
+    });
+  }
 
-  document
-    .getElementById("confirm-delete-btn")
-    .addEventListener("click", handleDelete);
+  const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
+  if (confirmDeleteBtn) {
+    confirmDeleteBtn.addEventListener("click", handleDelete);
+  }
 
   fetchEntities("consultant", "consultant");
   fetchEntities("company", "company");
-
-  const style = document.createElement("style");
-  style.textContent = `
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(-20px); }
-        }
-    `;
-  document.head.appendChild(style);
 });

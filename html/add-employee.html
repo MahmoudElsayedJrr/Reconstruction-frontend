@@ -275,9 +275,7 @@
     <script src="../JS/employees/add-employee.js"></script>
     <script src="../JS/constants.js"></script>
 
-    <!-- Password Toggle Script -->
     <script>
-      // Toggle password visibility
       document.querySelectorAll(".toggle-password").forEach((button) => {
         button.addEventListener("click", function () {
           const targetId = this.dataset.target;
@@ -296,7 +294,6 @@
         });
       });
 
-      // Password strength checker
       const passwordInput = document.getElementById("password");
       const strengthProgress = document.getElementById("strengthProgress");
       const strengthText = document.getElementById("strengthText");
@@ -329,7 +326,6 @@
         }
       });
 
-      // Password match validation
       const confirmPasswordInput = document.getElementById("confirmPassword");
 
       confirmPasswordInput.addEventListener("input", function () {

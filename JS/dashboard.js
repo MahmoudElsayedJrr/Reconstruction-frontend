@@ -729,7 +729,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         console.log("Number of projects:", apiResponse.data.activities.length);
         renderTable(apiResponse.data.activities);
-        // ← التعديل الأساسي: تمرير filters لـ prepareChartData
         const chartData = prepareChartData(
           apiResponse.data.activities,
           filters,

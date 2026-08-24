@@ -3,55 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>إدارة الاستشاريين والشركات</title>
+    <title>إدارة الاستشاريين والشركات المنفذة</title>
 
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
       rel="stylesheet"
     />
-
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
       rel="stylesheet"
     />
-
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="../css/companies_and_consultants.css" />
   </head>
   <body>
-    <div class="toast-container position-fixed top-0 end-0 p-3"></div>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;"></div>
 
-    <div class="container py-5">
-      <div class="page-header text-center mb-5">
-        <h1 class="fw-bold">
-          <i class="fas fa-cogs me-2"></i>
-          إدارة الاستشاريين والشركات
-        </h1>
-        <p class="text-muted">إضافة وتعديل وحذف الاستشاريين والشركات</p>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="header-content">
+        <div class="header-title">
+          <div class="icon-wrapper">
+            <i class="fas fa-building"></i>
+          </div>
+          <div class="title-text">
+            <h1>إدارة الاستشاريين والشركات المنفذة</h1>
+            <p class="header-subtitle">
+              إضافة وتعديل وحذف الاستشاريين والشركات المنفذة للمشروعات
+            </p>
+          </div>
+        </div>
+        <a href="../html/dashboard.html" class="btn-back">
+          <i class="fas fa-arrow-right"></i>
+          <span>العودة للوحة التحكم</span>
+        </a>
       </div>
+    </div>
 
+    <!-- Main Content -->
+    <div class="main-container">
       <div class="row g-4">
+        <!-- Consultants Card -->
         <div class="col-lg-6">
-          <div class="card management-card shadow-sm h-100">
+          <div class="card management-card">
             <div class="card-header">
               <div class="d-flex align-items-center">
-                <div class="icon-wrapper consultant-icon">
+                <div class="card-icon consultant-card-icon">
                   <i class="fas fa-user-tie"></i>
                 </div>
                 <div>
                   <h5 class="mb-0 fw-bold">إدارة الاستشاريين</h5>
-                  <small class="text-muted">إضافة وتعديل الاستشاريين</small>
+                  <small class="text-muted">إضافة وتعديل بيانات الاستشاريين</small>
                 </div>
               </div>
             </div>
 
             <div class="card-body">
               <form id="consultant-form" class="entity-form mb-4">
-                <div class="input-group input-group-lg">
+                <div class="input-group">
                   <span class="input-group-text">
                     <i class="fas fa-user"></i>
                   </span>
@@ -65,7 +77,7 @@
                   <button
                     type="submit"
                     id="consultant-submit-btn"
-                    class="btn btn-success"
+                    class="btn btn-submit-add"
                   >
                     <i class="fas fa-plus"></i>
                     <span class="btn-text">إضافة</span>
@@ -90,7 +102,7 @@
                   قائمة الاستشاريين
                 </h6>
                 <span
-                  class="badge bg-primary rounded-pill"
+                  class="badge bg-primary rounded-pill px-3 py-2 fs-6"
                   id="consultant-count"
                   >0</span
                 >
@@ -116,23 +128,24 @@
           </div>
         </div>
 
+        <!-- Companies Card -->
         <div class="col-lg-6">
-          <div class="card management-card shadow-sm h-100">
+          <div class="card management-card">
             <div class="card-header">
               <div class="d-flex align-items-center">
-                <div class="icon-wrapper company-icon">
+                <div class="card-icon company-card-icon">
                   <i class="fas fa-building"></i>
                 </div>
                 <div>
                   <h5 class="mb-0 fw-bold">إدارة الشركات</h5>
-                  <small class="text-muted">إضافة وتعديل الشركات</small>
+                  <small class="text-muted">إضافة وتعديل الشركات المنفذة</small>
                 </div>
               </div>
             </div>
 
             <div class="card-body">
               <form id="company-form" class="entity-form mb-4">
-                <div class="input-group input-group-lg">
+                <div class="input-group">
                   <span class="input-group-text">
                     <i class="fas fa-building"></i>
                   </span>
@@ -146,7 +159,7 @@
                   <button
                     type="submit"
                     id="company-submit-btn"
-                    class="btn btn-success"
+                    class="btn btn-submit-add"
                   >
                     <i class="fas fa-plus"></i>
                     <span class="btn-text">إضافة</span>
@@ -168,9 +181,11 @@
               >
                 <h6 class="mb-0">
                   <i class="fas fa-list me-2"></i>
-                  قائمة الشركات
+                  قائمة الشركات المنفذة
                 </h6>
-                <span class="badge bg-info rounded-pill" id="company-count"
+                <span
+                  class="badge bg-info rounded-pill px-3 py-2 fs-6"
+                  id="company-count"
                   >0</span
                 >
               </div>
@@ -194,11 +209,12 @@
       </div>
     </div>
 
+    <!-- Delete Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header border-0">
-            <h5 class="modal-title text-danger">
+            <h5 class="modal-title text-danger fw-bold">
               <i class="fas fa-exclamation-triangle me-2"></i>
               تأكيد الحذف
             </h5>
@@ -212,20 +228,20 @@
             <div class="delete-icon mb-3">
               <i class="fas fa-trash-alt"></i>
             </div>
-            <p class="mb-1">هل أنت متأكد من حذف</p>
-            <h5 class="fw-bold text-danger" id="delete-item-name"></h5>
+            <p class="mb-1 text-muted fs-6">هل أنت متأكد من حذف</p>
+            <h5 class="fw-bold text-danger mt-2" id="delete-item-name"></h5>
           </div>
           <div class="modal-footer border-0 justify-content-center">
             <button
               type="button"
-              class="btn btn-secondary px-4"
+              class="btn btn-light border px-4"
               data-bs-dismiss="modal"
             >
               <i class="fas fa-times me-1"></i> إلغاء
             </button>
             <button
               type="button"
-              class="btn btn-danger px-4"
+              class="btn btn-danger px-4 fw-bold"
               id="confirm-delete-btn"
             >
               <i class="fas fa-trash-alt me-1"></i> حذف
@@ -235,8 +251,9 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../JS/constants.js"></script>
     <script src="../JS/main.js"></script>
+    <script src="../JS/companies_and_consultants.js"></script>
   </body>
 </html>
