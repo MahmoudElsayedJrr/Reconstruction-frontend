@@ -367,7 +367,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return colors;
   };
 
-  function renderCharts(chartData) {
+  function renderCharts(chartData, animate = true) {
+    const animConfig = animate ? {} : false;
     chart1Container.innerHTML = '<canvas id="projectStatusChart"></canvas>';
     const ctx1 = chart1Container.querySelector("canvas").getContext("2d");
     new Chart(ctx1, {
@@ -383,6 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ],
       },
       options: {
+        animation: animConfig,
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -681,6 +683,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function getDashboardCache() {
+    if (localStorage.getItem("needDashboardRefresh") === "true") {
+      return null;
+    }
+    try {
+      const cached = sessionStorage.getItem("dashboardCache");
+      return cached ? JSON.parse(cached) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveDashboardCache(data) {
+    try {
+      sessionStorage.setItem("dashboardCache", JSON.stringify(data));
+      localStorage.removeItem("needDashboardRefresh");
+    } catch (e) {
+      console.warn("Failed to save dashboard cache", e);
+    }
+  }
+
   async function fetchAndRenderProjects(filters = {}) {
     projectsTableBody.innerHTML = `<tr>
       <td><p class="skeleton skeleton-text mb-0"></p></td>
@@ -728,6 +751,7 @@ document.addEventListener("DOMContentLoaded", () => {
         Array.isArray(apiResponse.data.activities)
       ) {
         console.log("Number of projects:", apiResponse.data.activities.length);
+        window.lastFetchedActivities = apiResponse.data.activities;
         renderTable(apiResponse.data.activities);
         const chartData = prepareChartData(
           apiResponse.data.activities,
@@ -736,6 +760,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCharts(chartData);
       } else {
         console.log("لا توجد بيانات مشاريع");
+        window.lastFetchedActivities = [];
         renderTable([]);
         renderCharts({
           status: { labels: [], values: [] },
@@ -828,6 +853,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(result.data || result.message || "فشل حذف المشروع.");
 
       showToast("تم حذف المشروع بنجاح!", "success");
+      if (typeof markDashboardForRefresh === "function") markDashboardForRefresh();
 
       const savedFilters = JSON.parse(
         localStorage.getItem("dashboardFilters") || "{}",
@@ -902,14 +928,64 @@ document.addEventListener("DOMContentLoaded", () => {
     return {};
   }
 
-  function initializePage() {
+  async function initializePage() {
     const filters = restoreFilters();
     currentFilters = filters;
-    fetchTotalDisbursed(filters);
-    fetchTotalContractual(filters);
-    fetchAndRenderProjects(filters);
-    loadBudgetForYear(filters.fiscalYear || "", filters.fundingType || "");
-    fetchPayoutPercentage(filters.fiscalYear || "", filters.fundingType || "");
+
+    const cached = getDashboardCache();
+    const hasActiveFilters = Object.keys(filters).length > 0;
+
+    if (cached && !hasActiveFilters && cached.activities) {
+      console.log("⚡ Instant Dashboard load from Cache!");
+      if (cached.totalDisbursedText) {
+        const el = document.getElementById("totalDisbursedValue");
+        if (el) el.textContent = cached.totalDisbursedText;
+      }
+      if (cached.totalContractualText) {
+        const el = document.getElementById("totalContractualValue");
+        if (el) el.textContent = cached.totalContractualText;
+      }
+      if (cached.totalBudgetText) {
+        const el = document.getElementById("totalBudgetValue");
+        if (el) el.textContent = cached.totalBudgetText;
+      }
+      const percentageElement = document.getElementById("payoutPercentageValue");
+      if (percentageElement && cached.payoutPercentageText) {
+        percentageElement.textContent = cached.payoutPercentageText;
+        percentageElement.className = cached.payoutPercentageClass || "text-muted fw-bold";
+      }
+      const detailsElement = document.getElementById("payoutDetails");
+      if (detailsElement && cached.payoutDetailsHTML) {
+        detailsElement.innerHTML = cached.payoutDetailsHTML;
+      }
+
+      renderTable(cached.activities);
+      const chartData = prepareChartData(cached.activities, filters);
+      renderCharts(chartData, false);
+      return;
+    }
+
+    await Promise.all([
+      fetchAndRenderProjects(filters),
+      fetchTotalDisbursed(filters),
+      fetchTotalContractual(filters),
+      loadBudgetForYear(filters.fiscalYear || "", filters.fundingType || ""),
+      fetchPayoutPercentage(filters.fiscalYear || "", filters.fundingType || ""),
+    ]);
+
+    if (!hasActiveFilters) {
+      setTimeout(() => {
+        saveDashboardCache({
+          activities: window.lastFetchedActivities || [],
+          totalDisbursedText: document.getElementById("totalDisbursedValue")?.textContent,
+          totalContractualText: document.getElementById("totalContractualValue")?.textContent,
+          totalBudgetText: document.getElementById("totalBudgetValue")?.textContent,
+          payoutPercentageText: document.getElementById("payoutPercentageValue")?.textContent,
+          payoutPercentageClass: document.getElementById("payoutPercentageValue")?.className,
+          payoutDetailsHTML: document.getElementById("payoutDetails")?.innerHTML,
+        });
+      }, 300);
+    }
   }
 
   initializePage();

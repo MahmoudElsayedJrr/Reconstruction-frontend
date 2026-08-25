@@ -135,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       showToast("تمت إضافة المشروع بنجاح!", "success");
+      if (typeof markDashboardForRefresh === "function") markDashboardForRefresh();
       addProjectForm.reset();
       setTimeout(() => {
         window.location.href = "dashboard.html";

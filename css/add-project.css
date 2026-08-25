@@ -155,20 +155,123 @@ body {
   padding: 2.5rem 2rem;
 }
 
-/* ==================== UPLOAD SECTION ==================== */
-.upload-section {
+/* ==================== UPLOAD SECTION (COMPACT) ==================== */
+.excel-compact-card {
   background: white;
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
-  padding: 2rem;
-  margin-bottom: 2rem;
-  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 0.85rem 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
   transition: var(--transition);
 }
 
-.upload-section:hover {
-  box-shadow: var(--shadow-lg);
+.excel-compact-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-green);
+}
+
+.excel-compact-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.excel-compact-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.excel-icon-pill {
+  width: 46px;
+  height: 46px;
+  background: linear-gradient(135deg, var(--accent-green), var(--success-dark));
+  color: white;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-xs);
+}
+
+.excel-compact-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.excel-compact-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.excel-compact-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.excel-compact-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.file-input {
+  display: none;
+}
+
+.btn-choose-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  background: var(--bg-secondary);
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-choose-file:hover {
+  background: #e2e8f0;
+  color: var(--primary-blue-dark);
+  border-color: #cbd5e1;
+}
+
+.btn-choose-file i {
+  color: var(--accent-green);
+}
+
+.btn-upload-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent-green), var(--success-dark));
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-xs);
+}
+
+.btn-upload-compact:hover {
   transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  opacity: 0.95;
 }
 
 .section-header {
@@ -320,9 +423,19 @@ body {
 }
 
 .upload-result {
-  margin-top: 1.5rem;
-  padding: 1rem;
   border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
+.upload-result:empty {
+  display: none;
+  margin: 0;
+  padding: 0;
+}
+
+.upload-result:not(:empty) {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
 }
 
 /* ==================== FORM SECTION ==================== */
@@ -404,7 +517,7 @@ body {
 /* ==================== FORM GRID ==================== */
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
@@ -414,36 +527,37 @@ body {
   gap: 0.5rem;
 }
 
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
 .field-label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-weight: 600;
-  color: var(--text-medium);
+  color: var(--text-dark);
   font-size: 0.95rem;
 }
 
 .field-label i {
   color: var(--primary-blue);
-  font-size: 1rem;
 }
 
 .required {
   color: var(--danger-red);
   font-weight: 700;
-  margin-right: 0.25rem;
 }
 
 .field-input,
 .field-select {
   width: 100%;
-  padding: 0.875rem 1rem;
-  border: 2px solid var(--border-color);
+  padding: 0.875rem 1.25rem;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  font-size: 0.95rem;
-  font-family: "Cairo", sans-serif;
-  background: white;
+  font-size: 1rem;
   color: var(--text-dark);
+  background: white;
   transition: var(--transition);
 }
 

@@ -2,6 +2,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const excelInput = document.getElementById("excelFile");
   const uploadBtn = document.getElementById("uploadExcelBtn");
   const resultDiv = document.getElementById("resultDiv");
+  const excelFileLabel = document.getElementById("excelFileLabel");
+
+  if (excelInput && excelFileLabel) {
+    excelInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        excelFileLabel.textContent = file.name;
+      } else {
+        excelFileLabel.textContent = "إضافة ملف";
+      }
+    });
+  }
 
   const VALID_GOVERNORATES = [
     "شمال سيناء",
@@ -140,6 +152,10 @@ document.addEventListener("DOMContentLoaded", () => {
           failCount++;
           console.log("  خطأ ف السيرفر  :", data);
         }
+      }
+
+      if (successCount > 0 && typeof markDashboardForRefresh === "function") {
+        markDashboardForRefresh();
       }
 
       resultDiv.innerHTML = `

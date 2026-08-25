@@ -44,40 +44,37 @@
 
     <!-- Main Content -->
     <div class="container-fluid main-content">
-      <!-- Excel Upload Section -->
-      <div class="upload-section">
-        <div class="section-header">
-          <div class="section-title">
-            <i class="fas fa-file-excel"></i>
-            <h3>استيراد المشاريع من ملف Excel</h3>
+      <!-- Excel Upload Section (Compact Rectangle) -->
+      <div class="excel-compact-card">
+        <div class="excel-compact-body">
+          <div class="excel-compact-info">
+            <div class="excel-icon-pill">
+              <i class="fas fa-file-excel"></i>
+            </div>
+            <div class="excel-compact-text">
+              <span class="excel-compact-title">استيراد مشاريع من Excel</span>
+              <span class="excel-compact-sub">رفع ملف Excel لإضافة مشاريع متعددة</span>
+            </div>
           </div>
-          <span class="section-badge">سريع وسهل</span>
-        </div>
 
-        <div class="upload-body">
-          <div class="upload-area">
-            <div class="upload-icon">
+          <div class="excel-compact-actions">
+            <input
+              type="file"
+              class="file-input"
+              id="excelFile"
+              accept=".xlsx,.xls"
+            />
+            <label for="excelFile" class="btn-choose-file">
+              <i class="fas fa-paperclip"></i>
+              <span id="excelFileLabel">إضافة ملف</span>
+            </label>
+            <button id="uploadExcelBtn" class="btn-upload-compact">
               <i class="fas fa-cloud-upload-alt"></i>
-            </div>
-            <div class="upload-content">
-              <input
-                type="file"
-                class="file-input"
-                id="excelFile"
-                accept=".xlsx,.xls"
-              />
-              <label for="excelFile" class="file-label">
-                <span class="file-text">اختر ملف Excel</span>
-                <span class="file-hint">أو اسحب الملف هنا</span>
-              </label>
-            </div>
-            <button id="uploadExcelBtn" class="btn-upload">
-              <i class="fas fa-upload"></i>
               <span>رفع الملف</span>
             </button>
           </div>
-          <div id="resultDiv" class="upload-result"></div>
         </div>
+        <div id="resultDiv" class="upload-result"></div>
       </div>
 
       <!-- Manual Form Section -->

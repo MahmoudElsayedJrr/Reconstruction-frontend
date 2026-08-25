@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/";
+const API_URL = "http://81.10.47.76:4000/";
 
 // http://81.10.47.76:4000/
 // http://192.168.0.38:3000/
@@ -190,4 +190,11 @@ function formatMoneyAdvanced(num, currency = "ج.م") {
 
   let normalValue = (absoluteNum * 1e6).toLocaleString("ar-EG");
   return `${normalValue} ${currency}${isNegative ? "-" : ""}`;
+}
+
+function markDashboardForRefresh() {
+  localStorage.setItem("needDashboardRefresh", "true");
+  try {
+    sessionStorage.removeItem("dashboardCache");
+  } catch (e) {}
 }

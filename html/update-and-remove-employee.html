@@ -74,7 +74,7 @@
               </h5>
             </div>
             <div class="card-body p-4">
-              <form id="editEmployeeForm" class="d-none">
+              <form id="editEmployeeForm">
                 <div class="row g-3">
                   <h5 class="form-section-title">البيانات الأساسية</h5>
                   <div class="col-md-6">
@@ -98,14 +98,14 @@
                   <div class="col-md-6">
                     <label for="editRole" class="form-label">الدور الوظيفي</label>
                     <select class="form-select" id="editRole" required>
-                      <option value="employee">موظف عادي</option>
-                      <option value="admin">مسؤول (Admin)</option>
-                      <option value="super_admin">مدير عام (Super Admin)</option>
-                      <option value="manager">مدير</option>
-                      <option value="executive">منفذ</option>
+                      <option value="admin">أدمن</option>
+                      <option value="manager">تخطيط ومتابعة</option>
+                      <option value="executive">تنفيذية</option>
                       <option value="financial">مالي</option>
-                      <option value="contractual">تعاقدات</option>
-                      <option value="projectManager">مدير مشروع</option>
+                      <option value="projectManager">مشروعات</option>
+                      <option value="contractual">تعاقدية</option>
+                      <option value="employee">مدير</option>
+               
                     </select>
                   </div>
                   <div class="col-md-6">
@@ -164,7 +164,7 @@
 
           <div class="card d-none" id="deleteEmployeeCard">
             <div class="card-header bg-danger text-white">
-              <h5 class="mb-0 text-danger">
+              <h5 class="mb-0 text-white">
                 <i class="fas fa-exclamation-triangle me-2"></i> تأكيد حذف الموظف
               </h5>
             </div>

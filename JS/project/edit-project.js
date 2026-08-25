@@ -193,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
             result.message || result.data || "فشل تحديث المشروع لسبب غير معروف"
           );
         showToast("تم حفظ التعديلات بنجاح!", "success");
+        if (typeof markDashboardForRefresh === "function") markDashboardForRefresh();
 
         setTimeout(() => {
           window.location.href = "dashboard.html";

@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("loggedInUserRole", employeeData.role);
 
       localStorage.setItem("tokenExpiry", Date.now() + 3600000); // 1 hour expiry
+      if (typeof markDashboardForRefresh === "function") markDashboardForRefresh();
 
       window.location.href = "dashboard.html";
     } catch (error) {
