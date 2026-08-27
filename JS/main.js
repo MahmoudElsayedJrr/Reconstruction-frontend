@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
       addEmployeeLink && (addEmployeeLink.style.display = "none");
       updateAndRemoveEmployeeLink &&
         (updateAndRemoveEmployeeLink.style.display = "none");
-      addactivityLink && (addactivityLink.style.display = "none");
+      addactivityLink && (addactivityLink.style.display = "block");
       budgetPageLink && (budgetPageLink.style.display = "none");
       companiesAndConsultantsLink &&
         (companiesAndConsultantsLink.style.display = "block");

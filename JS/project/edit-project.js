@@ -29,7 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    if (userRole === "admin" || userRole === "super_admin" || userRole === "manager") {
+    if (
+      userRole === "admin" ||
+      userRole === "super_admin" ||
+      userRole === "manager" ||
+      userRole === "projectManager"
+    ) {
       fundingTypeSelect.addEventListener("change", toggleFundingSource);
       toggleFundingSource();
     }
