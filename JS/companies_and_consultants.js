@@ -1,3 +1,11 @@
+function checkRoleAccess() {
+  const role = localStorage.getItem("loggedInUserRole");
+  if (!role || !["admin", "super_admin", "projectManager"].includes(role)) {
+    window.location.href = "dashboard.html";
+  }
+}
+checkRoleAccess();
+
 function getToken() {
   return localStorage.getItem("loggedInUserToken") || "";
 }

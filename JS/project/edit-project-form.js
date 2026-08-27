@@ -704,6 +704,36 @@ export function renderForm(
     }
   });
 
+  const initDropdown = typeof initSearchableDropdown === "function" ? initSearchableDropdown : (typeof window !== "undefined" ? window.initSearchableDropdown : null);
+
+  if (document.getElementById("executingCompany") && typeof initDropdown === "function") {
+    const isCompanyDisabled = !allowedFields.includes("executingCompany");
+    initDropdown({
+      target: "executingCompany",
+      inputId: "executingCompany",
+      entityType: "company",
+      initialValue: project.executingCompany || "",
+      disabled: isCompanyDisabled,
+      placeholder: "اختر...",
+      searchPlaceholder: "بحث في قائمة الشركات...",
+      icon: "fa-building",
+    });
+  }
+
+  if (document.getElementById("consultant") && typeof initDropdown === "function") {
+    const isConsultantDisabled = !allowedFields.includes("consultant");
+    initDropdown({
+      target: "consultant",
+      inputId: "consultant",
+      entityType: "consultant",
+      initialValue: project.consultant || "",
+      disabled: isConsultantDisabled,
+      placeholder: "اختر...",
+      searchPlaceholder: "بحث في قائمة الاستشاريين...",
+      icon: "fa-user-tie",
+    });
+  }
+
   if (userRole === "financial") {
     const mediaInputWrapper = document
       .getElementById("mediaFiles")

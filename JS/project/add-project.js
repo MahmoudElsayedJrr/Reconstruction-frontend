@@ -10,6 +10,33 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const fundingSourceSelect = document.getElementById("fundingSource");
 
+  let companyDropdown = null;
+  let consultantDropdown = null;
+
+  const initDropdown = typeof initSearchableDropdown === "function"
+    ? initSearchableDropdown
+    : (typeof window !== "undefined" ? window.initSearchableDropdown : null);
+
+  if (typeof initDropdown === "function") {
+    companyDropdown = initDropdown({
+      target: "executingCompany",
+      inputId: "executingCompany",
+      entityType: "company",
+      placeholder: "اختر...",
+      searchPlaceholder: "بحث في قائمة الشركات...",
+      icon: "fa-building",
+    });
+
+    consultantDropdown = initDropdown({
+      target: "consultant",
+      inputId: "consultant",
+      entityType: "consultant",
+      placeholder: "اختر...",
+      searchPlaceholder: "بحث في قائمة الاستشاريين...",
+      icon: "fa-user-tie",
+    });
+  }
+
   const toggleFundingSource = () => {
     const selectedValue = fundingTypeSelect.value;
 
@@ -137,6 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
       showToast("تمت إضافة المشروع بنجاح!", "success");
       if (typeof markDashboardForRefresh === "function") markDashboardForRefresh();
       addProjectForm.reset();
+      if (companyDropdown) companyDropdown.setValue("");
+      if (consultantDropdown) consultantDropdown.setValue("");
       setTimeout(() => {
         window.location.href = "dashboard.html";
       }, 750);

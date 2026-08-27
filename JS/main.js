@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     const addactivityLink = document.getElementById("addactivityLink");
     const budgetPageLink = document.getElementById("budgetPageLink");
+    const companiesAndConsultantsLink = document.getElementById(
+      "companies_and_consultantstPageLink",
+    );
 
     if (role === "admin" || role === "super_admin") {
       addEmployeeLink && (addEmployeeLink.style.display = "block");
@@ -50,18 +53,32 @@ document.addEventListener("DOMContentLoaded", () => {
         (updateAndRemoveEmployeeLink.style.display = "block");
       addactivityLink && (addactivityLink.style.display = "block");
       budgetPageLink && (budgetPageLink.style.display = "block");
+      companiesAndConsultantsLink &&
+        (companiesAndConsultantsLink.style.display = "block");
     } else if (role === "manager") {
       addEmployeeLink && (addEmployeeLink.style.display = "none");
       updateAndRemoveEmployeeLink &&
         (updateAndRemoveEmployeeLink.style.display = "none");
       addactivityLink && (addactivityLink.style.display = "block");
       budgetPageLink && (budgetPageLink.style.display = "block");
+      companiesAndConsultantsLink &&
+        (companiesAndConsultantsLink.style.display = "none");
+    } else if (role === "projectManager") {
+      addEmployeeLink && (addEmployeeLink.style.display = "none");
+      updateAndRemoveEmployeeLink &&
+        (updateAndRemoveEmployeeLink.style.display = "none");
+      addactivityLink && (addactivityLink.style.display = "none");
+      budgetPageLink && (budgetPageLink.style.display = "none");
+      companiesAndConsultantsLink &&
+        (companiesAndConsultantsLink.style.display = "block");
     } else {
       addEmployeeLink && (addEmployeeLink.style.display = "none");
       updateAndRemoveEmployeeLink &&
         (updateAndRemoveEmployeeLink.style.display = "none");
       addactivityLink && (addactivityLink.style.display = "none");
       budgetPageLink && (budgetPageLink.style.display = "none");
+      companiesAndConsultantsLink &&
+        (companiesAndConsultantsLink.style.display = "none");
     }
   }
 
