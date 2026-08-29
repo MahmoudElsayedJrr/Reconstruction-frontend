@@ -1,6 +1,11 @@
+function isUserAdmin() {
+  const role = localStorage.getItem("loggedInUserRole");
+  return role === "admin" || role === "super_admin";
+}
+
 function checkRoleAccess() {
   const role = localStorage.getItem("loggedInUserRole");
-  if (!role || !["admin", "super_admin", "projectManager"].includes(role)) {
+  if (!role || !["admin", "super_admin", "projectManager", "manager"].includes(role)) {
     window.location.href = "dashboard.html";
   }
 }
@@ -295,7 +300,39 @@ async function handleFormSubmit(event, apiPath, entityType) {
   }
 }
 
+function applyRoleVisibility() {
+  const isAdmin = isUserAdmin();
+  const companiesColumn = document.getElementById("companies-column");
+  const consultantsColumn = document.getElementById("consultants-column");
+  const pageTitle = document.getElementById("page-title");
+  const pageSubtitle = document.getElementById("page-subtitle");
+
+  if (!isAdmin) {
+    if (companiesColumn) {
+      companiesColumn.style.display = "none";
+    }
+    if (consultantsColumn) {
+      consultantsColumn.className = "col-lg-8 col-md-10 mx-auto";
+    }
+    if (pageTitle) {
+      pageTitle.textContent = "إدارة الاستشاريين";
+    }
+    if (pageSubtitle) {
+      pageSubtitle.textContent = "إضافة وتعديل وحذف الاستشاريين للمشروعات";
+    }
+  } else {
+    if (companiesColumn) {
+      companiesColumn.style.display = "";
+    }
+    if (consultantsColumn) {
+      consultantsColumn.className = "col-lg-6";
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  applyRoleVisibility();
+
   const consultantForm = document.getElementById("consultant-form");
   if (consultantForm) {
     consultantForm.addEventListener("submit", (e) => {
@@ -303,11 +340,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const companyForm = document.getElementById("company-form");
-  if (companyForm) {
-    companyForm.addEventListener("submit", (e) => {
-      handleFormSubmit(e, "company", "company");
-    });
+  if (isUserAdmin()) {
+    const companyForm = document.getElementById("company-form");
+    if (companyForm) {
+      companyForm.addEventListener("submit", (e) => {
+        handleFormSubmit(e, "company", "company");
+      });
+    }
   }
 
   const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
@@ -316,5 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   fetchEntities("consultant", "consultant");
-  fetchEntities("company", "company");
+  if (isUserAdmin()) {
+    fetchEntities("company", "company");
+  }
 });

@@ -14,7 +14,7 @@ document
 
 async function fetchModalData() {
   const tbody = document.getElementById("modalExcelTableBody");
-  tbody.innerHTML = `<tr><td colspan="15" class="text-center py-4">
+  tbody.innerHTML = `<tr><td colspan="16" class="text-center py-4">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">جاري التحميل...</span>
     </div>
@@ -49,11 +49,11 @@ async function fetchModalData() {
       renderModalTable();
     } else {
       tbody.innerHTML =
-        '<tr><td colspan="15" class="text-center py-4">لا توجد بيانات</td></tr>';
+        '<tr><td colspan="16" class="text-center py-4">لا توجد بيانات</td></tr>';
     }
   } catch (error) {
     console.error("خطأ في جلب البيانات:", error);
-    tbody.innerHTML = `<tr><td colspan="15" class="text-center py-4 text-danger">
+    tbody.innerHTML = `<tr><td colspan="16" class="text-center py-4 text-danger">
       <i class="fas fa-exclamation-triangle me-2"></i>${error.message}
     </td></tr>`;
   }
@@ -156,7 +156,7 @@ function renderModalTable() {
   if (currentModalData.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="15" class="text-center py-5">
+        <td colspan="16" class="text-center py-5">
           <div class="empty-state">
             <i class="fas fa-inbox"></i>
             <h5>لا توجد مشروعات</h5>
@@ -227,6 +227,10 @@ function renderModalTable() {
  
   <td class="align-middle" style="min-width: 150px; word-break: break-word; color: #4a5568;">
     ${activity.executingCompany || "-"}
+  </td>
+  
+  <td class="align-middle" style="min-width: 150px; word-break: break-word; color: #4a5568;">
+    ${activity.consultant || "-"}
   </td>
   
  
@@ -358,23 +362,18 @@ document.getElementById("modalSortBy").addEventListener("change", function (e) {
   renderModalTable();
 });
 
-// طباعة الجدول
 function printExcelTable() {
   window.print();
 }
 
-// تحميل Excel من الـ Modal
 function downloadModalExcel() {
-  // استدعاء الـ API الخاص بتحميل Excel
   window.location.href = `${API_URL}activity/export-excel`;
 }
 
-// دالة مساعدة لتنسيق الأرقام
 function formatNumber(num) {
   return new Intl.NumberFormat("ar-EG").format(num || 0);
 }
 
-// دالة مساعدة لتنسيق التواريخ
 function formatDate(dateString) {
   if (!dateString) return "-";
   const date = new Date(dateString);

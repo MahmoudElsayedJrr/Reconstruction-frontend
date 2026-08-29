@@ -37,6 +37,7 @@ document
     if (status && status !== "الكل")
       queryParams.push(`status=${encodeURIComponent(status)}`);
 
+
     const token = localStorage.getItem("loggedInUserToken");
     const queryString = queryParams.join("&");
     const url = `${API_URL}activity/export-excel${
