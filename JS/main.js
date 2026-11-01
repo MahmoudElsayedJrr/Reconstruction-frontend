@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "cssText",
           "body",
           "appendChild",
-          "\n    <b>تم تطوير وهندسة النظام بالكامل بواسطة المهندس محمود السيد عبدالله</b>\n  ",
+          "\n    <b>تم تطوير وهندسة النظام بالكامل بواسطة المهندس محمود السيد عبدالله</b>\n    <br/>\n    <span style=\"font-size: 11px; color: #555;\">تحت إشراف دكتور محمد طاحون</span>\n  ",
           "innerHTML",
           "createSignature",
         ],
