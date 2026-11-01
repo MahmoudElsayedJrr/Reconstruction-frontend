@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const role = localStorage.getItem("loggedInUserRole");
 
     const roleNames = {
-      super_admin: "أدمن",
+      super_admin: "سوبر أدمن",
       admin: "أدمن",
       manager: "تخطيط ومتابعة",
       executive: "تنفيذية",
@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const companiesAndConsultantsLink = document.getElementById(
       "companies_and_consultantstPageLink",
     );
+    const usersPageLink = document.getElementById("usersPageLink");
 
     if (role === "admin" || role === "super_admin") {
       addEmployeeLink && (addEmployeeLink.style.display = "block");
@@ -63,7 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
       budgetPageLink && (budgetPageLink.style.display = "block");
       companiesAndConsultantsLink &&
         (companiesAndConsultantsLink.style.display = "none");
-    } else if (role === "projectManager") {
+    }
+ else if (role === "projectManager") {
       addEmployeeLink && (addEmployeeLink.style.display = "none");
       updateAndRemoveEmployeeLink &&
         (updateAndRemoveEmployeeLink.style.display = "none");
@@ -79,6 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
       budgetPageLink && (budgetPageLink.style.display = "none");
       companiesAndConsultantsLink &&
         (companiesAndConsultantsLink.style.display = "none");
+    }
+
+    if (role === "super_admin") {
+      usersPageLink && (usersPageLink.style.display = "block");
+    } else {
+      usersPageLink && (usersPageLink.style.display = "none");
     }
   }
 
